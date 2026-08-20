@@ -1,0 +1,38 @@
+[
+  {
+    "id": "dresses",
+    "label": "Dresses",
+    "slug": "dresses",
+    "children": [
+      { "label": "Midi Dresses", "slug": "dresses/midi" },
+      { "label": "Maxi Dresses", "slug": "dresses/maxi" },
+      { "label": "Everyday", "slug": "dresses/everyday" },
+      { "label": "Evening", "slug": "dresses/evening" }
+    ],
+    "featured": ["p1", "p3"]
+  },
+  {
+    "id": "hair",
+    "label": "Hair",
+    "slug": "hair",
+    "children": [
+      { "label": "Brazilian Remy", "slug": "hair/brazilian" },
+      { "label": "Indian Remy", "slug": "hair/indian" },
+      { "label": "Straight", "slug": "hair/straight" },
+      { "label": "Wavy & Curly", "slug": "hair/wavy" }
+    ],
+    "featured": ["h1", "h3"]
+  },
+  {
+    "id": "accessories",
+    "label": "Accessories",
+    "slug": "accessories",
+    "children": [
+      { "label": "Bags", "slug": "accessories/bags" },
+      { "label": "Belts", "slug": "accessories/belts" },
+      { "label": "Scarves", "slug": "accessories/scarves" },
+      { "label": "Jewelry", "slug": "accessories/jewelry" }
+    ],
+    "featured": ["a1", "a4"]
+  }
+]

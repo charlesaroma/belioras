@@ -1,0 +1,27 @@
+[
+  {
+    "id": "n1",
+    "productId": "p1",
+    "addedAt": "2026-07-18"
+  },
+  {
+    "id": "n2",
+    "productId": "p4",
+    "addedAt": "2026-07-22"
+  },
+  {
+    "id": "n3",
+    "productId": "h2",
+    "addedAt": "2026-07-26"
+  },
+  {
+    "id": "n4",
+    "productId": "a1",
+    "addedAt": "2026-07-30"
+  },
+  {
+    "id": "n5",
+    "productId": "a3",
+    "addedAt": "2026-08-02"
+  }
+]

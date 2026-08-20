@@ -112,6 +112,23 @@
   --shadow-large: 0 12px 32px rgba(18, 7, 0, 0.14);
 }
 
+@layer utilities {
+  .container-main {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+    max-width: 1440px;
+  }
+  @media (min-width: 1024px) {
+    .container-main {
+      padding-left: var(--spacing-6);
+      padding-right: var(--spacing-6);
+    }
+  }
+}
+
 /* ---------- Base layer ---------- */
 @layer base {
   body {

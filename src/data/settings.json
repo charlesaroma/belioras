@@ -1,0 +1,60 @@
+{
+  "shipping": {
+    "zones": [
+      { "id": "eu", "label": "European Union", "flat": 5.9, "freeThreshold": 150 },
+      { "id": "uk", "label": "United Kingdom", "flat": 12 },
+      { "id": "world", "label": "Rest of World", "flat": 19 }
+    ],
+    "note": "Tracked and insured on every order."
+  },
+  "tax": {
+    "rate": 0.2,
+    "note": "All prices include 20% VAT."
+  },
+  "announcement": {
+    "text": "Complimentary EU shipping on orders over €150",
+    "link": "/shop"
+  },
+  "cookieBanner": {
+    "text": "We use cookies to keep the experience smooth and to understand how visitors use the site. By continuing, you accept our cookie policy.",
+    "button": "I understand"
+  },
+  "gpsr": {
+    "manufacturer": "Belioras Maison Ltd.",
+    "address": "Rua Augusta 118, 1100-053 Lisboa, Portugal",
+    "email": "compliance@belioras.com",
+    "note": "For product safety or conformity enquiries, contact our GPSR responsible person."
+  },
+  "support": {
+    "email": "hello@belioras.com",
+    "phone": "+351 21 000 0000",
+    "hours": "Monday to Friday, 9:00–18:00 WET"
+  },
+  "social": {
+    "instagram": "https://instagram.com/belioras",
+    "pinterest": "https://pinterest.com/belioras",
+    "tiktok": "https://tiktok.com/@belioras"
+  },
+  "hero": {
+    "eyebrow": "New Season",
+    "headline": "Quiet pieces, made to be kept",
+    "subtitle": "European-made dresses, ethically sourced hair and leather goods that only get better with age.",
+    "primaryCta": { "label": "Shop Dresses", "to": "/shop/dresses" },
+    "secondaryCta": { "label": "Explore Hair", "to": "/shop/hair" }
+  },
+  "valueProps": [
+    { "icon": "truck", "title": "Free EU shipping", "text": "On orders over €150, tracked and insured." },
+    { "icon": "refresh", "title": "14-day returns", "text": "Effortless returns on unworn pieces." },
+    { "icon": "shield", "title": "Authentic, guaranteed", "text": "Every item is verified at source." },
+    { "icon": "lock", "title": "Secure checkout", "text": "Encrypted payments, your data stays yours." }
+  ],
+  "brandStory": {
+    "heading": "The Maison",
+    "body": "Belioras began in a small Lisbon atelier with a simple belief — quiet luxury should not be a luxury. Each piece is made in limited runs by European artisans, finished with details no one notices, except you.",
+    "stats": [
+      { "value": "12", "label": "Years of craft" },
+      { "value": "28", "label": "Countries served" },
+      { "value": "40k+", "label": "Clients dressed" }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "sizeChart": {
+    "units": "cm",
+    "note": "Belioras dresses are cut with a tailored silhouette. If you are between sizes, we recommend sizing up.",
+    "columns": ["Size", "Bust", "Waist", "Hip", "Length"],
+    "rows": [
+      ["0", "82", "64", "90", "118"],
+      ["2", "84", "66", "92", "119"],
+      ["4", "88", "70", "96", "120"],
+      ["6", "92", "74", "100", "121"],
+      ["8", "96", "78", "104", "122"],
+      ["10", "100", "82", "108", "123"],
+      ["12", "106", "88", "114", "124"],
+      ["14", "112", "94", "120", "125"]
+    ]
+  },
+  "styling": [
+    {
+      "title": "Evening",
+      "text": "Pair satin midis with a single gold earring and nothing else — let the drape do the talking."
+    },
+    {
+      "title": "Day",
+      "text": "Wrap linens over a slip, add leather mules and a structured tote for effortless city dressing."
+    },
+    {
+      "title": "Layering",
+      "text": "Velvet works over a fine knit or under a sharp blazer; keep everything tonal and quiet."
+    }
+  ]
+}

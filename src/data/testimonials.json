@@ -1,0 +1,42 @@
+[
+  {
+    "id": "t1",
+    "name": "Mariana R.",
+    "city": "Lisbon",
+    "quote": "The Aurora dress fit like it was made for me. The satin feels twice its price.",
+    "rating": 5,
+    "productUrl": "/product/aurora-satin-midi-dress"
+  },
+  {
+    "id": "t2",
+    "name": "Clarisse D.",
+    "city": "Paris",
+    "quote": "20 inches of Brazilian Remy that actually lasts. My installs survive months.",
+    "rating": 5,
+    "productUrl": "/product/brazilian-remy-straight-20"
+  },
+  {
+    "id": "t3",
+    "name": "Amaia S.",
+    "city": "Madrid",
+    "quote": "Beautifully packed, tracked, and at my door in three days. The shopper is a trophy.",
+    "rating": 5,
+    "productUrl": "/product/the-belo-shopper"
+  },
+  {
+    "id": "t4",
+    "name": "Ingrid V.",
+    "city": "Brussels",
+    "quote": "The linen wrap is my third Belioras dress. Consistent sizing, zero surprises.",
+    "rating": 4,
+    "productUrl": "/product/isabelle-linen-wrap-dress"
+  },
+  {
+    "id": "t5",
+    "name": "Sofia M.",
+    "city": "Milan",
+    "quote": "Finally a store that treats hair as couture. The deep wave is unreal.",
+    "rating": 5,
+    "productUrl": "/product/brazilian-remy-deep-wave-22"
+  }
+]

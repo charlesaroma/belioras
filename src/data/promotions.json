@@ -1,0 +1,28 @@
+{
+  "topBanner": {
+    "text": "Winter Sale — up to 30% off selected styles",
+    "link": "/collection/evening",
+    "start": "2026-01-06T00:00:00Z",
+    "end": "2026-09-01T23:59:59Z"
+  },
+  "announcements": [
+    "Free EU shipping on orders over €150",
+    "Up to 30% off winter styles",
+    "WELCOME10 — 10% off your first order"
+  ],
+  "flashSale": {
+    "active": true,
+    "text": "Flash sale: 20% off the Serafina velvet — ends Sunday",
+    "productId": "p3",
+    "start": "2026-08-15T00:00:00Z",
+    "end": "2026-08-31T23:59:59Z",
+    "discountPercent": 20
+  },
+  "popup": {
+    "enabled": true,
+    "title": "Join the Maison",
+    "subtitle": "10% off your first order",
+    "couponCode": "WELCOME10",
+    "frequencyMs": 86400000
+  }
+}
