@@ -1,111 +1,395 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+/*
+  Belioras — Tailwind CSS v4 theme
+  Editorial, exclusive, quietly luxurious.
+  Tailwind v4 reads design tokens straight from this @theme block
+*/
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  /* ---------- Typography ---------- */
+  --font-display: "Didot", "Bodoni Moda", "Playfair Display", Georgia, serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, "Inter", sans-serif;
+  --font-mono: "Fira Code", ui-monospace, monospace;
 
-  @media (max-width: 1024px) {
+  /* ---------- Color: Beliora Gold (Primary) ---------- */
+  --color-gold-50: #fbf7f0;
+  --color-gold-100: #f3e7d0;
+  --color-gold-200: #eedbb9;
+  --color-gold-300: #e6cb98;
+  --color-gold-400: #e1c185;
+  --color-gold-500: #d9b166;
+  --color-gold-600: #c5a15d;
+  --color-gold-700: #9a7e48;
+  --color-gold-800: #776138;
+  --color-gold-900: #5b4a2b;
+
+  /* ---------- Color: Heritage Brown (Secondary) ---------- */
+  --color-brown-50: #f1ede8;
+  --color-brown-100: #d4c7b8;
+  --color-brown-200: #bfac96;
+  --color-brown-300: #a18666;
+  --color-brown-400: #8f6f48;
+  --color-brown-500: #734b1a;
+  --color-brown-600: #694418;
+  --color-brown-700: #523512;
+  --color-brown-800: #3f290e;
+  --color-brown-900: #30200b;
+
+  /* ---------- Color: Champagne Gold (Accent I) ---------- */
+  --color-champagne-50: #fefbf2;
+  --color-champagne-100: #fbf2d8;
+  --color-champagne-200: #f9ecc5;
+  --color-champagne-300: #f6e4aa;
+  --color-champagne-400: #f5de99;
+  --color-champagne-500: #f2d680;
+  --color-champagne-600: #dcc374;
+  --color-champagne-700: #ac985b;
+  --color-champagne-800: #857646;
+  --color-champagne-900: #665a36;
+
+  /* ---------- Color: Burnt Umber (Accent II) ---------- */
+  --color-umber-50: #eee9e6;
+  --color-umber-100: #ccbab1;
+  --color-umber-200: #b3998b;
+  --color-umber-300: #906b55;
+  --color-umber-400: #7a4e35;
+  --color-umber-500: #592202;
+  --color-umber-600: #511f02;
+  --color-umber-700: #3f1801;
+  --color-umber-800: #311301;
+  --color-umber-900: #250e01;
+
+  /* ---------- Color: Soft Ivory (Base / White) ---------- */
+  --color-ivory-50: #fefefe;
+  --color-ivory-100: #fbfbfb;
+  --color-ivory-200: #f9f9f9;
+  --color-ivory-300: #f6f6f6;
+  --color-ivory-400: #f5f5f5;
+  --color-ivory-500: #f2f2f2;
+  --color-ivory-600: #dcdcdc;
+  --color-ivory-700: #acacac;
+  --color-ivory-800: #858585;
+  --color-ivory-900: #666666;
+
+  /* ---------- Color: Deep Espresso (Base / Deep) ---------- */
+  --color-espresso: #120700;
+
+  /* ---------- Semantic tokens ---------- */
+  --color-success: #166534;
+  --color-warning: #ca8a04;
+  --color-error: #b91c1c;
+  --color-info: #0e7490;
+
+  /* ---------- Spacing scale (8px base unit) ---------- */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-24: 96px;
+  --spacing-32: 128px;
+
+  /* Section spacing per breakpoint — use as e.g. py-section-desktop */
+  --spacing-section-mobile: 56px;
+  --spacing-section-tablet: 80px;
+  --spacing-section-desktop: 128px;
+
+  /* ---------- Border radius — kept tight; tailored, not soft ---------- */
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-full: 9999px;
+
+  /* ---------- Shadows — warm-toned, never cool gray ---------- */
+  --shadow-subtle: 0 1px 2px rgba(18, 7, 0, 0.06);
+  --shadow-medium: 0 4px 12px rgba(18, 7, 0, 0.1);
+  --shadow-large: 0 12px 32px rgba(18, 7, 0, 0.14);
+}
+
+/* ---------- Base layer ---------- */
+@layer base {
+  body {
+    background-color: var(--color-ivory-500);
+    color: var(--color-espresso);
+    font-family: var(--font-sans);
     font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--color-espresso);
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+  }
+
+  h3 {
+    font-size: 22px;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+  }
+
+  small,
+  .caption {
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-espresso);
+  }
+
+  /* Visible keyboard focus everywhere — accessibility floor */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* ---------- Component layer ---------- */
+@layer components {
+  /* Buttons — primary is dark-fill / gold-text, a deliberate inversion of
+     the usual "colored fill" pattern, echoing foil-stamped packaging. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: var(--radius-md);
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    cursor: pointer;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
-}
 
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  .btn-sm {
+    height: 32px;
+    padding-inline: 14px;
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+  .btn-md {
+    height: 44px;
+    padding-inline: 20px;
   }
-}
-p {
-  margin: 0;
-}
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
+  .btn-lg {
+    height: 52px;
+    padding-inline: 32px;
+  }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  .btn-primary {
+    background-color: var(--color-espresso);
+    color: var(--color-champagne-500);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-gold-500);
+    color: var(--color-espresso);
+  }
+
+  .btn-primary:active {
+    background-color: var(--color-umber-800);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-espresso);
+    border: 1px solid var(--color-espresso);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-gold-50);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-brown-500);
+    border: none;
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--color-brown-50);
+  }
+
+  .btn-destructive {
+    background-color: var(--color-error);
+    color: white;
+    border: none;
+  }
+
+  .btn-destructive:hover {
+    background-color: #991b1b;
+  }
+
+  /* Cards */
+  .card {
+    background-color: var(--color-ivory-50);
+    border: 1px solid var(--color-umber-50);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: none;
+    transition: box-shadow 200ms ease, border-color 200ms ease;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-medium);
+    border-color: var(--color-gold-500);
+  }
+
+  .card-featured {
+    background-color: var(--color-ivory-50);
+    border: 1px solid color-mix(in srgb, var(--color-gold-500) 40%, transparent);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-medium);
+    transition: box-shadow 200ms ease;
+  }
+
+  .card-featured:hover {
+    box-shadow: var(--shadow-large);
+  }
+
+  /* Inputs */
+  .input {
+    width: 100%;
+    height: 48px;
+    padding: 14px 16px;
+    background-color: white;
+    color: var(--color-espresso);
+    border: 1px solid var(--color-umber-100);
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    transition: border-color 150ms ease, outline-color 150ms ease;
+  }
+
+  .input::placeholder {
+    color: var(--color-umber-300);
+  }
+
+  .input:focus {
+    outline: 2px solid color-mix(in srgb, var(--color-gold-500) 25%, transparent);
+    border-color: var(--color-brown-500);
+  }
+
+  .input-error {
+    border-color: var(--color-error);
+  }
+
+  .input:disabled {
+    background-color: var(--color-brown-50);
+    opacity: 0.6;
+  }
+
+  .input-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-espresso);
+    margin-bottom: 8px;
+  }
+
+  .input-helper {
+    font-size: 12px;
+    color: var(--color-umber-400);
+  }
+
+  /* Chips */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-umber-100);
+    background-color: var(--color-brown-50);
+    color: var(--color-brown-700);
+    transition: border-color 150ms ease;
+  }
+
+  .chip:hover {
+    border-color: var(--color-gold-500);
+  }
+
+  .chip-selected {
+    background-color: var(--color-espresso);
+    color: var(--color-champagne-500);
+    border-color: var(--color-espresso);
+  }
+
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .status-chip--new {
+    background-color: var(--color-champagne-400);
+    color: var(--color-umber-500);
+  }
+
+  .status-chip--in-stock {
+    background-color: var(--color-brown-50);
+    color: var(--color-brown-700);
+  }
+
+  .status-chip--low-stock {
+    background-color: #fef9c3;
+    color: var(--color-warning);
+  }
+
+  .status-chip--sold-out {
+    background-color: #fee2e2;
+    color: var(--color-error);
+  }
 }
