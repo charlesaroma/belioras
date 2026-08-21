@@ -85,31 +85,31 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-dvh grid lg:grid-cols-2">
+    <div className="min-h-dvh pt-20 lg:pt-0 grid lg:grid-cols-2">
       {/* Left: Form Panel */}
-      <div className="flex flex-col items-center justify-center px-6 py-24 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50 order-2 lg:order-1">
+      <div className="flex flex-col items-center justify-center px-6 py-12 sm:py-16 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50 order-2 lg:order-1 min-h-[calc(100vh-80px)] lg:min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
           className="w-full max-w-sm"
         >
-          <div className="mb-10">
-            <Link to="/" className="cursor-pointer">
-              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-8" />
+          <div className="mb-10 text-center lg:text-left">
+            <Link to="/" className="cursor-pointer inline-block">
+              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-6 mx-auto lg:mx-0" />
             </Link>
-            <h1 id="signup-title" className="font-display text-3xl text-espresso mb-2">
+            <h1 id="signup-title" className="font-display text-3xl lg:text-4xl text-espresso mb-3">
               Join the Maison
             </h1>
             <p className="text-sm text-espresso/60">
               Already a member?{" "}
-              <Link to="/login" className="font-semibold text-gold-700 hover:text-espresso transition-colors cursor-pointer">
+              <Link to="/login" className="font-semibold text-gold-700 hover:text-espresso transition-colors cursor-pointer underline underline-offset-2">
                 Sign in
               </Link>
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate aria-labelledby="signup-title" className="space-y-8">
+          <form onSubmit={handleSubmit} noValidate aria-labelledby="signup-title" className="space-y-6">
             <FloatingInput
               id="name"
               label="Full name"
@@ -164,7 +164,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-espresso text-ivory-50 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-700 hover:text-espresso transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-espresso text-ivory-50 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-700 hover:text-espresso transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm hover:shadow-md"
             >
               {submitting ? (
                 <span className="inline-flex items-center gap-2 justify-center">
@@ -179,9 +179,9 @@ export default function SignupPage() {
 
           <p className="mt-8 text-[10px] text-espresso/40 text-center leading-relaxed">
             By creating an account you agree to our{" "}
-            <Link to="/terms" className="underline hover:text-gold-700 cursor-pointer">Terms of Service</Link>
+            <Link to="/terms-of-service" className="underline hover:text-gold-700 cursor-pointer">Terms of Service</Link>
             {" "}and{" "}
-            <Link to="/privacy" className="underline hover:text-gold-700 cursor-pointer">Privacy Policy</Link>.
+            <Link to="/privacy-policy" className="underline hover:text-gold-700 cursor-pointer">Privacy Policy</Link>.
           </p>
         </motion.div>
       </div>

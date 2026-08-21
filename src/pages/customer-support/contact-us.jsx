@@ -15,8 +15,8 @@ export default function ContactUsPage() {
   };
 
   return (
-    <section aria-labelledby="contact-title" className="min-h-dvh pt-32 md:pt-40 pb-12">
-      <div className="container-main">
+    <section aria-labelledby="contact-title" className="min-h-dvh pt-20 md:pt-0 pb-12">
+      <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           
           {/* Left Column: Details */}
@@ -151,7 +151,6 @@ export default function ContactUsPage() {
               </form>
             )}
           </motion.div>
-          
         </div>
       </div>
     </section>

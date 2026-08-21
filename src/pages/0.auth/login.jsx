@@ -84,7 +84,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-dvh grid lg:grid-cols-2">
+    <div className="min-h-dvh pt-20 lg:pt-0 grid lg:grid-cols-2">
       {/* Left: Editorial Image Panel */}
       <div className="relative hidden lg:block">
         <img
@@ -107,29 +107,29 @@ export default function LoginPage() {
       </div>
 
       {/* Right: Form Panel */}
-      <div className="flex flex-col items-center justify-center px-6 py-24 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50">
+      <div className="flex flex-col items-center justify-center px-6 py-12 sm:py-16 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50 min-h-[calc(100vh-80px)] lg:min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
           className="w-full max-w-sm"
         >
-          <div className="mb-10">
-            <Link to="/" className="cursor-pointer">
-              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-8" />
+          <div className="mb-10 text-center lg:text-left">
+            <Link to="/" className="cursor-pointer inline-block">
+              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-6 mx-auto lg:mx-0" />
             </Link>
-            <h1 id="login-title" className="font-display text-3xl text-espresso mb-2">
+            <h1 id="login-title" className="font-display text-3xl lg:text-4xl text-espresso mb-3">
               Welcome back
             </h1>
             <p className="text-sm text-espresso/60">
               New to Belioras?{" "}
-              <Link to="/signup" className="font-semibold text-gold-700 hover:text-espresso transition-colors cursor-pointer">
+              <Link to="/signup" className="font-semibold text-gold-700 hover:text-espresso transition-colors cursor-pointer underline underline-offset-2">
                 Create an account
               </Link>
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate aria-labelledby="login-title" className="space-y-8">
+          <form onSubmit={handleSubmit} noValidate aria-labelledby="login-title" className="space-y-6">
             <FloatingInput
               id="email"
               label="Email address"
@@ -169,7 +169,7 @@ export default function LoginPage() {
               }
             />
 
-            <div className="flex items-center justify-end -mt-4">
+            <div className="flex items-center justify-end">
               <Link
                 to="/forgot-password"
                 className="text-xs text-espresso/50 hover:text-gold-700 transition-colors cursor-pointer"
@@ -192,7 +192,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-espresso text-ivory-50 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-700 hover:text-espresso transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-espresso text-ivory-50 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-700 hover:text-espresso transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm hover:shadow-md"
             >
               {submitting ? (
                 <span className="inline-flex items-center gap-2 justify-center">
@@ -205,8 +205,8 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-10 border border-dashed border-umber-50 rounded-2xl p-4 text-xs text-espresso/60 leading-relaxed">
-            <p className="font-semibold text-espresso mb-1">Demo accounts</p>
+          <div className="mt-8 border border-dashed border-umber-50 rounded-2xl p-4 text-xs text-espresso/60 leading-relaxed bg-ivory-100/50">
+            <p className="font-semibold text-espresso mb-2">Demo accounts</p>
             <p>Password: <span className="font-mono text-gold-700">demo123</span></p>
             <p className="mt-1"><span className="font-mono">mariana@belioras.com</span> — Customer</p>
             <p><span className="font-mono">admin@belioras.com</span> — Admin</p>

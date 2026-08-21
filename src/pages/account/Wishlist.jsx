@@ -17,7 +17,7 @@ export default function Wishlist() {
         .filter(Boolean);
 
   return (
-    <div className="space-y-6">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 py-12 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-medium tracking-wide">Wishlist</h1>
         <p className="mt-1 text-sm text-espresso-soft">
