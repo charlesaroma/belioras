@@ -70,7 +70,7 @@ function CategoryAccordion({ category, onClose }) {
 
 export default function MobileMenu({ open, onClose, categories }) {
   const { currency, setCurrency } = useCurrency();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
@@ -165,19 +165,33 @@ export default function MobileMenu({ open, onClose, categories }) {
               {/* Account row */}
               <div className="px-5 py-3 border-b border-umber-50/60">
                 {user ? (
-                  <Link
-                    to="/account"
-                    onClick={onClose}
-                    className="flex items-center gap-3"
-                  >
-                    <span className="flex size-8 items-center justify-center rounded-full bg-gold-500 text-sm font-semibold text-espresso shrink-0">
-                      {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-espresso truncate">{user.name ?? user.email}</p>
-                      <p className="text-xs text-espresso/50">View account</p>
-                    </div>
-                  </Link>
+                  <div className="flex items-center justify-between">
+                    <Link
+                      to="/account"
+                      onClick={onClose}
+                      className="flex items-center gap-3"
+                    >
+                      <span className="flex size-8 items-center justify-center rounded-full bg-gold-500 text-sm font-semibold text-espresso shrink-0">
+                        {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-espresso truncate">{user.name ?? user.email}</p>
+                        <p className="text-xs text-espresso/50 hover:text-gold-700 transition-colors">View account</p>
+                      </div>
+                    </Link>
+                    
+                    {/* Logout Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        logout();
+                        onClose();
+                      }}
+                      className="text-[10px] uppercase tracking-widest font-semibold text-espresso/40 hover:text-gold-700 transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
                 ) : (
                   <Link
                     to="/login"

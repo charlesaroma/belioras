@@ -9,6 +9,7 @@ import { WishlistProvider } from "./context/WishlistContext";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/Footer";
 import CookieConsent from "./components/layout/CookieConsent";
+import FlashSalePopup from "./components/layout/FlashSalePopup";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import NotFound from "./components/layout/NotFound";
 
@@ -63,6 +64,7 @@ function Layout() {
       </main>
       <Footer />
       <CookieConsent />
+      <FlashSalePopup />
     </div>
   );
 }

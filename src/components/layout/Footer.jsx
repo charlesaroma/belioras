@@ -7,17 +7,23 @@ import { useToast } from "../../context/ToastContext";
 import { getSettings } from "../../services/settingsApi";
 import { getCategories } from "../../services/categoriesApi";
 
-const HELP_LINKS = [
+const CUSTOMER_SUPPORT_LINKS = [
   { label: "FAQ", to: "/faq" },
-  { label: "About Us", to: "/about-us" },
   { label: "Contact", to: "/contact-us" },
   { label: "Order Tracking", to: "/order-tracking" },
+  { label: "Returns & Refunds", to: "/return-and-refund-policy" },
+  { label: "Shipping Policy", to: "/shipping-policy" },
+];
+
+const COMPANY_LINKS = [
+  { label: "About Us", to: "/about-us" },
   { label: "Hair Length Guide", to: "/hair-length-guide" },
   { label: "Shoe Size Guide", to: "/shoe-size-guide" },
+];
+
+const LEGAL_LINKS = [
   { label: "Privacy Policy", to: "/privacy-policy" },
   { label: "Terms of Service", to: "/terms-of-service" },
-  { label: "Shipping Policy", to: "/shipping-policy" },
-  { label: "Returns & Refunds", to: "/return-and-refund-policy" },
   { label: "Cookie Policy", to: "/cookie-policy" },
 ];
 
@@ -186,10 +192,10 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <nav aria-label="Help">
-          <ColumnTitle>Help</ColumnTitle>
+        <nav aria-label="Customer Support">
+          <ColumnTitle>Support</ColumnTitle>
           <ul className="mt-5 space-y-2.5">
-            {HELP_LINKS.map((link) => (
+            {CUSTOMER_SUPPORT_LINKS.map((link) => (
               <li key={link.to}>
                 <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
                   {link.label}
@@ -198,6 +204,34 @@ export default function Footer() {
             ))}
           </ul>
         </nav>
+
+        <div className="flex flex-col gap-8">
+          <nav aria-label="Company & Guides">
+            <ColumnTitle>Company</ColumnTitle>
+            <ul className="mt-5 space-y-2.5">
+              {COMPANY_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          
+          <nav aria-label="Legal">
+            <ColumnTitle>Legal</ColumnTitle>
+            <ul className="mt-5 space-y-2.5">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
 
         <Newsletter />
       </div>
