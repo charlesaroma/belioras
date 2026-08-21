@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function Logo() {
+export default function Logo({ isScrolled }) {
   return (
     <Link
       to="/"
@@ -12,7 +12,7 @@ export default function Logo() {
         alt="Belioras"
         width={600}
         height={400}
-        className="h-12 w-auto sm:h-14"
+        className={`h-12 w-auto sm:h-14 transition-all duration-300 ${!isScrolled ? 'brightness-0 invert' : ''}`}
       />
     </Link>
   );

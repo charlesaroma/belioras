@@ -27,7 +27,7 @@ export default function NavActions({ onCartOpen }) {
       <div className="relative">
         <button
           type="button"
-          className="flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-espresso transition-colors hover:bg-brown-50"
+          className="flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-current transition-opacity hover:opacity-70"
           aria-haspopup="listbox"
           aria-expanded={currencyOpen}
           aria-label={`Currency: ${active.code}`}
@@ -36,7 +36,7 @@ export default function NavActions({ onCartOpen }) {
           <span className="tabular-nums">{active.symbol}</span>
           <span className="hidden sm:inline">{active.code}</span>
           <ChevronDown
-            className={`size-3.5 text-espresso/50 transition-transform ${currencyOpen ? "rotate-180" : ""}`}
+            className={`size-3.5 opacity-50 transition-transform ${currencyOpen ? "rotate-180" : ""}`}
             aria-hidden="true"
           />
         </button>
@@ -81,7 +81,7 @@ export default function NavActions({ onCartOpen }) {
 
       <button
         type="button"
-        className="relative flex size-10 items-center justify-center rounded-full text-espresso transition-colors hover:bg-brown-50"
+        className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
         aria-label={`Wishlist, ${wishlistCount} items`}
         title="Wishlist"
       >
@@ -107,7 +107,7 @@ export default function NavActions({ onCartOpen }) {
       ) : (
         <Link
           to="/login"
-          className="flex size-10 items-center justify-center rounded-full text-espresso transition-colors hover:bg-brown-50"
+          className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
           aria-label="Sign in"
         >
           <User className="size-5" aria-hidden="true" />
@@ -116,7 +116,7 @@ export default function NavActions({ onCartOpen }) {
 
       <button
         type="button"
-        className="relative flex size-10 items-center justify-center rounded-full text-espresso transition-colors hover:bg-brown-50"
+        className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
         aria-label={`Open cart, ${count} items`}
         onClick={onCartOpen}
       >

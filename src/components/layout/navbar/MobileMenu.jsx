@@ -41,24 +41,35 @@ function CategoryAccordion({ category }) {
       </button>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.ul
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            {category.children.map((child) => (
-              <li key={child.slug}>
-                <Link
-                  to={`/shop/${category.id}?categories=${child.slug.split("/").filter(Boolean).at(-1)}`}
-                  className="block py-2 pl-4 text-sm text-espresso/70 hover:text-gold-700"
-                >
-                  {child.label}
-                </Link>
-              </li>
-            ))}
-          </motion.ul>
+            <div className="py-2 pl-4 space-y-6 mb-4">
+              {category.sections?.map((section, idx) => (
+                <div key={idx}>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-brown-500 mb-2">
+                    {section.title}
+                  </p>
+                  <ul className="space-y-2">
+                    {section.items.map((item) => (
+                      <li key={item.slug}>
+                        <Link
+                          to={`/${item.slug}`}
+                          className="block text-sm text-espresso/70 hover:text-gold-700"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

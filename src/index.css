@@ -81,17 +81,7 @@
   --color-error: #b91c1c;
   --color-info: #0e7490;
 
-  /* ---------- Spacing scale (8px base unit) ---------- */
-  --spacing-1: 4px;
-  --spacing-2: 8px;
-  --spacing-3: 12px;
-  --spacing-4: 16px;
-  --spacing-6: 24px;
-  --spacing-8: 32px;
-  --spacing-12: 48px;
-  --spacing-16: 64px;
-  --spacing-24: 96px;
-  --spacing-32: 128px;
+  /* Default spacing scale is used. */
 
   /* Section spacing per breakpoint — use as e.g. py-section-desktop */
   --spacing-section-mobile: 56px;
@@ -117,15 +107,7 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--spacing-4);
-    padding-right: var(--spacing-4);
     max-width: 1440px;
-  }
-  @media (min-width: 1024px) {
-    .container-main {
-      padding-left: var(--spacing-6);
-      padding-right: var(--spacing-6);
-    }
   }
 }
 
@@ -147,7 +129,6 @@
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: 0.02em;
-    color: var(--color-espresso);
   }
 
   h1 {
@@ -248,7 +229,7 @@
   }
 
   .btn-primary:active {
-    background-color: var(--color-umber-800);
+    background-color: var(--color-brown-800);
   }
 
   .btn-secondary {

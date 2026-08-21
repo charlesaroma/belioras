@@ -21,7 +21,16 @@ export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuId, setMenuId] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const closeTimer = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const openMenu = (id, toggle = true) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -61,15 +70,21 @@ export default function Navbar() {
   const activeCategory = categories?.find((c) => c.id === menuId);
 
   return (
-    <header>
+    <header className="fixed inset-x-0 top-0 z-50 w-full">
       <AnnouncementBar />
 
-      <div className="sticky top-0 z-50 border-b border-umber-50 bg-ivory-50/90 backdrop-blur">
-        <div className="container-main grid grid-cols-[1fr_auto_1fr] items-center gap-12 py-3">
+      <div 
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled || menuId || mobileOpen || cartOpen
+            ? "bg-ivory-50/90 backdrop-blur text-espresso" 
+            : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
+        }`}
+      >
+        <div className="container-main px-6 lg:px-12 grid grid-cols-[1fr_auto_1fr] items-center gap-12 py-3">
           <div className="flex items-center gap-3 lg:justify-start">
             <button
               type="button"
-              className="flex size-10 items-center justify-center rounded-full text-espresso transition-colors hover:bg-brown-50 lg:hidden"
+              className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70 lg:hidden"
               aria-label="Open menu"
               onClick={() => setMobileOpen(true)}
             >
@@ -84,7 +99,7 @@ export default function Navbar() {
             />
           </div>
 
-          <Logo />
+          <Logo isScrolled={isScrolled} />
 
           <div className="flex items-center justify-end gap-6">
             <SearchBar />
