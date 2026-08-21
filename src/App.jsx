@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import { CurrencyProvider } from "./context/CurrencyContext";
 import { ToastProvider } from "./context/ToastContext";
 import { WishlistProvider } from "./context/WishlistContext";
+import WishlistPage from "./pages/account/Wishlist";
 
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/Footer";
@@ -99,6 +100,7 @@ function App() {
             <Route path="/order-tracking" element={<OrderTrackingPage />} />
             <Route path="/hair-length-guide" element={<HairLengthGuidePage />} />
             <Route path="/shoe-size-guide" element={<ShoeSizeGuidePage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
 
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />

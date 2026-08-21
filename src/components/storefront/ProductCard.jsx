@@ -1,9 +1,8 @@
 import { Heart, ShoppingBag, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { useEffect } from "react";
 
 import RatingStars from "../shared/RatingStars";
-import SaleBadge from "../shared/SaleBadge";
 import { useCart } from "../../context/CartContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
@@ -16,14 +15,12 @@ export default function ProductCard({ product }) {
   const { toast } = useToast();
   const { has, toggle } = useWishlist();
 
-  if (!product) return null;
-
   const {
     id, slug, name, price, originalPrice,
     images = [], rating, reviewCount,
     collectionId = "", stock = 0,
     sizes = [], colors = [], isNew,
-  } = product;
+  } = product || {};
 
   const wished = has(id);
   const soldOut = !stock || stock <= 0;
@@ -33,6 +30,16 @@ export default function ProductCard({ product }) {
   const discountPct = originalPrice
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : null;
+
+  // Preload hover image to prevent flickering
+  useEffect(() => {
+    if (hoverImage) {
+      const img = new Image();
+      img.src = hoverImage;
+    }
+  }, [hoverImage]);
+
+  if (!product) return null;
 
   const handleQuickAdd = (e) => {
     e.preventDefault();
@@ -63,7 +70,7 @@ export default function ProductCard({ product }) {
           src={images[0]}
           alt={name}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover object-top transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
+          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 z-0"
         />
 
         {/* Hover image (if exists) */}
@@ -73,11 +80,11 @@ export default function ProductCard({ product }) {
             alt=""
             aria-hidden="true"
             loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover object-top opacity-0 scale-110 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover object-top opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-10"
           />
         ) : (
           /* Subtle warm overlay when no second image */
-          <div className="absolute inset-0 bg-espresso/0 transition-all duration-500 group-hover:bg-espresso/10" />
+          <div className="absolute inset-0 bg-espresso/0 transition-all duration-500 group-hover:bg-espresso/10 z-10" />
         )}
 
         {/* Badges: New, Sale */}
@@ -119,10 +126,10 @@ export default function ProductCard({ product }) {
               <button
                 type="button"
                 onClick={handleQuickAdd}
-                className="cursor-pointer flex-1 flex items-center justify-center gap-2 bg-espresso text-ivory-50 text-[11px] font-bold uppercase tracking-widest py-2.5 rounded-lg hover:bg-gold-700 hover:text-espresso transition-all duration-200"
+                className="cursor-pointer flex size-10 items-center justify-center rounded-lg bg-espresso text-ivory-50 hover:bg-gold-700 transition-all duration-200 shrink-0"
+                aria-label={`Add ${name} to cart`}
               >
-                <ShoppingBag className="size-3.5" />
-                Quick Add
+                <ShoppingBag className="size-4" />
               </button>
               <Link
                 to={`/product/${slug}`}

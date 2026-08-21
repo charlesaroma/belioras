@@ -80,9 +80,9 @@ export default function NavActions({ onCartOpen }) {
         )}
       </div>
 
-      <button
-        type="button"
-        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70')}
+      <Link
+        to="/wishlist"
+        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-all', 'hover:scale-110', 'hover:text-gold-700')}
         aria-label={`Wishlist, ${wishlistCount} items`}
         title="Wishlist"
       >
@@ -95,7 +95,7 @@ export default function NavActions({ onCartOpen }) {
             {wishlistCount}
           </span>
         )}
-      </button>
+      </Link>
 
       {user ? (
         <div className="relative group flex items-center justify-center">
