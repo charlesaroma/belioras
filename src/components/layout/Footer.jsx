@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useToast } from "../../context/ToastContext";
@@ -58,7 +58,31 @@ function ColumnTitle({ children }) {
   );
 }
 
-function Newsletter() {
+function CollapsibleSection({ title, children, defaultOpen = false }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className="border-b border-espresso/10 md:border-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between py-4 md:py-0 md:mb-5 text-left"
+        aria-expanded={isOpen}
+      >
+        <ColumnTitle>{title}</ColumnTitle>
+        <ChevronDown
+          className={`size-4 text-espresso/50 transition-transform md:hidden ${isOpen ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
+      </button>
+      <div className={`md:block ${isOpen ? "block pb-4" : "hidden"}`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Newsletter({ showTitle = true }) {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -76,7 +100,7 @@ function Newsletter() {
 
   return (
     <div>
-      <ColumnTitle>Newsletter</ColumnTitle>
+      {showTitle && <ColumnTitle>Newsletter</ColumnTitle>}
       <p className="mt-4 text-sm leading-relaxed text-espresso/70">
         Seasonal edits, private sales and styling notes. No noise.
       </p>
@@ -127,88 +151,88 @@ export default function Footer() {
 
   return (
     <footer className="bg-ivory-50 text-espresso">
-      <div className="container-main grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr] lg:gap-8">
-        <div>
-          <Link to="/" className="font-display text-2xl tracking-[0.08em] text-espresso">
-            belioras
-          </Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-espresso/70">
-            Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
-            leather goods that only get better with age.
-          </p>
-          <div className="mt-8 flex items-center gap-4">
-            <a
-              href={social.instagram ?? "https://instagram.com"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-espresso/80 transition-colors hover:text-gold-700"
-              aria-label="Belioras on Instagram"
-            >
-              <InstagramIcon className="size-5" />
-            </a>
-            {[
-              { label: "Pinterest", href: social.pinterest },
-              { label: "TikTok", href: social.tiktok },
-            ].map(
-              (net) =>
-                net.href && (
-                  <a
-                    key={net.label}
-                    href={net.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/80 transition-colors hover:text-gold-700"
-                  >
-                    {net.label}
-                  </a>
-                )
-            )}
+      <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 py-12 md:py-16">
+        {/* Mobile: Stacked with collapsible sections */}
+        <div className="md:hidden space-y-0">
+          {/* Brand Section */}
+          <div className="border-b border-espresso/10 pb-6 mb-6">
+            <Link to="/" className="font-display text-2xl tracking-[0.08em] text-espresso">
+              belioras
+            </Link>
+            <p className="mt-4 text-sm leading-relaxed text-espresso/70">
+              Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
+              leather goods that only get better with age.
+            </p>
+            <div className="mt-6 flex items-center gap-4">
+              <a
+                href={social.instagram ?? "https://instagram.com"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-espresso/80 transition-colors hover:text-gold-700"
+                aria-label="Belioras on Instagram"
+              >
+                <InstagramIcon className="size-5" />
+              </a>
+              {[
+                { label: "Pinterest", href: social.pinterest },
+                { label: "TikTok", href: social.tiktok },
+              ].map(
+                (net) =>
+                  net.href && (
+                    <a
+                      key={net.label}
+                      href={net.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/80 transition-colors hover:text-gold-700"
+                    >
+                      {net.label}
+                    </a>
+                  )
+              )}
+            </div>
+            <p className="mt-6 text-[11px] leading-relaxed text-espresso/60 uppercase tracking-widest">
+              {gpsr?.manufacturer}, {gpsr?.address}
+              <br />
+              Product safety: {gpsr?.email}
+            </p>
           </div>
-          <p className="mt-8 text-[11px] leading-relaxed text-espresso/60 uppercase tracking-widest">
-            {gpsr?.manufacturer}, {gpsr?.address}
-            <br />
-            Product safety: {gpsr?.email}
-          </p>
-        </div>
 
-        <nav aria-label="Shop">
-          <ColumnTitle>Shop</ColumnTitle>
-          <ul className="mt-5 space-y-2.5">
-            <li>
-              <Link to="/whats-new" className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
-                What&apos;s New
-              </Link>
-            </li>
-            {(categories ?? []).map((category) => (
-              <li key={category.id}>
-                <Link
-                  to={`/shop/${category.id}`}
-                  className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
-                >
-                  {category.name}
+          {/* Collapsible Sections */}
+          <CollapsibleSection title="Shop" defaultOpen={true}>
+            <ul className="space-y-2.5">
+              <li>
+                <Link to="/whats-new" className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                  What&apos;s New
                 </Link>
               </li>
-            ))}
-          </ul>
-        </nav>
+              {(categories ?? []).map((category) => (
+                <li key={category.id}>
+                  <Link
+                    to={`/shop/${category.id}`}
+                    className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </CollapsibleSection>
 
-        <nav aria-label="Customer Support">
-          <ColumnTitle>Support</ColumnTitle>
-          <ul className="mt-5 space-y-2.5">
-            {CUSTOMER_SUPPORT_LINKS.map((link) => (
-              <li key={link.to}>
-                <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <CollapsibleSection title="Support">
+            <ul className="space-y-2.5">
+              {CUSTOMER_SUPPORT_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </CollapsibleSection>
 
-        <div className="flex flex-col gap-8">
-          <nav aria-label="Company & Guides">
-            <ColumnTitle>Company</ColumnTitle>
-            <ul className="mt-5 space-y-2.5">
+          <CollapsibleSection title="Company">
+            <ul className="space-y-2.5">
               {COMPANY_LINKS.map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
@@ -217,11 +241,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </nav>
-          
-          <nav aria-label="Legal">
-            <ColumnTitle>Legal</ColumnTitle>
-            <ul className="mt-5 space-y-2.5">
+          </CollapsibleSection>
+
+          <CollapsibleSection title="Legal">
+            <ul className="space-y-2.5">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
@@ -230,26 +253,141 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </nav>
+          </CollapsibleSection>
+
+          {/* Newsletter - Mobile */}
+          <CollapsibleSection title="Newsletter" defaultOpen={false}>
+            <div className="-mx-4 px-4">
+              <Newsletter showTitle={false} />
+            </div>
+          </CollapsibleSection>
         </div>
 
-        <Newsletter />
+        {/* Desktop: Grid Layout */}
+        <div className="hidden md:grid gap-12 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr] lg:gap-8">
+          <div>
+            <Link to="/" className="font-display text-2xl tracking-[0.08em] text-espresso">
+              belioras
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-espresso/70">
+              Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
+              leather goods that only get better with age.
+            </p>
+            <div className="mt-8 flex items-center gap-4">
+              <a
+                href={social.instagram ?? "https://instagram.com"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-espresso/80 transition-colors hover:text-gold-700"
+                aria-label="Belioras on Instagram"
+              >
+                <InstagramIcon className="size-5" />
+              </a>
+              {[
+                { label: "Pinterest", href: social.pinterest },
+                { label: "TikTok", href: social.tiktok },
+              ].map(
+                (net) =>
+                  net.href && (
+                    <a
+                      key={net.label}
+                      href={net.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/80 transition-colors hover:text-gold-700"
+                    >
+                      {net.label}
+                    </a>
+                  )
+              )}
+            </div>
+            <p className="mt-8 text-[11px] leading-relaxed text-espresso/60 uppercase tracking-widest">
+              {gpsr?.manufacturer}, {gpsr?.address}
+              <br />
+              Product safety: {gpsr?.email}
+            </p>
+          </div>
+
+          <nav aria-label="Shop">
+            <ColumnTitle>Shop</ColumnTitle>
+            <ul className="mt-5 space-y-2.5">
+              <li>
+                <Link to="/whats-new" className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                  What&apos;s New
+                </Link>
+              </li>
+              {(categories ?? []).map((category) => (
+                <li key={category.id}>
+                  <Link
+                    to={`/shop/${category.id}`}
+                    className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Customer Support">
+            <ColumnTitle>Support</ColumnTitle>
+            <ul className="mt-5 space-y-2.5">
+              {CUSTOMER_SUPPORT_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="flex flex-col gap-8">
+            <nav aria-label="Company & Guides">
+              <ColumnTitle>Company</ColumnTitle>
+              <ul className="mt-5 space-y-2.5">
+                {COMPANY_LINKS.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            
+            <nav aria-label="Legal">
+              <ColumnTitle>Legal</ColumnTitle>
+              <ul className="mt-5 space-y-2.5">
+                {LEGAL_LINKS.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          <Newsletter />
+        </div>
       </div>
 
       <div className="border-t border-espresso/10">
-        <div className="container-main flex flex-col gap-4 py-8 text-xs text-espresso/60 md:flex-row md:items-center md:justify-between">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 flex flex-col gap-4 py-8 text-xs text-espresso/60 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} Belioras Maison Ltd. All rights reserved.</p>
-          <ul className="flex flex-wrap gap-2" aria-label="Accepted payment methods">
-            {PAYMENTS.map((method) => (
+          <ul className="flex flex-wrap gap-2 justify-center md:justify-start" aria-label="Accepted payment methods">
+            {PAYMENTS.map((method, index) => (
               <li
                 key={method}
-                className="rounded border border-espresso/20 px-2.5 py-1 uppercase tracking-wider text-espresso/70"
+                className={`rounded border border-espresso/20 px-2.5 py-1 uppercase tracking-wider text-espresso/70 ${index >= 4 ? 'hidden md:block' : ''}`}
               >
                 {method}
               </li>
             ))}
           </ul>
-          <p>{settings?.tax?.note ?? "All prices include 20% VAT."}</p>
+          <p className="text-center md:text-right">{settings?.tax?.note ?? "All prices include 20% VAT."}</p>
         </div>
       </div>
     </footer>

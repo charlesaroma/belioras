@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import ProductCard from "../../components/storefront/ProductCard";
+import ProductCard from "../../../components/storefront/ProductCard";
 
 function ProductGrid({ filtered, cols, loading, error, onClearFilters }) {
   return (
