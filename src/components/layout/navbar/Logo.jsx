@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
-export default function Logo({ isScrolled }) {
+export default function Logo({ isScrolled, menuOpen }) {
+  const useDarkLogo = isScrolled || menuOpen;
   return (
     <Link
       to="/"
@@ -12,7 +13,7 @@ export default function Logo({ isScrolled }) {
         alt="Belioras"
         width={600}
         height={400}
-        className={`h-12 w-auto sm:h-14 transition-all duration-300 ${!isScrolled ? 'brightness-0 invert' : ''}`}
+        className={`h-12 w-auto sm:h-14 transition-all duration-300 ${!useDarkLogo ? 'brightness-0 invert' : ''}`}
       />
     </Link>
   );
