@@ -15,7 +15,9 @@ import CartDrawer from "./CartDrawer";
 import { Menu, Search, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const LIGHT_BG_PATHS = ["/product", "/shop", "/account", "/contact", "/about", "/login", "/signup", "/forgot-password", "/search", "/wishlist"];
 
 export default function Navbar() {
   const { data: categories } = useAsyncData(getCategories, []);
@@ -29,6 +31,8 @@ export default function Navbar() {
   const [mobileQuery, setMobileQuery] = useState("");
   const closeTimer = useRef(null);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isLightBgPage = LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,7 +95,7 @@ export default function Navbar() {
 
       <div
         className={`transition-all duration-300 ${
-          isScrolled || menuId || mobileOpen || cartOpen
+          isScrolled || menuId || mobileOpen || cartOpen || isLightBgPage
             ? "bg-ivory-50/95 backdrop-blur text-espresso shadow-sm"
             : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
         }`}

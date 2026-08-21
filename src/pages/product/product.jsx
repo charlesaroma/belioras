@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, Heart, ArrowRight, Loader2, Share2 } from "lucide-react";
+import { ChevronLeft, ChevronDown, Heart, ArrowRight, Loader2, Share2 } from "lucide-react";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getProduct, getProductsByCollection } from "../../services/productsApi";
@@ -53,6 +53,7 @@ export default function ProductPage() {
   const { has, toggle } = useWishlist();
   const { currency } = useCurrency();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -116,8 +117,20 @@ export default function ProductPage() {
 
   return (
     <div className="bg-ivory-50">
+      {/* Back Button */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-28 md:pt-32 lg:pt-36">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-espresso/50 hover:text-espresso transition-colors cursor-pointer mb-6 md:mb-8"
+        >
+          <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
+          Back
+        </button>
+      </div>
+
       {/* Product Split Layout */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-8 md:pb-12 lg:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 xl:gap-x-16 gap-y-12">
           
           {/* Left Column: Image Gallery */}

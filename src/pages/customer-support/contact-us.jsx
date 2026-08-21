@@ -15,7 +15,7 @@ export default function ContactUsPage() {
   };
 
   return (
-    <section aria-labelledby="contact-title" className="min-h-dvh pt-24 pb-12">
+    <section aria-labelledby="contact-title" className="min-h-dvh pt-32 md:pt-40 pb-12">
       <div className="container-main">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           

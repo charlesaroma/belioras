@@ -1,22 +1,58 @@
 import { useState } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { Loader2, UserPlus } from "lucide-react";
+import { motion } from "motion/react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 
-const inputClasses =
-  "mt-1.5 w-full rounded-xl border border-umber-50 bg-ivory-50 px-3.5 py-2.5 text-sm text-espresso placeholder:text-espresso-soft/60 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20";
-
+const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG";
 const MIN_PASSWORD_LENGTH = 6;
+
+const inputBase =
+  "w-full border-b border-umber-50 bg-transparent px-0 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-espresso focus:outline-none transition-colors";
+
+function FloatingInput({ id, label, type = "text", value, onChange, error, autoComplete, rightSlot }) {
+  return (
+    <div className="relative">
+      <label
+        htmlFor={id}
+        className={`absolute top-3 text-xs font-semibold uppercase tracking-widest transition-all duration-200 pointer-events-none ${
+          value ? "-translate-y-5 text-[10px] text-espresso/50" : "text-espresso/40"
+        }`}
+      >
+        {label}
+      </label>
+      <div className="flex items-center">
+        <input
+          id={id}
+          name={id}
+          type={type}
+          autoComplete={autoComplete}
+          value={value}
+          onChange={onChange}
+          className={`${inputBase} ${error ? "border-rose-400" : ""} ${rightSlot ? "pr-8" : ""}`}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? `${id}-error` : undefined}
+        />
+        {rightSlot && <span className="absolute right-0 flex items-center">{rightSlot}</span>}
+      </div>
+      {error && (
+        <p id={`${id}-error`} className="mt-1.5 text-xs text-rose-600" role="alert">{error}</p>
+      )}
+    </div>
+  );
+}
 
 export default function SignupPage() {
   const { register, isAuthenticated, loading: submitting } = useAuth();
   const { toast } = useToast();
   const location = useLocation();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [formErrors, setFormErrors] = useState({});
 
@@ -28,154 +64,158 @@ export default function SignupPage() {
     const next = {};
     if (!name.trim()) next.name = "Full name is required.";
     if (!email.trim()) next.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) next.email = "Enter a valid email address.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) next.email = "Enter a valid email.";
     if (!password) next.password = "Password is required.";
     else if (password.length < MIN_PASSWORD_LENGTH)
       next.password = `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
     return next;
   };
 
-  const clearFieldError = (field) => (e) => {
-    if (field === "name") setName(e.target.value);
-    if (field === "email") setEmail(e.target.value);
-    if (field === "password") setPassword(e.target.value);
-    setFormErrors((prev) => ({ ...prev, [field]: undefined }));
-    setError(null);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const nextErrors = validate();
-    if (Object.keys(nextErrors).length) {
-      setFormErrors(nextErrors);
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setFormErrors(errs); return; }
     setError(null);
     try {
       await register({ name: name.trim(), email: email.trim(), password });
-      toast("Account created — welcome to Belioras", "success");
+      toast("Welcome to Belioras", "success");
     } catch (err) {
-      setError(err?.message ?? "Sign up failed. Please try again.");
+      setError(err?.message ?? "Registration failed. Please try again.");
     }
   };
 
   return (
-    <section className="container-main py-section-mobile md:py-section-desktop" aria-labelledby="signup-title">
-      <p className="eyebrow">Account</p>
-      <h1 id="signup-title" className="font-display text-4xl font-medium capitalize tracking-wide">
-        Create Account
-      </h1>
-
-      <div className="mx-auto mt-8 max-w-md">
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="rounded-3xl border border-umber-50 bg-white p-6 shadow-sm sm:p-8"
-          aria-label="Create account form"
+    <div className="min-h-dvh grid lg:grid-cols-2">
+      {/* Left: Form Panel */}
+      <div className="flex flex-col items-center justify-center px-6 py-24 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50 order-2 lg:order-1">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55 }}
+          className="w-full max-w-sm"
         >
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-espresso">
-                Full name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                value={name}
-                onChange={clearFieldError("name")}
-                placeholder="Your full name"
-                className={inputClasses}
-                aria-invalid={Boolean(formErrors.name)}
-                aria-describedby={formErrors.name ? "name-error" : undefined}
-              />
-              {formErrors.name ? (
-                <p id="name-error" className="mt-1 text-xs text-rose-700" role="alert">
-                  {formErrors.name}
-                </p>
-              ) : null}
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-espresso">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={clearFieldError("email")}
-                placeholder="you@example.com"
-                className={inputClasses}
-                aria-invalid={Boolean(formErrors.email || error)}
-                aria-describedby={formErrors.email ? "email-error" : undefined}
-              />
-              {formErrors.email ? (
-                <p id="email-error" className="mt-1 text-xs text-rose-700" role="alert">
-                  {formErrors.email}
-                </p>
-              ) : null}
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-espresso">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={clearFieldError("password")}
-                placeholder={`At least ${MIN_PASSWORD_LENGTH} characters`}
-                className={inputClasses}
-                aria-invalid={Boolean(formErrors.password)}
-                aria-describedby={formErrors.password ? "password-error" : undefined}
-              />
-              {formErrors.password ? (
-                <p id="password-error" className="mt-1 text-xs text-rose-700" role="alert">
-                  {formErrors.password}
-                </p>
-              ) : null}
-            </div>
+          <div className="mb-10">
+            <Link to="/" className="cursor-pointer">
+              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-8" />
+            </Link>
+            <h1 id="signup-title" className="font-display text-3xl text-espresso mb-2">
+              Join the Maison
+            </h1>
+            <p className="text-sm text-espresso/60">
+              Already a member?{" "}
+              <Link to="/login" className="font-semibold text-gold-700 hover:text-espresso transition-colors cursor-pointer">
+                Sign in
+              </Link>
+            </p>
           </div>
 
-          {error ? (
-            <p className="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">
-              {error}
-            </p>
-          ) : null}
+          <form onSubmit={handleSubmit} noValidate aria-labelledby="signup-title" className="space-y-8">
+            <FloatingInput
+              id="name"
+              label="Full name"
+              autoComplete="name"
+              value={name}
+              error={formErrors.name}
+              onChange={(e) => { setName(e.target.value); setFormErrors((p) => ({ ...p, name: undefined })); }}
+            />
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-espresso px-6 py-3 text-sm font-medium text-ivory-50 transition-colors duration-200 hover:bg-umber-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {submitting ? (
-              <>
-                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                Creating account…
-              </>
-            ) : (
-              <>
-                <UserPlus className="size-4" aria-hidden="true" />
-                Create account
-              </>
+            <FloatingInput
+              id="email"
+              label="Email address"
+              type="email"
+              autoComplete="email"
+              value={email}
+              error={formErrors.email}
+              onChange={(e) => { setEmail(e.target.value); setFormErrors((p) => ({ ...p, email: undefined })); setError(null); }}
+            />
+
+            <FloatingInput
+              id="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              value={password}
+              error={formErrors.password}
+              onChange={(e) => { setPassword(e.target.value); setFormErrors((p) => ({ ...p, password: undefined })); }}
+              rightSlot={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="text-espresso/40 hover:text-espresso transition-colors cursor-pointer"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                </button>
+              }
+            />
+
+            {error && (
+              <motion.p
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-xl bg-rose-50 border border-rose-100 px-4 py-3 text-xs text-rose-700"
+                role="alert"
+              >
+                {error}
+              </motion.p>
             )}
-          </button>
-        </form>
 
-        <p className="mt-6 text-center text-sm text-espresso-soft">
-          Already have an account?{" "}
-          <Link to="/login" className="font-medium text-gold-700 transition-colors hover:text-gold-600">
-            Sign in
-          </Link>
-        </p>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full bg-espresso text-ivory-50 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-700 hover:text-espresso transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {submitting ? (
+                <span className="inline-flex items-center gap-2 justify-center">
+                  <Loader2 className="size-4 animate-spin" />
+                  Creating account…
+                </span>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          </form>
+
+          <p className="mt-8 text-[10px] text-espresso/40 text-center leading-relaxed">
+            By creating an account you agree to our{" "}
+            <Link to="/terms" className="underline hover:text-gold-700 cursor-pointer">Terms of Service</Link>
+            {" "}and{" "}
+            <Link to="/privacy" className="underline hover:text-gold-700 cursor-pointer">Privacy Policy</Link>.
+          </p>
+        </motion.div>
       </div>
-    </section>
+
+      {/* Right: Editorial Image Panel */}
+      <div className="relative hidden lg:block order-1 lg:order-2">
+        <img
+          src={HERO_IMAGE}
+          alt="Belioras collection"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-espresso/80 via-espresso/20 to-espresso/60" />
+        <div className="absolute top-12 left-12 right-12 text-ivory-50">
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gold-400 mb-4">
+            Membership Benefits
+          </p>
+          <h2 className="font-display text-4xl xl:text-5xl leading-tight mb-8">
+            Exclusively yours.
+          </h2>
+        </div>
+        <div className="absolute bottom-12 left-12 right-12 text-ivory-50 space-y-4">
+          {[
+            "Early access to new collections",
+            "Complimentary personal styling",
+            "Priority shipping & returns",
+            "Invitations to private events",
+          ].map((benefit) => (
+            <div key={benefit} className="flex items-center gap-3 text-sm text-ivory-50/80">
+              <span className="size-1.5 rounded-full bg-gold-400 shrink-0" />
+              {benefit}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
