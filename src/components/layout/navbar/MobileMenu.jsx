@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
-import { ChevronDown, Search, X, User, LogIn } from "lucide-react";
+import { ChevronDown, Search, X, LogIn, Heart, ShoppingBag } from "lucide-react";
 
 import { NAV_LINKS } from "../../../utils/constants";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useAuth } from "../../../context/AuthContext";
+import { useWishlist } from "../../../context/WishlistContext";
+import { useCart } from "../../../context/CartContext";
 
 const CURRENCIES = [
   { code: "EUR", symbol: "€", flag: "🇪🇺" },
@@ -68,9 +70,11 @@ function CategoryAccordion({ category, onClose }) {
   );
 }
 
-export default function MobileMenu({ open, onClose, categories }) {
+export default function MobileMenu({ open, onClose, categories, onCartOpen }) {
   const { currency, setCurrency } = useCurrency();
   const { user, logout } = useAuth();
+  const { count: wishlistCount } = useWishlist();
+  const { count: cartCount } = useCart();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
@@ -207,6 +211,50 @@ export default function MobileMenu({ open, onClose, categories }) {
                     </div>
                   </Link>
                 )}
+              </div>
+
+              {/* Wishlist & Cart row */}
+              <div className="px-5 py-3 border-b border-umber-50/60 flex items-center gap-4">
+                <Link
+                  to="/wishlist"
+                  onClick={onClose}
+                  className="flex items-center gap-3 group flex-1"
+                >
+                  <span className="flex size-8 items-center justify-center rounded-full border border-umber-50 text-espresso/60 group-hover:border-gold-500 group-hover:text-gold-600 transition-colors shrink-0 relative">
+                    <Heart className="size-4" aria-hidden="true" />
+                    {wishlistCount > 0 && (
+                      <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-gold-500 text-[10px] font-semibold text-espresso">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-espresso group-hover:text-gold-700 transition-colors">Wishlist</p>
+                    <p className="text-xs text-espresso/50">{wishlistCount} items</p>
+                  </div>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof onCartOpen === 'function') onCartOpen();
+                    onClose();
+                  }}
+                  className="flex items-center gap-3 group flex-1"
+                >
+                  <span className="flex size-8 items-center justify-center rounded-full border border-umber-50 text-espresso/60 group-hover:border-gold-500 group-hover:text-gold-600 transition-colors shrink-0 relative">
+                    <ShoppingBag className="size-4" aria-hidden="true" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-espresso text-[10px] font-semibold text-ivory-50">
+                        {cartCount}
+                      </span>
+                    )}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-espresso group-hover:text-gold-700 transition-colors">Cart</p>
+                    <p className="text-xs text-espresso/50">{cartCount} items</p>
+                  </div>
+                </button>
               </div>
 
               {/* Currency row */}

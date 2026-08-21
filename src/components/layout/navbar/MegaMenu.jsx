@@ -6,6 +6,13 @@ export default function MegaMenu({ category, onMouseEnter, onMouseLeave }) {
 
   const sectionCount = category.sections.length;
 
+  const getGridColumns = () => {
+    if (sectionCount === 1) return '1fr';
+    if (sectionCount === 2) return 'repeat(2, minmax(0, 1fr))';
+    if (sectionCount <= 4) return 'repeat(2, minmax(0, 1fr))';
+    return `repeat(${Math.min(sectionCount, 4)}, minmax(0, 1fr))`;
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -16,15 +23,15 @@ export default function MegaMenu({ category, onMouseEnter, onMouseLeave }) {
         transition={{ duration: 0.18, ease: "easeOut" }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className="w-full border-t border-umber-50/60 bg-ivory-50/98 text-espresso shadow-large backdrop-blur"
+        className="hidden md:block w-full border-t border-umber-50/60 bg-ivory-50/98 text-espresso shadow-large backdrop-blur"
         role="navigation"
         aria-label={`${category.label} menu`}
       >
-        <div className="mx-auto max-w-7xl px-8 xl:px-16 2xl:px-24 py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 py-6 md:py-8">
           <div
-            className="grid gap-x-10 gap-y-6"
+            className="grid gap-x-6 gap-y-6 md:gap-x-8 md:gap-y-8"
             style={{
-              gridTemplateColumns: `repeat(${Math.min(sectionCount, 6)}, minmax(0, 1fr))`,
+              gridTemplateColumns: getGridColumns(),
             }}
           >
             {category.sections.map((section, idx) => (

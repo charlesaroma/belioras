@@ -183,7 +183,7 @@ export default function Navbar() {
           </form>
         )}
 
-        {/* ── Mega Menu (desktop only, flush against navbar) ── */}
+        {/* ── Mega Menu (responsive, flush against navbar) ── */}
         <MegaMenu
           category={activeCategory}
           products={products}
@@ -197,6 +197,7 @@ export default function Navbar() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         categories={categories}
+        onCartOpen={() => setCartOpen(true)}
       />
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
