@@ -13,6 +13,7 @@ import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "./CartDrawer";
 import { Menu } from "lucide-react";
+import { cn } from "../../../utils/cn";
 
 export default function Navbar() {
   const { data: categories } = useAsyncData(getCategories, []);
@@ -70,7 +71,7 @@ export default function Navbar() {
   const activeCategory = categories?.find((c) => c.id === menuId);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 w-full">
+    <header className={cn('fixed', 'inset-x-0', 'top-0', 'z-50', 'w-full')}>
       <AnnouncementBar />
 
       <div 
@@ -80,11 +81,11 @@ export default function Navbar() {
             : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
         }`}
       >
-        <div className="container-main px-2 lg:px-6 grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-8 lg:gap-12 py-3">
-          <div className="flex items-center gap-3 lg:justify-start">
+        <div className="w-full px-8 md:px-12 xl:px-24 grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-8 lg:gap-12 py-3">
+          <div className={cn('flex', 'items-center', 'gap-3', 'lg:justify-start')}>
             <button
               type="button"
-              className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70 lg:hidden"
+              className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70', 'lg:hidden')}
               aria-label="Open menu"
               onClick={() => setMobileOpen(true)}
             >
@@ -101,7 +102,7 @@ export default function Navbar() {
 
           <Logo isScrolled={isScrolled} />
 
-          <div className="flex items-center justify-end gap-6">
+          <div className={cn('flex', 'items-center', 'justify-end', 'gap-6')}>
             <SearchBar />
             <NavActions onCartOpen={() => setCartOpen(true)} />
           </div>

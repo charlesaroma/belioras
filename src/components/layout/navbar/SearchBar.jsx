@@ -52,7 +52,7 @@ export default function SearchBar() {
       role="search"
       aria-label="Search products"
       onSubmit={onSubmit}
-      className="hidden w-full max-w-sm lg:block"
+      className="hidden w-full max-w-[280px] lg:block"
     >
       <label htmlFor="navbar-search" className="sr-only">
         Search products

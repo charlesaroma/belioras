@@ -6,6 +6,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useAuth } from "../../../context/AuthContext";
+import { cn } from "../../../utils/cn";
 
 const CURRENCIES = [
   { code: "EUR", symbol: "€" },
@@ -23,18 +24,18 @@ export default function NavActions({ onCartOpen }) {
   const active = CURRENCIES.find((c) => c.code === currency) ?? CURRENCIES[0];
 
   return (
-    <div className="flex items-center justify-end gap-1">
+    <div className={cn('flex', 'items-center', 'justify-end', 'gap-1')}>
       <div className="relative">
         <button
           type="button"
-          className="flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-current transition-opacity hover:opacity-70"
+          className={cn('flex', 'h-10', 'items-center', 'gap-1.5', 'rounded-full', 'px-3', 'text-sm', 'font-medium', 'text-current', 'transition-opacity', 'hover:opacity-70')}
           aria-haspopup="listbox"
           aria-expanded={currencyOpen}
           aria-label={`Currency: ${active.code}`}
           onClick={() => setCurrencyOpen((v) => !v)}
         >
           <span className="tabular-nums">{active.symbol}</span>
-          <span className="hidden sm:inline">{active.code}</span>
+          <span className={cn('hidden', 'sm:inline')}>{active.code}</span>
           <ChevronDown
             className={`size-3.5 opacity-50 transition-transform ${currencyOpen ? "rotate-180" : ""}`}
             aria-hidden="true"
@@ -45,7 +46,7 @@ export default function NavActions({ onCartOpen }) {
           <>
             <button
               type="button"
-              className="fixed inset-0 z-10 cursor-default"
+              className={cn('fixed', 'inset-0', 'z-10', 'cursor-default')}
               aria-label="Close currency menu"
               tabIndex={-1}
               onClick={() => setCurrencyOpen(false)}
@@ -53,7 +54,7 @@ export default function NavActions({ onCartOpen }) {
             <ul
               role="listbox"
               aria-label="Select currency"
-              className="absolute right-0 z-20 mt-2 w-36 overflow-hidden rounded-2xl border border-umber-50 bg-ivory-50 py-1 shadow-large"
+              className={cn('absolute', 'right-0', 'z-20', 'mt-2', 'w-36', 'overflow-hidden', 'rounded-2xl', 'border', 'border-umber-50', 'bg-ivory-50', 'py-1', 'shadow-large')}
             >
               {CURRENCIES.map((c) => (
                 <li key={c.code}>
@@ -81,7 +82,7 @@ export default function NavActions({ onCartOpen }) {
 
       <button
         type="button"
-        className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70')}
         aria-label={`Wishlist, ${wishlistCount} items`}
         title="Wishlist"
       >
@@ -90,7 +91,7 @@ export default function NavActions({ onCartOpen }) {
           aria-hidden="true"
         />
         {wishlistCount > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-gold-500 text-[10px] font-semibold text-espresso">
+          <span className={cn('absolute', '-right-0.5', '-top-0.5', 'flex', 'size-4', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-[10px]', 'font-semibold', 'text-espresso')}>
             {wishlistCount}
           </span>
         )}
@@ -98,7 +99,7 @@ export default function NavActions({ onCartOpen }) {
 
       {user ? (
         <span
-          className="flex size-10 items-center justify-center rounded-full bg-gold-500 text-sm font-semibold text-espresso"
+          className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-sm', 'font-semibold', 'text-espresso')}
           title={user.name ?? user.email}
           aria-label={`Signed in as ${user.name ?? user.email}`}
         >
@@ -107,7 +108,7 @@ export default function NavActions({ onCartOpen }) {
       ) : (
         <Link
           to="/login"
-          className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+          className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70')}
           aria-label="Sign in"
         >
           <User className="size-5" aria-hidden="true" />
@@ -116,13 +117,13 @@ export default function NavActions({ onCartOpen }) {
 
       <button
         type="button"
-        className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70')}
         aria-label={`Open cart, ${count} items`}
         onClick={onCartOpen}
       >
         <ShoppingBag className="size-5" aria-hidden="true" />
         {count > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-espresso text-[10px] font-semibold text-champagne-500">
+          <span className={cn('absolute', '-right-0.5', '-top-0.5', 'flex', 'size-4', 'items-center', 'justify-center', 'rounded-full', 'bg-espresso', 'text-[10px]', 'font-semibold', 'text-champagne-500')}>
             {count}
           </span>
         )}
