@@ -19,7 +19,7 @@ export default function ShopPage() {
   return (
     <div className="bg-ivory-50 min-h-screen pb-24">
       {/* Editorial Header */}
-      <section className="relative h-[450px] md:h-[500px] pt-40 px-6 lg:px-12 overflow-hidden" aria-labelledby="shop-title">
+      <section className="relative h-[450px] md:h-[500px] pt-40 px-4 sm:px-6 md:px-8 overflow-hidden" aria-labelledby="shop-title">
         {/* Background Image & Gradient Shadow Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -59,7 +59,7 @@ export default function ShopPage() {
       </section>
 
       {/* Toolbar (Filters & Sorting Scaffold) */}
-      <section className="container-main px-6 lg:px-12 py-4 flex flex-col md:flex-row items-center justify-between gap-4 sticky top-[64px] z-40 bg-ivory-50/95 backdrop-blur-md border-b border-umber-50/30 text-[11px] font-bold uppercase tracking-[0.05em] text-espresso">
+      <section className="container-main px-4 sm:px-6 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4 sticky top-[64px] z-40 bg-ivory-50/95 backdrop-blur-md border-b border-umber-50/30 text-[11px] font-bold uppercase tracking-[0.05em] text-espresso">
         <div className="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar">
           <button className="hover:text-gold-600 transition-colors whitespace-nowrap">Price</button>
           <button className="hover:text-gold-600 transition-colors whitespace-nowrap">Colours</button>
@@ -91,7 +91,7 @@ export default function ShopPage() {
       </section>
 
       {/* Product Grid */}
-      <section className="container-main px-6 lg:px-12 pt-12">
+      <section className="container-main px-4 sm:px-6 md:px-8 pt-12">
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="size-8 animate-spin rounded-full border-2 border-gold-500 border-t-transparent"></div>

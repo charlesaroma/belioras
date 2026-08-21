@@ -7,7 +7,7 @@ const MEGA_IDS = ["new-arrivals", "shop", "dresses", "hair", "accessories"];
 
 export default function NavLinks({ links, menuId, onOpen, onScheduleClose, onCancelClose }) {
   return (
-    <nav aria-label="Main" className="hidden lg:block">
+    <nav aria-label="Main" className="hidden md:block">
       <ul className="flex items-center justify-start gap-6">
         {NAV_LINKS.map((link) => {
           const category = links?.find((c) => c.id === link.id);

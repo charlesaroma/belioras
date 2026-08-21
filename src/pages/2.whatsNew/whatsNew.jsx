@@ -1,6 +1,6 @@
 export default function WhatsNewPage() {
   return (
-    <section className="container-main py-section-mobile md:py-section-desktop" aria-labelledby="whats-new-title">
+    <section className="container-main px-4 sm:px-6 md:px-8 py-section-mobile sm:py-section-tablet lg:py-section-desktop" aria-labelledby="whats-new-title">
       <p className="eyebrow">The edit</p>
       <h1 id="whats-new-title" className="font-display text-4xl font-medium capitalize tracking-wide">
         What&apos;s New

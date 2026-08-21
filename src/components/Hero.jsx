@@ -20,8 +20,8 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-espresso/70 via-espresso/30 to-transparent" />
       </motion.div>
 
-      <div className="container-main relative flex h-full flex-col justify-center pt-20">
-        <div className="max-w-[40%] text-ivory-50 md:max-w-[50%] sm:max-w-full">
+      <div className="container-main px-4 sm:px-6 md:px-8 relative flex h-full flex-col justify-center pt-20">
+        <div className="max-w-full text-ivory-50 md:max-w-[50%]">
           {/* Eyebrow */}
           <motion.p
             initial={{ y: 20, opacity: 0 }}

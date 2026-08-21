@@ -8,7 +8,7 @@ export default function FeaturedCategoriesSection() {
   const { data: collections = [], loading } = useAsyncData(getCollections, []);
 
   return (
-    <section aria-labelledby="categories-title" className="container-main py-section-mobile md:py-section-desktop">
+    <section aria-labelledby="categories-title" className="container-main px-4 sm:px-6 md:px-8 py-section-mobile sm:py-section-tablet lg:py-section-desktop">
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
           <p className="eyebrow">The Collections</p>

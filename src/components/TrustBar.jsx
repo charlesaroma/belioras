@@ -26,7 +26,7 @@ export default function TrustBar() {
 
   return (
     <section className="border-y border-umber-50 bg-ivory-50">
-      <div className="container-main py-10">
+      <div className="container-main px-4 sm:px-6 md:px-8 py-10">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((item, index) => (
             <div key={index} className="flex flex-col items-center text-center">

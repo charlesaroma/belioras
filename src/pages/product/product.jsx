@@ -4,7 +4,7 @@ export default function ProductPage() {
   const { slug } = useParams();
 
   return (
-    <section className="container-main py-section-mobile md:py-section-desktop" aria-labelledby="product-title">
+    <section className="container-main px-4 sm:px-6 md:px-8 py-section-mobile sm:py-section-tablet lg:py-section-desktop" aria-labelledby="product-title">
       <p className="eyebrow">Product</p>
       <h1 id="product-title" className="font-display text-4xl font-medium capitalize tracking-wide">
         {slug ?? "Product"}
