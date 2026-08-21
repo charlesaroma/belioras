@@ -56,7 +56,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-wrap items-center gap-4"
           >
-            <Link to="/shop" className="btn btn-lg btn-primary text-ivory-50 border-ivory-50 hover:bg-ivory-50 hover:text-espresso shadow-subtle hover:-translate-y-0.5 transition-all">
+            <Link to="/shop" className="btn btn-lg btn-primary bg-ivory-50/20 backdrop-blur-sm border-transparent text-ivory-50 hover:bg-ivory-50 hover:text-espresso shadow-subtle hover:-translate-y-0.5 transition-all">
               Shop Collection <ArrowRight className="ml-2 size-4" />
             </Link>
             <Link to="/shop/hair" className="btn btn-lg btn-secondary text-ivory-50 border-ivory-50 hover:bg-ivory-50 hover:text-espresso shadow-subtle hover:-translate-y-0.5 transition-all">
