@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 
+const SEARCH_PHRASES = [
+  "Try searching for... Corset Tops",
+  "Try searching for... Maxi Dresses",
+  "Try searching for... Hair Extensions",
+  "Try searching for... Two-Piece Sets"
+];
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
+  const [placeholder, setPlaceholder] = useState("");
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
   function onSubmit(e) {
@@ -13,6 +24,28 @@ export default function SearchBar() {
     navigate(`/search?q=${encodeURIComponent(q)}`);
     setQuery("");
   }
+
+  useEffect(() => {
+    const currentPhrase = SEARCH_PHRASES[phraseIndex];
+    let typingSpeed = isDeleting ? 30 : 60;
+
+    if (!isDeleting && charIndex === currentPhrase.length) {
+      typingSpeed = 2000; // Pause at the end
+      const timeout = setTimeout(() => setIsDeleting(true), typingSpeed);
+      return () => clearTimeout(timeout);
+    } else if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setPhraseIndex((prev) => (prev + 1) % SEARCH_PHRASES.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setPlaceholder(currentPhrase.substring(0, charIndex + (isDeleting ? -1 : 1)));
+      setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, phraseIndex]);
 
   return (
     <form
@@ -30,7 +63,7 @@ export default function SearchBar() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Try searching for... Corset Tops"
+          placeholder={placeholder || " "}
           className="h-10 w-full bg-transparent pr-10 text-sm text-current placeholder-current focus:outline-none"
         />
         <button

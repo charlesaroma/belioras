@@ -46,7 +46,7 @@ function InstagramIcon({ className }) {
 
 function ColumnTitle({ children }) {
   return (
-    <h3 className="font-display text-sm font-medium uppercase tracking-[0.14em] text-champagne-500">
+    <h3 className="font-display text-sm font-medium uppercase tracking-[0.14em] text-espresso">
       {children}
     </h3>
   );
@@ -71,7 +71,7 @@ function Newsletter() {
   return (
     <div>
       <ColumnTitle>Newsletter</ColumnTitle>
-      <p className="mt-4 text-sm leading-relaxed text-ivory-300">
+      <p className="mt-4 text-sm leading-relaxed text-espresso/70">
         Seasonal edits, private sales and styling notes. No noise.
       </p>
       <form className="mt-5 flex gap-2" onSubmit={handleSubmit} noValidate>
@@ -82,28 +82,27 @@ function Newsletter() {
           id="footer-newsletter-email"
           type="email"
           autoComplete="email"
-          className="min-w-0 flex-1 rounded-md border border-umber-700 bg-espresso px-4 py-3 text-sm text-ivory-100 placeholder:text-umber-400 focus:border-gold-500 focus:outline-none"
-          placeholder="Your email"
+          className="min-w-0 flex-1 border-b border-espresso/20 bg-transparent px-2 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-gold-700 focus:outline-none transition-colors"
+          placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <button
           type="submit"
-          className="inline-flex items-center gap-1.5 rounded-md bg-gold-500 px-4 text-sm font-semibold uppercase tracking-wider text-espresso transition-colors hover:bg-champagne-400"
+          className="inline-flex items-center gap-2 border-b border-espresso/20 px-2 text-xs font-semibold uppercase tracking-[0.2em] text-espresso/80 transition-colors hover:border-gold-700 hover:text-gold-700"
           aria-label="Subscribe to newsletter"
         >
-          <span className="hidden sm:inline">Subscribe</span>
-          <ArrowRight className="size-4" aria-hidden="true" />
+          Subscribe
         </button>
       </form>
       {error ? (
-        <p className="mt-2 text-xs text-gold-300" role="alert">
+        <p className="mt-2 text-xs text-error" role="alert">
           {error}
         </p>
       ) : (
-        <p className="mt-3 text-xs leading-relaxed text-ivory-400">
+        <p className="mt-3 text-xs leading-relaxed text-espresso/60">
           By subscribing you agree to our{" "}
-          <Link to="/privacy-policy" className="underline decoration-gold-500 underline-offset-2 hover:text-ivory-100">
+          <Link to="/privacy-policy" className="underline decoration-gold-700 underline-offset-2 hover:text-espresso">
             privacy policy
           </Link>
           . Unsubscribe anytime.
@@ -121,25 +120,25 @@ export default function Footer() {
   const gpsr = settings?.gpsr;
 
   return (
-    <footer className="bg-espresso text-ivory-100">
+    <footer className="bg-ivory-50 text-espresso">
       <div className="container-main grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr] lg:gap-8">
         <div>
-          <Link to="/" className="font-display text-2xl tracking-[0.08em] text-ivory-50">
+          <Link to="/" className="font-display text-2xl tracking-[0.08em] text-espresso">
             belioras
           </Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-ivory-300">
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-espresso/70">
             Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
             leather goods that only get better with age.
           </p>
-          <div className="mt-6 flex items-center gap-2">
+          <div className="mt-8 flex items-center gap-4">
             <a
               href={social.instagram ?? "https://instagram.com"}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex size-10 items-center justify-center rounded-full border border-umber-700 text-ivory-300 transition-colors hover:border-gold-500 hover:text-champagne-400"
+              className="text-espresso/80 transition-colors hover:text-gold-700"
               aria-label="Belioras on Instagram"
             >
-              <InstagramIcon className="size-4" />
+              <InstagramIcon className="size-5" />
             </a>
             {[
               { label: "Pinterest", href: social.pinterest },
@@ -152,14 +151,14 @@ export default function Footer() {
                     href={net.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-10 items-center rounded-full border border-umber-700 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-ivory-300 transition-colors hover:border-gold-500 hover:text-champagne-400"
+                    className="text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/80 transition-colors hover:text-gold-700"
                   >
                     {net.label}
                   </a>
                 )
             )}
           </div>
-          <p className="mt-8 text-xs leading-relaxed text-ivory-400">
+          <p className="mt-8 text-[11px] leading-relaxed text-espresso/60 uppercase tracking-widest">
             {gpsr?.manufacturer}, {gpsr?.address}
             <br />
             Product safety: {gpsr?.email}
@@ -170,7 +169,7 @@ export default function Footer() {
           <ColumnTitle>Shop</ColumnTitle>
           <ul className="mt-5 space-y-2.5">
             <li>
-              <Link to="/whats-new" className="text-sm text-ivory-300 transition-colors hover:text-champagne-400">
+              <Link to="/whats-new" className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
                 What&apos;s New
               </Link>
             </li>
@@ -178,7 +177,7 @@ export default function Footer() {
               <li key={category.id}>
                 <Link
                   to={`/shop/${category.id}`}
-                  className="text-sm text-ivory-300 transition-colors hover:text-champagne-400"
+                  className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
                 >
                   {category.name}
                 </Link>
@@ -192,7 +191,7 @@ export default function Footer() {
           <ul className="mt-5 space-y-2.5">
             {HELP_LINKS.map((link) => (
               <li key={link.to}>
-                <Link to={link.to} className="text-sm text-ivory-300 transition-colors hover:text-champagne-400">
+                <Link to={link.to} className="text-sm text-espresso/80 transition-colors hover:text-gold-700">
                   {link.label}
                 </Link>
               </li>
@@ -203,14 +202,14 @@ export default function Footer() {
         <Newsletter />
       </div>
 
-      <div className="border-t border-umber-900">
-        <div className="container-main flex flex-col gap-4 py-8 text-xs text-ivory-400 md:flex-row md:items-center md:justify-between">
+      <div className="border-t border-espresso/10">
+        <div className="container-main flex flex-col gap-4 py-8 text-xs text-espresso/60 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} Belioras Maison Ltd. All rights reserved.</p>
           <ul className="flex flex-wrap gap-2" aria-label="Accepted payment methods">
             {PAYMENTS.map((method) => (
               <li
                 key={method}
-                className="rounded border border-umber-700 px-2.5 py-1 uppercase tracking-wider text-ivory-300"
+                className="rounded border border-espresso/20 px-2.5 py-1 uppercase tracking-wider text-espresso/70"
               >
                 {method}
               </li>

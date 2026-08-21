@@ -218,18 +218,17 @@
   }
 
   .btn-primary {
-    background-color: var(--color-espresso);
-    color: var(--color-champagne-500);
-    border: none;
+    background-color: transparent;
+    color: var(--color-espresso);
+    border: 1px solid var(--color-espresso);
   }
 
   .btn-primary:hover {
-    background-color: var(--color-gold-500);
-    color: var(--color-espresso);
+    background-color: var(--color-gold-50);
   }
 
   .btn-primary:active {
-    background-color: var(--color-brown-800);
+    background-color: var(--color-brown-50);
   }
 
   .btn-secondary {

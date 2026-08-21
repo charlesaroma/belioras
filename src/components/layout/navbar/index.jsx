@@ -80,7 +80,7 @@ export default function Navbar() {
             : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
         }`}
       >
-        <div className="container-main px-6 lg:px-12 grid grid-cols-[1fr_auto_1fr] items-center gap-12 py-3">
+        <div className="container-main px-2 lg:px-6 grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-8 lg:gap-12 py-3">
           <div className="flex items-center gap-3 lg:justify-start">
             <button
               type="button"

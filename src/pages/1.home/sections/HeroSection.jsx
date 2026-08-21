@@ -28,23 +28,13 @@ export default function HeroSection() {
 
       <div className="container-main px-6 lg:px-12 relative flex h-full flex-col justify-center pt-20">
         <div className="max-w-[40%] text-ivory-50 md:max-w-[50%] sm:max-w-full">
-          {/* Eyebrow */}
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-4 text-[12px] font-semibold uppercase tracking-[0.18em] text-gold-500"
-          >
-            Brand: Belioras
-          </motion.p>
-          
           {/* Headline */}
           <motion.h1
             id="hero-title"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-6 font-display text-4xl leading-[1.15] tracking-[0.03em] md:text-[48px] lg:text-[64px] max-w-3xl"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-4 font-display text-4xl leading-[1.15] tracking-[0.03em] md:text-[48px] lg:text-[64px] max-w-3xl"
           >
             Your Style. Your Crown.
           </motion.h1>
@@ -53,7 +43,7 @@ export default function HeroSection() {
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-10 max-w-lg font-sans text-[16px] leading-[1.6] md:text-[18px]"
           >
             Luxury Fashion & Hair Curated for Confident Women
@@ -63,10 +53,10 @@ export default function HeroSection() {
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-wrap items-center gap-4"
           >
-            <Link to="/shop" className="btn btn-lg btn-primary shadow-medium hover:-translate-y-0.5 transition-transform">
+            <Link to="/shop" className="btn btn-lg btn-primary text-ivory-50 border-ivory-50 hover:bg-ivory-50 hover:text-espresso shadow-subtle hover:-translate-y-0.5 transition-all">
               Shop Collection <ArrowRight className="ml-2 size-4" />
             </Link>
             <Link to="/shop/hair" className="btn btn-lg btn-secondary text-ivory-50 border-ivory-50 hover:bg-ivory-50 hover:text-espresso shadow-subtle hover:-translate-y-0.5 transition-all">
