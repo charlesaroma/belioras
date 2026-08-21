@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-dvh pt-20 lg:pt-0 grid lg:grid-cols-2">
+    <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left: Editorial Image Panel */}
       <div className="relative hidden lg:block">
         <img
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
       </div>
 
       {/* Right: Form Panel */}
-      <div className="flex flex-col items-center justify-center px-6 py-12 sm:py-16 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50 min-h-[calc(100vh-80px)] lg:min-h-screen">
+      <div className="flex flex-col items-center justify-center px-6 py-12 sm:py-16 sm:px-12 lg:px-16 xl:px-24 bg-ivory-50 min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

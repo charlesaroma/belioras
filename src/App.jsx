@@ -18,9 +18,6 @@ import HomePage from "./pages/1.home/home";
 import WhatsNewPage from "./pages/2.whatsNew/whatsNew";
 import ShopPage from "./pages/3.shop/shop";
 import CategoryPage from "./pages/3.shop/CategoryPage";
-import DressesPage from "./pages/4.dresses/DressesPage";
-import HairPage from "./pages/5.hair/HairPage";
-import AccessoriesPage from "./pages/6.accessories/AccessoriesPage";
 import ProductPage from "./pages/product/product";
 import SearchPage from "./pages/search/SearchPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
@@ -41,6 +38,8 @@ import TermsOfServicePage from "./pages/legal/terms-of-service";
 import ShippingPolicyPage from "./pages/legal/shipping-policy";
 import ReturnAndRefundPolicyPage from "./pages/legal/return-and-refund-policy";
 import CookiePolicyPage from "./pages/legal/cookie-policy";
+
+import { DashboardLayout, DashOverview, DashProducts, DashOrders, DashUsers, DashSettings } from "./Dashboard";
 
 function AppProviders({ children }) {
   return (
@@ -81,6 +80,21 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
+          {/* Auth Routes - Full screen without navbar/footer */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+          {/* Dashboard Routes */}
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashOverview />} />
+            <Route path="products" element={<DashProducts />} />
+            <Route path="orders" element={<DashOrders />} />
+            <Route path="users" element={<DashUsers />} />
+            <Route path="settings" element={<DashSettings />} />
+          </Route>
+
+          {/* Main App Routes - With navbar/footer */}
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/whats-new" element={<WhatsNewPage />} />
@@ -89,10 +103,6 @@ function App() {
             <Route path="/product/:slug" element={<ProductPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
-
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/about-us" element={<AboutUsPage />} />
@@ -110,14 +120,6 @@ function App() {
 
             <Route path="*" element={<NotFound />} />
           </Route>
-
-          {/* <Route path="/dashboard" element={<RequireAuth><DashboardLayout /></RequireAuth>}>
-            <Route index element={<DashboardHome />} />
-            <Route path="orders" element={<OrdersPage />} />
-            <Route path="orders/:id" element={<OrderDetailPage />} />
-            <Route path="addresses" element={<AddressesPage />} />
-            <Route path="wishlist" element={<WishlistPage />} />
-          </Route> */}
         </Routes>
       </BrowserRouter>
     </AppProviders>

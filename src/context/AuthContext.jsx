@@ -45,6 +45,7 @@ export function AuthProvider({ children }) {
   const value = useMemo(
     () => ({
       user: session?.user ?? null,
+      role: session?.user?.role ?? null,
       token: session?.token ?? null,
       loading,
       isAuthenticated: Boolean(session?.token),
