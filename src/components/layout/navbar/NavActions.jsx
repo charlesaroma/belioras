@@ -18,7 +18,7 @@ export default function NavActions({ onCartOpen }) {
   const { currency, setCurrency } = useCurrency();
   const { count } = useCart();
   const { has, count: wishlistCount } = useWishlist();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [currencyOpen, setCurrencyOpen] = useState(false);
 
   const active = CURRENCIES.find((c) => c.code === currency) ?? CURRENCIES[0];
@@ -98,13 +98,36 @@ export default function NavActions({ onCartOpen }) {
       </button>
 
       {user ? (
-        <span
-          className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-sm', 'font-semibold', 'text-espresso')}
-          title={user.name ?? user.email}
-          aria-label={`Signed in as ${user.name ?? user.email}`}
-        >
-          {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
-        </span>
+        <div className="relative group flex items-center justify-center">
+          <button
+            type="button"
+            className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-sm', 'font-semibold', 'text-espresso', 'transition-opacity', 'hover:opacity-80')}
+            aria-haspopup="menu"
+          >
+            {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
+          </button>
+          
+          <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div className="w-48 bg-ivory-50 rounded-2xl shadow-large border border-umber-50 overflow-hidden py-2">
+              <div className="px-4 py-2 border-b border-umber-50/60">
+                <p className="text-sm font-semibold text-espresso truncate">{user.name}</p>
+                <p className="text-[10px] text-espresso/60 truncate">{user.email}</p>
+              </div>
+              <Link to="/account" className="block px-4 py-2 text-sm text-espresso hover:bg-brown-50 hover:text-gold-700 transition-colors">
+                My Account
+              </Link>
+              <button 
+                type="button"
+                className="w-full text-left px-4 py-2 text-sm text-espresso hover:bg-brown-50 hover:text-gold-700 transition-colors"
+                onClick={() => {
+                  if (typeof logout === 'function') logout();
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
       ) : (
         <Link
           to="/login"
