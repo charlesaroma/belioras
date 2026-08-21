@@ -15,7 +15,7 @@ export default function BrandStorySection() {
       <div className="container-main grid items-center gap-12 py-section-mobile md:grid-cols-2 md:py-section-desktop">
         <div className="order-2 md:order-1">
           <img
-            src="https://images.unsplash.com/photo-1550614000-4b95d415d183?q=80&w=1000&auto=format&fit=crop"
+            src="https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg"
             alt={story.imageAlt ?? "Inside the Belioras atelier"}
             loading="lazy"
             className="w-full rounded-lg border border-gold-700/20"

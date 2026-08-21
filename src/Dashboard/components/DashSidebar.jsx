@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Package, 
+  LayoutGrid,
   ShoppingCart, 
   Users, 
   Settings, 
@@ -13,6 +14,7 @@ import { DASHBOARD_NAV_ITEMS } from "../lib/constants";
 const iconMap = {
   LayoutDashboard,
   Package,
+  LayoutGrid,
   ShoppingCart,
   Users,
   Settings,
@@ -20,7 +22,8 @@ const iconMap = {
 
 export default function DashSidebar({ isOpen, onClose }) {
   const location = useLocation();
-  const currentPage = location.pathname.split('/').pop() || 'overview';
+  const pathSegments = location.pathname.split('/');
+  const currentPage = pathSegments[pathSegments.length - 1] === 'dashboard' ? 'overview' : pathSegments[pathSegments.length - 1] || 'overview';
 
   return (
     <>
@@ -56,11 +59,12 @@ export default function DashSidebar({ isOpen, onClose }) {
         <nav className="px-4 py-6 space-y-1">
           {DASHBOARD_NAV_ITEMS.map((item) => {
             const Icon = iconMap[item.icon];
-            const isActive = currentPage === item.id;
+            const to = item.id === 'overview' ? '/dashboard' : `/dashboard/${item.id}`;
+            const isActive = location.pathname === to || (item.id !== 'overview' && location.pathname === `/dashboard/${item.id}`);
             return (
               <Link
                 key={item.id}
-                to={`/dashboard/${item.id}`}
+                to={to}
                 onClick={onClose}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive

@@ -15,6 +15,7 @@ export default function DashboardLayout() {
     const titles = {
       overview: "Overview",
       products: "Products",
+      categories: "Categories",
       orders: "Orders",
       users: "Users",
       settings: "Settings",

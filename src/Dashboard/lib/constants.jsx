@@ -1,6 +1,7 @@
 export const DASHBOARD_NAV_ITEMS = [
   { id: 'overview', label: 'Overview', icon: 'LayoutDashboard' },
   { id: 'products', label: 'Products', icon: 'Package' },
+  { id: 'categories', label: 'Categories', icon: 'LayoutGrid' },
   { id: 'orders', label: 'Orders', icon: 'ShoppingCart' },
   { id: 'users', label: 'Users', icon: 'Users' },
   { id: 'settings', label: 'Settings', icon: 'Settings' },

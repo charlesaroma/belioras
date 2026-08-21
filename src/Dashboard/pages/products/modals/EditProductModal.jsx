@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Upload } from "lucide-react";
+import { X, Plus, X as XIcon } from "lucide-react";
 
 export default function EditProductModal({ open, onClose, product, onUpdate }) {
   const [formData, setFormData] = useState({
@@ -11,19 +11,24 @@ export default function EditProductModal({ open, onClose, product, onUpdate }) {
     status: "active",
     description: "",
   });
+  const [colors, setColors] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [newColor, setNewColor] = useState("");
+  const [newSize, setNewSize] = useState("");
 
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        name: product.name,
-        category: product.category,
-        price: product.price.replace("$", ""),
-        stock: product.stock,
-        status: product.status,
-        description: product.description || "",
-      });
-    }
-  }, [product]);
+  // Reset form when product changes
+  if (product && formData.name !== product.name) {
+    setFormData({
+      name: product.name,
+      category: product.category,
+      price: product.price.replace("$", ""),
+      stock: product.stock,
+      status: product.status,
+      description: product.description || "",
+    });
+    setColors(product.colors || []);
+    setSizes(product.sizes || []);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,9 +37,33 @@ export default function EditProductModal({ open, onClose, product, onUpdate }) {
       ...formData,
       price: `$${parseFloat(formData.price).toFixed(2)}`,
       stock: parseInt(formData.stock),
+      colors,
+      sizes,
     };
     onUpdate(updatedProduct);
     onClose();
+  };
+
+  const addColor = () => {
+    if (newColor.trim()) {
+      setColors([...colors, newColor.trim()]);
+      setNewColor("");
+    }
+  };
+
+  const removeColor = (index) => {
+    setColors(colors.filter((_, i) => i !== index));
+  };
+
+  const addSize = () => {
+    if (newSize.trim()) {
+      setSizes([...sizes, newSize.trim()]);
+      setNewSize("");
+    }
+  };
+
+  const removeSize = (index) => {
+    setSizes(sizes.filter((_, i) => i !== index));
   };
 
   return (
@@ -160,6 +189,88 @@ export default function EditProductModal({ open, onClose, product, onUpdate }) {
                   className="w-full px-4 py-2.5 rounded-lg border border-umber-50 focus:border-gold-500 focus:outline-none text-sm resize-none"
                   placeholder="Enter product description"
                 />
+              </div>
+
+              {/* Colors */}
+              <div>
+                <label className="block text-sm font-medium text-espresso mb-2">Colors</label>
+                <div className="flex gap-2 mb-2">
+                  <input
+                    type="text"
+                    value={newColor}
+                    onChange={(e) => setNewColor(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addColor())}
+                    className="flex-1 px-4 py-2 rounded-lg border border-umber-50 focus:border-gold-500 focus:outline-none text-sm"
+                    placeholder="Add color (e.g., Red, Blue)"
+                  />
+                  <button
+                    type="button"
+                    onClick={addColor}
+                    className="px-4 py-2 rounded-lg bg-espresso text-ivory-50 text-sm hover:bg-espresso/80 transition-colors"
+                  >
+                    <Plus className="size-4" />
+                  </button>
+                </div>
+                {colors.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {colors.map((color, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-umber-50 text-sm text-espresso"
+                      >
+                        {color}
+                        <button
+                          type="button"
+                          onClick={() => removeColor(index)}
+                          className="hover:text-rose-600 transition-colors"
+                        >
+                          <XIcon className="size-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Sizes */}
+              <div>
+                <label className="block text-sm font-medium text-espresso mb-2">Sizes</label>
+                <div className="flex gap-2 mb-2">
+                  <input
+                    type="text"
+                    value={newSize}
+                    onChange={(e) => setNewSize(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSize())}
+                    className="flex-1 px-4 py-2 rounded-lg border border-umber-50 focus:border-gold-500 focus:outline-none text-sm"
+                    placeholder="Add size (e.g., S, M, L)"
+                  />
+                  <button
+                    type="button"
+                    onClick={addSize}
+                    className="px-4 py-2 rounded-lg bg-espresso text-ivory-50 text-sm hover:bg-espresso/80 transition-colors"
+                  >
+                    <Plus className="size-4" />
+                  </button>
+                </div>
+                {sizes.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {sizes.map((size, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-umber-50 text-sm text-espresso"
+                      >
+                        {size}
+                        <button
+                          type="button"
+                          onClick={() => removeSize(index)}
+                          className="hover:text-rose-600 transition-colors"
+                        >
+                          <XIcon className="size-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Actions */}

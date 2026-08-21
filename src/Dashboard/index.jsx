@@ -1,6 +1,7 @@
 export { default as DashboardLayout } from "./DashboardLayout";
 export { default as DashOverview } from "./pages/DashOverview";
 export { default as DashProducts } from "./pages/DashProducts";
+export { default as DashCategories } from "./pages/DashCategories";
 export { default as DashOrders } from "./pages/DashOrders";
 export { default as DashUsers } from "./pages/DashUsers";
 export { default as DashSettings } from "./pages/DashSettings";

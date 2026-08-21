@@ -39,7 +39,7 @@ import ShippingPolicyPage from "./pages/legal/shipping-policy";
 import ReturnAndRefundPolicyPage from "./pages/legal/return-and-refund-policy";
 import CookiePolicyPage from "./pages/legal/cookie-policy";
 
-import { DashboardLayout, DashOverview, DashProducts, DashOrders, DashUsers, DashSettings } from "./Dashboard";
+import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
 
 function AppProviders({ children }) {
   return (
@@ -89,6 +89,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashOverview />} />
             <Route path="products" element={<DashProducts />} />
+            <Route path="categories" element={<DashCategories />} />
             <Route path="orders" element={<DashOrders />} />
             <Route path="users" element={<DashUsers />} />
             <Route path="settings" element={<DashSettings />} />
