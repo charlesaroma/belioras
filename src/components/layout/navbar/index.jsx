@@ -12,18 +12,24 @@ import NavLinks from "./NavLinks";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "./CartDrawer";
-import { Menu } from "lucide-react";
+import { Menu, Search, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../../context/CartContext";
 
 export default function Navbar() {
   const { data: categories } = useAsyncData(getCategories, []);
   const { data: products } = useAsyncData(getProducts, []);
+  const { count } = useCart();
 
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [menuId, setMenuId] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileQuery, setMobileQuery] = useState("");
   const closeTimer = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,6 +59,7 @@ export default function Navbar() {
       setMenuId(null);
       setCartOpen(false);
       setMobileOpen(false);
+      setMobileSearchOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
@@ -70,27 +77,29 @@ export default function Navbar() {
 
   const activeCategory = categories?.find((c) => c.id === menuId);
 
+  function onMobileSearchSubmit(e) {
+    e.preventDefault();
+    const q = mobileQuery.trim();
+    if (!q) return;
+    setMobileSearchOpen(false);
+    setMobileQuery("");
+    navigate(`/search?q=${encodeURIComponent(q)}`);
+  }
+
   return (
     <header className={cn('fixed', 'inset-x-0', 'top-0', 'z-50', 'w-full')}>
       <AnnouncementBar />
 
-      <div 
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+      <div
+        className={`transition-all duration-300 ${
           isScrolled || menuId || mobileOpen || cartOpen
-            ? "bg-ivory-50/90 backdrop-blur text-espresso" 
+            ? "bg-ivory-50/95 backdrop-blur text-espresso shadow-sm"
             : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
         }`}
       >
-        <div className="w-full px-8 md:px-12 xl:px-24 grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-8 lg:gap-12 py-3">
-          <div className={cn('flex', 'items-center', 'gap-3', 'lg:justify-start')}>
-            <button
-              type="button"
-              className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70', 'lg:hidden')}
-              aria-label="Open menu"
-              onClick={() => setMobileOpen(true)}
-            >
-              <Menu className="size-5" aria-hidden="true" />
-            </button>
+        {/* ── Desktop navbar ── */}
+        <div className="hidden lg:grid w-full px-8 xl:px-16 2xl:px-24 grid-cols-[1fr_auto_1fr] items-center gap-8 xl:gap-12 py-3">
+          <div className="flex items-center gap-3">
             <NavLinks
               links={categories}
               menuId={menuId}
@@ -102,25 +111,90 @@ export default function Navbar() {
 
           <Logo isScrolled={isScrolled} />
 
-          <div className={cn('flex', 'items-center', 'justify-end', 'gap-6')}>
+          <div className="flex items-center justify-end gap-4">
             <SearchBar />
             <NavActions onCartOpen={() => setCartOpen(true)} />
           </div>
         </div>
 
+        {/* ── Mobile / Tablet navbar ── */}
+        <div className="lg:hidden w-full px-4 sm:px-6 grid grid-cols-[auto_1fr_auto] items-center py-3 gap-2">
+          {/* Left: Burger */}
+          <button
+            type="button"
+            className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+            aria-label="Open menu"
+            onClick={() => setMobileOpen(true)}
+          >
+            <Menu className="size-5" aria-hidden="true" />
+          </button>
+
+          {/* Center: Logo */}
+          <div className="flex justify-center">
+            <Logo isScrolled={isScrolled} />
+          </div>
+
+          {/* Right: Search + Cart */}
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+              aria-label="Search"
+              onClick={() => setMobileSearchOpen((v) => !v)}
+            >
+              <Search className="size-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+              aria-label={`Open cart, ${count} items`}
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingBag className="size-5" aria-hidden="true" />
+              {count > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-gold-500 text-[10px] font-semibold text-espresso">
+                  {count}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* ── Mobile Search Bar (slide-down) ── */}
+        {mobileSearchOpen && (
+          <form
+            onSubmit={onMobileSearchSubmit}
+            className="lg:hidden px-4 sm:px-6 pb-3 border-t border-current/10"
+          >
+            <div className="relative mt-2">
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-current opacity-50" aria-hidden="true" />
+              <input
+                type="search"
+                value={mobileQuery}
+                onChange={(e) => setMobileQuery(e.target.value)}
+                placeholder="Search Belioras..."
+                autoFocus
+                className="h-10 w-full rounded-full border border-current/20 bg-ivory-50/10 pl-10 pr-4 text-sm text-current placeholder-current/50 focus:outline-none focus:border-current/40 backdrop-blur"
+              />
+            </div>
+          </form>
+        )}
+
+        {/* ── Mega Menu (desktop only, flush against navbar) ── */}
         <MegaMenu
           category={activeCategory}
           products={products}
           onMouseEnter={cancelCloseMenu}
           onMouseLeave={scheduleCloseMenu}
         />
-
-        <MobileMenu
-          open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
-          categories={categories}
-        />
       </div>
+
+      {/* ── Mobile Drawer ── */}
+      <MobileMenu
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        categories={categories}
+      />
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </header>
