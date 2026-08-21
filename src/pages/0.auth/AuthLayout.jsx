@@ -70,12 +70,6 @@ export default function AuthLayout({ initialMode = "login" }) {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
 
-  if (isAuthenticated) {
-    const redirectPath = user?.role === "admin" ? "/dashboard" : "/account";
-    navigate(redirectPath, { replace: true });
-    return null;
-  }
-
   const validateLogin = () => {
     const next = {};
     if (!loginEmail.trim()) next.email = "Email is required.";
@@ -101,8 +95,15 @@ export default function AuthLayout({ initialMode = "login" }) {
     if (Object.keys(errs).length) { setFormErrors(errs); return; }
     setError(null);
     try {
-      await login({ email: loginEmail.trim(), password: loginPassword });
+      const result = await login({ email: loginEmail.trim(), password: loginPassword });
       toast("Welcome back to Belioras", "success");
+      // Navigate after successful login based on user role
+      // Small delay to ensure context is updated
+      setTimeout(() => {
+        const isAdmin = result?.user?.role === "admin" || result?.user?.role === "super-admin" || result?.user?.role === "staff";
+        const redirectPath = isAdmin ? "/dashboard" : "/account";
+        navigate(redirectPath, { replace: true });
+      }, 100);
     } catch (err) {
       setError(err?.message ?? "Sign in failed. Please try again.");
     }
@@ -114,8 +115,15 @@ export default function AuthLayout({ initialMode = "login" }) {
     if (Object.keys(errs).length) { setFormErrors(errs); return; }
     setError(null);
     try {
-      await register({ name: signupName.trim(), email: signupEmail.trim(), password: signupPassword });
+      const result = await register({ name: signupName.trim(), email: signupEmail.trim(), password: signupPassword });
       toast("Welcome to Belioras", "success");
+      // Navigate after successful signup based on user role
+      // Small delay to ensure context is updated
+      setTimeout(() => {
+        const isAdmin = result?.user?.role === "admin" || result?.user?.role === "super-admin" || result?.user?.role === "staff";
+        const redirectPath = isAdmin ? "/dashboard" : "/account";
+        navigate(redirectPath, { replace: true });
+      }, 100);
     } catch (err) {
       setError(err?.message ?? "Registration failed. Please try again.");
     }
@@ -184,7 +192,7 @@ export default function AuthLayout({ initialMode = "login" }) {
               <motion.img
                 src="/belioras-logo.png"
                 alt="Belioras"
-                className="h-14 w-auto mb-6 mx-auto lg:mx-0"
+                className="h-20 w-auto mb-6 mx-auto lg:mx-0"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               />

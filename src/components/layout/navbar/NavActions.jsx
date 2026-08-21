@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 import { ChevronDown, Heart, ShoppingBag, User } from "lucide-react";
 
 import { useCurrency } from "../../../context/CurrencyContext";
@@ -28,7 +29,7 @@ export default function NavActions({ onCartOpen }) {
       <div className="relative">
         <button
           type="button"
-          className={cn('flex', 'h-10', 'items-center', 'gap-1.5', 'rounded-full', 'px-3', 'text-sm', 'font-medium', 'text-current', 'transition-opacity', 'hover:opacity-70')}
+          className={cn('flex', 'h-10', 'items-center', 'gap-1.5', 'rounded-full', 'px-3', 'text-sm', 'font-medium', 'text-current', 'transition-opacity', 'hover:opacity-70', 'cursor-pointer')}
           aria-haspopup="listbox"
           aria-expanded={currencyOpen}
           aria-label={`Currency: ${active.code}`}
@@ -82,7 +83,7 @@ export default function NavActions({ onCartOpen }) {
 
       <Link
         to="/wishlist"
-        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-all', 'hover:scale-110', 'hover:text-gold-700')}
+        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-all', 'hover:scale-110', 'hover:text-gold-700', 'cursor-pointer')}
         aria-label={`Wishlist, ${wishlistCount} items`}
         title="Wishlist"
       >
@@ -101,7 +102,7 @@ export default function NavActions({ onCartOpen }) {
         <div className="relative group flex items-center justify-center">
           <button
             type="button"
-            className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-sm', 'font-semibold', 'text-espresso', 'transition-opacity', 'hover:opacity-80')}
+            className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-sm', 'font-semibold', 'text-espresso', 'transition-opacity', 'hover:opacity-80', 'cursor-pointer')}
             aria-haspopup="menu"
           >
             {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
@@ -131,7 +132,7 @@ export default function NavActions({ onCartOpen }) {
       ) : (
         <Link
           to="/login"
-          className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70')}
+          className={cn('flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70', 'cursor-pointer')}
           aria-label="Sign in"
         >
           <User className="size-5" aria-hidden="true" />
@@ -140,15 +141,20 @@ export default function NavActions({ onCartOpen }) {
 
       <button
         type="button"
-        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-opacity', 'hover:opacity-70')}
+        className={cn('relative', 'flex', 'size-10', 'items-center', 'justify-center', 'rounded-full', 'text-current', 'transition-all', 'hover:scale-110', 'hover:text-gold-700', 'cursor-pointer')}
         aria-label={`Open cart, ${count} items`}
         onClick={onCartOpen}
       >
         <ShoppingBag className="size-5" aria-hidden="true" />
         {count > 0 && (
-          <span className={cn('absolute', '-right-0.5', '-top-0.5', 'flex', 'size-4', 'items-center', 'justify-center', 'rounded-full', 'bg-espresso', 'text-[10px]', 'font-semibold', 'text-champagne-500')}>
+          <motion.span
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            key={count}
+            className={cn('absolute', '-right-0.5', '-top-0.5', 'flex', 'size-4', 'items-center', 'justify-center', 'rounded-full', 'bg-gold-500', 'text-[10px]', 'font-semibold', 'text-espresso')}
+          >
             {count}
-          </span>
+          </motion.span>
         )}
       </button>
     </div>

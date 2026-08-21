@@ -27,7 +27,6 @@ export default function DashboardLayout() {
       <DashSidebar 
         isOpen={sidebarOpen} 
         onClose={() => setSidebarOpen(false)}
-        currentPage={currentPage}
       />
       
       <div className="min-h-screen flex flex-col">

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Package, 
@@ -18,7 +18,9 @@ const iconMap = {
   Settings,
 };
 
-export default function DashSidebar({ isOpen, onClose, currentPage }) {
+export default function DashSidebar({ isOpen, onClose }) {
+  const location = useLocation();
+  const currentPage = location.pathname.split('/').pop() || 'overview';
 
   return (
     <>
@@ -32,14 +34,14 @@ export default function DashSidebar({ isOpen, onClose, currentPage }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-espresso text-ivory-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#1a1a1a] text-ivory-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-espresso/20">
+        <div className="flex items-center justify-between px-6 py-6 border-b border-white/10">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/belioras-logo.png" alt="Belioras" className="h-8 w-auto" />
+            <img src="/belioras-logo.png" alt="Belioras" className="h-12 w-auto" />
           </Link>
           <button
             type="button"
@@ -60,10 +62,10 @@ export default function DashSidebar({ isOpen, onClose, currentPage }) {
                 key={item.id}
                 to={`/dashboard/${item.id}`}
                 onClick={onClose}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? "bg-gold-500 text-espresso"
-                    : "text-ivory-50/70 hover:bg-espresso/20 hover:text-ivory-50"
+                    ? "bg-gold-500 text-espresso shadow-lg shadow-gold-500/20"
+                    : "text-ivory-50/70 hover:bg-white/10 hover:text-ivory-50"
                 }`}
               >
                 <Icon className="size-5" />
@@ -74,7 +76,7 @@ export default function DashSidebar({ isOpen, onClose, currentPage }) {
         </nav>
 
         {/* User Section */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-espresso/20">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
           <div className="flex items-center gap-3 mb-4">
             <div className="size-10 rounded-full bg-gold-500 flex items-center justify-center text-espresso font-semibold">
               A
@@ -86,7 +88,7 @@ export default function DashSidebar({ isOpen, onClose, currentPage }) {
           </div>
           <button
             type="button"
-            className="flex items-center gap-2 w-full px-4 py-2 rounded-lg text-sm font-medium text-ivory-50/70 hover:bg-espresso/20 hover:text-ivory-50 transition-colors"
+            className="flex items-center gap-2 w-full px-4 py-2 rounded-lg text-sm font-medium text-ivory-50/70 hover:bg-white/10 hover:text-ivory-50 transition-colors"
           >
             <LogOut className="size-4" />
             Sign Out

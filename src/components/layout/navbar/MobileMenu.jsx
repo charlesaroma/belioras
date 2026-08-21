@@ -242,10 +242,10 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen }) {
                   }}
                   className="flex items-center gap-3 group flex-1"
                 >
-                  <span className="flex size-8 items-center justify-center rounded-full border border-umber-50 text-espresso/60 group-hover:border-gold-500 group-hover:text-gold-600 transition-colors shrink-0 relative">
-                    <ShoppingBag className="size-4" aria-hidden="true" />
+                  <span className="flex size-10 items-center justify-center rounded-full bg-espresso text-ivory-50 relative shadow-sm hover:bg-gold-700 transition-colors">
+                    <ShoppingBag className="size-5" aria-hidden="true" />
                     {cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-espresso text-[10px] font-semibold text-ivory-50">
+                      <span className="absolute -top-1 -right-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-gold-500 text-[11px] font-bold text-espresso px-1.5">
                         {cartCount}
                       </span>
                     )}

@@ -13,7 +13,7 @@ const collections = [
     slug: "hair",
     name: "Hair",
     tagline: "Ethically sourced, 100% Remy",
-    image: "https://images.unsplash.com/photo-1596215143922-eedece089622?q=80&w=1000&auto=format&fit=crop",
+    image: "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg",
   },
   {
     id: "accessories",
