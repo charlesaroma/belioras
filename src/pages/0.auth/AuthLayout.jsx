@@ -188,15 +188,6 @@ export default function AuthLayout({ initialMode = "login" }) {
           className="w-full max-w-sm"
         >
           <div className="mb-10 text-center lg:text-left">
-            <Link to="/" className="cursor-pointer inline-block">
-              <motion.img
-                src="/belioras-logo.png"
-                alt="Belioras"
-                className="h-20 w-auto mb-6 mx-auto lg:mx-0"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-              />
-            </Link>
             <AnimatePresence mode="wait">
               <motion.h1
                 key={mode}

@@ -95,9 +95,6 @@ export default function ForgotPasswordPage() {
           className="w-full max-w-sm"
         >
           <div className="mb-10 text-center lg:text-left">
-            <Link to="/" className="cursor-pointer inline-block">
-              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-6 mx-auto lg:mx-0" />
-            </Link>
             <h1 id="forgot-title" className="font-display text-3xl lg:text-4xl text-espresso mb-3">
               {sent ? "Check your inbox" : "Reset password"}
             </h1>

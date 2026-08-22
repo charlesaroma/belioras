@@ -156,9 +156,6 @@ export default function Footer() {
         <div className="md:hidden space-y-0">
           {/* Brand Section */}
           <div className="border-b border-espresso/10 pb-6 mb-6">
-            <Link to="/" className="inline-block">
-              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-4" />
-            </Link>
             <p className="mt-4 text-sm leading-relaxed text-espresso/70">
               Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
               leather goods that only get better with age.
@@ -266,9 +263,6 @@ export default function Footer() {
         {/* Desktop: Grid Layout */}
         <div className="hidden md:grid gap-12 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr] lg:gap-8">
           <div>
-            <Link to="/" className="inline-block">
-              <img src="/belioras-logo.png" alt="Belioras" className="h-10 w-auto mb-4" />
-            </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-espresso/70">
               Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
               leather goods that only get better with age.
