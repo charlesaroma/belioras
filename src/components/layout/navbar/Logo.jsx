@@ -12,7 +12,7 @@ export default function Logo({ isScrolled, menuOpen }) {
         alt="Belioras"
         width={600}
         height={400}
-        className="h-14 w-auto sm:h-16 transition-all duration-300"
+        className="h-16 w-auto sm:h-20 transition-all duration-300"
       />
     </Link>
   );
