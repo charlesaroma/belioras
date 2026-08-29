@@ -111,6 +111,12 @@
   }
 }
 
+/* AnnouncementBar ticker — content is duplicated once, so -50% loops seamlessly */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* ---------- Base layer ---------- */
 @layer base {
   body {
