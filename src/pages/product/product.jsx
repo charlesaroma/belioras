@@ -9,7 +9,6 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
-import { formatCurrency, convertAmount } from "../../utils/formatCurrency";
 
 function Accordion({ title, children, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -51,7 +50,7 @@ export default function ProductPage() {
   
   const { addItem } = useCart();
   const { has, toggle } = useWishlist();
-  const { currency } = useCurrency();
+  const { format } = useCurrency();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -90,9 +89,9 @@ export default function ProductPage() {
     );
   }
 
-  const priceFormatted = formatCurrency(convertAmount(product.price, "EUR", currency), currency);
+  const priceFormatted = format(product.price);
   const originalPriceFormatted = product.originalPrice 
-    ? formatCurrency(convertAmount(product.originalPrice, "EUR", currency), currency)
+    ? format(product.originalPrice)
     : null;
     
   const isWishlisted = has(product.id);
@@ -365,7 +364,7 @@ export default function ProductPage() {
                       />
                     </div>
                     <h3 className="text-sm font-medium text-espresso group-hover:text-gold-700 transition-colors truncate">{p.name}</h3>
-                    <p className="text-sm text-espresso/60 mt-1">{formatCurrency(convertAmount(p.price, "EUR", currency), currency)}</p>
+                    <p className="text-sm text-espresso/60 mt-1">{format(p.price)}</p>
                   </Link>
                 ))}
             </div>

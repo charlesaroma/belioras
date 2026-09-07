@@ -5,7 +5,8 @@ import { ChevronDown } from "lucide-react";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useToast } from "../../context/ToastContext";
 import { getSettings } from "../../services/settingsApi";
-import { getCategories } from "../../services/categoriesApi";
+import { getNavigation } from "../../services/navigationApi";
+import PaymentMarks from "../shared/PaymentMarks";
 
 const CUSTOMER_SUPPORT_LINKS = [
   { label: "FAQ", to: "/faq" },
@@ -27,7 +28,6 @@ const LEGAL_LINKS = [
   { label: "Cookie Policy", to: "/cookie-policy" },
 ];
 
-const PAYMENTS = ["Visa", "Mastercard", "Amex", "PayPal", "Apple Pay", "Klarna"];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -82,7 +82,14 @@ function CollapsibleSection({ title, children, defaultOpen = false }) {
   );
 }
 
-function Newsletter({ showTitle = true }) {
+/**
+ * Newsletter signup.
+ *
+ * A dedicated section rather than a popup — the review ruled out interruptions
+ * entirely. `band` renders it as the full-width espresso strip that opens the
+ * footer; the plain form is still available for narrower contexts.
+ */
+function Newsletter({ showTitle = true, band = false }) {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -98,13 +105,27 @@ function Newsletter({ showTitle = true }) {
     toast("Thanks for subscribing to Belioras — your 10% welcome code is on its way.", "success");
   };
 
-  return (
-    <div>
-      {showTitle && <ColumnTitle>Newsletter</ColumnTitle>}
-      <p className="mt-4 text-sm leading-relaxed text-espresso/70">
-        Seasonal edits, private sales and styling notes. No noise.
-      </p>
-      <form className="mt-5 flex gap-2" onSubmit={handleSubmit} noValidate>
+  const body = (
+    <div className={band ? "mx-auto max-w-xl text-center" : ""}>
+      {band ? (
+        <>
+          <p className="eyebrow !text-gold-400">The Belioras Letter</p>
+          <h2 className="mt-2 font-display text-3xl text-ivory-50">
+            Collection previews, atelier stories and private sales
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-ivory-50/60">
+            Once a month, never more.
+          </p>
+        </>
+      ) : (
+        <>
+          {showTitle && <ColumnTitle>Newsletter</ColumnTitle>}
+          <p className="mt-4 text-sm leading-relaxed text-espresso/70">
+            Seasonal edits, private sales and styling notes. No noise.
+          </p>
+        </>
+      )}
+      <form className="mt-6 flex gap-2" onSubmit={handleSubmit} noValidate>
         <label className="sr-only" htmlFor="footer-newsletter-email">
           Email address
         </label>
@@ -112,14 +133,22 @@ function Newsletter({ showTitle = true }) {
           id="footer-newsletter-email"
           type="email"
           autoComplete="email"
-          className="min-w-0 flex-1 border-b border-espresso/20 bg-transparent px-2 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-gold-700 focus:outline-none transition-colors"
+          className={
+            band
+              ? "min-w-0 flex-1 border-b border-ivory-50/25 bg-transparent px-2 py-3 text-sm text-ivory-50 placeholder:text-ivory-50/40 focus:border-gold-400 focus:outline-none transition-colors"
+              : "min-w-0 flex-1 border-b border-espresso/20 bg-transparent px-2 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-gold-700 focus:outline-none transition-colors"
+          }
           placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <button
           type="submit"
-          className="inline-flex items-center gap-2 border-b border-espresso/20 px-2 text-xs font-semibold uppercase tracking-[0.2em] text-espresso/80 transition-colors hover:border-gold-700 hover:text-gold-700"
+          className={
+            band
+              ? "inline-flex items-center gap-2 border-b border-ivory-50/25 px-2 text-xs font-semibold uppercase tracking-[0.2em] text-ivory-50/90 transition-colors hover:border-gold-400 hover:text-gold-400"
+              : "inline-flex items-center gap-2 border-b border-espresso/20 px-2 text-xs font-semibold uppercase tracking-[0.2em] text-espresso/80 transition-colors hover:border-gold-700 hover:text-gold-700"
+          }
           aria-label="Subscribe to newsletter"
         >
           Subscribe
@@ -130,9 +159,9 @@ function Newsletter({ showTitle = true }) {
           {error}
         </p>
       ) : (
-        <p className="mt-3 text-xs leading-relaxed text-espresso/60">
+        <p className={band ? "mt-3 text-xs leading-relaxed text-ivory-50/50" : "mt-3 text-xs leading-relaxed text-espresso/60"}>
           By subscribing you agree to our{" "}
-          <Link to="/privacy-policy" className="underline decoration-gold-700 underline-offset-2 hover:text-espresso">
+          <Link to="/privacy-policy" className="underline decoration-gold-500 underline-offset-2">
             privacy policy
           </Link>
           . Unsubscribe anytime.
@@ -140,17 +169,31 @@ function Newsletter({ showTitle = true }) {
       )}
     </div>
   );
+
+  if (!band) return body;
+
+  return (
+    <section
+      className="bg-espresso px-4 py-14 sm:px-6 md:py-16"
+      aria-labelledby="newsletter-heading"
+    >
+      {body}
+    </section>
+  );
 }
 
 export default function Footer() {
   const { data: settings } = useAsyncData(getSettings, []);
-  const { data: categories } = useAsyncData(getCategories, []);
+  const { data: categories } = useAsyncData(getNavigation, []);
 
   const social = settings?.social ?? {};
   const gpsr = settings?.gpsr;
 
   return (
     <footer className="bg-ivory-50 text-espresso">
+      {/* Dedicated signup section — never a popup. */}
+      <Newsletter band />
+
       <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 py-12 md:py-16">
         {/* Mobile: Stacked with collapsible sections */}
         <div className="md:hidden space-y-0">
@@ -252,16 +295,10 @@ export default function Footer() {
             </ul>
           </CollapsibleSection>
 
-          {/* Newsletter - Mobile */}
-          <CollapsibleSection title="Newsletter" defaultOpen={false}>
-            <div className="-mx-4 px-4">
-              <Newsletter showTitle={false} />
-            </div>
-          </CollapsibleSection>
         </div>
 
         {/* Desktop: Grid Layout */}
-        <div className="hidden md:grid gap-12 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr] lg:gap-8">
+        <div className="hidden md:grid gap-12 lg:grid-cols-[1.6fr_1fr_1fr_1fr] lg:gap-8">
           <div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-espresso/70">
               Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and
@@ -364,23 +401,13 @@ export default function Footer() {
             </nav>
           </div>
 
-          <Newsletter />
         </div>
       </div>
 
       <div className="border-t border-espresso/10">
         <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 flex flex-col gap-4 py-8 text-xs text-espresso/60 md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Belioras Maison Ltd. All rights reserved.</p>
-          <ul className="flex flex-wrap gap-2 justify-center md:justify-start" aria-label="Accepted payment methods">
-            {PAYMENTS.map((method, index) => (
-              <li
-                key={method}
-                className={`rounded border border-espresso/20 px-2.5 py-1 uppercase tracking-wider text-espresso/70 ${index >= 4 ? 'hidden md:block' : ''}`}
-              >
-                {method}
-              </li>
-            ))}
-          </ul>
+          <p>© {new Date().getFullYear()} Belioras Maison Lda. All rights reserved.</p>
+          <PaymentMarks className="justify-center text-espresso/70 md:justify-start" />
           <p className="text-center md:text-right">{settings?.tax?.note ?? "All prices include 20% VAT."}</p>
         </div>
       </div>

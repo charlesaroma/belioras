@@ -1,4 +1,5 @@
 {
+  "rev": 1,
   "shipping": {
     "zones": [
       { "id": "eu", "label": "European Union", "flat": 5.9, "freeThreshold": 150 },
@@ -20,7 +21,7 @@
     "button": "I understand"
   },
   "gpsr": {
-    "manufacturer": "Belioras Maison Ltd.",
+    "manufacturer": "Belioras Maison Lda.",
     "address": "Rua Augusta 118, 1100-053 Lisboa, Portugal",
     "email": "compliance@belioras.com",
     "note": "For product safety or conformity enquiries, contact our GPSR responsible person."

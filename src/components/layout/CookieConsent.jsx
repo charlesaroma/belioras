@@ -1,64 +1,96 @@
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useAsyncData } from "../../hooks/useAsyncData";
+import { useLanguage } from "../../context/LanguageContext";
 import { getSettings } from "../../services/settingsApi";
 
 const ACCEPTED = "accepted";
 const REJECTED = "rejected";
 
+/**
+ * Cookie notice.
+ *
+ * The only uninvited element left on the site — everything else the review
+ * classed as a popup has been removed. It stays because Belioras Maison Lda
+ * trades from Lisbon, so GDPR and ePrivacy apply and consent has to be
+ * collected before non-essential cookies are set.
+ *
+ * Consequently it is a bar, not a modal: role="region" rather than "dialog",
+ * no focus trap, and the page stays fully usable behind it.
+ *
+ * Two deliberate compliance choices:
+ *  - Escape no longer records a rejection. Consent captured from a stray
+ *    keypress is not consent, and silently storing one is worse than asking again.
+ *  - Reject carries the same visual weight as Accept. Nudging toward Accept
+ *    with a low-contrast decline link is the pattern EDPB guidance calls out.
+ */
 export default function CookieConsent() {
   const { data: settings } = useAsyncData(getSettings, []);
-  const [choice, setChoice] = useLocalStorage("belioras:cookies", null);
+  const { t } = useLanguage();
 
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === "Escape" && choice === null) setChoice(REJECTED);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [choice, setChoice]);
+  // Stored as an object so consent can be re-requested when the policy version
+  // changes, rather than a bare string that can never be invalidated.
+  const [consent, setConsent] = useLocalStorage("belioras:cookies", null);
 
-  const isVisible = choice === null && !!settings;
+  const policyVersion = settings?.cookieBanner?.policyVersion ?? 1;
+  const recorded = consent && typeof consent === "object" ? consent : null;
+  const needsChoice = !recorded || recorded.policyVersion !== policyVersion;
+
+  const decide = (choice) =>
+    setConsent({ choice, at: new Date().toISOString(), policyVersion });
+
+  const isVisible = needsChoice && !!settings;
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 50, scale: 0.95 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          role="dialog"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 24 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          role="region"
           aria-live="polite"
-          aria-label="Cookie notice"
-          className="fixed bottom-6 inset-x-0 z-[70] p-4 sm:p-6 flex justify-center pointer-events-none"
+          aria-label={t("cookies.label", "Cookie notice")}
+          className="fixed inset-x-0 bottom-0 z-[70] border-t border-gold-500/20 bg-espresso/95 backdrop-blur"
         >
-          <div className="pointer-events-auto flex w-full max-w-3xl flex-col md:flex-row items-center justify-between gap-6 bg-espresso/90 backdrop-blur-xl border border-ivory-50/10 shadow-2xl rounded-2xl p-6 sm:px-8">
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-sm font-semibold text-ivory-50 tracking-wide mb-1">
-                Your Privacy Matters
-              </h3>
-              <p className="text-xs text-ivory-50/70 leading-relaxed max-w-xl">
+          <div className="container-main flex flex-col items-center gap-5 px-4 py-5 sm:px-6 md:flex-row md:justify-between md:gap-8">
+            <div className="text-center md:text-left">
+              <h2 className="mb-1 text-sm font-semibold tracking-wide text-ivory-50">
+                {t("cookies.title", "Your privacy matters")}
+              </h2>
+              <p className="max-w-2xl text-xs leading-relaxed text-ivory-50/70">
                 {settings?.cookieBanner?.text ??
-                  "We use cookies to tailor your luxury shopping experience and analyze site traffic. By continuing, you agree to our privacy policy."}
+                  t(
+                    "cookies.text",
+                    "We use cookies to keep the experience smooth and to understand how visitors use the site.",
+                  )}{" "}
+                <Link
+                  to="/cookie-policy"
+                  className="underline decoration-gold-500 underline-offset-2 hover:text-ivory-50"
+                >
+                  {t("cookies.readPolicy", "Read our cookie policy")}
+                </Link>
+                .
               </p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <button 
-                type="button" 
-                className="text-[11px] font-medium uppercase tracking-widest text-ivory-50/60 hover:text-ivory-50 transition-colors px-4 py-2"
-                onClick={() => setChoice(REJECTED)}
+
+            <div className="flex shrink-0 items-center gap-3">
+              <button
+                type="button"
+                className="h-10 rounded-xl border border-ivory-50/40 px-6 text-[11px] font-bold uppercase tracking-widest text-ivory-50 transition-colors hover:bg-ivory-50/10"
+                onClick={() => decide(REJECTED)}
               >
-                Decline
+                {t("cookies.reject", "Reject")}
               </button>
               <button
                 type="button"
-                className="btn btn-sm bg-gold-500 text-espresso hover:bg-gold-400 border-transparent shadow-subtle hover:-translate-y-0.5 transition-all text-[11px] h-10 px-6 rounded-xl font-bold uppercase tracking-widest"
-                onClick={() => setChoice(ACCEPTED)}
+                className="h-10 rounded-xl bg-gold-500 px-6 text-[11px] font-bold uppercase tracking-widest text-espresso transition-colors hover:bg-gold-400"
+                onClick={() => decide(ACCEPTED)}
               >
-                Accept
+                {t("cookies.accept", "Accept")}
               </button>
             </div>
           </div>

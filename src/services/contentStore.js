@@ -1,0 +1,154 @@
+/**
+ * Content store — the persistence layer behind dashboard-editable content.
+ *
+ * Deliberately a plain module rather than a React context. Services read it
+ * synchronously via getState(); the storefront never imports it directly and
+ * never imports ContentContext. That keeps the swap to a real API contained to
+ * the service modules, and keeps content reads out of the React render path.
+ *
+ * Seeds live in src/data/*.json. Admin edits live in localStorage. The two are
+ * reconciled by the `rev` marker each seed file carries:
+ *
+ *   stored.rev !== seed.rev  →  the seed's shape changed under us; discard the
+ *                               stored copy wholesale rather than merging two
+ *                               incompatible structures.
+ *   stored.rev === seed.rev  →  merge per item id, so the seed supplies the
+ *                               canonical item list and any newly added fields
+ *                               while stored supplies the admin's edits.
+ */
+
+import navigationSeed from "../data/navigation.json";
+import taxonomySeed from "../data/taxonomy.json";
+import heroSeed from "../data/heroSlides.json";
+import instagramSeed from "../data/instagram.json";
+import settingsSeed from "../data/settings.json";
+
+const KEY_PREFIX = "belioras:content:";
+
+/**
+ * One localStorage key per domain rather than a single blob: a shape change in
+ * hero slides must not invalidate the navigation tree, and per-domain keys are
+ * far easier to inspect and clear while debugging.
+ *
+ * `collection` names the array that carries `id`-bearing items to merge. A
+ * domain without one (settings) is merged shallowly instead.
+ */
+const DOMAINS = {
+  navigation: { seed: navigationSeed, collection: "items" },
+  taxonomy: { seed: taxonomySeed, collection: null },
+  hero: { seed: heroSeed, collection: "slides" },
+  instagram: { seed: instagramSeed, collection: "posts" },
+  settings: { seed: settingsSeed, collection: null },
+};
+
+function storageKey(domain) {
+  return `${KEY_PREFIX}${domain}`;
+}
+
+function readStored(domain) {
+  try {
+    const raw = window.localStorage.getItem(storageKey(domain));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    // Private mode, disabled storage, or corrupt JSON — fall back to the seed.
+    return null;
+  }
+}
+
+function writeStored(domain, state) {
+  try {
+    window.localStorage.setItem(storageKey(domain), JSON.stringify(state));
+  } catch {
+    // Storage unavailable or over quota; the in-memory state is still correct
+    // for this session.
+  }
+}
+
+/**
+ * Merges a stored collection over its seed, keyed by `id`.
+ *
+ * Seed order wins, so reordering or adding items in a release reaches everyone.
+ * Stored fields win per item, so an admin's edits survive. Items the admin
+ * added (not present in the seed) are appended.
+ */
+export function hydrateCollection(seedItems = [], storedItems = [], key = "id") {
+  const storedById = new Map(storedItems.map((item) => [item[key], item]));
+
+  const merged = seedItems.map((seedItem) => {
+    const stored = storedById.get(seedItem[key]);
+    storedById.delete(seedItem[key]);
+    return stored ? { ...seedItem, ...stored } : seedItem;
+  });
+
+  return [...merged, ...storedById.values()];
+}
+
+function hydrate(domain) {
+  const { seed, collection } = DOMAINS[domain];
+  const stored = readStored(domain);
+
+  if (!stored || stored.rev !== seed.rev) return seed;
+
+  if (!collection) return { ...seed, ...stored, rev: seed.rev };
+
+  return {
+    ...seed,
+    ...stored,
+    rev: seed.rev,
+    [collection]: hydrateCollection(seed[collection], stored[collection]),
+  };
+}
+
+const state = {};
+let version = 0;
+const listeners = new Set();
+
+function ensure(domain) {
+  if (!(domain in state)) state[domain] = hydrate(domain);
+  return state[domain];
+}
+
+/** Synchronous read. Safe during first paint — returns the seed if nothing is stored. */
+export function getState(domain) {
+  if (!DOMAINS[domain]) throw new Error(`Unknown content domain: ${domain}`);
+  return ensure(domain);
+}
+
+/** Applies `updater` to a domain, persists the result, and notifies subscribers. */
+export function setState(domain, updater) {
+  const next = typeof updater === "function" ? updater(getState(domain)) : updater;
+  state[domain] = next;
+  writeStored(domain, next);
+  version += 1;
+  listeners.forEach((listener) => listener());
+  return next;
+}
+
+/** Drops admin edits for a domain and returns to the shipped seed. */
+export function resetDomain(domain) {
+  try {
+    window.localStorage.removeItem(storageKey(domain));
+  } catch {
+    // nothing to remove
+  }
+  delete state[domain];
+  version += 1;
+  listeners.forEach((listener) => listener());
+  return getState(domain);
+}
+
+export function subscribe(listener) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+/**
+ * Monotonic counter, not the content itself. Components pass this into
+ * useAsyncData's deps so a dashboard edit re-runs their service call — which
+ * keeps the coupling between storefront and content layer to a single number.
+ */
+export function getVersion() {
+  return version;
+}
+
+export const CONTENT_DOMAINS = Object.keys(DOMAINS);

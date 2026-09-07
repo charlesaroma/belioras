@@ -7,9 +7,12 @@
 */
 
 @theme {
-  /* ---------- Typography ---------- */
-  --font-display: "Didot", "Bodoni Moda", "Playfair Display", Georgia, serif;
-  --font-sans: "Helvetica Neue", Helvetica, Arial, "Inter", sans-serif;
+  /* ---------- Typography ----------
+     Webfonts are loaded from index.html. "Noto Serif SC" is not decorative:
+     GFS Didot carries no CJK glyphs, so the zh locale would fall through to
+     the browser default without it. */
+  --font-display: "GFS Didot", "Bodoni Moda", "Noto Serif SC", Georgia, serif;
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "Fira Code", ui-monospace, monospace;
 
   /* ---------- Color: Beliora Gold (Primary) ---------- */
@@ -72,8 +75,27 @@
   --color-ivory-800: #858585;
   --color-ivory-900: #666666;
 
-  /* ---------- Color: Deep Espresso (Base / Deep) ---------- */
+  /* ---------- Color: Deep Espresso (Base / Deep) ----------
+     --color-espresso stays the canonical brand black. The numbered ramp is
+     additive: components lifted from the prototype address espresso by stop
+     (text-espresso-700, border-espresso-100), and without it every lift needs
+     hand-rewriting. */
   --color-espresso: #120700;
+  --color-espresso-50: #e7e6e6;
+  --color-espresso-100: #b6b2b0;
+  --color-espresso-200: #928d8a;
+  --color-espresso-300: #605954;
+  --color-espresso-400: #413933;
+  --color-espresso-500: #120700;
+  --color-espresso-600: #100600;
+  --color-espresso-700: #0d0500;
+  --color-espresso-800: #0a0400;
+  --color-espresso-900: #080300;
+
+  /* Muted body copy. Used across the app as `text-espresso-soft`, which
+     Tailwind v4 generates from this token — it is deliberately a color token
+     and not a `.text-espresso-soft` class. */
+  --color-espresso-soft: #605954;
 
   /* ---------- Semantic tokens ---------- */
   --color-success: #166534;
@@ -111,10 +133,34 @@
   }
 }
 
+/* Hides the scrollbar without disabling scrolling. The horizontal product
+   carousels depend on this — they scroll by arrow button, so a visible
+   scrollbar is noise. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Constrains full-bleed bands on very large monitors instead of letting them
+   stretch edge to edge; pair with mx-auto. */
+@utility container-luxe {
+  max-width: 1800px;
+  margin-inline: auto;
+}
+
 /* AnnouncementBar ticker — content is duplicated once, so -50% loops seamlessly */
 @keyframes marquee-left {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
+}
+
+/* Skeleton shimmer — the gradient is 200% wide so it can travel across the
+   element; see .skeleton in the component layer. */
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
 }
 
 /* ---------- Base layer ---------- */
@@ -186,6 +232,51 @@
 
 /* ---------- Component layer ---------- */
 @layer components {
+  /* Small uppercase kicker sitting above a section heading. Used in nearly
+     every section. `color` is intentionally not !important — NewsletterSection
+     overrides it with !text-gold-400 over a dark ground. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-gold-700);
+  }
+
+  /* Loading placeholder. Without this, every loading state in the app renders
+     as an invisible empty div. */
+  .skeleton {
+    background-image: linear-gradient(
+      90deg,
+      var(--color-ivory-500) 0%,
+      var(--color-ivory-300) 50%,
+      var(--color-ivory-500) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+    border-radius: var(--radius-md);
+  }
+
+  /* Glassmorphism panels — the agreed treatment for text sitting over busy
+     hero and collection imagery, where neither black nor white alone holds
+     enough contrast. */
+  .glass {
+    background-color: color-mix(in srgb, var(--color-ivory-50) 70%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--color-ivory-50) 30%, transparent);
+  }
+
+  .glass-dark {
+    background-color: color-mix(in srgb, var(--color-espresso) 45%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--color-ivory-50) 15%, transparent);
+    color: var(--color-ivory-50);
+  }
+
   /* Buttons — primary is dark-fill / gold-text, a deliberate inversion of
      the usual "colored fill" pattern, echoing foil-stamped packaging. */
   .btn {

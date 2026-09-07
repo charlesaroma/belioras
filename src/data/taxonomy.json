@@ -1,0 +1,329 @@
+{
+  "rev": 1,
+  "dimensions": {
+    "color": {
+      "label": {
+        "en": "Colour",
+        "fr": "Couleur"
+      },
+      "values": [
+        {
+          "id": "black",
+          "name": "Black",
+          "hex": "#141414"
+        },
+        {
+          "id": "white",
+          "name": "White",
+          "hex": "#FDFDFB"
+        },
+        {
+          "id": "red",
+          "name": "Red",
+          "hex": "#A61C2E"
+        },
+        {
+          "id": "burgundy",
+          "name": "Burgundy",
+          "hex": "#6D1F2C"
+        },
+        {
+          "id": "blue",
+          "name": "Blue",
+          "hex": "#24407A"
+        },
+        {
+          "id": "green",
+          "name": "Green",
+          "hex": "#2F5D50"
+        },
+        {
+          "id": "pink",
+          "name": "Pink",
+          "hex": "#E5A9BE"
+        },
+        {
+          "id": "yellow",
+          "name": "Yellow",
+          "hex": "#E4C45A"
+        },
+        {
+          "id": "orange",
+          "name": "Orange",
+          "hex": "#C96F2E"
+        },
+        {
+          "id": "brown",
+          "name": "Brown",
+          "hex": "#7A5230"
+        },
+        {
+          "id": "purple",
+          "name": "Purple",
+          "hex": "#5B2A86"
+        },
+        {
+          "id": "metallic",
+          "name": "Metallic",
+          "hex": "#C9C4CE"
+        }
+      ]
+    },
+    "size": {
+      "label": {
+        "en": "Size",
+        "fr": "Taille"
+      },
+      "values": [
+        {
+          "id": "xs",
+          "name": "XS"
+        },
+        {
+          "id": "s",
+          "name": "S"
+        },
+        {
+          "id": "m",
+          "name": "M"
+        },
+        {
+          "id": "l",
+          "name": "L"
+        },
+        {
+          "id": "xl",
+          "name": "XL"
+        },
+        {
+          "id": "eu36",
+          "name": "EU 36"
+        },
+        {
+          "id": "eu37",
+          "name": "EU 37"
+        },
+        {
+          "id": "eu38",
+          "name": "EU 38"
+        },
+        {
+          "id": "eu39",
+          "name": "EU 39"
+        },
+        {
+          "id": "eu40",
+          "name": "EU 40"
+        },
+        {
+          "id": "eu41",
+          "name": "EU 41"
+        },
+        {
+          "id": "one-size",
+          "name": "One Size"
+        }
+      ]
+    },
+    "fabric": {
+      "label": {
+        "en": "Fabric",
+        "fr": "Matière"
+      },
+      "values": [
+        {
+          "id": "satin",
+          "name": "Satin"
+        },
+        {
+          "id": "lace",
+          "name": "Lace"
+        },
+        {
+          "id": "sequin",
+          "name": "Sequin"
+        },
+        {
+          "id": "mesh",
+          "name": "Mesh"
+        },
+        {
+          "id": "velvet",
+          "name": "Velvet"
+        },
+        {
+          "id": "chiffon",
+          "name": "Chiffon"
+        },
+        {
+          "id": "bandage",
+          "name": "Bandage"
+        },
+        {
+          "id": "wool",
+          "name": "Wool"
+        },
+        {
+          "id": "leather",
+          "name": "Leather"
+        },
+        {
+          "id": "crepe",
+          "name": "Crepe"
+        },
+        {
+          "id": "knit",
+          "name": "Knit"
+        }
+      ]
+    },
+    "occasion": {
+      "label": {
+        "en": "Occasion",
+        "fr": "Occasion"
+      },
+      "values": [
+        {
+          "id": "birthday",
+          "name": "Birthday"
+        },
+        {
+          "id": "party",
+          "name": "Party"
+        },
+        {
+          "id": "cocktail",
+          "name": "Cocktail"
+        },
+        {
+          "id": "wedding-guest",
+          "name": "Wedding Guest"
+        },
+        {
+          "id": "evening",
+          "name": "Evening"
+        },
+        {
+          "id": "gala",
+          "name": "Gala"
+        },
+        {
+          "id": "prom",
+          "name": "Prom"
+        },
+        {
+          "id": "formal",
+          "name": "Formal"
+        },
+        {
+          "id": "everyday",
+          "name": "Everyday"
+        }
+      ]
+    },
+    "style": {
+      "label": {
+        "en": "Style",
+        "fr": "Style"
+      },
+      "values": [
+        {
+          "id": "bodycon",
+          "name": "Bodycon"
+        },
+        {
+          "id": "one-shoulder",
+          "name": "One-Shoulder"
+        },
+        {
+          "id": "off-shoulder",
+          "name": "Off-Shoulder"
+        },
+        {
+          "id": "halter-neck",
+          "name": "Halter Neck"
+        },
+        {
+          "id": "long-sleeve",
+          "name": "Long-Sleeve"
+        },
+        {
+          "id": "backless",
+          "name": "Backless"
+        },
+        {
+          "id": "embellished",
+          "name": "Embellished"
+        },
+        {
+          "id": "corset",
+          "name": "Corset"
+        }
+      ]
+    },
+    "length": {
+      "label": {
+        "en": "Length",
+        "fr": "Longueur"
+      },
+      "values": [
+        {
+          "id": "mini",
+          "name": "Mini"
+        },
+        {
+          "id": "midi",
+          "name": "Midi"
+        },
+        {
+          "id": "maxi",
+          "name": "Maxi"
+        }
+      ]
+    },
+    "hair": {
+      "label": {
+        "en": "Hair Type",
+        "fr": "Type de Cheveux"
+      },
+      "values": [
+        {
+          "id": "straight",
+          "name": "Straight"
+        },
+        {
+          "id": "curly",
+          "name": "Curly"
+        },
+        {
+          "id": "wavy",
+          "name": "Wavy"
+        },
+        {
+          "id": "bouncy",
+          "name": "Bouncy"
+        },
+        {
+          "id": "braided",
+          "name": "Braided"
+        },
+        {
+          "id": "short",
+          "name": "Short"
+        },
+        {
+          "id": "kinky",
+          "name": "Kinky"
+        },
+        {
+          "id": "yaky",
+          "name": "Yaky"
+        },
+        {
+          "id": "locs",
+          "name": "Locs"
+        }
+      ]
+    }
+  }
+}

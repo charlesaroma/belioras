@@ -21,12 +21,60 @@ export const COLOR_HEX = {
 };
 
 export const NAV_LINKS = [
-  { id: "new-arrivals", label: "New Arrivals", to: "/whats-new" },
+  { id: "new-arrivals", label: "New Arrivals", to: "/new-arrivals" },
   { id: "shop", label: "Shop", to: "/shop" },
-  { id: "dresses", label: "Dresses", to: "/shop/dresses" },
-  { id: "hair", label: "Hair", to: "/shop/hair" },
-  { id: "accessories", label: "Accessories", to: "/shop/accessories" },
+  { id: "dresses", label: "Dresses", to: "/dresses" },
+  { id: "hair", label: "Hair", to: "/hair" },
+  { id: "accessories", label: "Accessories", to: "/accessories" },
 ];
+
+/**
+ * The catalog predates the dimensioned taxonomy and carries a flat
+ * `categories[]` of ten values. These map each onto the token vocabulary so the
+ * mega menu resolves against existing products without rewriting the fixtures.
+ *
+ * Once products carry real `tags[]`, this map and the derivation in
+ * productsApi.normalize() can both be deleted.
+ */
+export const LEGACY_CATEGORY_TOKENS = {
+  midi: "len:midi",
+  maxi: "len:maxi",
+  mini: "len:mini",
+  evening: "occ:evening",
+  everyday: "occ:everyday",
+  straight: "hair:straight",
+  wavy: "hair:wavy",
+  bags: "cat:bags",
+  scarves: "cat:scarves",
+  belts: "cat:belts",
+  jewelry: "cat:jewelry",
+};
+
+/**
+ * Catalog colours are display names ("Ebony", "Champagne"); the taxonomy keys
+ * on swatch ids. This maps one to the other so `/shop/color/black` matches.
+ */
+export const COLOR_NAME_TO_TAXONOMY = {
+  Ebony: "black",
+  "Jet Black": "black",
+  "Natural Black": "black",
+  "Dark Brown": "brown",
+  Chestnut: "brown",
+  Caramel: "brown",
+  Rosewood: "brown",
+  "Honey Blonde": "metallic",
+  Platinum: "metallic",
+  Silver: "metallic",
+  Gold: "metallic",
+  Champagne: "metallic",
+  Sand: "white",
+  Ivory: "white",
+  White: "white",
+  Blush: "pink",
+  Burgundy: "burgundy",
+  Forest: "green",
+  Slate: "blue",
+};
 
 export const SALE_BADGE = {
   minDiscountPct: 10,

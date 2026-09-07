@@ -1,8 +1,10 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { ContentProvider } from "./context/ContentContext";
 import { CurrencyProvider } from "./context/CurrencyContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import { ToastProvider } from "./context/ToastContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import WishlistPage from "./pages/account/Wishlist";
@@ -10,14 +12,12 @@ import WishlistPage from "./pages/account/Wishlist";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/Footer";
 import CookieConsent from "./components/layout/CookieConsent";
-import FlashSalePopup from "./components/layout/FlashSalePopup";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import NotFound from "./components/layout/NotFound";
 
 import HomePage from "./pages/1.home/home";
-import WhatsNewPage from "./pages/2.whatsNew/whatsNew";
 import ShopPage from "./pages/3.shop/shop";
-import CategoryPage from "./pages/3.shop/CategoryPage";
+import CatalogPage from "./pages/3.shop/CatalogPage";
 import ProductPage from "./pages/product/product";
 import SearchPage from "./pages/search/SearchPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
@@ -43,15 +43,19 @@ import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders
 
 function AppProviders({ children }) {
   return (
-    <CurrencyProvider>
-      <AuthProvider>
-        <CartProvider>
-          <WishlistProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </WishlistProvider>
-        </CartProvider>
-      </AuthProvider>
-    </CurrencyProvider>
+    <ContentProvider>
+      <LanguageProvider>
+        <CurrencyProvider>
+          <AuthProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
+        </CurrencyProvider>
+      </LanguageProvider>
+    </ContentProvider>
   );
 }
 
@@ -64,7 +68,6 @@ function Layout() {
       </main>
       <Footer />
       <CookieConsent />
-      <FlashSalePopup />
     </div>
   );
 }
@@ -98,9 +101,21 @@ function App() {
           {/* Main App Routes - With navbar/footer */}
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="/whats-new" element={<WhatsNewPage />} />
+            <Route path="/whats-new" element={<Navigate to="/new-arrivals" replace />} />
             <Route path="/shop" element={<ShopPage />} />
-            <Route path="/shop/:category" element={<CategoryPage />} />
+
+            {/*
+              Splat per root rather than a route per dimension. The navigation
+              data has leaves one, two and three segments deep, and a future
+              dashboard-added item must produce a working URL without a code
+              change. CatalogPage renders NotFound for anything the navigation
+              tree does not contain, so garbage paths still 404.
+            */}
+            <Route path="/shop/*" element={<CatalogPage />} />
+            <Route path="/new-arrivals/*" element={<CatalogPage />} />
+            <Route path="/dresses/*" element={<CatalogPage />} />
+            <Route path="/hair/*" element={<CatalogPage />} />
+            <Route path="/accessories/*" element={<CatalogPage />} />
             <Route path="/product/:slug" element={<ProductPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />

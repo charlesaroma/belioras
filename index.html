@@ -10,6 +10,20 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+      Loaded as a <link> rather than a CSS @import: an @import inside index.css
+      cannot start fetching until the stylesheet itself has been downloaded and
+      parsed, which delays the display serif past first paint. GFS Didot is the
+      free stand-in for Didot; Inter stands in for Helvetica Neue.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:wght@400;500;600&family=Fira+Code:wght@400&display=swap"
+    />
+
     <title>Belioras | Luxury Fashion & Hair</title>
   </head>
   <body>

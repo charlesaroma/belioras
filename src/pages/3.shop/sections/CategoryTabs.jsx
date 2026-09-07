@@ -2,7 +2,8 @@ import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { CATEGORIES, SORT_OPTIONS, COLOR_MAP } from "./constants";
 
 function CategoryTabs({ 
-  activeCategory, 
+  activeCategory,
+  showCategoryTabs = true,
   setActiveCategory, 
   sortOrder, 
   setSortOrder, 
@@ -18,8 +19,10 @@ function CategoryTabs({
   return (
     <div className="sticky top-0 z-40 bg-ivory-50/95 backdrop-blur border-b border-umber-50/30">
       <div className="container-main px-4 sm:px-6 md:px-8 flex items-center justify-between gap-4 py-3">
+        {/* On a category route the collection tabs are meaningless — the URL
+            has already scoped the results — but the sort/filter toolbar is not. */}
         <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar">
-          {CATEGORIES.map((cat) => (
+          {(showCategoryTabs ? CATEGORIES : []).map((cat) => (
             <button
               key={cat}
               type="button"

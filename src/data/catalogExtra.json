@@ -1,0 +1,1570 @@
+[
+  {
+    "id": "bf01",
+    "slug": "ivory-silk-slip-gown",
+    "name": "Ivory Silk Slip Gown",
+    "price": 290,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "maxi",
+      "cocktail",
+      "evening"
+    ],
+    "description": "Bias-cut in pure mulberry silk with a whisper-light drape. Adjustable straps and a low cowl back make it as graceful from behind as it is from the front.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Ivory"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 14,
+    "isNew": true,
+    "bestseller": false,
+    "featured": true,
+    "rating": 4.6,
+    "reviewCount": 34,
+    "images": [
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-18",
+    "tags": [
+      "cat:dresses",
+      "len:maxi",
+      "occ:cocktail",
+      "occ:evening",
+      "style:backless",
+      "fabric:satin",
+      "color:white",
+      "tag:new",
+      "tag:featured"
+    ]
+  },
+  {
+    "id": "bf02",
+    "slug": "rose-chiffon-midi-dress",
+    "name": "Rosé Chiffon Midi Dress",
+    "price": 240,
+    "originalPrice": 280,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "midi",
+      "wedding-guest",
+      "cocktail"
+    ],
+    "description": "Layers of blush chiffon float over a lined bodice. The off-shoulder neckline is finished with hand-rolled ruffles.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Blush"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 9,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.5,
+    "reviewCount": 96,
+    "images": [
+      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-16",
+    "tags": [
+      "cat:dresses",
+      "len:midi",
+      "occ:wedding-guest",
+      "occ:cocktail",
+      "style:off-shoulder",
+      "fabric:chiffon",
+      "color:pink",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf03",
+    "slug": "noire-bodycon-mini",
+    "name": "Noire Bodycon Mini",
+    "price": 160,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "mini",
+      "party",
+      "birthday"
+    ],
+    "description": "Sculpting bandage panels contour the figure in our signature little black dress. A house bestseller since season one.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 22,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "rating": 4.7,
+    "reviewCount": 55,
+    "images": [
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-02",
+    "tags": [
+      "cat:dresses",
+      "len:mini",
+      "occ:party",
+      "occ:birthday",
+      "style:bodycon",
+      "fabric:bandage",
+      "color:black",
+      "tag:bestseller"
+    ]
+  },
+  {
+    "id": "bf04",
+    "slug": "scarlet-gala-gown",
+    "name": "Scarlet Gala Gown",
+    "price": 480,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "maxi",
+      "gala",
+      "formal"
+    ],
+    "description": "A floor-sweeping column in liquid scarlet satin with an internal corset. Made for entrances.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Rosewood"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 7,
+    "isNew": false,
+    "bestseller": false,
+    "featured": true,
+    "rating": 4.9,
+    "reviewCount": 90,
+    "images": [
+      "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-10",
+    "tags": [
+      "cat:dresses",
+      "len:maxi",
+      "occ:gala",
+      "occ:formal",
+      "style:corset",
+      "fabric:satin",
+      "color:red",
+      "tag:featured"
+    ]
+  },
+  {
+    "id": "bf05",
+    "slug": "poudre-tulle-prom-dress",
+    "name": "Poudre Tulle Prom Dress",
+    "price": 420,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "maxi",
+      "prom",
+      "gala"
+    ],
+    "description": "Cloud-like tiers of powder-pink tulle over a boned bodice, scattered with hand-set crystals.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Blush"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 4,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.1,
+    "reviewCount": 97,
+    "images": [
+      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-12",
+    "tags": [
+      "cat:dresses",
+      "len:maxi",
+      "occ:prom",
+      "occ:gala",
+      "style:embellished",
+      "fabric:mesh",
+      "color:pink",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf06",
+    "slug": "fleur-halter-maxi",
+    "name": "Fleur Halter Maxi",
+    "price": 265,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "maxi",
+      "wedding-guest",
+      "party"
+    ],
+    "description": "Botanical print on fluid georgette with a halter tie that adjusts to the centimetre.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Forest"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 11,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.2,
+    "reviewCount": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-04",
+    "tags": [
+      "cat:dresses",
+      "len:maxi",
+      "occ:wedding-guest",
+      "occ:party",
+      "style:halter-neck",
+      "fabric:chiffon",
+      "color:green"
+    ]
+  },
+  {
+    "id": "bf07",
+    "slug": "blush-off-shoulder-midi",
+    "name": "Blush Off-Shoulder Midi",
+    "price": 230,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "midi",
+      "cocktail",
+      "party"
+    ],
+    "description": "Duchess satin with a structured fold-over neckline and gently gathered skirt.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Blush"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 16,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "rating": 5,
+    "reviewCount": 13,
+    "images": [
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-20",
+    "tags": [
+      "cat:dresses",
+      "len:midi",
+      "occ:cocktail",
+      "occ:party",
+      "style:off-shoulder",
+      "fabric:satin",
+      "color:pink",
+      "tag:bestseller"
+    ]
+  },
+  {
+    "id": "bf08",
+    "slug": "velvet-bordeaux-long-sleeve-midi",
+    "name": "Velvet Bordeaux Long-Sleeve Midi",
+    "price": 310,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "midi",
+      "evening",
+      "formal"
+    ],
+    "description": "Silk-blend velvet in deep bordeaux, cut close through the body with softly padded shoulders.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Burgundy"
+    ],
+    "sizes": [
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": true,
+    "rating": 4.4,
+    "reviewCount": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-22",
+    "tags": [
+      "cat:dresses",
+      "len:midi",
+      "occ:evening",
+      "occ:formal",
+      "style:long-sleeve",
+      "fabric:velvet",
+      "color:burgundy",
+      "tag:featured"
+    ]
+  },
+  {
+    "id": "bf09",
+    "slug": "sequin-champagne-mini",
+    "name": "Sequin Champagne Mini",
+    "price": 280,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "mini",
+      "party",
+      "birthday"
+    ],
+    "description": "Hand-applied champagne paillettes on stretch mesh — catches every light in the room.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Gold"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 12,
+    "isNew": true,
+    "bestseller": true,
+    "featured": false,
+    "rating": 4.1,
+    "reviewCount": 68,
+    "images": [
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-08",
+    "tags": [
+      "cat:dresses",
+      "len:mini",
+      "occ:party",
+      "occ:birthday",
+      "style:embellished",
+      "fabric:sequin",
+      "color:metallic",
+      "tag:new",
+      "tag:bestseller"
+    ]
+  },
+  {
+    "id": "bf10",
+    "slug": "lace-ivory-maxi",
+    "name": "Lace Ivory Maxi",
+    "price": 360,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "maxi",
+      "wedding-guest"
+    ],
+    "description": "Guipure lace over a champagne underlayer, with scalloped hems at the sleeve and skirt.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Ivory"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 6,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.9,
+    "reviewCount": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-15",
+    "tags": [
+      "cat:dresses",
+      "len:maxi",
+      "occ:wedding-guest",
+      "style:long-sleeve",
+      "fabric:lace",
+      "color:white"
+    ]
+  },
+  {
+    "id": "bf11",
+    "slug": "mesh-corset-midi",
+    "name": "Mesh Corset Midi",
+    "price": 195,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "midi",
+      "party"
+    ],
+    "description": "Illusion mesh panels meet a fully boned corsetry interior. Sharp lines, soft feel.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 13,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.7,
+    "reviewCount": 13,
+    "images": [
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-20",
+    "tags": [
+      "cat:dresses",
+      "len:midi",
+      "occ:party",
+      "style:corset",
+      "fabric:mesh",
+      "color:black",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf12",
+    "slug": "golden-hour-one-shoulder-maxi",
+    "name": "Golden Hour One-Shoulder Maxi",
+    "price": 340,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "dresses",
+      "maxi",
+      "gala",
+      "evening"
+    ],
+    "description": "Single-shoulder silhouette in sun-washed crepe with a subtle side slit.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Caramel",
+      "Champagne"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 10,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.6,
+    "reviewCount": 52,
+    "images": [
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-01",
+    "tags": [
+      "cat:dresses",
+      "len:maxi",
+      "occ:gala",
+      "occ:evening",
+      "style:one-shoulder",
+      "fabric:crepe",
+      "color:orange",
+      "color:yellow"
+    ]
+  },
+  {
+    "id": "bf13",
+    "slug": "camel-wool-coat",
+    "name": "Camel Wool Coat",
+    "price": 450,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "coats-jackets",
+      "everyday",
+      "evening"
+    ],
+    "description": "Double-faced Italian wool in the perfect camel. Dropped shoulder, hidden closure, welt pockets.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Chestnut"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 9,
+    "isNew": false,
+    "bestseller": true,
+    "featured": true,
+    "rating": 4.2,
+    "reviewCount": 88,
+    "images": [
+      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-28",
+    "tags": [
+      "cat:coats-jackets",
+      "occ:everyday",
+      "occ:evening",
+      "fabric:wool",
+      "color:brown",
+      "tag:featured",
+      "tag:bestseller"
+    ]
+  },
+  {
+    "id": "bf14",
+    "slug": "noir-leather-biker",
+    "name": "Noir Leather Biker",
+    "price": 520,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "coats-jackets",
+      "everyday",
+      "party"
+    ],
+    "description": "Butter-soft lambskin with asymmetric zip and snap-down lapels. Breaks in beautifully.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 5,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.1,
+    "reviewCount": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-30",
+    "tags": [
+      "cat:coats-jackets",
+      "occ:everyday",
+      "occ:party",
+      "fabric:leather",
+      "color:black"
+    ]
+  },
+  {
+    "id": "bf15",
+    "slug": "tailored-crepe-jumpsuit",
+    "name": "Tailored Crepe Jumpsuit",
+    "price": 220,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "jumpsuits",
+      "formal",
+      "cocktail"
+    ],
+    "description": "Sharp suiting lines in stretch crepe — wide leg, cinched waist, zero effort.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 15,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.1,
+    "reviewCount": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-19",
+    "tags": [
+      "cat:jumpsuits",
+      "occ:formal",
+      "occ:cocktail",
+      "fabric:crepe",
+      "color:black",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf16",
+    "slug": "satin-wide-leg-jumpsuit",
+    "name": "Satin Wide-Leg Jumpsuit",
+    "price": 245,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "jumpsuits",
+      "party",
+      "evening"
+    ],
+    "description": "Liquid satin with a cowl neck and dramatic puddle hem. Adjust the strap to taste.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Burgundy"
+    ],
+    "sizes": [
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.7,
+    "reviewCount": 74,
+    "images": [
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-08",
+    "tags": [
+      "cat:jumpsuits",
+      "occ:party",
+      "occ:evening",
+      "fabric:satin",
+      "color:burgundy"
+    ]
+  },
+  {
+    "id": "bf17",
+    "slug": "sequin-two-piece-set",
+    "name": "Sequin Two-Piece Set",
+    "price": 260,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "two-piece-sets",
+      "party",
+      "birthday"
+    ],
+    "description": "Cropped sequin blouse and bias midi skirt, sold as one look. Wear together or apart.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Gold"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l"
+    ],
+    "stock": 10,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.9,
+    "reviewCount": 81,
+    "images": [
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-21",
+    "tags": [
+      "cat:two-piece-sets",
+      "occ:party",
+      "occ:birthday",
+      "fabric:sequin",
+      "color:metallic",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf18",
+    "slug": "knit-lounge-two-piece",
+    "name": "Knit Lounge Two-Piece",
+    "price": 180,
+    "originalPrice": null,
+    "collectionId": "dresses",
+    "categories": [
+      "two-piece-sets",
+      "everyday"
+    ],
+    "description": "Ribbed knit tank and matching skirt in toasted almond. Airport-to-apéro comfort.",
+    "details": [
+      "Concealed back zip",
+      "Fully lined",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Shell: as per fabric",
+      "Lining: 100% viscose"
+    ],
+    "care": [
+      "Dry clean only",
+      "Cool iron reverse",
+      "Store on padded hanger"
+    ],
+    "colors": [
+      "Chestnut",
+      "Ebony"
+    ],
+    "sizes": [
+      "xs",
+      "s",
+      "m",
+      "l",
+      "xl"
+    ],
+    "stock": 18,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.8,
+    "reviewCount": 74,
+    "images": [
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-05",
+    "tags": [
+      "cat:two-piece-sets",
+      "occ:everyday",
+      "fabric:knit",
+      "color:brown"
+    ]
+  },
+  {
+    "id": "bf19",
+    "slug": "silk-straight-22-wig",
+    "name": "Silk Straight 22\" Wig",
+    "price": 190,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "categories": [
+      "wigs",
+      "straight"
+    ],
+    "description": "100% remy human hair, silk-pressed finish. HD lace front with pre-plucked hairline and 13x4 parting space.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony",
+      "Chestnut"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 12,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "rating": 4,
+    "reviewCount": 38,
+    "images": [
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-12",
+    "tags": [
+      "cat:wigs",
+      "hair:straight",
+      "color:black",
+      "tag:bestseller"
+    ]
+  },
+  {
+    "id": "bf20",
+    "slug": "deep-curly-20-wig",
+    "name": "Deep Curly 20\" Wig",
+    "price": 175,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "categories": [
+      "wigs",
+      "curly"
+    ],
+    "description": "Defined deep curls with springy bounce. Transparent 4x4 closure, 180% density.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 9,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.2,
+    "reviewCount": 67,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-06-09",
+    "tags": [
+      "cat:wigs",
+      "hair:curly",
+      "color:black"
+    ]
+  },
+  {
+    "id": "bf21",
+    "slug": "body-wave-24-wig",
+    "name": "Body Wave 24\" Wig",
+    "price": 185,
+    "originalPrice": 210,
+    "collectionId": "hair",
+    "categories": [
+      "wigs",
+      "wavy"
+    ],
+    "description": "Soft S-waves with volume that holds. Glueless cap design with combs and elastic band.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Chestnut",
+      "Ebony"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 3,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.4,
+    "reviewCount": 34,
+    "images": [
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-15",
+    "tags": [
+      "cat:wigs",
+      "hair:wavy",
+      "color:brown",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf22",
+    "slug": "knotless-braided-wig",
+    "name": "Knotless Braided Wig",
+    "price": 210,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "categories": [
+      "wigs",
+      "braided"
+    ],
+    "description": "Hand-braided knotless box braids on a breathable cap. Six hours of braiding, saved in one step.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony",
+      "Burgundy"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 7,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.8,
+    "reviewCount": 36,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-07-14",
+    "tags": [
+      "cat:wigs",
+      "hair:braided",
+      "color:black"
+    ]
+  },
+  {
+    "id": "bf23",
+    "slug": "pointed-patent-pump",
+    "name": "Pointed Patent Pump",
+    "price": 225,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "categories": [
+      "heels",
+      "formal",
+      "party"
+    ],
+    "description": "95mm stiletto in mirror-polished patent leather with cushioned insole.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "eu36",
+      "eu37",
+      "eu38",
+      "eu39",
+      "eu40",
+      "eu41"
+    ],
+    "stock": 14,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "rating": 4.9,
+    "reviewCount": 58,
+    "images": [
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-04-18",
+    "tags": [
+      "cat:heels",
+      "occ:formal",
+      "occ:party",
+      "color:black",
+      "tag:bestseller"
+    ]
+  },
+  {
+    "id": "bf24",
+    "slug": "strappy-metallic-sandal-heel",
+    "name": "Strappy Metallic Sandal Heel",
+    "price": 195,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "categories": [
+      "heels",
+      "party",
+      "gala"
+    ],
+    "description": "Barely-there straps in liquid metal leather. 85mm heel with padded footbed.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Gold"
+    ],
+    "sizes": [
+      "eu36",
+      "eu37",
+      "eu38",
+      "eu39",
+      "eu40"
+    ],
+    "stock": 2,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.2,
+    "reviewCount": 49,
+    "images": [
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-17",
+    "tags": [
+      "cat:heels",
+      "occ:party",
+      "occ:gala",
+      "color:metallic",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf25",
+    "slug": "structured-top-handle-bag",
+    "name": "Structured Top-Handle Bag",
+    "price": 340,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "categories": [
+      "handbags",
+      "everyday",
+      "formal"
+    ],
+    "description": "Pebbled calf leather with gold-tone hardware and suede lining. Fits an iPhone Plus.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Chestnut",
+      "Ebony"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": false,
+    "bestseller": false,
+    "featured": true,
+    "rating": 4.6,
+    "reviewCount": 45,
+    "images": [
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-05-25",
+    "tags": [
+      "cat:handbags",
+      "occ:everyday",
+      "occ:formal",
+      "color:brown",
+      "tag:featured"
+    ]
+  },
+  {
+    "id": "bf26",
+    "slug": "crystal-clutch",
+    "name": "Crystal Clutch",
+    "price": 150,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "categories": [
+      "clutch",
+      "party",
+      "gala"
+    ],
+    "description": "Faceted crystals set on satin, with detachable chain strap for hands-free moments.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Gold",
+      "Ebony"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 11,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.3,
+    "reviewCount": 83,
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-11",
+    "tags": [
+      "cat:clutch",
+      "occ:party",
+      "occ:gala",
+      "color:metallic",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf27",
+    "slug": "gilded-drop-earrings",
+    "name": "Gilded Drop Earrings",
+    "price": 85,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "categories": [
+      "earrings",
+      "party",
+      "cocktail"
+    ],
+    "description": "Sculpted drops in 18k gold plate. Featherweight despite the drama.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Champagne"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 24,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "rating": 4.6,
+    "reviewCount": 39,
+    "images": [
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-08-14",
+    "tags": [
+      "cat:earrings",
+      "occ:party",
+      "occ:cocktail",
+      "color:yellow",
+      "tag:new"
+    ]
+  },
+  {
+    "id": "bf28",
+    "slug": "pearl-pendant-necklace",
+    "name": "Pearl Pendant Necklace",
+    "price": 120,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "categories": [
+      "necklaces",
+      "everyday",
+      "wedding-guest"
+    ],
+    "description": "A single baroque freshwater pearl suspended on a fine cable chain.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Ivory"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 19,
+    "isNew": false,
+    "bestseller": true,
+    "featured": false,
+    "rating": 4.7,
+    "reviewCount": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-03-30",
+    "tags": [
+      "cat:necklaces",
+      "occ:everyday",
+      "occ:wedding-guest",
+      "color:white",
+      "tag:bestseller"
+    ]
+  }
+]

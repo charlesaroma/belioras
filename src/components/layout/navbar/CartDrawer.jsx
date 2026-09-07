@@ -7,12 +7,11 @@ import { useCart } from "../../../context/CartContext";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getSettings } from "../../../services/settingsApi";
-import { formatCurrency } from "../../../utils/formatCurrency";
 import QuantitySelector from "../../shared/QuantitySelector";
 
 export default function CartDrawer({ open, onClose }) {
   const { items, subtotal, count, updateQty, removeItem } = useCart();
-  const { currency, convert } = useCurrency();
+  const { convert, format, formatConverted } = useCurrency();
   const { data: settings } = useAsyncData(getSettings, []);
 
   useEffect(() => {
@@ -120,7 +119,7 @@ export default function CartDrawer({ open, onClose }) {
                         <>
                           Add{" "}
                           <span className="font-semibold text-gold-700">
-                            {formatCurrency(remainingForFree, currency)}
+                            {formatConverted(remainingForFree)}
                           </span>{" "}
                           more for free shipping
                         </>
@@ -176,7 +175,7 @@ export default function CartDrawer({ open, onClose }) {
                             onChange={(q) => updateQty(index, q)}
                           />
                           <p className="text-sm font-semibold tabular-nums text-espresso">
-                            {formatCurrency(convert(item.price * item.quantity), currency)}
+                            {format(item.price * item.quantity)}
                           </p>
                         </div>
                       </div>
@@ -199,7 +198,7 @@ export default function CartDrawer({ open, onClose }) {
                       Subtotal
                     </span>
                     <span className="font-display text-2xl text-espresso">
-                      {formatCurrency(convertedSubtotal, currency)}
+                      {formatConverted(convertedSubtotal)}
                     </span>
                   </div>
                   <p className="text-xs text-espresso/50 mb-4">

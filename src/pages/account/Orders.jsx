@@ -4,7 +4,6 @@ import { ArrowRight, Package, PackageOpen } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
-import { formatCurrency } from "../../utils/formatCurrency";
 import { getOrders } from "../../services/ordersApi";
 
 const STATUS_STYLES = {
@@ -33,7 +32,7 @@ function formatDate(iso) {
 
 export default function Orders() {
   const { user } = useAuth();
-  const { currency, convert } = useCurrency();
+  const { format } = useCurrency();
   const { data: orders, loading } = useAsyncData(() => getOrders(user?.id), [user?.id]);
 
   return (
@@ -90,7 +89,7 @@ export default function Orders() {
                   </div>
                   <div className="flex shrink-0 items-center gap-3">
                     <p className="text-sm font-semibold text-espresso">
-                      {formatCurrency(convert(order.total), currency)}
+                      {format(order.total)}
                     </p>
                     <ArrowRight
                       className="size-4 text-espresso-soft transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-gold-700"

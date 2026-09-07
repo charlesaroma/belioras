@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getCategories } from "../../../services/categoriesApi";
+import { getNavigation } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
 
 import AnnouncementBar from "./AnnouncementBar";
@@ -20,7 +20,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const LIGHT_BG_PATHS = ["/product", "/shop", "/account", "/contact", "/about", "/login", "/signup", "/forgot-password", "/search", "/wishlist"];
 
 export default function Navbar() {
-  const { data: categories } = useAsyncData(getCategories, []);
+  const { data: categories } = useAsyncData(getNavigation, []);
   const { data: products } = useAsyncData(getProducts, []);
   const { count } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
@@ -112,7 +112,7 @@ export default function Navbar() {
             />
           </div>
 
-          <Logo isScrolled={isScrolled} menuOpen={!!menuId} />
+          <Logo isScrolled={isScrolled} menuOpen={!!menuId} isLightBg={isLightBgPage} />
 
           <div className="flex items-center justify-end gap-4">
             <SearchBar />
@@ -134,7 +134,7 @@ export default function Navbar() {
 
           {/* Center: Logo */}
           <div className="flex justify-center">
-            <Logo isScrolled={isScrolled} menuOpen={!!menuId} />
+            <Logo isScrolled={isScrolled} menuOpen={!!menuId} isLightBg={isLightBgPage} />
           </div>
 
           {/* Right: Search + Cart */}

@@ -1,0 +1,39 @@
+{
+  "rev": 1,
+  "autoplayMs": 6000,
+  "slides": [
+    {
+      "id": "style",
+      "active": true,
+      "seasonLabel": "Evergreen",
+      "image": "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG",
+      "objectPosition": "70% 20%",
+      "title": ["Your Style.", "Your Crown."],
+      "subtitle": "Luxury Fashion & Hair Curated for Confident Women",
+      "primaryCta": { "label": "Shop Collection", "to": "/shop" },
+      "secondaryCta": { "label": "Explore Hair", "to": "/hair" }
+    },
+    {
+      "id": "new-season",
+      "active": true,
+      "seasonLabel": "Winter Edit",
+      "image": "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/belioras-hero-2.jpeg",
+      "objectPosition": "50% 20%",
+      "title": ["New Season,", "New Statement."],
+      "subtitle": "Considered pieces for every occasion — the Winter Edit is here.",
+      "primaryCta": { "label": "Shop New In", "to": "/new-arrivals" },
+      "secondaryCta": { "label": "Shop All", "to": "/shop" }
+    },
+    {
+      "id": "hair",
+      "active": true,
+      "seasonLabel": "Evergreen",
+      "image": "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg",
+      "objectPosition": "60% 15%",
+      "title": ["Crowned in", "Confidence."],
+      "subtitle": "From sleek wigs to bold curls — hair crafted for every mood.",
+      "primaryCta": { "label": "Shop Hair", "to": "/hair" },
+      "secondaryCta": { "label": "Shop Collection", "to": "/shop" }
+    }
+  ]
+}

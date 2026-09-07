@@ -11,12 +11,20 @@ export function getPromotions() {
   return mockApi(() => JSON.parse(JSON.stringify(promotionsSeed)));
 }
 
+/**
+ * The scrolling announcements are evergreen store messaging and run on their
+ * own schedule. They were previously returned only while the seasonal sale
+ * banner was inside its date window, so the whole ticker silently vanished the
+ * day that sale expired.
+ */
 export function getTopBanner() {
   return mockApi(() => {
     const { topBanner, announcements } = promotionsSeed;
-    return topBanner && isActive(topBanner)
-      ? { ...topBanner, announcements }
-      : null;
+    if (!announcements?.length) return null;
+    return {
+      announcements,
+      promo: topBanner && isActive(topBanner) ? topBanner : null,
+    };
   });
 }
 
@@ -25,11 +33,5 @@ export function getFlashSale() {
     promotionsSeed.flashSale?.active && isActive(promotionsSeed.flashSale)
       ? { ...promotionsSeed.flashSale }
       : null
-  );
-}
-
-export function getPopup() {
-  return mockApi(() =>
-    promotionsSeed.popup?.enabled ? { ...promotionsSeed.popup } : null
   );
 }

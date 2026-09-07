@@ -8,6 +8,8 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useAuth } from "../../../context/AuthContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useCart } from "../../../context/CartContext";
+import MegaMenuPanel from "./MegaMenuPanel";
+import LanguageSelector from "../../common/LanguageSelector";
 
 const CURRENCIES = [
   { code: "EUR", symbol: "€", flag: "🇪🇺" },
@@ -41,27 +43,9 @@ function CategoryAccordion({ category, onClose }) {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="py-2 pl-4 space-y-6 mb-4">
-              {category.sections?.map((section, idx) => (
-                <div key={idx}>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-brown-500 mb-2">
-                    {section.title}
-                  </p>
-                  <ul className="space-y-2">
-                    {section.items.map((item) => (
-                      <li key={item.slug}>
-                        <Link
-                          to={`/${item.slug}`}
-                          onClick={onClose}
-                          className="block text-sm text-espresso/70 hover:text-gold-700"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+            <div className="py-2 pl-4 mb-4">
+              {/* Same renderer as the desktop flyout, in accordion mode. */}
+              <MegaMenuPanel item={category} variant="mobile" onNavigate={onClose} />
             </div>
           </motion.div>
         )}
@@ -156,7 +140,7 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen }) {
               })}
 
               <Link
-                to="/whats-new"
+                to="/new-arrivals"
                 onClick={onClose}
                 className="block border-b border-umber-50 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-espresso"
               >
@@ -277,6 +261,15 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen }) {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* Language row — the drawer is the only place these controls
+                  appear below the lg breakpoint, so it carries both. */}
+              <div className="px-5 py-3 flex items-center justify-between border-t border-umber-50/60">
+                <p className="text-[11px] uppercase tracking-widest font-bold text-espresso/40">
+                  Language
+                </p>
+                <LanguageSelector />
               </div>
             </div>
           </motion.div>

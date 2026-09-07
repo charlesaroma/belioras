@@ -3,7 +3,6 @@ import { ArrowLeft, PackageX } from "lucide-react";
 
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
-import { formatCurrency } from "../../utils/formatCurrency";
 import { getOrder } from "../../services/ordersApi";
 
 const STATUS_STYLES = {
@@ -41,7 +40,7 @@ function TotalRow({ label, amount, bold = false }) {
 
 export default function OrderDetail() {
   const { id } = useParams();
-  const { currency, convert } = useCurrency();
+  const { format } = useCurrency();
   const { data: order, loading, error } = useAsyncData(() => getOrder(id), [id]);
 
   if (loading) {
@@ -126,21 +125,21 @@ export default function OrderDetail() {
                 </p>
               </div>
               <p className="shrink-0 text-sm font-semibold text-espresso">
-                {formatCurrency(convert(item.price * item.quantity), currency)}
+                {format(item.price * item.quantity)}
               </p>
             </li>
           ))}
         </ul>
         <dl className="space-y-2 border-t border-umber-50 px-5 py-5 sm:px-6">
-          <TotalRow label="Subtotal" amount={formatCurrency(convert(order.subtotal), currency)} />
-          <TotalRow label="Shipping" amount={formatCurrency(convert(order.shipping), currency)} />
-          <TotalRow label="Tax" amount={formatCurrency(convert(order.tax), currency)} />
+          <TotalRow label="Subtotal" amount={format(order.subtotal)} />
+          <TotalRow label="Shipping" amount={format(order.shipping)} />
+          <TotalRow label="Tax" amount={format(order.tax)} />
           {order.couponCode ? (
-            <TotalRow label={`Coupon ${order.couponCode}`} amount={formatCurrency(convert(order.total), currency)} />
+            <TotalRow label={`Coupon ${order.couponCode}`} amount={format(order.total)} />
           ) : null}
           <div className="flex items-center justify-between border-t border-umber-50 pt-3">
             <dt className="font-display text-base font-medium tracking-wide">Total</dt>
-            <dd className="font-display text-xl font-semibold">{formatCurrency(convert(order.total), currency)}</dd>
+            <dd className="font-display text-xl font-semibold">{format(order.total)}</dd>
           </div>
         </dl>
       </div>

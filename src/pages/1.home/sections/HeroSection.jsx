@@ -1,57 +1,45 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useContentVersion } from "../../../context/ContentContext";
+import { getHeroSlides } from "../../../services/contentApi";
 import { cn } from "../../../utils/cn";
 
 const AUTOPLAY_MS = 6000;
 
-const SLIDES = [
-  {
-    id: "style",
-    image: "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG",
-    objectPosition: "70% 20%",
-    title: ["Your Style.", "Your Crown."],
-    subtitle: "Luxury Fashion & Hair Curated for Confident Women",
-    primaryCta: { label: "Shop Collection", to: "/shop" },
-    secondaryCta: { label: "Explore Hair", to: "/shop/hair" },
-  },
-  {
-    id: "new-season",
-    image: "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/belioras-hero-2.jpeg",
-    objectPosition: "50% 20%",
-    title: ["New Season,", "New Statement."],
-    subtitle: "Considered pieces for every occasion — the Winter Edit is here.",
-    primaryCta: { label: "Shop New In", to: "/whats-new" },
-    secondaryCta: { label: "Shop All", to: "/shop" },
-  },
-  {
-    id: "hair",
-    image: "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg",
-    objectPosition: "60% 15%",
-    title: ["Crowned in", "Confidence."],
-    subtitle: "From sleek wigs to bold curls — hair crafted for every mood.",
-    primaryCta: { label: "Shop Hair", to: "/shop/hair" },
-    secondaryCta: { label: "Shop Collection", to: "/shop" },
-  },
-];
-
 export default function HeroSection() {
+  const version = useContentVersion();
+  const { data } = useAsyncData(getHeroSlides, [version]);
+  const reduceMotion = useReducedMotion();
+
+  const slides = data?.slides ?? [];
+  const autoplayMs = data?.autoplayMs ?? AUTOPLAY_MS;
+
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef(null);
 
-  const goTo = useCallback((i) => setIndex((i + SLIDES.length) % SLIDES.length), []);
+  const count = slides.length;
+  const goTo = useCallback((i) => setIndex(count ? ((i % count) + count) % count : 0), [count]);
   const next = useCallback(() => goTo(index + 1), [goTo, index]);
   const prev = useCallback(() => goTo(index - 1), [goTo, index]);
 
+  // Autoplay is suppressed under prefers-reduced-motion: an unattended slide
+  // change is exactly the vestibular trigger that setting exists for.
   useEffect(() => {
-    if (paused) return undefined;
-    timerRef.current = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), AUTOPLAY_MS);
+    if (paused || reduceMotion || count < 2) return undefined;
+    timerRef.current = setInterval(() => setIndex((i) => (i + 1) % count), autoplayMs);
     return () => clearInterval(timerRef.current);
-  }, [paused]);
+  }, [paused, reduceMotion, count, autoplayMs]);
 
-  const slide = SLIDES[index];
+  // A content edit can shorten the deck while a later slide is showing; clamp
+  // during render so the stale index never reaches the DOM.
+  const safeIndex = count ? Math.min(index, count - 1) : 0;
+  const slide = slides[safeIndex];
+  if (!slide) return <section className="h-[100svh] min-h-[600px] w-full bg-espresso" />;
 
   return (
     <section
@@ -180,16 +168,16 @@ export default function HeroSection() {
 
       {/* Dot indicators */}
       <div className={cn('absolute', 'bottom-5', 'left-1/2', '-translate-x-1/2', 'z-10', 'flex', 'items-center', 'gap-2', 'sm:bottom-7')}>
-        {SLIDES.map((s, i) => (
+        {slides.map((s, i) => (
           <button
             key={s.id}
             type="button"
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}
-            aria-current={i === index}
+            aria-current={i === safeIndex}
             className={cn(
               'h-1.5', 'rounded-full', 'transition-all', 'duration-300',
-              i === index ? 'w-6 bg-gold-500' : 'w-1.5 bg-ivory-50/50 hover:bg-ivory-50/80',
+              i === safeIndex ? 'w-6 bg-gold-500' : 'w-1.5 bg-ivory-50/50 hover:bg-ivory-50/80',
             )}
           />
         ))}

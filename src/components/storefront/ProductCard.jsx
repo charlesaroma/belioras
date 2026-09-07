@@ -1,5 +1,5 @@
 import { Heart, ShoppingBag, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import RatingStars from "../shared/RatingStars";
@@ -7,11 +7,11 @@ import { useCart } from "../../context/CartContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
 import { useWishlist } from "../../context/WishlistContext";
-import { formatCurrency } from "../../utils/formatCurrency";
 
 export default function ProductCard({ product }) {
+  const navigate = useNavigate();
   const { addItem } = useCart();
-  const { currency, convert } = useCurrency();
+  const { format } = useCurrency();
   const { toast } = useToast();
   const { has, toggle } = useWishlist();
 
@@ -24,8 +24,8 @@ export default function ProductCard({ product }) {
 
   const wished = has(id);
   const soldOut = !stock || stock <= 0;
-  const priceLabel = formatCurrency(convert(price), currency);
-  const wasLabel = originalPrice ? formatCurrency(convert(originalPrice), currency) : null;
+  const priceLabel = format(price);
+  const wasLabel = originalPrice ? format(originalPrice) : null;
   const hoverImage = images.length > 1 ? images[1] : null;
   const discountPct = originalPrice
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
@@ -131,14 +131,18 @@ export default function ProductCard({ product }) {
               >
                 <ShoppingBag className="size-4" />
               </button>
-              <Link
-                to={`/product/${slug}`}
-                onClick={(e) => e.stopPropagation()}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigate(`/product/${slug}`);
+                }}
                 aria-label={`View ${name}`}
                 className="cursor-pointer flex size-10 items-center justify-center rounded-lg border border-umber-50 text-espresso/60 hover:border-espresso hover:text-espresso transition-all duration-200 shrink-0"
               >
                 <Eye className="size-4" />
-              </Link>
+              </button>
             </div>
           </div>
         ) : (
