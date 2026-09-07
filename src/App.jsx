@@ -42,6 +42,7 @@ import ReturnAndRefundPolicyPage from "./pages/legal/return-and-refund-policy";
 import CookiePolicyPage from "./pages/legal/cookie-policy";
 
 import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
+import { cn } from "./utils/cn";
 
 function AppProviders({ children }) {
   return (
@@ -63,7 +64,7 @@ function AppProviders({ children }) {
 
 function Layout() {
   return (
-    <div className="flex min-h-dvh flex-col bg-ivory-50 text-espresso">
+    <div className={cn('flex', 'min-h-dvh', 'flex-col', 'bg-ivory-50', 'text-espresso')}>
       <Navbar />
       <main className="flex-1">
         <Outlet />

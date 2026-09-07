@@ -12,8 +12,8 @@ import PriceRangeSlider from "./PriceRangeSlider";
  * Follows the drawer pattern from the design prototype — a left slide-over at
  * every breakpoint rather than a rail — with two things the prototype lacked:
  * selections live in the URL (see useFilterParams) so a filtered view is
- * shareable, and every value carries a live count so a filter never leads to
- * an empty grid.
+ * shareable, and result counts are computed for every value so a filter can
+ * never lead to an empty grid. The counts are not displayed; see FilterCheckbox.
  *
  * Generated from the taxonomy rather than hardcoded, so an attribute Belioras
  * adds in the dashboard appears here with no code change.
@@ -86,7 +86,6 @@ export default function FilterPanel({
                     key={value.id}
                     checked={selected}
                     disabled={unavailable}
-                    count={value.count}
                     onChange={() => onToggle(facet.id, value.id)}
                     label={
                       value.hex ? (
@@ -247,21 +246,29 @@ function PriceInput({ label, value, min, max, symbol, onCommit }) {
   );
 }
 
-function FilterCheckbox({ checked, disabled, label, count, onChange }) {
+/**
+ * Deliberately shows no result count.
+ *
+ * Counts are still computed — they are what marks a value unavailable, so a
+ * shopper can never pick a filter and land on an empty grid — but the number
+ * is not rendered. On a curated catalogue the figures are small enough
+ * ("Prom 1", "Red 1") that displaying them advertises how thin the stock is,
+ * which works against the brand rather than helping the shopper. Worth
+ * revisiting once facets routinely hold dozens of pieces, where the number
+ * starts carrying real information.
+ */
+function FilterCheckbox({ checked, disabled, label, onChange }) {
   return (
     <label
       className={cn(
-        "flex items-center justify-between gap-2 text-[13px]",
+        "flex min-w-0 items-center gap-2.5 text-[13px]",
         disabled
           ? "cursor-not-allowed text-espresso/25"
           : "cursor-pointer text-espresso-soft hover:text-espresso",
       )}
     >
-      <span className="flex min-w-0 items-center gap-2.5">
-        <NativeCheckbox checked={checked} disabled={disabled} onChange={onChange} />
-        <span className="truncate">{label}</span>
-      </span>
-      <span className="shrink-0 tabular-nums text-[11px] text-espresso/35">{count}</span>
+      <NativeCheckbox checked={checked} disabled={disabled} onChange={onChange} />
+      <span className="truncate">{label}</span>
     </label>
   );
 }
