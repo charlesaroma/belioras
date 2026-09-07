@@ -65,27 +65,26 @@ export default function CatalogView({ products, loading, error, header = {}, emp
     <div className="min-h-screen bg-ivory-50">
       <ShopHeader {...header} />
 
+      <FilterPanel
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        resultCount={filtered.length}
+        {...panelProps}
+      />
+
       {routeIsEmpty && emptyState ? (
         emptyState
       ) : (
         <div className="container-main px-4 pb-24 pt-8 sm:px-6">
-          <div className="flex gap-10">
-            <FilterPanel variant="rail" {...panelProps} />
-
-            <FilterPanel
-              variant="drawer"
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-              {...panelProps}
-            />
-
-            <div className="min-w-0 flex-1">
+          <div className="min-w-0">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => setDrawerOpen(true)}
-                    className="relative inline-flex items-center gap-2 rounded-full border border-umber-50 px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-espresso transition-colors hover:border-espresso lg:hidden"
+                    aria-haspopup="dialog"
+                    aria-expanded={drawerOpen}
+                    className="relative inline-flex items-center gap-2 rounded-full border border-umber-50 px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-espresso transition-colors hover:border-espresso"
                   >
                     <SlidersHorizontal className="size-3.5" aria-hidden="true" />
                     Filter
@@ -150,7 +149,6 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                 onClearFilters={clearAll}
                 hasActiveFilters={activeCount > 0}
               />
-            </div>
           </div>
         </div>
       )}

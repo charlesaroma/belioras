@@ -38,7 +38,7 @@ export default function BackToTop() {
       title="Back to top"
       // Kept mounted and faded rather than unmounted, so it animates out
       // instead of vanishing. inert while hidden keeps it off the tab order.
-      inert={!visible ? "" : undefined}
+      inert={!visible || undefined}
       className={cn(
         "fixed right-4 z-[60] flex size-11 items-center justify-center rounded-full sm:right-6",
         "border border-gold-500/30 bg-espresso/90 text-gold-400 shadow-large backdrop-blur",

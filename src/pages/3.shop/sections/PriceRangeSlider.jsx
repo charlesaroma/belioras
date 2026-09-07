@@ -1,30 +1,99 @@
 import { useCurrency } from "../../../context/CurrencyContext";
+import { cn } from "../../../utils/cn";
 
-function PriceRangeSlider({ min, max, value, onChange }) {
+/**
+ * Dual-handle price range.
+ *
+ * The previous version set both inputs to opacity-0 and drew only the filled
+ * track, so there were no visible handles at all — and because both inputs
+ * spanned the full width, the upper one swallowed every pointer event and the
+ * lower handle could not be grabbed on the right-hand side.
+ *
+ * Fixed by styling the *native* thumbs rather than hiding them: the input keeps
+ * its keyboard and screen-reader behaviour for free, while the thumb becomes
+ * the visible knob. `pointer-events` is disabled on the track and re-enabled on
+ * the thumb, so both handles stay independently draggable.
+ *
+ * The knob follows the iOS convention — a white circle with a hairline border
+ * and a soft shadow over a thin track, growing slightly while dragged.
+ */
+
+/* Shared thumb styling. Both vendor pseudo-elements need it spelled out; they
+   cannot be combined into one selector, since an unknown pseudo-element
+   invalidates the whole rule. */
+const THUMB = cn(
+  "[&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none",
+  "[&::-webkit-slider-thumb]:size-5 [&::-webkit-slider-thumb]:rounded-full",
+  "[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border",
+  "[&::-webkit-slider-thumb]:border-umber-100",
+  "[&::-webkit-slider-thumb]:shadow-[0_1px_4px_rgba(18,7,0,0.28)]",
+  "[&::-webkit-slider-thumb]:cursor-grab [&::-webkit-slider-thumb]:transition-transform",
+  "active:[&::-webkit-slider-thumb]:scale-110 active:[&::-webkit-slider-thumb]:cursor-grabbing",
+  "[&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none",
+  "[&::-moz-range-thumb]:size-5 [&::-moz-range-thumb]:rounded-full",
+  "[&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border",
+  "[&::-moz-range-thumb]:border-umber-100",
+  "[&::-moz-range-thumb]:shadow-[0_1px_4px_rgba(18,7,0,0.28)]",
+  "[&::-moz-range-thumb]:cursor-grab",
+);
+
+const INPUT = cn(
+  "pointer-events-none absolute inset-x-0 top-1/2 h-5 w-full -translate-y-1/2 appearance-none bg-transparent",
+  "focus:outline-none",
+  // Keyboard focus has to land somewhere visible, and the input itself has no box.
+  "focus-visible:[&::-webkit-slider-thumb]:ring-2 focus-visible:[&::-webkit-slider-thumb]:ring-gold-500",
+  "focus-visible:[&::-webkit-slider-thumb]:ring-offset-2",
+  THUMB,
+);
+
+function PriceRangeSlider({ min, max, value, onChange, showLabels = true }) {
   const [lo, hi] = value;
   // Prices are stored in EUR; the slider must read in whatever the shopper
   // selected, not a hardcoded euro sign.
   const { format } = useCurrency();
+
+  const span = Math.max(max - min, 1);
+  const loPct = ((lo - min) / span) * 100;
+  const hiPct = ((hi - min) / span) * 100;
+
   return (
     <div className="px-1">
-      <div className="flex justify-between text-xs text-espresso/60 mb-3">
-        <span>{format(lo)}</span>
-        <span>{format(hi)}</span>
-      </div>
-      <div className="relative h-1 bg-umber-50 rounded-full">
+      {showLabels && (
+        <div className="mb-4 flex items-center justify-between text-[13px] tabular-nums text-espresso">
+          <span>{format(lo)}</span>
+          <span className="text-espresso/30">—</span>
+          <span>{format(hi)}</span>
+        </div>
+      )}
+
+      <div className="relative h-5">
+        {/* Unfilled track */}
+        <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-umber-50" />
+        {/* Selected span */}
         <div
-          className="absolute h-1 bg-espresso rounded-full"
-          style={{ left: `${((lo - min) / (max - min)) * 100}%`, right: `${100 - ((hi - min) / (max - min)) * 100}%` }}
+          className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-espresso"
+          style={{ left: `${loPct}%`, right: `${100 - hiPct}%` }}
+        />
+
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={lo}
+          aria-label="Minimum price"
+          onChange={(e) => onChange([Math.min(Number(e.target.value), hi), hi])}
+          // Once the handles meet at the top of the range the lower one would
+          // be unreachable underneath its sibling; raising it keeps it grabbable.
+          className={cn(INPUT, loPct > 90 ? "z-20" : "z-10")}
         />
         <input
-          type="range" min={min} max={max} value={lo}
-          onChange={(e) => { const v = Number(e.target.value); if (v < hi) onChange([v, hi]); }}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer h-1"
-        />
-        <input
-          type="range" min={min} max={max} value={hi}
-          onChange={(e) => { const v = Number(e.target.value); if (v > lo) onChange([lo, v]); }}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer h-1"
+          type="range"
+          min={min}
+          max={max}
+          value={hi}
+          aria-label="Maximum price"
+          onChange={(e) => onChange([lo, Math.max(Number(e.target.value), lo)])}
+          className={cn(INPUT, "z-10")}
         />
       </div>
     </div>

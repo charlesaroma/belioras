@@ -1,213 +1,155 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
-import PriceRangeSlider from "./PriceRangeSlider";
+import Drawer from "../../../components/common/Drawer";
+import { useCurrency } from "../../../context/CurrencyContext";
 import { cn } from "../../../utils/cn";
+import PriceRangeSlider from "./PriceRangeSlider";
 
 /**
- * Faceted filter panel, generated from the taxonomy rather than hardcoded.
+ * Faceted filter drawer.
  *
- * The previous version filtered on four fixed dimensions while taxonomy.json
- * carried seven and sixty-four values — so a dimension added in the dashboard
- * could never reach the storefront. Everything here comes from the facets it
- * is handed, which means new attributes appear with no code change.
+ * Follows the drawer pattern from the design prototype — a left slide-over at
+ * every breakpoint rather than a rail — with two things the prototype lacked:
+ * selections live in the URL (see useFilterParams) so a filtered view is
+ * shareable, and every value carries a live count so a filter never leads to
+ * an empty grid.
  *
- * One component, two chromes: a persistent rail on desktop (hiding filters
- * behind a button on a large grid suppresses their use) and a drawer below lg.
+ * Generated from the taxonomy rather than hardcoded, so an attribute Belioras
+ * adds in the dashboard appears here with no code change.
  */
 export default function FilterPanel({
-  variant = "rail",
   open,
   onClose,
   facets,
   filters,
   priceBounds,
   activeCount,
+  resultCount,
   onToggle,
   onPriceChange,
   onSaleChange,
   onClearAll,
 }) {
-  const body = (
-    <FilterBody
-      facets={facets}
-      filters={filters}
-      priceBounds={priceBounds}
-      onToggle={onToggle}
-      onPriceChange={onPriceChange}
-      onSaleChange={onSaleChange}
-    />
-  );
-
-  if (variant === "rail") {
-    return (
-      <aside className="hidden w-64 shrink-0 lg:block" aria-label="Filters">
-        <div className="sticky top-32 max-h-[calc(100dvh-10rem)] overflow-y-auto pr-2">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-espresso">
-              Filter
-            </h2>
-            {activeCount > 0 && (
-              <button
-                type="button"
-                onClick={onClearAll}
-                className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gold-700 transition-colors hover:text-espresso"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-          {body}
-        </div>
-      </aside>
-    );
-  }
-
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-espresso/30 backdrop-blur-sm lg:hidden"
-            onClick={onClose}
-          />
-          <motion.aside
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-y-0 left-0 z-50 flex w-[88vw] max-w-sm flex-col bg-ivory-50 shadow-2xl lg:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Filters"
-          >
-            <div className="flex items-center justify-between border-b border-umber-50 px-5 py-4">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-espresso">Filter</h2>
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label="Close filters"
-                className="text-espresso/50 transition-colors hover:text-espresso"
-              >
-                <X className="size-5" aria-hidden="true" />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto px-5 py-5">{body}</div>
-
-            <div className="grid grid-cols-2 gap-3 border-t border-umber-50 px-5 py-4">
-              <button
-                type="button"
-                onClick={onClearAll}
-                className="btn btn-md btn-secondary text-[11px]"
-              >
-                Clear all
-              </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="btn btn-md bg-espresso text-[11px] text-ivory-50"
-              >
-                Show results
-              </button>
-            </div>
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function FilterBody({ facets, filters, priceBounds, onToggle, onPriceChange, onSaleChange }) {
   const dimensions = Object.values(facets ?? {});
 
   return (
-    <div className="space-y-1">
-      <FilterGroup title="Price" defaultOpen>
-        <PriceRangeSlider
-          min={priceBounds[0]}
-          max={priceBounds[1]}
-          value={[filters.price.min ?? priceBounds[0], filters.price.max ?? priceBounds[1]]}
-          onChange={onPriceChange}
-        />
-        <label className="mt-4 flex items-center gap-2.5 text-[13px] text-espresso-soft">
-          <Checkbox checked={filters.onSale} onChange={() => onSaleChange(!filters.onSale)} />
-          On sale only
-        </label>
-      </FilterGroup>
+    <Drawer
+      open={open}
+      onClose={onClose}
+      title="Filter"
+      side="left"
+      width="max-w-sm"
+      footer={
+        <div className="px-6 py-4">
+          <button type="button" onClick={onClose} className="btn btn-md btn-primary w-full">
+            Show {resultCount} {resultCount === 1 ? "piece" : "pieces"}
+          </button>
+        </div>
+      }
+    >
+      <div className="px-6 pb-6">
+        <div className="flex items-center justify-between py-4">
+          <span className="text-[11px] uppercase tracking-[0.22em] text-espresso-soft">
+            {activeCount} active
+          </span>
+          {activeCount > 0 && (
+            <button
+              type="button"
+              onClick={onClearAll}
+              className="text-[11px] uppercase tracking-widest text-gold-700 transition-colors hover:text-espresso"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
 
-      {dimensions.map((facet, i) => (
-        <FilterGroup key={facet.id} title={facet.label} defaultOpen={i < 2}>
-          {facet.id === "color" ? (
-            <SwatchGrid
-              facet={facet}
-              selected={filters.dimensions[facet.id] ?? []}
-              onToggle={(value) => onToggle(facet.id, value)}
-            />
-          ) : (
-            <ul className="space-y-2">
+        {dimensions.map((facet, i) => (
+          <FilterSection
+            key={facet.id}
+            title={facet.label}
+            defaultOpen={i === 0}
+            selectedCount={(filters.dimensions[facet.id] ?? []).length}
+          >
+            {/* Two columns: the prototype's choice, and it roughly halves the
+                scrolling on dimensions with a dozen values. */}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
               {facet.values.map((value) => {
                 const selected = (filters.dimensions[facet.id] ?? []).includes(value.id);
                 // Kept visible but inert: hiding it would make the dimension
-                // look exhausted when the option simply doesn't combine with
-                // the current selection.
+                // look exhausted when the option is an alternative, not an
+                // addition to the current selection.
                 const unavailable = value.count === 0 && !selected;
 
                 return (
-                  <li key={value.id}>
-                    <label
-                      className={cn(
-                        "flex items-center justify-between gap-2 text-[13px]",
-                        unavailable
-                          ? "cursor-not-allowed text-espresso/25"
-                          : "text-espresso-soft hover:text-espresso",
-                      )}
-                    >
-                      <span className="flex items-center gap-2.5">
-                        <Checkbox
-                          checked={selected}
-                          disabled={unavailable}
-                          onChange={() => onToggle(facet.id, value.id)}
-                        />
-                        {value.name}
-                      </span>
-                      <span className="tabular-nums text-[11px] text-espresso/35">
-                        {value.count}
-                      </span>
-                    </label>
-                  </li>
+                  <FilterCheckbox
+                    key={value.id}
+                    checked={selected}
+                    disabled={unavailable}
+                    count={value.count}
+                    onChange={() => onToggle(facet.id, value.id)}
+                    label={
+                      value.hex ? (
+                        <span className="inline-flex items-center gap-2">
+                          <span
+                            aria-hidden="true"
+                            className="size-3 shrink-0 rounded-full border border-umber-100"
+                            style={{ backgroundColor: value.hex }}
+                          />
+                          {value.name}
+                        </span>
+                      ) : (
+                        value.name
+                      )
+                    }
+                  />
                 );
               })}
-            </ul>
-          )}
-        </FilterGroup>
-      ))}
-    </div>
+            </div>
+          </FilterSection>
+        ))}
+
+        <PriceSection
+          bounds={priceBounds}
+          filters={filters}
+          onPriceChange={onPriceChange}
+          onSaleChange={onSaleChange}
+        />
+      </div>
+    </Drawer>
   );
 }
 
-function FilterGroup({ title, defaultOpen = false, children }) {
+/**
+ * Collapsed sections turn gold when they hold a selection — otherwise a
+ * shopper who has scrolled past a closed accordion has no way to tell which
+ * ones are narrowing the results.
+ */
+function FilterSection({ title, defaultOpen = false, selectedCount = 0, children }) {
   const [open, setOpen] = useState(defaultOpen);
+  const isActive = selectedCount > 0;
 
   return (
-    <div className="border-b border-umber-50/70 py-3 last:border-b-0">
+    <div className="border-b border-umber-50 py-4">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between py-1 text-left"
+        className="flex w-full items-center justify-between text-left"
       >
-        <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-espresso">
+        <span
+          className={cn(
+            "text-[11px] font-semibold uppercase tracking-[0.22em] transition-colors",
+            isActive ? "text-gold-700" : "text-espresso",
+          )}
+        >
           {title}
+          {isActive && <span className="ml-1.5 tabular-nums">({selectedCount})</span>}
         </span>
         <ChevronDown
           className={cn(
-            "size-4 text-espresso/40 transition-transform duration-300",
-            open && "rotate-180",
+            "size-4 shrink-0 text-espresso/40 transition-transform duration-300",
+            !open && "-rotate-90",
           )}
           aria-hidden="true"
         />
@@ -220,67 +162,111 @@ function FilterGroup({ title, defaultOpen = false, children }) {
         )}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className="pt-3 pb-1">{children}</div>
+          <div className="pt-4">{children}</div>
         </div>
       </div>
     </div>
   );
 }
 
-/** Colour reads faster as a swatch than as a word — the hex is in the taxonomy. */
-function SwatchGrid({ facet, selected, onToggle }) {
-  return (
-    <ul className="flex flex-wrap gap-2.5">
-      {facet.values.map((value) => {
-        const isSelected = selected.includes(value.id);
-        const unavailable = value.count === 0 && !isSelected;
+function PriceSection({ bounds, filters, onPriceChange, onSaleChange }) {
+  const { symbol } = useCurrency();
+  const lo = filters.price.min ?? bounds[0];
+  const hi = filters.price.max ?? bounds[1];
 
-        return (
-          <li key={value.id}>
-            <button
-              type="button"
-              onClick={() => onToggle(value.id)}
-              disabled={unavailable}
-              aria-pressed={isSelected}
-              // Colour alone must not carry the meaning: the name and count go
-              // in the accessible label, and selection shows as a check, not
-              // just a ring.
-              aria-label={`${value.name}, ${value.count} items`}
-              title={`${value.name} (${value.count})`}
-              className={cn(
-                "relative flex size-7 items-center justify-center rounded-full ring-1 transition-all",
-                isSelected ? "ring-2 ring-espresso ring-offset-2" : "ring-umber-100",
-                unavailable ? "cursor-not-allowed opacity-25" : "hover:ring-espresso/50",
-              )}
-              style={{ backgroundColor: value.hex ?? "#ccc" }}
-            >
-              {isSelected && (
-                <Check
-                  className={cn(
-                    "size-3.5",
-                    isLightSwatch(value.hex) ? "text-espresso" : "text-ivory-50",
-                  )}
-                  aria-hidden="true"
-                />
-              )}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
+  return (
+    <div className="py-5">
+      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">
+        Price
+      </p>
+
+      {/* Number inputs alongside the slider: typing an exact bound is faster
+          than dragging to it, and it is the only precise option on touch. */}
+      <div className="mb-5 flex items-center gap-3">
+        <PriceInput
+          label="Minimum price"
+          value={lo}
+          min={bounds[0]}
+          max={hi}
+          symbol={symbol}
+          onCommit={(v) => onPriceChange([Math.min(v, hi), hi])}
+        />
+        <span className="text-espresso/30">—</span>
+        <PriceInput
+          label="Maximum price"
+          value={hi}
+          min={lo}
+          max={bounds[1]}
+          symbol={symbol}
+          onCommit={(v) => onPriceChange([lo, Math.max(v, lo)])}
+        />
+      </div>
+
+      <PriceRangeSlider
+        min={bounds[0]}
+        max={bounds[1]}
+        value={[lo, hi]}
+        onChange={onPriceChange}
+        showLabels={false}
+      />
+
+      <label className="mt-5 flex cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft">
+        <NativeCheckbox checked={filters.onSale} onChange={() => onSaleChange(!filters.onSale)} />
+        On sale only
+      </label>
+    </div>
   );
 }
 
-/** Rough luminance test so the check mark stays legible on pale swatches. */
-function isLightSwatch(hex) {
-  if (!hex) return true;
-  const value = hex.replace("#", "");
-  if (value.length !== 6) return true;
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(value.slice(i, i + 2), 16));
-  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6;
+function PriceInput({ label, value, min, max, symbol, onCommit }) {
+  const [draft, setDraft] = useState(null);
+
+  return (
+    <span className="inline-flex items-center gap-1 border border-umber-100 px-2 py-1.5 focus-within:border-espresso">
+      <span aria-hidden="true" className="text-xs text-espresso/40">
+        {symbol}
+      </span>
+      <input
+        type="number"
+        inputMode="numeric"
+        aria-label={label}
+        min={min}
+        max={max}
+        // Held as a draft while typing: committing on every keystroke would
+        // re-filter on an intermediate value like "1" on the way to "150".
+        value={draft ?? value}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => {
+          if (draft !== null && draft !== "") onCommit(Number(draft));
+          setDraft(null);
+        }}
+        onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+        className="w-16 bg-transparent font-mono text-sm text-espresso outline-none"
+      />
+    </span>
+  );
 }
 
-function Checkbox({ checked, disabled, onChange }) {
+function FilterCheckbox({ checked, disabled, label, count, onChange }) {
+  return (
+    <label
+      className={cn(
+        "flex items-center justify-between gap-2 text-[13px]",
+        disabled
+          ? "cursor-not-allowed text-espresso/25"
+          : "cursor-pointer text-espresso-soft hover:text-espresso",
+      )}
+    >
+      <span className="flex min-w-0 items-center gap-2.5">
+        <NativeCheckbox checked={checked} disabled={disabled} onChange={onChange} />
+        <span className="truncate">{label}</span>
+      </span>
+      <span className="shrink-0 tabular-nums text-[11px] text-espresso/35">{count}</span>
+    </label>
+  );
+}
+
+function NativeCheckbox({ checked, disabled, onChange }) {
   return (
     <span className="relative flex size-4 shrink-0 items-center justify-center">
       <input
