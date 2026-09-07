@@ -207,6 +207,31 @@
     letter-spacing: 0.03em;
   }
 
+  /*
+    Tailwind v4 dropped `cursor: pointer` on buttons from Preflight, which v3
+    included — so every button in the app fell back to the text cursor unless
+    someone remembered to add the class. Restoring it here covers all of them
+    at once, instead of patching each control and missing the next one.
+
+    Disabled controls are excluded: a pointer on something inert is a lie about
+    what will happen.
+  */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="radio"]:not([aria-disabled="true"]),
+  [role="option"]:not([aria-disabled="true"]),
+  a[href],
+  label[for],
+  summary,
+  select:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
   ::selection {
     background-color: var(--color-gold-300);
     color: var(--color-espresso);
