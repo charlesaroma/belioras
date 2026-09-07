@@ -74,18 +74,20 @@ export default function FilterPanel({
             {/* Two columns: the prototype's choice, and it roughly halves the
                 scrolling on dimensions with a dozen values. */}
             <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+              {/*
+                Values that would return nothing are removed upstream by
+                computeFacets rather than shown greyed out. With counts hidden
+                there is no way to explain a disabled row, so an unexplained
+                inert option is worse than simply not offering it — and a
+                shopper still cannot reach an empty grid either way.
+              */}
               {facet.values.map((value) => {
                 const selected = (filters.dimensions[facet.id] ?? []).includes(value.id);
-                // Kept visible but inert: hiding it would make the dimension
-                // look exhausted when the option is an alternative, not an
-                // addition to the current selection.
-                const unavailable = value.count === 0 && !selected;
 
                 return (
                   <FilterCheckbox
                     key={value.id}
                     checked={selected}
-                    disabled={unavailable}
                     onChange={() => onToggle(facet.id, value.id)}
                     label={
                       value.hex ? (
@@ -249,25 +251,18 @@ function PriceInput({ label, value, min, max, symbol, onCommit }) {
 /**
  * Deliberately shows no result count.
  *
- * Counts are still computed — they are what marks a value unavailable, so a
- * shopper can never pick a filter and land on an empty grid — but the number
+ * Counts are still computed — they decide which values are offered at all, so
+ * a shopper can never pick a filter and land on an empty grid — but the number
  * is not rendered. On a curated catalogue the figures are small enough
  * ("Prom 1", "Red 1") that displaying them advertises how thin the stock is,
  * which works against the brand rather than helping the shopper. Worth
  * revisiting once facets routinely hold dozens of pieces, where the number
  * starts carrying real information.
  */
-function FilterCheckbox({ checked, disabled, label, onChange }) {
+function FilterCheckbox({ checked, label, onChange }) {
   return (
-    <label
-      className={cn(
-        "flex min-w-0 items-center gap-2.5 text-[13px]",
-        disabled
-          ? "cursor-not-allowed text-espresso/25"
-          : "cursor-pointer text-espresso-soft hover:text-espresso",
-      )}
-    >
-      <NativeCheckbox checked={checked} disabled={disabled} onChange={onChange} />
+    <label className="flex min-w-0 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft transition-colors hover:text-espresso">
+      <NativeCheckbox checked={checked} onChange={onChange} />
       <span className="truncate">{label}</span>
     </label>
   );

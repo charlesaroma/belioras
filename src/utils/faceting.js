@@ -106,9 +106,13 @@ export function computeFacets(products, taxonomy, activeFilters) {
         hex: value.hex,
         count: counts.get(tokenFor(dimension, value.id)) ?? 0,
       }))
-      // A value nothing in the catalog carries is noise, not a choice. Values
-      // that merely happen to be zero under the current selection are kept but
-      // disabled, so the shopper can see the option exists.
+      // Only offer values that would actually return something. A currently
+      // selected value is always kept, or clearing it would be impossible once
+      // it dropped out of the list.
+      //
+      // Counts are not displayed (see FilterPanel), which is why an empty value
+      // is removed rather than shown greyed out — without a number there is
+      // nothing to explain why a row is inert.
       .filter((value) => value.count > 0 || (dimensions[dimension] ?? []).includes(value.id));
 
     if (values.length) {
