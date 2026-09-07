@@ -3,7 +3,7 @@ import ProductCard from "../../../components/storefront/ProductCard";
 import { COLUMN_CLASSES, COLUMN_GAP_CLASSES } from "../../../utils/gridColumns";
 import { cn } from "../../../utils/cn";
 
-function ProductGrid({ filtered, cols, loading, error, onClearFilters }) {
+function ProductGrid({ filtered, cols, loading, error, onClearFilters, hasActiveFilters = false }) {
   return (
     <section className="container-main px-4 sm:px-6 md:px-8 pt-10 pb-24">
       {loading ? (
@@ -14,15 +14,25 @@ function ProductGrid({ filtered, cols, loading, error, onClearFilters }) {
         <div className="py-32 text-center text-espresso/60">Failed to load products. Please try again.</div>
       ) : filtered.length === 0 ? (
         <div className="py-32 text-center">
-          <p className="font-display text-2xl text-espresso mb-3">No results found</p>
-          <p className="text-sm text-espresso/60 mb-6">Try adjusting your filters.</p>
-          <button
-            type="button"
-            onClick={onClearFilters}
-            className="cursor-pointer text-xs font-bold uppercase tracking-widest text-gold-700 hover:text-espresso transition-colors underline underline-offset-4"
-          >
-            Clear all filters
-          </button>
+          {/* A dead end with no way out is the anti-pattern; always offer the
+              next move rather than a bare "0 results". */}
+          <p className="font-display text-2xl text-espresso mb-3">
+            {hasActiveFilters ? "Nothing matches that combination" : "This edit is being curated"}
+          </p>
+          <p className="mx-auto mb-6 max-w-sm text-sm text-espresso-soft">
+            {hasActiveFilters
+              ? "Try removing a filter — colour and fabric together narrow things quickly."
+              : "We're finishing this selection. The rest of the collection is ready for you."}
+          </p>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={onClearFilters}
+              className="btn btn-md btn-primary"
+            >
+              Clear all filters
+            </button>
+          )}
         </div>
       ) : (
         <motion.div

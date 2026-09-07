@@ -36,7 +36,6 @@ export default function CatalogPage() {
       products={data?.products}
       loading={loading}
       error={error}
-      showCategoryTabs={false}
       header={{
         eyebrow: resolved?.rootLabel ?? "The Belioras Edit",
         title: resolved?.label ?? "Collection",

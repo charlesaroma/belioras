@@ -1,10 +1,15 @@
+import { useCurrency } from "../../../context/CurrencyContext";
+
 function PriceRangeSlider({ min, max, value, onChange }) {
   const [lo, hi] = value;
+  // Prices are stored in EUR; the slider must read in whatever the shopper
+  // selected, not a hardcoded euro sign.
+  const { format } = useCurrency();
   return (
     <div className="px-1">
       <div className="flex justify-between text-xs text-espresso/60 mb-3">
-        <span>€{lo}</span>
-        <span>€{hi}</span>
+        <span>{format(lo)}</span>
+        <span>{format(hi)}</span>
       </div>
       <div className="relative h-1 bg-umber-50 rounded-full">
         <div

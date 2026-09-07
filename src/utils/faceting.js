@@ -1,0 +1,150 @@
+/**
+ * Facet counting and filtering over the shared token vocabulary.
+ *
+ * The same `dimension:value` tokens the mega menu resolves URLs against
+ * (see navTokens.js) are what the filter panel selects on, so a menu link and
+ * a filter checkbox are the same operation rather than two implementations of
+ * it that drift apart.
+ *
+ * Pure module — no React, no data imports — so the counting logic is testable
+ * on its own.
+ */
+
+/** Taxonomy dimension id → token prefix used on products. */
+export const DIMENSION_PREFIX = {
+  color: "color",
+  size: "size",
+  fabric: "fabric",
+  occasion: "occ",
+  style: "style",
+  length: "len",
+  hair: "hair",
+};
+
+/** Human-facing labels, in the order they should appear in the panel. */
+export const DIMENSION_ORDER = ["occasion", "color", "fabric", "style", "length", "size", "hair"];
+
+export function tokenFor(dimension, value) {
+  return `${DIMENSION_PREFIX[dimension] ?? dimension}:${value}`;
+}
+
+/**
+ * Does a product satisfy the selection?
+ *
+ * Within a dimension the match is OR — picking Satin and Lace means "either",
+ * which is what a shopper ticking two boxes intends. Across dimensions it is
+ * AND, so Satin + Party narrows rather than widens. This asymmetry is standard
+ * in faceted search and getting it backwards makes filters feel broken.
+ */
+export function matchesSelection(product, dimensions, { ignore = null } = {}) {
+  const tags = new Set(product.tags ?? []);
+
+  for (const [dimension, values] of Object.entries(dimensions)) {
+    if (!values?.length || dimension === ignore) continue;
+    if (!values.some((value) => tags.has(tokenFor(dimension, value)))) return false;
+  }
+
+  return true;
+}
+
+export function withinPrice(product, { min, max }) {
+  if (min !== null && product.price < min) return false;
+  if (max !== null && product.price > max) return false;
+  return true;
+}
+
+export function applyFilters(products, { dimensions, price, onSale, query }) {
+  return products.filter((product) => {
+    if (!matchesSelection(product, dimensions)) return false;
+    if (!withinPrice(product, price)) return false;
+    if (onSale && !(product.originalPrice && product.originalPrice > product.price)) return false;
+
+    if (query) {
+      const haystack = `${product.name} ${product.description ?? ""}`.toLowerCase();
+      if (!haystack.includes(query.toLowerCase())) return false;
+    }
+
+    return true;
+  });
+}
+
+/**
+ * Counts how many products each facet value would yield.
+ *
+ * The count for a value is computed with its *own* dimension excluded from the
+ * selection. Otherwise, once a shopper picks "Satin", every other fabric would
+ * read 0 and the dimension would appear exhausted — when in fact those options
+ * are alternatives, not additions.
+ */
+export function computeFacets(products, taxonomy, activeFilters) {
+  const { dimensions, price, onSale, query } = activeFilters;
+  const facets = {};
+
+  for (const dimension of DIMENSION_ORDER) {
+    const definition = taxonomy?.[dimension];
+    if (!definition?.values?.length) continue;
+
+    const candidates = products.filter(
+      (product) =>
+        matchesSelection(product, dimensions, { ignore: dimension }) &&
+        withinPrice(product, price) &&
+        (!onSale || (product.originalPrice && product.originalPrice > product.price)) &&
+        (!query || `${product.name}`.toLowerCase().includes(query.toLowerCase())),
+    );
+
+    const counts = new Map();
+    for (const product of candidates) {
+      for (const tag of product.tags ?? []) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+
+    const values = definition.values
+      .map((value) => ({
+        id: value.id,
+        name: value.name ?? value.id,
+        hex: value.hex,
+        count: counts.get(tokenFor(dimension, value.id)) ?? 0,
+      }))
+      // A value nothing in the catalog carries is noise, not a choice. Values
+      // that merely happen to be zero under the current selection are kept but
+      // disabled, so the shopper can see the option exists.
+      .filter((value) => value.count > 0 || (dimensions[dimension] ?? []).includes(value.id));
+
+    if (values.length) {
+      facets[dimension] = { id: dimension, label: labelFor(dimension, definition), values };
+    }
+  }
+
+  return facets;
+}
+
+function labelFor(dimension, definition) {
+  const label = definition.label;
+  if (typeof label === "string") return label;
+  if (label?.en) return label.en;
+  return dimension.charAt(0).toUpperCase() + dimension.slice(1);
+}
+
+/** Price bounds across a product set, rounded outward to whole currency units. */
+export function priceBounds(products) {
+  if (!products.length) return [0, 500];
+  const prices = products.map((p) => p.price);
+  return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
+}
+
+export function sortProducts(products, sort) {
+  const list = [...products];
+  if (sort === "price-low") list.sort((a, b) => a.price - b.price);
+  else if (sort === "price-high") list.sort((a, b) => b.price - a.price);
+  else if (sort === "rating") list.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+  else if (sort === "sale") {
+    list.sort((a, b) => discount(b) - discount(a));
+  }
+  return list;
+}
+
+function discount(product) {
+  if (!product.originalPrice || product.originalPrice <= product.price) return 0;
+  return 1 - product.price / product.originalPrice;
+}
