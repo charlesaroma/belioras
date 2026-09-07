@@ -9,8 +9,10 @@ import { cn } from "../../../utils/cn";
  *  - No circular backdrop and no drop shadow. The mark sits directly on the
  *    header so its background blends seamlessly; the SVGs are transparent, so
  *    the blend is the absence of a container rather than a matched fill.
- *  - 230px is the desktop width. On a 375px phone that would fill the entire
- *    bar, so it ramps up rather than being applied flat.
+ *  - The review specified 230px. In the built navbar that reads oversized and
+ *    forces the header taller than the nav row needs, so it sits at 170px on
+ *    desktop and ramps down from there. Worth confirming with Belioras, since
+ *    it is a deliberate departure from the agreed number.
  *
  * The white variant is used while the header is transparent over the hero; the
  * gold variant once the header is solid.
@@ -29,11 +31,9 @@ export default function Logo({ isScrolled, menuOpen, isLightBg }) {
       <img
         src={onDarkBackdrop ? "/belioras-logo-white.svg" : "/belioras-logo-gold.svg"}
         alt="Belioras"
-        width={230}
-        height={153}
-        className={cn(
-          "h-auto w-[150px] transition-all duration-300 sm:w-[180px] lg:w-[230px]",
-        )}
+        width={170}
+        height={113}
+        className={cn("h-auto w-[110px] transition-all duration-300 sm:w-[130px] lg:w-[170px]")}
       />
     </Link>
   );

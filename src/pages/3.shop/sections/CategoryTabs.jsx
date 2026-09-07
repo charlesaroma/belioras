@@ -1,5 +1,6 @@
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { CATEGORIES, SORT_OPTIONS, COLOR_MAP } from "./constants";
+import GridViewSwitcher from "../../../components/storefront/GridViewSwitcher";
 
 function CategoryTabs({ 
   activeCategory,
@@ -70,21 +71,8 @@ function CategoryTabs({
             )}
           </button>
 
-          {/* Grid size toggle (desktop) */}
-          <div className="hidden lg:flex items-center gap-1 border border-umber-50 rounded-full px-2 py-1">
-            {[3, 4].map((n) => (
-              <button
-                key={n}
-                type="button"
-                onClick={() => setCols(n)}
-                className={`cursor-pointer size-6 flex items-center justify-center rounded-full text-[11px] font-bold transition-all ${
-                  cols === n ? "bg-espresso text-ivory-50" : "text-espresso/40 hover:text-espresso"
-                }`}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
+          {/* Grid density — different option sets per breakpoint. */}
+          <GridViewSwitcher columns={cols} setColumns={setCols} />
         </div>
       </div>
 

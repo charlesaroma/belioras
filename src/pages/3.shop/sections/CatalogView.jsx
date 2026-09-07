@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
 
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
+import { DEFAULT_COLUMNS, isValidColumns } from "../../../utils/gridColumns";
+
 import CategoryTabs from "./CategoryTabs";
 import FilterPanel from "./FilterPanel";
 import ProductGrid from "./ProductGrid";
@@ -37,7 +40,9 @@ export default function CatalogView({
   const [sortOrder, setSortOrder] = useState("newest");
   const [activeCategory, setActiveCategory] = useState("All");
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
-  const [cols, setCols] = useState(4);
+  // A viewer who prefers a dense grid prefers it on every visit.
+  const [storedCols, setCols] = useLocalStorage("belioras:gridColumns", DEFAULT_COLUMNS);
+  const cols = isValidColumns(storedCols) ? storedCols : DEFAULT_COLUMNS;
   const [filters, setFilters] = useState({
     colors: [],
     priceValue: [0, 300],

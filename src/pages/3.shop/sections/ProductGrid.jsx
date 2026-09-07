@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import ProductCard from "../../../components/storefront/ProductCard";
+import { COLUMN_CLASSES, COLUMN_GAP_CLASSES } from "../../../utils/gridColumns";
+import { cn } from "../../../utils/cn";
 
 function ProductGrid({ filtered, cols, loading, error, onClearFilters }) {
   return (
@@ -25,11 +27,14 @@ function ProductGrid({ filtered, cols, loading, error, onClearFilters }) {
       ) : (
         <motion.div
           layout
-          className={`grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 sm:gap-y-16 ${
-            cols === 3
-              ? "lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20"
-              : "lg:grid-cols-4 lg:gap-x-6 lg:gap-y-16"
-          }`}
+          // Honours the selected density exactly. The previous version only
+          // understood 3 and 4 and applied them at lg only, so any other choice
+          // silently fell through to a 4-column grid.
+          className={cn(
+            "grid",
+            COLUMN_CLASSES[cols] ?? COLUMN_CLASSES[4],
+            COLUMN_GAP_CLASSES[cols] ?? COLUMN_GAP_CLASSES[4],
+          )}
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((product) => (
