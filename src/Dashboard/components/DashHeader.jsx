@@ -1,29 +1,46 @@
-import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight, Menu } from "lucide-react";
 
+/**
+ * Admin page header.
+ *
+ * Sticky, with the page name set in the display serif and a hairline rule —
+ * the same typographic voice as the storefront, rather than the bold sans a
+ * generic admin template would use.
+ */
 export default function DashHeader({ title, onMenuToggle, showMenuButton = true }) {
   return (
-    <header className="flex items-center justify-between px-6 py-4 border-b border-umber-50 bg-ivory-50">
-      <div className="flex items-center gap-4">
+    <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-umber-50 bg-ivory-50/95 px-5 py-5 backdrop-blur sm:px-8 lg:px-10">
+      <div className="flex min-w-0 items-center gap-3">
         {showMenuButton && (
           <button
             type="button"
             onClick={onMenuToggle}
-            className="lg:hidden flex size-10 items-center justify-center rounded-lg text-espresso hover:bg-umber-50 transition-colors"
-            aria-label="Toggle menu"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full text-espresso transition-colors hover:bg-umber-50 lg:hidden"
+            aria-label="Open menu"
           >
-            <Menu className="size-5" />
+            <Menu className="size-5" aria-hidden="true" />
           </button>
         )}
-        <h1 className="text-xl font-semibold text-espresso">{title}</h1>
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-700">
+            Belioras Atelier
+          </p>
+          <h1 className="truncate font-display text-2xl leading-tight text-espresso">{title}</h1>
+        </div>
       </div>
-      <div className="flex items-center gap-4">
-        <button
-          type="button"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-espresso text-ivory-50 text-sm font-medium hover:bg-espresso/80 transition-colors"
-        >
-          View Store
-        </button>
-      </div>
+
+      {/* Opens in a new tab: an admin checking the storefront mid-edit should
+          not lose their place in the dashboard. */}
+      <Link
+        to="/"
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex shrink-0 items-center gap-1.5 border border-espresso px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
+      >
+        View store
+        <ArrowUpRight className="size-3.5" aria-hidden="true" />
+      </Link>
     </header>
   );
 }

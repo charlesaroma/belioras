@@ -14,6 +14,7 @@ import Footer from "./components/layout/Footer";
 import CookieConsent from "./components/layout/CookieConsent";
 import BackToTop from "./components/layout/BackToTop";
 import ScrollToTop from "./components/layout/ScrollToTop";
+import RequireAuth from "./components/auth/RequireAuth";
 import NotFound from "./components/layout/NotFound";
 
 import HomePage from "./pages/1.home/home";
@@ -74,11 +75,6 @@ function Layout() {
   );
 }
 
-/**
- * Dashboard and protected-area routes are intentionally commented out while
- * the storefront is built first. They will be mounted under /dashboard with
- * <RequireAuth> once the auth pass lands.
- */
 function App() {
   return (
     <AppProviders>
@@ -90,8 +86,20 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-          {/* Dashboard Routes */}
-          <Route path="/dashboard" element={<DashboardLayout />}>
+          {/*
+            Guarded. The component existed and was written for exactly this,
+            but was never applied — so the admin area, including customer
+            names, emails and order totals, was reachable by anyone who typed
+            the URL on the deployed site.
+          */}
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth adminOnly>
+                <DashboardLayout />
+              </RequireAuth>
+            }
+          >
             <Route index element={<DashOverview />} />
             <Route path="products" element={<DashProducts />} />
             <Route path="categories" element={<DashCategories />} />

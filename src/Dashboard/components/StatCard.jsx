@@ -1,22 +1,49 @@
-export default function StatCard({ title, value, change, icon: Icon, trend }) {
-  const isPositive = trend === "up";
-  const trendColor = isPositive ? "text-green-600" : "text-red-600";
-  const trendIcon = isPositive ? "↑" : "↓";
+import { cn } from "../../utils/cn";
+
+/**
+ * A single headline figure.
+ *
+ * Deliberately quiet: a hairline border and no drop shadow, with the number
+ * set in the display serif at a size that lets it carry the card on its own.
+ * The previous version wrapped every figure in a tinted icon chip with a
+ * shadow, which is the visual language of a generic admin template — the
+ * restraint is what makes it read as the same brand as the storefront.
+ *
+ * Gold appears only on the rule beneath the label, not as a fill.
+ */
+export default function StatCard({ label, value, change, hint, icon: Icon }) {
+  const hasChange = typeof change === "number" && Number.isFinite(change);
+  const isPositive = hasChange && change >= 0;
 
   return (
-    <div className="rounded-xl border border-umber-50 bg-white p-6 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
-        <div className="size-12 rounded-lg bg-gold-500/10 flex items-center justify-center">
-          <Icon className="size-6 text-gold-700" />
-        </div>
-        {change && (
-          <span className={`text-sm font-medium ${trendColor}`}>
-            {trendIcon} {change}
-          </span>
+    <div className="group relative border border-umber-50 bg-ivory-50 p-6 transition-colors hover:border-gold-500/40">
+      <div className="flex items-start justify-between gap-4">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-espresso-soft">
+          {label}
+        </p>
+        {Icon && (
+          <Icon className="size-4 shrink-0 text-espresso/25" strokeWidth={1.5} aria-hidden="true" />
         )}
       </div>
-      <h3 className="text-sm font-medium text-espresso/60 mb-1">{title}</h3>
-      <p className="text-2xl font-semibold text-espresso">{value}</p>
+
+      <span aria-hidden="true" className="mt-3 block h-px w-8 bg-gold-500" />
+
+      <p className="mt-4 font-display text-[34px] leading-none tracking-tight text-espresso">
+        {value}
+      </p>
+
+      <div className="mt-3 flex items-baseline gap-2 text-[11px]">
+        {hasChange ? (
+          <span className={cn("font-medium tabular-nums", isPositive ? "text-success" : "text-error")}>
+            {isPositive ? "↑" : "↓"} {Math.abs(change).toFixed(1)}%
+          </span>
+        ) : (
+          // No prior period to compare against — saying "0%" would be a claim
+          // the data does not support.
+          <span className="text-espresso/30">—</span>
+        )}
+        {hint && <span className="text-espresso/40">{hint}</span>}
+      </div>
     </div>
   );
 }

@@ -1,101 +1,124 @@
 import { Link, useLocation } from "react-router-dom";
-import { 
-  LayoutDashboard, 
-  Package, 
-  LayoutGrid,
-  ShoppingCart, 
-  Users, 
-  Settings, 
-  LogOut,
-  X
-} from "lucide-react";
-import { DASHBOARD_NAV_ITEMS } from "../lib/constants";
-
-const iconMap = {
+import {
   LayoutDashboard,
-  Package,
   LayoutGrid,
+  LogOut,
+  Package,
+  Settings,
   ShoppingCart,
   Users,
-  Settings,
-};
+  X,
+} from "lucide-react";
 
+import { useAuth } from "../../context/AuthContext";
+import { cn } from "../../utils/cn";
+import { DASHBOARD_NAV_ITEMS } from "../lib/constants";
+
+const iconMap = { LayoutDashboard, Package, LayoutGrid, ShoppingCart, Users, Settings };
+
+/**
+ * Admin navigation.
+ *
+ * On brand espresso rather than the near-black #1a1a1a it used to hardcode —
+ * a shade off the brand's own black reads as a different product.
+ *
+ * The active state is a gold hairline and a lift in text colour instead of a
+ * filled gold pill with a coloured shadow. On a dark ground a solid accent
+ * block is the loudest thing on the page, which is the wrong emphasis for
+ * something a user sees on every screen.
+ */
 export default function DashSidebar({ isOpen, onClose }) {
-  const location = useLocation();
-  const pathSegments = location.pathname.split('/');
-  const currentPage = pathSegments[pathSegments.length - 1] === 'dashboard' ? 'overview' : pathSegments[pathSegments.length - 1] || 'overview';
+  const { pathname } = useLocation();
+  const { user, logout } = useAuth();
 
   return (
     <>
-      {/* Mobile backdrop */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-espresso/50 backdrop-blur-sm z-40 lg:hidden"
+        <button
+          type="button"
+          aria-label="Close menu"
+          className="fixed inset-0 z-40 bg-espresso/50 backdrop-blur-sm lg:hidden"
           onClick={onClose}
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#1a1a1a] text-ivory-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-espresso text-ivory-50",
+          "transition-transform duration-300 ease-in-out lg:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+        )}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-6 border-b border-white/10">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/belioras-logo.png" alt="Belioras" className="h-12 w-auto" />
+        <div className="flex shrink-0 items-center justify-between border-b border-ivory-50/10 px-6 py-6">
+          <Link to="/" aria-label="Belioras — storefront">
+            <img src="/belioras-logo-gold.svg" alt="Belioras" className="h-14 w-auto" />
           </Link>
           <button
             type="button"
             onClick={onClose}
-            className="lg:hidden text-ivory-50/60 hover:text-ivory-50"
+            aria-label="Close menu"
+            className="text-ivory-50/50 transition-colors hover:text-ivory-50 lg:hidden"
           >
-            <X className="size-5" />
+            <X className="size-5" aria-hidden="true" />
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="px-4 py-6 space-y-1">
-          {DASHBOARD_NAV_ITEMS.map((item) => {
-            const Icon = iconMap[item.icon];
-            const to = item.id === 'overview' ? '/dashboard' : `/dashboard/${item.id}`;
-            const isActive = location.pathname === to || (item.id !== 'overview' && location.pathname === `/dashboard/${item.id}`);
-            return (
-              <Link
-                key={item.id}
-                to={to}
-                onClick={onClose}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-gold-500 text-espresso shadow-lg shadow-gold-500/20"
-                    : "text-ivory-50/70 hover:bg-white/10 hover:text-ivory-50"
-                }`}
-              >
-                <Icon className="size-5" />
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto px-3 py-6" aria-label="Dashboard">
+          <ul className="space-y-0.5">
+            {DASHBOARD_NAV_ITEMS.map((item) => {
+              const Icon = iconMap[item.icon];
+              const to = item.id === "overview" ? "/dashboard" : `/dashboard/${item.id}`;
+              const isActive =
+                item.id === "overview" ? pathname === "/dashboard" : pathname.startsWith(to);
+
+              return (
+                <li key={item.id}>
+                  <Link
+                    to={to}
+                    onClick={onClose}
+                    aria-current={isActive ? "page" : undefined}
+                    className={cn(
+                      "relative flex items-center gap-3 px-4 py-3 text-[13px] tracking-[0.04em] transition-colors",
+                      isActive
+                        ? "text-gold-400"
+                        : "text-ivory-50/55 hover:bg-ivory-50/5 hover:text-ivory-50",
+                    )}
+                  >
+                    {isActive && (
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-y-2 left-0 w-px bg-gold-500"
+                      />
+                    )}
+                    <Icon className="size-[18px]" strokeWidth={1.5} aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </nav>
 
-        {/* User Section */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="size-10 rounded-full bg-gold-500 flex items-center justify-center text-espresso font-semibold">
-              A
-            </div>
-            <div>
-              <p className="text-sm font-medium">Admin User</p>
-              <p className="text-xs text-ivory-50/60">admin@belioras.com</p>
+        <div className="shrink-0 border-t border-ivory-50/10 p-4">
+          <div className="mb-3 flex items-center gap-3 px-1">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold-500 text-sm font-semibold text-espresso">
+              {(user?.name ?? user?.email ?? "A").slice(0, 1).toUpperCase()}
+            </span>
+            <div className="min-w-0">
+              {/* Reads the signed-in account rather than the hardcoded
+                  "Admin User" it previously always showed. */}
+              <p className="truncate text-[13px] text-ivory-50">{user?.name ?? "Signed out"}</p>
+              <p className="truncate text-[11px] text-ivory-50/45">{user?.email ?? "—"}</p>
             </div>
           </div>
+
           <button
             type="button"
-            className="flex items-center gap-2 w-full px-4 py-2 rounded-lg text-sm font-medium text-ivory-50/70 hover:bg-white/10 hover:text-ivory-50 transition-colors"
+            onClick={() => typeof logout === "function" && logout()}
+            className="flex w-full items-center gap-2.5 px-4 py-2.5 text-[12px] uppercase tracking-[0.14em] text-ivory-50/55 transition-colors hover:bg-ivory-50/5 hover:text-ivory-50"
           >
-            <LogOut className="size-4" />
-            Sign Out
+            <LogOut className="size-4" strokeWidth={1.5} aria-hidden="true" />
+            Sign out
           </button>
         </div>
       </aside>

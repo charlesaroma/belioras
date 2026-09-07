@@ -1,32 +1,73 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-export default function SalesChart({ data }) {
+/**
+ * Revenue over time.
+ *
+ * A thin gold line over a soft wash, rather than the solid gold bars this used
+ * to draw. Six chunky bars in the brand's accent colour dominated the page and
+ * made gold read as "chart", not "accent"; a line also shows the shape of the
+ * trend, which is the actual question being asked of it.
+ */
+export default function SalesChart({ data, formatValue }) {
   return (
-    <div className="h-80 w-full">
+    <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#d1d5db" />
-          <XAxis 
-            dataKey="name" 
+        <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+          <defs>
+            <linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#d9b166" stopOpacity={0.28} />
+              <stop offset="100%" stopColor="#d9b166" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+
+          <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="#e6e2df" />
+
+          <XAxis
+            dataKey="name"
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#6b7280", fontSize: 12 }}
+            tick={{ fill: "#605954", fontSize: 11, letterSpacing: "0.08em" }}
+            dy={8}
           />
-          <YAxis 
+          <YAxis
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#6b7280", fontSize: 12 }}
+            width={64}
+            tick={{ fill: "#605954", fontSize: 11 }}
+            tickFormatter={(value) => (formatValue ? formatValue(value) : value)}
           />
-          <Tooltip 
+
+          <Tooltip
+            cursor={{ stroke: "#d9b166", strokeWidth: 1 }}
             contentStyle={{
-              backgroundColor: "#1a1a1a",
-              border: "none",
-              borderRadius: "8px",
-              color: "#faf9f6",
+              backgroundColor: "#120700",
+              border: "1px solid rgba(217,177,102,0.3)",
+              borderRadius: 4,
+              color: "#fefefe",
+              fontSize: 12,
             }}
+            labelStyle={{ color: "#d9b166", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: 10 }}
+            formatter={(value) => [formatValue ? formatValue(value) : value, "Revenue"]}
           />
-          <Bar dataKey="sales" fill="#b48a3d" radius={[4, 4, 0, 0]} />
-        </BarChart>
+
+          <Area
+            type="monotone"
+            dataKey="sales"
+            stroke="#9a7e48"
+            strokeWidth={1.5}
+            fill="url(#salesFill)"
+            dot={{ r: 2.5, fill: "#120700", strokeWidth: 0 }}
+            activeDot={{ r: 4, fill: "#d9b166", strokeWidth: 0 }}
+          />
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

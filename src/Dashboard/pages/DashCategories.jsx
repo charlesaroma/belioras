@@ -1,4 +1,6 @@
 import { useState } from "react";
+
+import { STATUS_TONES } from "../lib/constants";
 import { Plus, Search, Filter, Edit, Trash2, Eye } from "lucide-react";
 import DashTable from "../components/DashTable";
 import AddCategoryModal from "./categories/modals/AddCategoryModal";
@@ -15,7 +17,7 @@ const CATEGORIES = [
   { id: "cat-006", name: "Two-Piece Sets", slug: "two-piece-sets", productCount: 15, status: "active" },
 ];
 
-const CATEGORY_COLUMNS = [
+const categoryColumns = ({ onView, onEdit, onDelete }) => [
   { key: "id", label: "ID" },
   { key: "name", label: "Category Name" },
   { key: "slug", label: "Slug" },
@@ -24,10 +26,8 @@ const CATEGORY_COLUMNS = [
     key: "status", 
     label: "Status",
     render: (row) => (
-      <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-        row.status === "active" ? "bg-green-100 text-green-800" :
-        row.status === "draft" ? "bg-gray-100 text-gray-800" :
-        "bg-red-100 text-red-800"
+      <span className={`inline-flex rounded-sm px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+        row.status === "active" ? STATUS_TONES.positive : STATUS_TONES.neutral
       }`}>
         {row.status}
       </span>
@@ -40,7 +40,7 @@ const CATEGORY_COLUMNS = [
       <div className="flex items-center gap-2">
         <button
           type="button"
-          onClick={() => onViewCategory(row)}
+          onClick={() => onView(row)}
           className="p-1.5 rounded-lg hover:bg-umber-50 transition-colors text-espresso/60 hover:text-espresso"
           title="View"
         >
@@ -48,7 +48,7 @@ const CATEGORY_COLUMNS = [
         </button>
         <button
           type="button"
-          onClick={() => onEditCategory(row)}
+          onClick={() => onEdit(row)}
           className="p-1.5 rounded-lg hover:bg-umber-50 transition-colors text-espresso/60 hover:text-espresso"
           title="Edit"
         >
@@ -56,7 +56,7 @@ const CATEGORY_COLUMNS = [
         </button>
         <button
           type="button"
-          onClick={() => onDeleteCategory(row)}
+          onClick={() => onDelete(row)}
           className="p-1.5 rounded-lg hover:bg-rose-50 transition-colors text-espresso/60 hover:text-rose-600"
           title="Delete"
         >
@@ -102,6 +102,12 @@ export default function DashCategories() {
     setViewModalOpen(true);
   };
 
+  const columns = categoryColumns({
+    onView: onViewCategory,
+    onEdit: onEditCategory,
+    onDelete: onDeleteCategory,
+  });
+
   return (
     <div className="space-y-6">
       {/* Header Actions */}
@@ -131,7 +137,7 @@ export default function DashCategories() {
 
       {/* Categories Table */}
       <div className="rounded-xl border border-umber-50 bg-white shadow-sm">
-        <DashTable columns={CATEGORY_COLUMNS} data={categories} />
+        <DashTable columns={columns} data={categories} />
       </div>
 
       {/* Modals */}
