@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -42,11 +43,41 @@ export default function CookieConsent() {
     setConsent({ choice, at: new Date().toISOString(), policyVersion });
 
   const isVisible = needsChoice && !!settings;
+  const barRef = useRef(null);
+
+  /**
+   * Publishes the bar's height so anything else anchored to the bottom of the
+   * viewport can sit above it instead of underneath. Measured rather than
+   * hardcoded because the copy wraps to a different number of lines on a phone.
+   */
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (!isVisible) {
+      root.style.setProperty("--consent-bar-height", "0px");
+      return undefined;
+    }
+
+    const measure = () => {
+      const height = barRef.current?.offsetHeight ?? 0;
+      root.style.setProperty("--consent-bar-height", `${height}px`);
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (barRef.current) observer.observe(barRef.current);
+
+    return () => {
+      observer.disconnect();
+      root.style.setProperty("--consent-bar-height", "0px");
+    };
+  }, [isVisible]);
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          ref={barRef}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}

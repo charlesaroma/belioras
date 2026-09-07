@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronDown, Heart, ArrowRight, Loader2, Share2 } from "lucide-react";
 
@@ -53,6 +53,22 @@ export default function ProductPage() {
   const { format } = useCurrency();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  /**
+   * A product page is frequently the entry point — a shared link, an ad, a
+   * search result — and navigate(-1) from there either does nothing or throws
+   * the visitor off the site entirely. React Router marks the first entry in a
+   * session with key "default", so fall back to the product's collection and
+   * keep them in the store.
+   */
+  const cameFromWithinSite = location.key !== "default";
+  const collectionPath = product?.collectionId ? `/${product.collectionId}` : "/shop";
+
+  const goBack = () => {
+    if (cameFromWithinSite) navigate(-1);
+    else navigate(collectionPath);
+  };
 
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -120,11 +136,11 @@ export default function ProductPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-28 md:pt-32 lg:pt-36">
         <button
           type="button"
-          onClick={() => navigate(-1)}
-          className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-espresso/50 hover:text-espresso transition-colors cursor-pointer mb-6 md:mb-8"
+          onClick={goBack}
+          className="group mb-6 inline-flex cursor-pointer items-center gap-2 rounded-full border border-umber-50 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-espresso transition-colors hover:border-espresso hover:text-gold-700 md:mb-8"
         >
-          <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
-          Back
+          <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+          {cameFromWithinSite ? "Back" : `Back to ${product.collectionId ?? "shop"}`}
         </button>
       </div>
 
@@ -180,7 +196,7 @@ export default function ProductPage() {
               <nav aria-label="Breadcrumb" className="flex items-center text-xs text-espresso/50 uppercase tracking-widest">
                 <Link to="/shop" className="hover:text-gold-700 transition-colors">Shop</Link>
                 <span className="mx-2">/</span>
-                <Link to={`/shop/${product.collectionId}`} className="hover:text-gold-700 transition-colors">
+                <Link to={collectionPath} className="hover:text-gold-700 transition-colors">
                   {product.collectionId}
                 </Link>
               </nav>

@@ -37,7 +37,7 @@ export default function NavLinks({ links, menuId, onOpen, onScheduleClose, onCan
                   aria-expanded={open}
                   onFocus={() => onOpen(link.id, false)}
                   onClick={() => onOpen(link.id, true)}
-                  className={`flex items-center gap-1 py-3 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors cursor-pointer ${
+                  className={`flex items-center gap-1 whitespace-nowrap py-3 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors cursor-pointer ${
                     open ? "text-gold-700" : "text-current hover:text-gold-700"
                   }`}
                 >
@@ -50,7 +50,7 @@ export default function NavLinks({ links, menuId, onOpen, onScheduleClose, onCan
               ) : (
                 <Link
                   to={link.to}
-                  className="block py-3 text-[13px] font-medium uppercase tracking-[0.16em] text-current transition-colors hover:text-gold-700 cursor-pointer"
+                  className="block whitespace-nowrap py-3 text-[13px] font-medium uppercase tracking-[0.16em] text-current transition-colors hover:text-gold-700 cursor-pointer"
                 >
                   {link.label}
                 </Link>

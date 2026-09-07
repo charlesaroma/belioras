@@ -1,0 +1,53 @@
+import { useEffect, useState } from "react";
+import { ArrowUp } from "lucide-react";
+
+import { cn } from "../../utils/cn";
+
+/** Roughly one screen down — far enough that returning by scroll is a chore. */
+const REVEAL_AT = 600;
+
+/**
+ * Floating scroll-to-top control.
+ *
+ * Distinct from ScrollToTop, which resets scroll position on navigation; this
+ * is the button a shopper presses after working down a long product grid.
+ *
+ * It sits above the cookie bar rather than on top of it, using the height that
+ * bar publishes as a CSS variable — see CookieConsent.
+ */
+export default function BackToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > REVEAL_AT);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={scrollToTop}
+      aria-label="Back to top"
+      title="Back to top"
+      // Kept mounted and faded rather than unmounted, so it animates out
+      // instead of vanishing. inert while hidden keeps it off the tab order.
+      inert={!visible ? "" : undefined}
+      className={cn(
+        "fixed right-4 z-[60] flex size-11 items-center justify-center rounded-full sm:right-6",
+        "border border-gold-500/30 bg-espresso/90 text-gold-400 shadow-large backdrop-blur",
+        "transition-all duration-300 hover:bg-espresso hover:text-gold-300",
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
+      )}
+      style={{ bottom: "calc(1.5rem + var(--consent-bar-height, 0px))" }}
+    >
+      <ArrowUp className="size-5" aria-hidden="true" />
+    </button>
+  );
+}

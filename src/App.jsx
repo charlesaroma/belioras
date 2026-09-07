@@ -12,6 +12,7 @@ import WishlistPage from "./pages/account/Wishlist";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/Footer";
 import CookieConsent from "./components/layout/CookieConsent";
+import BackToTop from "./components/layout/BackToTop";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import NotFound from "./components/layout/NotFound";
 
@@ -67,6 +68,7 @@ function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <BackToTop />
       <CookieConsent />
     </div>
   );
