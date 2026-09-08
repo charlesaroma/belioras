@@ -6,7 +6,7 @@ export default function QuantitySelector({ value, onChange, min = 1, max = 99, d
   }
 
   return (
-    <div className="inline-flex items-stretch rounded-full border border-umber-100 bg-ivory-50">
+    <div className="inline-flex items-stretch border border-umber-100 bg-ivory-50">
       <button
         type="button"
         className="flex size-10 items-center justify-center rounded-l-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40"

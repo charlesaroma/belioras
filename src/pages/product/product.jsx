@@ -1,392 +1,393 @@
-import { useState, useEffect } from "react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
-import { ChevronLeft, ChevronDown, Heart, ArrowRight, Loader2, Share2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, Heart, Loader2, Share2 } from "lucide-react";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
-import { getProduct, getProductsByCollection } from "../../services/productsApi";
 import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { useToast } from "../../context/ToastContext";
+import { useWishlist } from "../../context/WishlistContext";
+import { getProduct, getProductsByCollection } from "../../services/productsApi";
+import ColorSelector from "../../components/product/ColorSelector";
+import SizeSelector from "../../components/product/SizeSelector";
+import QuantitySelector from "../../components/shared/QuantitySelector";
+import ProductCard from "../../components/storefront/ProductCard";
+import Modal from "../../components/common/Modal";
+import { cn } from "../../utils/cn";
 
-function Accordion({ title, children, defaultOpen = false }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="border-b border-umber-50 py-4">
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between text-sm font-semibold uppercase tracking-widest text-espresso hover:text-gold-700 transition-colors"
-      >
-        {title}
-        <ChevronDown className={`size-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="pt-4 text-sm text-espresso/70 leading-relaxed space-y-2">
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+import ProductGallery from "./sections/ProductGallery";
+
+/** Body measurements in centimetres. */
+const SIZE_TABLE = [
+  { size: "XS", bust: 80, waist: 62, hips: 88 },
+  { size: "S", bust: 84, waist: 66, hips: 92 },
+  { size: "M", bust: 88, waist: 70, hips: 96 },
+  { size: "L", bust: 94, waist: 76, hips: 102 },
+  { size: "XL", bust: 100, waist: 82, hips: 108 },
+];
 
 export default function ProductPage() {
   const { slug } = useParams();
-  const { data: product, loading, error } = useAsyncData(() => getProduct(slug), [slug]);
-  const { data: relatedProducts } = useAsyncData(
-    () => (product?.collectionId ? getProductsByCollection(product.collectionId) : Promise.resolve([])),
-    [product?.collectionId]
-  );
-  
-  const { addItem } = useCart();
-  const { has, toggle } = useWishlist();
-  const { format } = useCurrency();
-  const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { data: product, loading, error } = useAsyncData(() => getProduct(slug), [slug]);
+  const { format } = useCurrency();
+  const { toast } = useToast();
+  const { t } = useLanguage();
+
+  const { data: related } = useAsyncData(
+    () =>
+      product?.collectionId ? getProductsByCollection(product.collectionId) : Promise.resolve([]),
+    [product?.collectionId],
+  );
+
+  // Syncing the document title is a genuine external-system effect. The variant
+  // state this used to reset alongside it now lives in a keyed child instead.
+  useEffect(() => {
+    if (product) document.title = `${product.name} | Belioras`;
+  }, [product]);
+
+  const suggestions = (related ?? []).filter((p) => p.id !== product?.id).slice(0, 4);
 
   /**
    * A product page is frequently the entry point — a shared link, an ad, a
    * search result — and navigate(-1) from there either does nothing or throws
-   * the visitor off the site entirely. React Router marks the first entry in a
-   * session with key "default", so fall back to the product's collection and
-   * keep them in the store.
+   * the visitor off the site. React Router marks the first entry in a session
+   * with key "default", so fall back to the product's collection instead.
    */
   const cameFromWithinSite = location.key !== "default";
   const collectionPath = product?.collectionId ? `/${product.collectionId}` : "/shop";
 
-  const goBack = () => {
-    if (cameFromWithinSite) navigate(-1);
-    else navigate(collectionPath);
-  };
+  /**
+   * Native share sheet where the browser offers one — it exposes the platforms
+   * the visitor actually uses rather than a fixed row of icons that goes stale
+   * — falling back to copying the link, which works everywhere.
+   */
+  const handleShare = async () => {
+    const url = window.location.href;
+    const payload = { title: product.name, text: product.description, url };
 
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [activeImage, setActiveImage] = useState(0);
-
-  useEffect(() => {
-    if (product) {
-      if (product.colors?.length) setSelectedColor(product.colors[0]);
-      setSelectedSize(null); // Reset size on product change
-      setActiveImage(0);
-      document.title = `${product.name} | Belioras`;
+    if (navigator.share && navigator.canShare?.(payload) !== false) {
+      try {
+        await navigator.share(payload);
+      } catch {
+        // Dismissing the sheet rejects; that is not an error worth surfacing.
+      }
+      return;
     }
-  }, [product]);
+
+    try {
+      await navigator.clipboard.writeText(url);
+      toast(t("pdp.linkCopied", "Link copied to clipboard."), "success");
+    } catch {
+      toast(t("pdp.linkCopyFailed", "Could not copy the link."), "error");
+    }
+  };
 
   if (loading) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-gold-500" />
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <Loader2 className="size-6 animate-spin text-gold-600" aria-label="Loading" />
       </div>
     );
   }
 
   if (error || !product) {
     return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4">
-        <h1 className="font-display text-4xl text-espresso mb-4">Product Not Found</h1>
-        <p className="text-espresso/70 mb-8 max-w-md mx-auto">
-          We couldn't find the piece you're looking for. It may have been removed or the link is incorrect.
+      <div className="mx-auto max-w-3xl px-6 py-32 text-center">
+        <h1 className="font-display text-3xl text-espresso">Piece not found</h1>
+        <p className="mt-3 text-sm text-espresso-soft">
+          It may have sold out or been retired from the collection.
         </p>
-        <Link to="/shop" className="btn bg-espresso text-ivory-50 px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-gold-700 hover:text-espresso transition-colors">
-          Return to Shop
+        <Link
+          to="/shop"
+          className="mt-6 inline-block text-[11px] uppercase tracking-widest text-gold-600 transition-colors hover:text-gold-700"
+        >
+          ← Back to the shop
         </Link>
       </div>
     );
   }
 
-  const priceFormatted = format(product.price);
-  const originalPriceFormatted = product.originalPrice 
-    ? format(product.originalPrice)
-    : null;
-    
-  const isWishlisted = has(product.id);
-
-  const handleAddToCart = () => {
-    if (product.sizes?.length && !selectedSize) {
-      toast("Please select a size", "error");
-      return;
-    }
-    
-    addItem({
-      ...product,
-      selectedColor,
-      selectedSize
-    });
-    toast("Added to your bag", "success");
-  };
-
-  const images = product.images?.length ? product.images : [
-    "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG"
-  ];
+  const onSale = product.originalPrice && product.originalPrice > product.price;
+  const lowStock = product.stock > 0 && product.stock <= 5;
 
   return (
-    <div className="bg-ivory-50">
-      {/* Back Button */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-28 md:pt-32 lg:pt-36">
+    <div
+      className="mx-auto max-w-7xl px-6 pb-24"
+      // Offsets by the header's measured height rather than a guessed value,
+      // with a fallback for the first paint before the observer reports.
+      style={{ paddingTop: "calc(var(--header-height, 138px) + 2rem)" }}
+    >
+      <button
+        type="button"
+        onClick={() => (cameFromWithinSite ? navigate(-1) : navigate(collectionPath))}
+        className="group mb-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-espresso-soft transition-colors hover:text-espresso"
+      >
+        <ArrowLeft
+          className="size-4 transition-transform group-hover:-translate-x-0.5"
+          aria-hidden="true"
+        />
+        Back
+      </button>
+
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-8 text-[11px] uppercase tracking-widest text-espresso/40"
+      >
+        <Link to="/" className="transition-colors hover:text-espresso">
+          Home
+        </Link>{" "}
+        · <span className="text-espresso-soft">{product.name}</span>
+      </nav>
+
+      <div className="grid gap-12 lg:grid-cols-2">
+        <ProductGallery images={product.images} name={product.name} />
+
+        <div>
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="font-display text-3xl leading-tight text-espresso md:text-4xl">
+              {product.name}
+            </h1>
+
+            <button
+              type="button"
+              onClick={handleShare}
+              aria-label={t("pdp.share", "Share this piece")}
+              title={t("pdp.share", "Share this piece")}
+              className="mt-1 flex size-9 shrink-0 items-center justify-center text-espresso-soft transition-colors hover:text-espresso"
+            >
+              <Share2 className="size-4" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className="mt-4 flex items-baseline gap-3">
+            <span className={cn("text-xl tabular-nums", onSale ? "text-error" : "text-espresso")}>
+              {format(product.price)}
+            </span>
+            {onSale && (
+              <span className="text-sm tabular-nums text-espresso/35 line-through">
+                {format(product.originalPrice)}
+              </span>
+            )}
+            {lowStock && (
+              <span className="ml-auto text-[10px] uppercase tracking-widest text-warning">
+                Only {product.stock} left
+              </span>
+            )}
+          </div>
+
+          <p className="mt-5 max-w-lg text-sm leading-relaxed text-espresso-soft">
+            {product.description}
+          </p>
+
+          {/*
+            Keyed by product id so navigating from one piece to another remounts
+            it — colour, size and quantity reset because the component is new,
+            not because an effect reached in and cleared them.
+          */}
+          <BuyPanel key={product.id} product={product} />
+        </div>
+      </div>
+
+      {suggestions.length > 0 && (
+        <section className="mt-24" aria-labelledby="related-heading">
+          <h2 id="related-heading" className="mb-8 font-display text-2xl text-espresso">
+            You may also like
+          </h2>
+          <div className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">
+            {suggestions.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+/** Variant selection and everything downstream of it. */
+function BuyPanel({ product }) {
+  const { addItem } = useCart();
+  const { has, toggle } = useWishlist();
+  const { t } = useLanguage();
+
+  const [color, setColor] = useState(product.colors?.[0] ?? null);
+  const [size, setSize] = useState(null);
+  const [qty, setQty] = useState(1);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [sizeError, setSizeError] = useState("");
+  const [added, setAdded] = useState(false);
+
+  const saved = has(product.id);
+  const soldOut = product.stock === 0;
+  const needsSize = product.sizes?.length > 1;
+
+  const handleAdd = () => {
+    if (needsSize && !size) {
+      setSizeError(t("pdp.selectSizeFirst", "Please select a size."));
+      return;
+    }
+    setSizeError("");
+    addItem(product, { size: size ?? product.sizes?.[0] ?? null, color, quantity: qty });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1800);
+  };
+
+  return (
+    <>
+      {product.colors?.length > 0 && (
+        <div className="mt-8">
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">
+            {t("pdp.selectColour", "Select colour")}
+          </p>
+          <ColorSelector options={product.colors} value={color} onChange={setColor} />
+        </div>
+      )}
+
+      {needsSize && (
+        <div className="mt-7">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">
+              {t("pdp.selectSize", "Select size")}
+            </p>
+            <button
+              type="button"
+              onClick={() => setSizeGuideOpen(true)}
+              className="text-[11px] uppercase tracking-widest text-gold-600 underline underline-offset-4 transition-colors hover:text-gold-700"
+            >
+              {t("pdp.sizeGuide", "Size guide")}
+            </button>
+          </div>
+          <SizeSelector
+            options={product.sizes}
+            value={size}
+            onChange={(s) => {
+              setSize(s);
+              setSizeError("");
+            }}
+          />
+          {sizeError && (
+            <p className="mt-2 text-xs text-error" role="alert">
+              {sizeError}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="mt-8 flex items-center gap-5">
+        <QuantitySelector value={qty} onChange={setQty} max={Math.max(product.stock, 1)} />
+
         <button
           type="button"
-          onClick={goBack}
-          className="group mb-6 inline-flex cursor-pointer items-center gap-2 rounded-full border border-umber-50 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-espresso transition-colors hover:border-espresso hover:text-gold-700 md:mb-8"
+          onClick={handleAdd}
+          disabled={soldOut}
+          className="flex-1 border border-espresso bg-espresso px-10 py-4 text-sm font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
-          {cameFromWithinSite ? "Back" : `Back to ${product.collectionId ?? "shop"}`}
+          {soldOut
+            ? t("pdp.soldOut", "Sold out")
+            : added
+              ? t("common.added", "Added to your bag")
+              : t("common.addToBag", "Add to bag")}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => toggle(product.id)}
+          aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
+          aria-pressed={saved}
+          className={cn(
+            "flex size-12 shrink-0 items-center justify-center border transition-all",
+            saved
+              ? "border-espresso bg-espresso text-gold-400"
+              : "border-umber-100 text-espresso-soft hover:border-espresso",
+          )}
+        >
+          <Heart className={cn("size-5", saved && "fill-current")} aria-hidden="true" />
         </button>
       </div>
 
-      {/* Product Split Layout */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-8 md:pb-12 lg:pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 xl:gap-x-16 gap-y-12">
-          
-          {/* Left Column: Image Gallery */}
-          <div className="flex flex-col-reverse md:flex-row gap-4 lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)]">
-            {/* Thumbnails */}
-            <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto md:w-24 shrink-0 hide-scrollbar pb-2 md:pb-0">
-              {images.map((img, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setActiveImage(idx)}
-                  className={`relative aspect-[3/4] w-20 md:w-full shrink-0 overflow-hidden rounded-md border-2 transition-all ${
-                    activeImage === idx ? "border-gold-500 opacity-100" : "border-transparent opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <img src={img} alt={`Thumbnail ${idx + 1}`} className="h-full w-full object-cover object-top" />
-                </button>
+      <div className="mt-10 divide-y divide-umber-50 border-y border-umber-50">
+        <Accordion title={t("pdp.details", "Details & composition")}>
+          <ul className="list-disc space-y-1 pl-5">
+            {[...(product.details ?? []), ...(product.materials ?? [])].map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </Accordion>
+
+        {product.care?.length > 0 && (
+          <Accordion title={t("pdp.care", "Care")}>
+            <ul className="list-disc space-y-1 pl-5">
+              {product.care.map((line) => (
+                <li key={line}>{line}</li>
               ))}
-            </div>
-            
-            {/* Main Image */}
-            <div className="relative flex-1 aspect-[3/4] md:aspect-auto md:h-full bg-brown-50 overflow-hidden rounded-lg">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  src={images[activeImage]}
-                  alt={product.name}
-                  className="absolute inset-0 w-full h-full object-cover object-top"
-                />
-              </AnimatePresence>
-              
-              {product.isNew && (
-                <span className="absolute top-4 left-4 bg-ivory-50/90 backdrop-blur text-espresso text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-subtle">
-                  New Arrival
-                </span>
-              )}
-            </div>
-          </div>
+            </ul>
+          </Accordion>
+        )}
 
-          {/* Right Column: Product Details */}
-          <div className="flex flex-col lg:pl-4 xl:pl-8 py-2 md:py-8 lg:min-h-full">
-            {/* Breadcrumb & Wishlist */}
-            <div className="flex items-center justify-between mb-6">
-              <nav aria-label="Breadcrumb" className="flex items-center text-xs text-espresso/50 uppercase tracking-widest">
-                <Link to="/shop" className="hover:text-gold-700 transition-colors">Shop</Link>
-                <span className="mx-2">/</span>
-                <Link to={collectionPath} className="hover:text-gold-700 transition-colors">
-                  {product.collectionId}
-                </Link>
-              </nav>
-              
-              <div className="flex items-center gap-2">
-                <button 
-                  type="button"
-                  className="size-8 flex items-center justify-center rounded-full border border-umber-50 text-espresso/50 hover:border-gold-500 hover:text-gold-600 transition-colors"
-                  title="Share"
-                >
-                  <Share2 className="size-3.5" />
-                </button>
-                <button 
-                  type="button"
-                  onClick={() => toggle(product.id)}
-                  className={`size-8 flex items-center justify-center rounded-full border transition-colors ${
-                    isWishlisted 
-                      ? "border-gold-500 text-gold-500 bg-gold-50" 
-                      : "border-umber-50 text-espresso/50 hover:border-gold-500 hover:text-gold-600"
-                  }`}
-                  title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                >
-                  <Heart className={`size-3.5 ${isWishlisted ? "fill-current" : ""}`} />
-                </button>
-              </div>
-            </div>
-
-            {/* Title & Price */}
-            <h1 className="font-display text-4xl md:text-5xl text-espresso mb-4 leading-tight">
-              {product.name}
-            </h1>
-            
-            <div className="flex items-baseline gap-3 mb-8">
-              <span className="text-xl font-medium text-espresso">{priceFormatted}</span>
-              {originalPriceFormatted && (
-                <span className="text-sm text-espresso/40 line-through">{originalPriceFormatted}</span>
-              )}
-            </div>
-
-            {/* Color Selection */}
-            {product.colors?.length > 0 && (
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold uppercase tracking-widest text-espresso">Color</span>
-                  <span className="text-xs text-espresso/60">{selectedColor}</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  {product.colors.map(color => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`relative h-10 w-10 rounded-full border-2 transition-all ${
-                        selectedColor === color ? "border-espresso p-1" : "border-transparent p-0 hover:border-umber-100"
-                      }`}
-                      aria-label={`Select color ${color}`}
-                    >
-                      {/* Using a generic color mapping approach since we don't have hex codes in the JSON */}
-                      <span className="block h-full w-full rounded-full border border-black/5 bg-brown-200 shadow-inner" style={{ 
-                        backgroundColor: color.toLowerCase() === 'ebony' ? '#2d2a26' : 
-                                       color.toLowerCase() === 'champagne' ? '#f1e6d4' :
-                                       color.toLowerCase() === 'burgundy' ? '#6b2d35' : 
-                                       color.toLowerCase() === 'ivory' ? '#f8f5f0' : undefined
-                      }} />
-                    </button>
-                  ))}
-                </div>
-              </div>
+        <Accordion title={t("pdp.shipping", "Shipping & returns")}>
+          <p className="leading-relaxed">
+            {t(
+              "pdp.shippingBody",
+              "Complimentary EU shipping on orders over €150, tracked and insured. Unworn pieces may be returned within 14 days.",
             )}
-
-            {/* Size Selection */}
-            {product.sizes?.length > 0 && (
-              <div className="mb-10">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold uppercase tracking-widest text-espresso">Size</span>
-                  <Link to="/shoe-size-guide" className="text-[10px] uppercase tracking-widest text-gold-700 hover:text-espresso transition-colors underline underline-offset-4">
-                    Size Guide
-                  </Link>
-                </div>
-                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-4 lg:grid-cols-5 gap-2">
-                  {product.sizes.map(size => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`py-3 text-sm font-medium transition-colors border ${
-                        selectedSize === size 
-                          ? "bg-espresso text-ivory-50 border-espresso" 
-                          : "bg-transparent text-espresso border-umber-50 hover:border-gold-500 hover:bg-gold-50/50"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Actions */}
-            <div className="mb-12">
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                className="w-full btn bg-espresso text-ivory-50 hover:bg-gold-700 hover:text-espresso transition-all py-4 uppercase tracking-[0.2em] text-xs font-bold shadow-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {product.stock === 0 ? "Out of Stock" : "Add to Bag"}
-              </button>
-              
-              {product.stock > 0 && product.stock < 10 && (
-                <p className="text-center text-xs text-rose-700 mt-3 flex items-center justify-center gap-1">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
-                  </span>
-                  Only {product.stock} left in stock
-                </p>
-              )}
-            </div>
-
-            {/* Details Accordions */}
-            <div className="border-t border-umber-50">
-              <Accordion title="Description" defaultOpen>
-                <p>{product.description}</p>
-                {product.details?.length > 0 && (
-                  <ul className="list-disc pl-4 mt-4 space-y-1">
-                    {product.details.map((detail, idx) => (
-                      <li key={idx}>{detail}</li>
-                    ))}
-                  </ul>
-                )}
-              </Accordion>
-              
-              <Accordion title="Materials & Care">
-                {product.materials?.length > 0 && (
-                  <div className="mb-4">
-                    <strong className="block text-espresso font-medium mb-1">Materials</strong>
-                    <ul className="list-disc pl-4 space-y-1">
-                      {product.materials.map((m, idx) => <li key={idx}>{m}</li>)}
-                    </ul>
-                  </div>
-                )}
-                {product.care?.length > 0 && (
-                  <div>
-                    <strong className="block text-espresso font-medium mb-1">Care Instructions</strong>
-                    <ul className="list-disc pl-4 space-y-1">
-                      {product.care.map((c, idx) => <li key={idx}>{c}</li>)}
-                    </ul>
-                  </div>
-                )}
-              </Accordion>
-              
-              <Accordion title="Shipping & Returns">
-                <p>Complimentary express shipping on all orders over €500.</p>
-                <p className="mt-2">Returns are accepted within 14 days of delivery. Pieces must be unworn, in perfect condition, and with all tags attached.</p>
-                <Link to="/shipping-policy" className="inline-block mt-3 text-gold-700 hover:text-espresso font-medium underline underline-offset-4">
-                  View full policy
-                </Link>
-              </Accordion>
-            </div>
-          </div>
-          
-        </div>
+          </p>
+        </Accordion>
       </div>
-      
-      {/* Related Products */}
-      {relatedProducts?.length > 1 && (
-        <div className="border-t border-umber-50 bg-ivory-50 py-16 md:py-24">
-          <div className="container-main">
-            <h2 className="font-display text-3xl md:text-4xl text-espresso mb-10 text-center">You May Also Like</h2>
-            
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-              {relatedProducts
-                .filter(p => p.id !== product.id)
-                .slice(0, 4)
-                .map(p => (
-                  <Link key={p.id} to={`/product/${p.slug}`} className="group block">
-                    <div className="aspect-[3/4] overflow-hidden bg-brown-50 rounded-lg mb-4">
-                      <img 
-                        src={p.images?.[0] || "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG"} 
-                        alt={p.name} 
-                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 className="text-sm font-medium text-espresso group-hover:text-gold-700 transition-colors truncate">{p.name}</h3>
-                    <p className="text-sm text-espresso/60 mt-1">{format(p.price)}</p>
-                  </Link>
-                ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+
+      <Modal
+        open={sizeGuideOpen}
+        onClose={() => setSizeGuideOpen(false)}
+        title={t("pdp.sizeGuide", "Size guide")}
+      >
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-umber-50 text-left text-[10px] uppercase tracking-widest text-espresso-soft">
+              <th className="pb-2">Size</th>
+              <th className="pb-2">Bust</th>
+              <th className="pb-2">Waist</th>
+              <th className="pb-2">Hips</th>
+            </tr>
+          </thead>
+          <tbody className="text-espresso-soft">
+            {SIZE_TABLE.map((row) => (
+              <tr key={row.size} className="border-b border-umber-50/60 last:border-0">
+                <td className="py-2.5 font-medium text-espresso">{row.size}</td>
+                <td className="py-2.5">{row.bust} cm</td>
+                <td className="py-2.5">{row.waist} cm</td>
+                <td className="py-2.5">{row.hips} cm</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="mt-4 text-xs text-espresso/40">
+          Measurements are of the body, not the garment. Between sizes, we suggest the larger.
+        </p>
+      </Modal>
+    </>
+  );
+}
+
+/**
+ * Built on <details> so it works before hydration and is reachable by the
+ * browser's find-in-page, which a div-based accordion is not.
+ */
+function Accordion({ title, children }) {
+  return (
+    <details className="group py-4">
+      <summary className="flex cursor-pointer list-none items-center text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso marker:hidden">
+        <span
+          aria-hidden="true"
+          className="mr-2 inline-block transition-transform duration-200 group-open:rotate-45"
+        >
+          +
+        </span>
+        {title}
+      </summary>
+      <div className="mt-3 text-sm text-espresso-soft">{children}</div>
+    </details>
   );
 }

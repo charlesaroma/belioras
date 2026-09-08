@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getNavigation } from "../../../services/navigationApi";
@@ -33,6 +33,31 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isLightBgPage = LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
+
+  const headerRef = useRef(null);
+
+  /**
+   * Publishes the header's measured height as --header-height, so pages that
+   * start below it can offset by the real value instead of guessing.
+   *
+   * It was guessed before (pt-32 = 128px against an actual 138px), which is
+   * exactly the failure mode: the number is a function of the announcement
+   * bar, the logo size and the breakpoint, so any hardcoded value is wrong as
+   * soon as one of those changes. useLayoutEffect so it is set before paint
+   * and the content never starts too high and jumps.
+   */
+  useLayoutEffect(() => {
+    const el = headerRef.current;
+    if (!el) return undefined;
+
+    const publish = () =>
+      document.documentElement.style.setProperty("--header-height", `${el.offsetHeight}px`);
+
+    publish();
+    const observer = new ResizeObserver(publish);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +115,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className={cn('fixed', 'inset-x-0', 'top-0', 'z-50', 'w-full')}>
+    <header ref={headerRef} className={cn('fixed', 'inset-x-0', 'top-0', 'z-50', 'w-full')}>
       <AnnouncementBar />
 
       <div
