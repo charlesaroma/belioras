@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Check, MapPin, Plus, Trash2 } from "lucide-react";
 
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useAuth } from "../../context/AuthContext";
+import { useScopedStorage } from "../../hooks/useScopedStorage";
 import { useToast } from "../../context/ToastContext";
 
 const DEFAULT_ADDRESSES = [
@@ -38,7 +39,17 @@ const inputClasses =
   "mt-1.5 w-full rounded-xl border border-umber-50 bg-ivory-50 px-3.5 py-2.5 text-sm text-espresso placeholder:text-espresso-soft/60 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20";
 
 export default function Addresses() {
-  const [addresses, setAddresses] = useLocalStorage("belioras:addresses", DEFAULT_ADDRESSES);
+  // Scoped per account. This was one device-global key seeded with a sample
+  // address, so signing out and in as someone else showed them a stranger's
+  // home address as their own. Not merged from the anonymous store on
+  // sign-in: a delivery address is not something to silently move between
+  // accounts the way a wishlist is.
+  const { user } = useAuth();
+  const [addresses, setAddresses] = useScopedStorage(
+    "belioras:addresses",
+    DEFAULT_ADDRESSES,
+    user?.id,
+  );
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});

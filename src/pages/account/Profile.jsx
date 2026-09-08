@@ -54,7 +54,11 @@ export default function Profile() {
           </div>
           <div className="col-span-2 sm:col-span-1">
             <dt className="text-xs uppercase tracking-wider text-espresso-soft">Member since</dt>
-            <dd className="mt-1 text-2xl font-semibold text-espresso">2026</dd>
+            {/* The real date. publicUser used to strip createdAt from the
+                session, which is why this was hardcoded. */}
+            <dd className="mt-1 text-2xl font-semibold text-espresso">
+              {user?.createdAt ? new Date(user.createdAt).getFullYear() : "—"}
+            </dd>
           </div>
         </dl>
       </section>

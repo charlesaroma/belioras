@@ -1,30 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, PackageOpen } from "lucide-react";
 
+import StatusChip from "../../components/ui/StatusChip";
 import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getOrders } from "../../services/ordersApi";
-
-const STATUS_STYLES = {
-  pending: "bg-amber-50 text-amber-800",
-  processing: "bg-sky-50 text-sky-800",
-  shipped: "bg-sky-50 text-sky-800",
-  delivered: "bg-emerald-50 text-emerald-800",
-  cancelled: "bg-rose-50 text-rose-700",
-  refunded: "bg-rose-50 text-rose-700",
-};
-
-function StatusChip({ status }) {
-  const label = status.charAt(0).toUpperCase() + status.slice(1);
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize ${STATUS_STYLES[status] ?? "bg-brown-50 text-gold-700"}`}
-    >
-      {label}
-    </span>
-  );
-}
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "short", year: "numeric" });

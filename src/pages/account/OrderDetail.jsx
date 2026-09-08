@@ -1,33 +1,58 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, PackageX } from "lucide-react";
 
+import StatusChip from "../../components/ui/StatusChip";
 import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getOrder } from "../../services/ordersApi";
-
-const STATUS_STYLES = {
-  pending: "bg-amber-50 text-amber-800",
-  processing: "bg-sky-50 text-sky-800",
-  shipped: "bg-sky-50 text-sky-800",
-  delivered: "bg-emerald-50 text-emerald-800",
-  cancelled: "bg-rose-50 text-rose-700",
-  refunded: "bg-rose-50 text-rose-700",
-};
-
-function StatusChip({ status }) {
-  const label = status.charAt(0).toUpperCase() + status.slice(1);
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize ${STATUS_STYLES[status] ?? "bg-brown-50 text-gold-700"}`}
-    >
-      {label}
-    </span>
-  );
-}
+import { ORDER_STAGES, isOffTimeline, stageOf } from "../../utils/orderStatus";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });
+}
+
+/**
+ * Where the order has reached.
+ *
+ * The same four stages and the same stageOf map the public tracker uses —
+ * previously that logic lived in one page and the account pages showed only a
+ * chip, so a customer had to leave their own order history to find out what
+ * was actually happening.
+ */
+function OrderTimeline({ status }) {
+  const index = stageOf(status);
+  if (isOffTimeline(status) || index === null) return null;
+
+  return (
+    <ol className="flex flex-col gap-0 border border-umber-50 p-5 sm:flex-row sm:gap-4">
+      {ORDER_STAGES.map((stage, i) => {
+        const done = i < index;
+        const current = i === index;
+        return (
+          <li key={stage.id} className="flex flex-1 items-start gap-3 py-2 sm:block">
+            <span
+              aria-hidden="true"
+              className={`mt-1 block size-2 shrink-0 rounded-full sm:mb-2 sm:mt-0 ${
+                done || current ? "bg-gold-500" : "bg-umber-100"
+              }`}
+            />
+            <div>
+              <p
+                className={`text-[12px] uppercase tracking-[0.14em] ${
+                  current ? "text-espresso" : "text-espresso-soft"
+                }`}
+              >
+                {stage.label}
+                {current && <span className="sr-only"> — current stage</span>}
+              </p>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-espresso-soft">{stage.blurb}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
 }
 
 function TotalRow({ label, amount, bold = false }) {
@@ -108,12 +133,14 @@ export default function OrderDetail() {
         <p className="mt-1 text-sm text-espresso-soft">Placed {formatDate(order.createdAt)}</p>
       </div>
 
+      <OrderTimeline status={order.status} />
+
       <div className="overflow-hidden rounded-2xl border border-umber-50 bg-white">
         <ul className="divide-y divide-umber-50">
           {order.items.map((item) => (
             <li key={`${item.productId}-${item.size}-${item.color}`} className="flex items-start gap-4 px-5 py-4 sm:px-6">
               <Link
-                to={`/product/${item.slug}`}
+                to={`/product/${item.slug ?? item.productId}`}
                 className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gold-500/15 text-lg font-medium text-gold-700"
                 aria-label={item.name}
               >
@@ -121,7 +148,7 @@ export default function OrderDetail() {
               </Link>
               <div className="min-w-0 flex-1">
                 <Link
-                  to={`/product/${item.slug}`}
+                  to={`/product/${item.slug ?? item.productId}`}
                   className="text-sm font-medium text-espresso transition-colors hover:text-gold-700"
                 >
                   {item.name}

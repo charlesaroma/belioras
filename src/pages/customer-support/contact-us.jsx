@@ -1,159 +1,216 @@
-import { useState } from "react";
-import { motion } from "motion/react";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
-const inputClasses =
-  "w-full rounded-none border-b border-umber-50 bg-transparent px-0 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-gold-500 focus:outline-none transition-colors";
+import Button from "../../components/ui/Button";
+import Field from "../../components/ui/Field";
+import PageShell from "../../components/layout/PageShell";
+import { useToast } from "../../context/ToastContext";
+import { useAsyncData } from "../../hooks/useAsyncData";
+import { sendMessage } from "../../services/contactApi";
+import { getSettings } from "../../services/settingsApi";
+import { CONTACT_EMAIL } from "../../utils/constants";
 
+const SUBJECTS = [
+  { value: "order", label: "An existing order", to: "support" },
+  { value: "returns", label: "Returns or exchanges", to: "support" },
+  { value: "sizing", label: "Sizing or styling advice", to: "support" },
+  { value: "press", label: "Press or partnerships", to: "general" },
+  { value: "privacy", label: "Privacy or data request", to: "general" },
+  { value: "other", label: "Something else", to: "general" },
+];
+
+/**
+ * Client services.
+ *
+ * Two things were wrong beyond the invented email address. Every label was
+ * sr-only, leaving placeholders as the only visible labels — which reads fine
+ * until someone types and the description of the field they are filling in
+ * disappears. And the form pretended to send: it set a success state after a
+ * one-second timer while nothing went anywhere, so someone with a real problem
+ * would wait for a reply that was never coming.
+ *
+ * Labels are visible now and submission goes through a service seam that says
+ * honestly what happens next, with both mailboxes shown so a shopper can route
+ * themselves.
+ */
 export default function ContactUsPage() {
-  const [status, setStatus] = useState("idle"); // idle, submitting, success
+  const { toast } = useToast();
+  const { data: settings } = useAsyncData(getSettings, []);
+  const contact = settings?.contact;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus("submitting");
-    setTimeout(() => setStatus("success"), 1000);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm({
+    defaultValues: { name: "", email: "", subject: "", message: "" },
+  });
+
+  const chosen = SUBJECTS.find((s) => s.value === watch("subject"));
+  const routedTo =
+    chosen?.to === "general"
+      ? (contact?.general ?? CONTACT_EMAIL.general)
+      : (contact?.support ?? CONTACT_EMAIL.support);
+
+  const onSubmit = async (values) => {
+    try {
+      await sendMessage(values);
+      reset(values, { keepIsSubmitted: true, keepValues: true });
+      toast("Message saved. Please also email us directly — see below.", "success");
+    } catch (err) {
+      toast(err.message ?? "Could not send that message.", "error");
+    }
   };
 
   return (
-    <section aria-labelledby="contact-title" className="min-h-dvh pb-12"
-      style={{ paddingTop: "calc(var(--header-height, 138px) + 2rem)" }}>
-      <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          
-          {/* Left Column: Details */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col justify-center"
-          >
-            <p className="eyebrow mb-4">Client Services</p>
-            <h1 id="contact-title" className="font-display text-5xl md:text-6xl text-espresso tracking-wide mb-6">
-              How can we <br /> assist you?
-            </h1>
-            <p className="text-espresso/70 leading-relaxed max-w-md mb-12">
-              Our client advisors are available to assist with your online order, provide styling advice, or answer any questions regarding our collections.
+    <PageShell
+      eyebrow="Client services"
+      title="How can we assist you?"
+      intro="Our client advisors help with orders, returns, sizing and styling. We reply within one working day."
+      width="wide"
+    >
+      <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        <div className="space-y-8">
+          <Detail icon={Mail} title="Client care">
+            <a
+              href={`mailto:${contact?.support ?? CONTACT_EMAIL.support}`}
+              className="text-gold-700 underline underline-offset-4"
+            >
+              {contact?.support ?? CONTACT_EMAIL.support}
+            </a>
+            <p className="mt-1 text-[13px] text-espresso-soft">
+              Orders, tracking, returns, shipping and sizing.
             </p>
+          </Detail>
 
-            <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="size-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0">
-                  <Phone className="size-5 text-gold-700" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-espresso uppercase tracking-widest mb-1">Telephone</h3>
-                  <p className="text-espresso/70 text-sm mb-1">+44 (0) 20 7123 4567</p>
-                  <p className="text-xs text-espresso/50">Monday to Saturday: 10am - 7pm GMT</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4">
-                <div className="size-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0">
-                  <Mail className="size-5 text-gold-700" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-espresso uppercase tracking-widest mb-1">Email</h3>
-                  <p className="text-espresso/70 text-sm">support@belioras.com</p>
-                </div>
-              </div>
+          <Detail icon={Mail} title="General enquiries">
+            <a
+              href={`mailto:${contact?.general ?? CONTACT_EMAIL.general}`}
+              className="text-gold-700 underline underline-offset-4"
+            >
+              {contact?.general ?? CONTACT_EMAIL.general}
+            </a>
+            <p className="mt-1 text-[13px] text-espresso-soft">
+              Press, partnerships, privacy requests and legal.
+            </p>
+          </Detail>
 
-              <div className="flex items-start gap-4">
-                <div className="size-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0">
-                  <MapPin className="size-5 text-gold-700" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-espresso uppercase tracking-widest mb-1">Boutique</h3>
-                  <p className="text-espresso/70 text-sm leading-relaxed">
-                    15 Mount Street<br />
-                    Mayfair, London<br />
-                    W1K 2RN, United Kingdom
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          {contact?.phone && (
+            <Detail icon={Phone} title="Telephone">
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="text-espresso">
+                {contact.phone}
+              </a>
+            </Detail>
+          )}
 
-          {/* Right Column: Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-ivory-50 p-8 sm:p-12 rounded-2xl shadow-large border border-umber-50/50"
-          >
-            {status === "success" ? (
-              <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                <div className="size-16 rounded-full bg-gold-500/20 flex items-center justify-center mb-6">
-                  <Mail className="size-8 text-gold-700" />
-                </div>
-                <h3 className="font-display text-2xl text-espresso mb-3">Message Received</h3>
-                <p className="text-espresso/70 text-sm leading-relaxed">
-                  Thank you for reaching out. A Client Advisor will reply to your inquiry within 24 hours.
-                </p>
-                <button 
-                  onClick={() => setStatus("idle")}
-                  className="mt-8 text-xs font-semibold uppercase tracking-widest text-gold-700 hover:text-espresso transition-colors"
-                >
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <h2 className="font-display text-2xl text-espresso mb-8">Send a Message</h2>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="firstName" className="sr-only">First Name</label>
-                    <input type="text" id="firstName" required placeholder="First Name *" className={inputClasses} />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="sr-only">Last Name</label>
-                    <input type="text" id="lastName" required placeholder="Last Name *" className={inputClasses} />
-                  </div>
-                </div>
+          {contact?.hours && (
+            <Detail icon={Clock} title="Hours">
+              <p className="text-espresso">{contact.hours}</p>
+            </Detail>
+          )}
 
-                <div>
-                  <label htmlFor="email" className="sr-only">Email Address</label>
-                  <input type="email" id="email" required placeholder="Email Address *" className={inputClasses} />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="sr-only">Subject</label>
-                  <select id="subject" className={`${inputClasses} appearance-none bg-transparent`} required defaultValue="">
-                    <option value="" disabled>Select a Subject *</option>
-                    <option value="order">Online Order</option>
-                    <option value="product">Product Information</option>
-                    <option value="returns">Returns & Exchanges</option>
-                    <option value="other">Other Inquiry</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="sr-only">Message</label>
-                  <textarea 
-                    id="message" 
-                    rows="4" 
-                    required 
-                    placeholder="Your Message *" 
-                    className={`${inputClasses} resize-none`} 
-                  />
-                </div>
-
-                <p className="text-[10px] text-espresso/50 uppercase tracking-widest pt-4">
-                  * Indicates required field
-                </p>
-
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="btn w-full bg-espresso text-ivory-50 hover:bg-gold-700 hover:text-espresso transition-colors py-4 uppercase tracking-[0.2em] text-xs font-bold mt-4"
-                >
-                  {status === "submitting" ? "Sending..." : "Submit"}
-                </button>
-              </form>
-            )}
-          </motion.div>
+          {contact?.boutique && (
+            <Detail icon={MapPin} title="Boutique">
+              <p className="text-espresso">{contact.boutique}</p>
+            </Detail>
+          )}
         </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="border border-umber-50 p-6 sm:p-8">
+          <h2 className="font-display text-2xl tracking-wide text-espresso">Send a message</h2>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <Field label="Name" required error={errors.name?.message}>
+              <input {...register("name", { required: "Please tell us your name." })} />
+            </Field>
+
+            <Field label="Email" required error={errors.email?.message}>
+              <input
+                type="email"
+                {...register("email", {
+                  required: "We need an address to reply to.",
+                  pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Check that address." },
+                })}
+              />
+            </Field>
+
+            <Field
+              label="What is it about?"
+              required
+              className="sm:col-span-2"
+              error={errors.subject?.message}
+              helper={chosen ? `This goes to ${routedTo}.` : undefined}
+            >
+              <select {...register("subject", { required: "Please choose a subject." })}>
+                <option value="">Select a subject</option>
+                {SUBJECTS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <Field
+              label="Message"
+              required
+              className="sm:col-span-2"
+              error={errors.message?.message}
+            >
+              <textarea
+                rows={6}
+                className="resize-y"
+                {...register("message", {
+                  required: "Please tell us how we can help.",
+                  minLength: { value: 10, message: "A little more detail, please." },
+                })}
+              />
+            </Field>
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <Button type="submit" size="lg" loading={isSubmitting}>
+              Send message
+            </Button>
+          </div>
+
+          {/*
+            Honest about what just happened. The form is not connected to a
+            mail service yet, and telling someone their message is on its way
+            when it is not is the failure mode worth avoiding here.
+          */}
+          {isSubmitSuccessful && (
+            <div className="mt-6 border-l-2 border-gold-500 py-3 pl-5" role="status">
+              <p className="text-[13px] leading-relaxed text-espresso-soft">
+                <strong className="font-medium text-espresso">Saved on this device.</strong> Our
+                contact form is not yet connected to a mail service, so please also write to{" "}
+                <a href={`mailto:${routedTo}`} className="text-gold-700 underline underline-offset-4">
+                  {routedTo}
+                </a>{" "}
+                so we receive it.
+              </p>
+            </div>
+          )}
+        </form>
       </div>
-    </section>
+    </PageShell>
+  );
+}
+
+function Detail({ icon: Icon, title, children }) {
+  return (
+    <div className="flex items-start gap-4">
+      <span className="flex size-9 shrink-0 items-center justify-center border border-umber-50 text-gold-700">
+        <Icon className="size-4" strokeWidth={1.5} aria-hidden="true" />
+      </span>
+      <div className="min-w-0">
+        <h3 className="mb-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-espresso">
+          {title}
+        </h3>
+        {children}
+      </div>
+    </div>
   );
 }
