@@ -1,7 +1,13 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { login as loginApi, register as registerApi, logout as logoutApi } from "../services/authApi";
+import {
+  changePassword as changePasswordApi,
+  login as loginApi,
+  logout as logoutApi,
+  register as registerApi,
+  updateProfile as updateProfileApi,
+} from "../services/authApi";
 
 const AuthContext = createContext(null);
 
@@ -42,6 +48,32 @@ export function AuthProvider({ children }) {
     setSession(null);
   }, [setSession]);
 
+  /**
+   * Save profile changes and reflect them in the live session.
+   *
+   * Without the second half the name in the header would stay stale until the
+   * next sign-in, which reads as the save having failed.
+   */
+  const userId = session?.user?.id ?? null;
+
+  const updateProfile = useCallback(
+    async (patch) => {
+      if (!userId) throw new Error("Not signed in.");
+      const updated = await updateProfileApi(userId, patch);
+      setSession((prev) => (prev ? { ...prev, user: updated } : prev));
+      return updated;
+    },
+    [userId, setSession],
+  );
+
+  const changePassword = useCallback(
+    async (payload) => {
+      if (!userId) throw new Error("Not signed in.");
+      return changePasswordApi(userId, payload);
+    },
+    [userId],
+  );
+
   const value = useMemo(
     () => ({
       user: session?.user ?? null,
@@ -52,8 +84,10 @@ export function AuthProvider({ children }) {
       login,
       register,
       logout,
+      updateProfile,
+      changePassword,
     }),
-    [session, loading, login, register, logout]
+    [session, loading, login, register, logout, updateProfile, changePassword]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

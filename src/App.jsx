@@ -8,7 +8,6 @@ import { LanguageProvider } from "./context/LanguageContext";
 import { ProductDraftProvider } from "./context/ProductDraftContext";
 import { ToastProvider } from "./context/ToastContext";
 import { WishlistProvider } from "./context/WishlistContext";
-import WishlistPage from "./pages/account/Wishlist";
 
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/Footer";
@@ -45,6 +44,14 @@ import CookiePolicyPage from "./pages/legal/cookie-policy";
 
 import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
 import ProductForm from "./Dashboard/pages/products/ProductForm";
+
+import AccountLayout from "./pages/account/AccountLayout";
+import AccountProfile from "./pages/account/Profile";
+import AccountOrders from "./pages/account/Orders";
+import AccountOrderDetail from "./pages/account/OrderDetail";
+import AccountAddresses from "./pages/account/Addresses";
+import AccountWishlist from "./pages/account/Wishlist";
+import AccountSettings from "./pages/account/Settings";
 import { cn } from "./utils/cn";
 
 /** Forwards /search?q=… to the real results surface, preserving the term. */
@@ -173,7 +180,32 @@ function App() {
             <Route path="/order-tracking" element={<OrderTrackingPage />} />
             <Route path="/hair-length-guide" element={<HairLengthGuidePage />} />
             <Route path="/shoe-size-guide" element={<ShoeSizeGuidePage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
+            {/*
+              The account tree. Every one of these pages was written and none
+              were routed, so /account — which NavActions, MobileMenu, the
+              post-login redirect and RequireAuth's own non-admin fallback all
+              point at — resolved to NotFound. A customer who signed in was
+              sent straight to a 404.
+            */}
+            <Route
+              path="/account"
+              element={
+                <RequireAuth>
+                  <AccountLayout />
+                </RequireAuth>
+              }
+            >
+              <Route index element={<AccountProfile />} />
+              <Route path="orders" element={<AccountOrders />} />
+              <Route path="orders/:id" element={<AccountOrderDetail />} />
+              <Route path="addresses" element={<AccountAddresses />} />
+              <Route path="wishlist" element={<AccountWishlist />} />
+              <Route path="settings" element={<AccountSettings />} />
+            </Route>
+
+            {/* One canonical URL for saved pieces. The header heart and any
+                existing bookmark keep working. */}
+            <Route path="/wishlist" element={<Navigate to="/account/wishlist" replace />} />
 
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />

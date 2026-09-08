@@ -1,88 +1,103 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { LayoutDashboard, LogOut, MapPin, Package, ShoppingBag, UserRound } from "lucide-react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
+import { cn } from "../../utils/cn";
 
 const NAV = [
   { to: "/account", end: true, label: "Overview", icon: UserRound },
   { to: "/account/orders", label: "Orders", icon: Package },
+  { to: "/account/wishlist", label: "Saved pieces", icon: Heart },
   { to: "/account/addresses", label: "Addresses", icon: MapPin },
-  { to: "/account/wishlist", label: "Wishlist", icon: ShoppingBag },
+  { to: "/account/settings", label: "Settings", icon: Settings },
 ];
 
+/**
+ * The signed-in account.
+ *
+ * Renders inside the storefront Layout now, rather than replacing it with its
+ * own bare header and a "Belioras" wordmark. A customer checking an order has
+ * not left the shop, and taking the navigation and the bag away from them said
+ * otherwise. It also means one navbar, one footer and one set of measurements
+ * instead of two.
+ *
+ * Offset from the measured --header-height for the same reason PageShell is:
+ * the navbar is fixed, and every page that invented its own number eventually
+ * ended up underneath it.
+ */
 export default function AccountLayout() {
   const { user, logout } = useAuth();
+  const { pathname } = useLocation();
   const isAdmin = user?.role === "super-admin" || user?.role === "staff";
 
   return (
-    <div className="min-h-dvh bg-ivory-50 text-espresso">
-      <header className="border-b border-umber-50 bg-white/60">
-        <div className="container-main flex h-16 items-center justify-between">
-          <Link to="/" className="font-display text-lg font-medium tracking-wide">
-            Belioras
-          </Link>
-          <span className="text-sm text-espresso-soft">Your Account</span>
-        </div>
-      </header>
+    <div
+      className="px-6 pb-24 md:px-10"
+      style={{ paddingTop: "calc(var(--header-height, 138px) + 2.5rem)" }}
+    >
+      <div className="mx-auto max-w-[1400px]">
+        <header className="border-b border-umber-50 pb-6">
+          <p className="eyebrow">Your account</p>
+          <h1 className="mt-2 font-display text-4xl leading-tight text-espresso md:text-5xl">
+            {user?.name?.split(" ")[0] ?? "Welcome"}
+          </h1>
+        </header>
 
-      <div className="container-main grid gap-8 py-10 lg:grid-cols-[240px_1fr] lg:py-14">
-        <aside>
-          <div className="flex items-center gap-3 rounded-2xl border border-umber-50 bg-white p-4">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gold-500 font-semibold text-espresso">
-              {(user?.name ?? user?.email ?? "U").slice(0, 1).toUpperCase()}
-            </span>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{user?.name}</p>
-              <p className="truncate text-xs text-espresso-soft">{user?.email}</p>
-            </div>
-          </div>
+        <div className="grid gap-10 pt-8 lg:grid-cols-[220px_1fr]">
+          <aside>
+            <nav aria-label="Account" className="flex flex-col">
+              {NAV.map(({ to, end, label, icon: Icon }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={end}
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-3 border-b border-umber-50 py-3 text-[13px] tracking-[0.02em] transition-colors",
+                      isActive ? "text-gold-700" : "text-espresso-soft hover:text-espresso",
+                    )
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <Icon
+                        className={cn("size-4", isActive && "text-gold-700")}
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                      />
+                      {label}
+                    </>
+                  )}
+                </NavLink>
+              ))}
 
-          <nav className="mt-4 flex flex-col gap-1" aria-label="Account">
-            {NAV.map(({ to, end, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={end}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
-                    isActive
-                      ? "bg-brown-50 font-medium text-gold-700"
-                      : "text-espresso hover:bg-brown-50"
-                  }`
-                }
+              <button
+                type="button"
+                onClick={logout}
+                className="flex items-center gap-3 py-3 text-left text-[13px] text-espresso-soft transition-colors hover:text-error"
               >
-                <Icon className="size-4" aria-hidden="true" />
-                {label}
-              </NavLink>
-            ))}
-            <button
-              type="button"
-              onClick={logout}
-              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-espresso-soft transition-colors hover:bg-brown-50"
-            >
-              <LogOut className="size-4" aria-hidden="true" />
-              Sign out
-            </button>
-          </nav>
+                <LogOut className="size-4" strokeWidth={1.5} aria-hidden="true" />
+                Sign out
+              </button>
+            </nav>
 
-          <p className="mt-6 hidden text-xs text-espresso-soft lg:block">
-            {isAdmin ? (
+            {isAdmin && (
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 underline underline-offset-4 hover:text-gold-700"
+                className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-espresso-soft underline underline-offset-4 transition-colors hover:text-gold-700"
               >
                 <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Admin dashboard
+                Atelier dashboard
               </Link>
-            ) : (
-              "Need help? Reach out via the contact page."
             )}
-          </p>
-        </aside>
+          </aside>
 
-        <main className="min-w-0">
-          <Outlet />
-        </main>
+          {/* Keyed on the path so each page mounts fresh, rather than carrying
+              the previous page's form state into the next one. */}
+          <main key={pathname} className="min-w-0">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );

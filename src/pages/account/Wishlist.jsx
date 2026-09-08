@@ -1,65 +1,117 @@
-import { Link } from "react-router-dom";
-import { Heart, ShoppingBag } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Heart, PackageX } from "lucide-react";
 
+import EmptyState from "../../components/ui/EmptyState";
 import ProductCard from "../../components/storefront/ProductCard";
+import GridViewSwitcher from "../../components/storefront/GridViewSwitcher";
 import { useWishlist } from "../../context/WishlistContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getProducts } from "../../services/productsApi";
+import {
+  COLUMN_CLASSES,
+  COLUMN_GAP_CLASSES,
+  DEFAULT_COLUMNS,
+} from "../../utils/gridColumns";
+import { cn } from "../../utils/cn";
 
+/**
+ * Saved pieces.
+ *
+ * Three things were wrong here. The page hand-rolled its own padding with no
+ * header offset, so its <h1> rendered at y=48 while the fixed header ended at
+ * 133 — the title was entirely behind the navbar, which is why the page read
+ * as having none. It had no density control, unlike every other grid in the
+ * shop. And ids for pieces that no longer exist were dropped silently by a
+ * .filter(Boolean), so a wishlist could quietly shrink with no explanation.
+ *
+ * It now renders inside AccountLayout, which owns the offset, matches the
+ * catalogue's toolbar and grid, and says so when something has gone.
+ */
 export default function Wishlist() {
-  const { ids } = useWishlist();
+  const { ids, remove } = useWishlist();
   const { data: products, loading } = useAsyncData(getProducts, []);
+  const [columns, setColumns] = useState(DEFAULT_COLUMNS);
 
-  const items = loading
-    ? []
-    : ids
-        .map((id) => products?.find((p) => p.id === id))
-        .filter(Boolean);
+  const { items, missing } = useMemo(() => {
+    if (!products) return { items: [], missing: [] };
+    const found = [];
+    const gone = [];
+    for (const id of ids) {
+      const product = products.find((p) => p.id === id);
+      if (product) found.push(product);
+      else gone.push(id);
+    }
+    return { items: found, missing: gone };
+  }, [ids, products]);
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-8 xl:px-16 2xl:px-24 py-12 space-y-6">
-      <div>
-        <h1 className="font-display text-2xl font-medium tracking-wide">Wishlist</h1>
-        <p className="mt-1 text-sm text-espresso-soft">
-          {ids.length ? `${items.length} saved item${items.length === 1 ? "" : "s"}` : "Items you save for later"}
-        </p>
+    <div>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-umber-50 pb-4">
+        <h2 className="font-display text-2xl tracking-wide text-espresso">Saved pieces</h2>
+        <div className="flex items-center gap-5">
+          <p className="text-[11px] uppercase tracking-[0.16em] text-espresso-soft">
+            {loading ? "…" : `${items.length} ${items.length === 1 ? "piece" : "pieces"}`}
+          </p>
+          {items.length > 0 && (
+            <GridViewSwitcher columns={columns} setColumns={setColumns} />
+          )}
+        </div>
       </div>
 
       {loading ? (
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <li key={i} className="animate-pulse" aria-hidden="true">
-              <div className="aspect-[3/4] rounded-lg bg-brown-50" />
-              <div className="mt-3 h-3 w-2/3 rounded bg-brown-50" />
-              <div className="mt-2 h-3 w-1/3 rounded bg-brown-50" />
+        <ul
+          className={cn("grid pt-8", COLUMN_CLASSES[columns], COLUMN_GAP_CLASSES[columns])}
+          aria-hidden="true"
+        >
+          {Array.from({ length: 8 }).map((_, i) => (
+            <li key={i}>
+              <div className="skeleton aspect-[3/4] w-full" />
+              <div className="skeleton mt-3 h-3 w-2/3" />
+              <div className="skeleton mt-2 h-3 w-1/3" />
             </li>
           ))}
         </ul>
-      ) : !items.length ? (
-        <div className="rounded-2xl border border-umber-50 bg-white px-6 py-16 text-center">
-          <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-gold-500/15 text-gold-700">
-            <Heart className="size-6" aria-hidden="true" />
-          </span>
-          <h2 className="mt-5 font-display text-xl font-medium tracking-wide">Nothing saved yet</h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-espresso-soft">
-            Tap the heart on any product to keep it here for later. We will keep it in mind.
-          </p>
-          <Link
-            to="/shop"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-espresso px-6 py-3 text-sm font-medium text-ivory-50 transition-colors duration-200 hover:bg-umber-500 active:scale-[0.98]"
-          >
-            <ShoppingBag className="size-4" aria-hidden="true" />
-            Discover the collection
-          </Link>
-        </div>
+      ) : items.length === 0 ? (
+        <EmptyState
+          className="mt-8"
+          icon={Heart}
+          title="Nothing saved yet"
+          description="Tap the heart on any piece to keep it here. We will hold it in mind."
+          action={{ label: "Discover the collection", to: "/shop" }}
+        />
       ) : (
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3">
-          {items.map((product) => (
-            <li key={product.id}>
-              <ProductCard product={product} />
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className={cn("grid pt-8", COLUMN_CLASSES[columns], COLUMN_GAP_CLASSES[columns])}>
+            {items.map((product) => (
+              <li key={product.id}>
+                <ProductCard product={product} />
+              </li>
+            ))}
+          </ul>
+
+          {/* Previously these just disappeared. Saying so lets the shopper
+              clear them deliberately rather than wonder what happened. */}
+          {missing.length > 0 && (
+            <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-umber-50 pt-5">
+              <PackageX
+                className="size-4 shrink-0 text-espresso-soft"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+              <p className="flex-1 text-[13px] text-espresso-soft">
+                {missing.length} saved {missing.length === 1 ? "piece is" : "pieces are"} no longer
+                available.
+              </p>
+              <button
+                type="button"
+                onClick={() => missing.forEach(remove)}
+                className="text-[11px] uppercase tracking-[0.14em] text-gold-700 underline underline-offset-4 transition-opacity hover:opacity-70"
+              >
+                Remove them
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ import { Heart, ShoppingBag, User } from "lucide-react";
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useAuth } from "../../../context/AuthContext";
+import AccountMenu from "./AccountMenu";
 import { useLanguage } from "../../../context/LanguageContext";
 import CurrencySelector from "../../common/CurrencySelector";
 import LanguageSelector from "../../common/LanguageSelector";
@@ -19,7 +20,7 @@ const BADGE =
 export default function NavActions({ onCartOpen }) {
   const { count } = useCart();
   const { count: wishlistCount } = useWishlist();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { t } = useLanguage();
 
   return (
@@ -32,7 +33,7 @@ export default function NavActions({ onCartOpen }) {
       <CurrencySelector />
 
       <Link
-        to="/wishlist"
+        to="/account/wishlist"
         className={ICON_BUTTON}
         aria-label={t("wishlist.count", `Wishlist, ${wishlistCount} items`, {
           count: wishlistCount,
@@ -47,48 +48,17 @@ export default function NavActions({ onCartOpen }) {
       </Link>
 
       {user ? (
-        <div className="relative group flex items-center justify-center">
-          <button
-            type="button"
-            className="flex size-10 items-center justify-center rounded-full bg-gold-500 text-sm font-semibold text-espresso transition-opacity hover:opacity-80 cursor-pointer"
-            aria-haspopup="menu"
-          >
-            {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
-          </button>
-
-          <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-            <div className="w-48 bg-ivory-50 rounded-2xl shadow-large border border-umber-50 overflow-hidden py-2">
-              <div className="px-4 py-2 border-b border-umber-50/60">
-                <p className="text-sm font-semibold text-espresso truncate">{user.name}</p>
-                <p className="text-[10px] text-espresso-soft truncate">{user.email}</p>
-              </div>
-              <Link
-                to="/account"
-                className="block px-4 py-2 text-sm text-espresso hover:bg-brown-50 hover:text-gold-700 transition-colors"
-              >
-                {t("nav.myAccount", "My Account")}
-              </Link>
-              <button
-                type="button"
-                className="w-full text-left px-4 py-2 text-sm text-espresso hover:bg-brown-50 hover:text-gold-700 transition-colors"
-                onClick={() => {
-                  if (typeof logout === "function") logout();
-                }}
-              >
-                {t("auth.signOut", "Sign Out")}
-              </button>
-            </div>
-          </div>
-        </div>
+        <AccountMenu />
       ) : (
         <Link
           to="/login"
-          className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70 cursor-pointer"
+          className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
           aria-label={t("auth.signIn", "Sign in")}
         >
           <User className="size-5" aria-hidden="true" />
         </Link>
       )}
+
 
       <button
         type="button"

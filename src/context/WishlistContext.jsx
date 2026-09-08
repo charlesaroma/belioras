@@ -1,22 +1,52 @@
 import { createContext, useCallback, useContext, useMemo } from "react";
 
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useAuth } from "./AuthContext";
+import { useScopedStorage } from "../hooks/useScopedStorage";
 
 const WishlistContext = createContext(null);
 
+/** Union, preserving order: the account's list first, then anything new. */
+function mergeIds(accountIds = [], anonymousIds = []) {
+  return [...new Set([...accountIds, ...anonymousIds])];
+}
+
+/**
+ * Saved pieces.
+ *
+ * Namespaced per account. This used to be one device-global key that was
+ * never cleared on sign-out, so the next person on a shared browser saw the
+ * previous person's saved pieces as their own.
+ *
+ * A list built before signing in is adopted into the account on first
+ * sign-in — losing six carefully saved pieces at the moment someone commits
+ * to registering is the wrong reward for registering.
+ */
 export function WishlistProvider({ children }) {
-  const [ids, setIds] = useLocalStorage("belioras:wishlist", []);
+  const { user } = useAuth();
+  const [ids, setIds] = useScopedStorage("belioras:wishlist", [], user?.id, {
+    merge: mergeIds,
+  });
 
   const toggle = useCallback(
     (id) => {
       setIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
     },
-    [setIds]
+    [setIds],
   );
+
+  const remove = useCallback(
+    (id) => setIds((prev) => prev.filter((x) => x !== id)),
+    [setIds],
+  );
+
+  const clear = useCallback(() => setIds([]), [setIds]);
 
   const has = useCallback((id) => ids.includes(id), [ids]);
 
-  const value = useMemo(() => ({ ids, toggle, has, count: ids.length }), [ids, toggle, has]);
+  const value = useMemo(
+    () => ({ ids, toggle, remove, clear, has, count: ids.length }),
+    [ids, toggle, remove, clear, has],
+  );
 
   return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>;
 }
