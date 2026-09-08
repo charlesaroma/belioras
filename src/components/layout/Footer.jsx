@@ -249,7 +249,7 @@ export default function Footer() {
               {(categories ?? []).map((category) => (
                 <li key={category.id}>
                   <Link
-                    to={`/shop/${category.id}`}
+                    to={`/${category.id}`}
                     className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
                   >
                     {category.name}
@@ -350,7 +350,7 @@ export default function Footer() {
               {(categories ?? []).map((category) => (
                 <li key={category.id}>
                   <Link
-                    to={`/shop/${category.id}`}
+                    to={`/${category.id}`}
                     className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
                   >
                     {category.name}

@@ -156,7 +156,7 @@ export default function Navbar() {
             />
           </div>
 
-          <Logo isScrolled={isScrolled} menuOpen={!!menuId || searchOpen} isLightBg={isLightBgPage} />
+          <Logo />
 
           <div className="flex items-center justify-end gap-4">
             <button
@@ -187,7 +187,7 @@ export default function Navbar() {
 
           {/* Center: Logo */}
           <div className="flex justify-center">
-            <Logo isScrolled={isScrolled} menuOpen={!!menuId || searchOpen} isLightBg={isLightBgPage} />
+            <Logo />
           </div>
 
           {/* Right: Search + Cart */}

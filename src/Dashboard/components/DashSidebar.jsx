@@ -51,7 +51,7 @@ export default function DashSidebar({ isOpen, onClose }) {
       >
         <div className="flex shrink-0 items-center justify-between border-b border-ivory-50/10 px-6 py-6">
           <Link to="/" aria-label="Belioras — storefront">
-            <img src="/belioras-logo-gold.svg" alt="Belioras" className="h-14 w-auto" />
+            <img src="/belioras-boutique-primary-logo-rgb-belioras-original.svg" alt="Belioras" className="h-14 w-auto" />
           </Link>
           <button
             type="button"

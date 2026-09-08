@@ -15,7 +15,8 @@ export default function AboutUsPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-espresso/80 via-espresso/30 to-transparent" />
         
-        <div className="relative z-10 text-center px-4 pt-32">
+        <div className="relative z-10 text-center px-4"
+          style={{ paddingTop: "calc(var(--header-height, 138px) + 2rem)" }}>
           <motion.p 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
