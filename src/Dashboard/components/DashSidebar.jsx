@@ -1,11 +1,13 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
-  LayoutGrid,
   LogOut,
+  Menu,
   Package,
   Settings,
+  ShieldCheck,
   ShoppingCart,
+  Tags,
   Users,
   X,
 } from "lucide-react";
@@ -15,7 +17,7 @@ import { useAuth } from "../../context/AuthContext";
 import { cn } from "../../utils/cn";
 import { DASHBOARD_NAV_ITEMS } from "../lib/constants";
 
-const iconMap = { LayoutDashboard, Package, LayoutGrid, ShoppingCart, Users, Settings };
+const iconMap = { LayoutDashboard, Package, Tags, Menu, ShoppingCart, Users, ShieldCheck, Settings };
 
 /**
  * Admin navigation.

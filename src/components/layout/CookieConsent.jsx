@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useAsyncData } from "../../hooks/useAsyncData";
+import { useContentVersion } from "../../context/ContentContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { getSettings } from "../../services/settingsApi";
 
@@ -28,7 +29,8 @@ const REJECTED = "rejected";
  *    with a low-contrast decline link is the pattern EDPB guidance calls out.
  */
 export default function CookieConsent() {
-  const { data: settings } = useAsyncData(getSettings, []);
+  const version = useContentVersion();
+  const { data: settings } = useAsyncData(getSettings, [version]);
   const { t } = useLanguage();
 
   // Stored as an object so consent can be re-requested when the policy version

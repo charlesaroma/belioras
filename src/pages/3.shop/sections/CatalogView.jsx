@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useContentVersion } from "../../../context/ContentContext";
 import { useFilterParams } from "../../../hooks/useFilterParams";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { getTaxonomy } from "../../../services/navigationApi";
@@ -27,7 +28,8 @@ import { SORT_OPTIONS } from "./constants";
 export default function CatalogView({ products, loading, error, header = {}, emptyState = null }) {
   const list = useMemo(() => products ?? [], [products]);
 
-  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+  const version = useContentVersion();
+  const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
   const { filters, activeCount, toggleValue, setPrice, setSale, setSort, setQuery, clearAll } =
     useFilterParams();
 

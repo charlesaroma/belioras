@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useContentVersion } from "../../../context/ContentContext";
 import { getNavigation } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
 
@@ -48,7 +49,8 @@ const LIGHT_BG_PATHS = [
 ];
 
 export default function Navbar() {
-  const { data: categories } = useAsyncData(getNavigation, []);
+  const version = useContentVersion();
+  const { data: categories } = useAsyncData(getNavigation, [version]);
   const { data: products } = useAsyncData(getProducts, []);
   const { count } = useCart();
   const [cartOpen, setCartOpen] = useState(false);

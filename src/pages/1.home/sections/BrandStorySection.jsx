@@ -2,10 +2,12 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useContentVersion } from "../../../context/ContentContext";
 import { getSettings } from "../../../services/settingsApi";
 
 export default function BrandStorySection() {
-  const { data: settings } = useAsyncData(getSettings, []);
+  const version = useContentVersion();
+  const { data: settings } = useAsyncData(getSettings, [version]);
   const story = settings?.brandStory;
 
   if (!story) return null;

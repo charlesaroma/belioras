@@ -1,5 +1,5 @@
 import { mockApi } from "./apiClient";
-import { getState } from "./contentStore";
+import { getState, resetDomain, setState } from "./contentStore";
 
 /**
  * Navigation tree and product taxonomy.
@@ -33,4 +33,28 @@ export function flattenLeaves(items) {
       section.items.map((leaf) => ({ ...leaf, rootId: root.id, rootLabel: root.label })),
     ),
   );
+}
+
+/* ------------------------------------------------------------------ writes */
+
+/**
+ * Replace the navigation tree.
+ *
+ * The whole tree at once rather than per-item patches: the mega menu is one
+ * ordered structure, and a reorder touches every sibling anyway. It goes
+ * through the content store, so an edit reaches the storefront's menu and
+ * survives a reload — the tree was previously read-only from the dashboard.
+ *
+ * Callers pass the roots array; `rev` is preserved by the store.
+ */
+export function updateNavigation(items) {
+  return mockApi(() => {
+    setState("navigation", (state) => ({ ...state, items }));
+    return items;
+  });
+}
+
+/** Restore the shipped menu, discarding every dashboard edit. */
+export function resetNavigation() {
+  return mockApi(() => resetDomain("navigation").items);
 }

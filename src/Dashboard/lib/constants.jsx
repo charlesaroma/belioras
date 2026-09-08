@@ -9,9 +9,15 @@
 export const DASHBOARD_NAV_ITEMS = [
   { id: "overview", label: "Overview", icon: "LayoutDashboard" },
   { id: "products", label: "Products", icon: "Package", capability: "catalog" },
-  { id: "categories", label: "Categories", icon: "LayoutGrid", capability: "content" },
+  { id: "categories", label: "Attributes", icon: "Tags", capability: "content" },
+  { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
   { id: "orders", label: "Orders", icon: "ShoppingCart", capability: "orders" },
-  { id: "users", label: "Users", icon: "Users", capability: "team" },
+  // Customers and Team were one "Users" page listing shoppers and staff in the
+  // same table, with a role dropdown on every row — the control that grants
+  // administrator access sitting beside a customer's delivery history. They are
+  // different jobs with different audiences and different permissions.
+  { id: "customers", label: "Customers", icon: "Users", capability: "orders" },
+  { id: "team", label: "Team", icon: "ShieldCheck", capability: "team" },
   { id: "settings", label: "Settings", icon: "Settings", capability: "settings" },
 ];
 

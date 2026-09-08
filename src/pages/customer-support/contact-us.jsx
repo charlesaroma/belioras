@@ -6,6 +6,7 @@ import Field from "../../components/ui/Field";
 import PageShell from "../../components/layout/PageShell";
 import { useToast } from "../../context/ToastContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
+import { useContentVersion } from "../../context/ContentContext";
 import { sendMessage } from "../../services/contactApi";
 import { getSettings } from "../../services/settingsApi";
 import { CONTACT_EMAIL } from "../../utils/constants";
@@ -35,7 +36,8 @@ const SUBJECTS = [
  */
 export default function ContactUsPage() {
   const { toast } = useToast();
-  const { data: settings } = useAsyncData(getSettings, []);
+  const version = useContentVersion();
+  const { data: settings } = useAsyncData(getSettings, [version]);
   const contact = settings?.contact;
 
   const {

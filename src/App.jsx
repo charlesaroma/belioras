@@ -43,7 +43,17 @@ import ShippingPolicyPage from "./pages/legal/shipping-policy";
 import ReturnAndRefundPolicyPage from "./pages/legal/return-and-refund-policy";
 import CookiePolicyPage from "./pages/legal/cookie-policy";
 
-import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
+import {
+  DashboardLayout,
+  DashOverview,
+  DashProducts,
+  DashCategories,
+  DashMegaMenu,
+  DashOrders,
+  DashCustomers,
+  DashTeam,
+  DashSettings,
+} from "./Dashboard";
 import ProductForm from "./Dashboard/pages/products/ProductForm";
 
 import {
@@ -152,21 +162,35 @@ function App() {
             <Route path="products/new" element={<ProductForm />} />
             <Route path="products/:id/edit" element={<ProductForm />} />
             <Route path="categories" element={<DashCategories />} />
+            {/* The navigation tree gets its own section: it is the structure
+                shoppers move through, not the vocabulary pieces are tagged
+                with, and the two were conflated under Categories. */}
+            <Route path="mega-menu" element={<DashMegaMenu />} />
             <Route path="orders" element={<DashOrders />} />
+            {/* Staff handle orders, so they need the customers behind them.
+                The combined Users page was administrator-only, which locked
+                staff out of the very records they were being asked to serve. */}
+            <Route path="customers" element={<DashCustomers />} />
+
             {/*
-              Staff run the shop; only administrators manage the team and the
-              store's configuration. Staff could previously open this page and
-              promote a colleague — or an account they controlled — to
-              super-admin.
+              Access management is its own job, and an administrator's. It used
+              to share a table with customers, so the control that grants
+              administrator rights sat beside a shopper's delivery history —
+              and staff could promote a colleague, or an account they
+              controlled, to super-admin.
             */}
             <Route
-              path="users"
+              path="team"
               element={
                 <RequireAuth adminOnly capability="team">
-                  <DashUsers />
+                  <DashTeam />
                 </RequireAuth>
               }
             />
+
+            {/* The old combined page, kept so a bookmark still lands somewhere
+                useful rather than on a 404. */}
+            <Route path="users" element={<Navigate to="/dashboard/customers" replace />} />
             <Route
               path="settings"
               element={

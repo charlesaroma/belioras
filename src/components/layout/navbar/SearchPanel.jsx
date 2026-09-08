@@ -5,6 +5,7 @@ import { Camera, Search, X } from "lucide-react";
 import ImageSearch from "../../search/ImageSearch";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useContentVersion } from "../../../context/ContentContext";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getProducts } from "../../../services/productsApi";
@@ -32,7 +33,8 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   const { t } = useLanguage();
 
   const { data: products } = useAsyncData(getProducts, []);
-  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+  const version = useContentVersion();
+  const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
 
   const [imageSearchOpen, setImageSearchOpen] = useState(false);
   const [colours, setColours] = useState([]);

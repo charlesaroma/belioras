@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
+import { useContentVersion } from "../../context/ContentContext";
 import { useToast } from "../../context/ToastContext";
 import { getSettings } from "../../services/settingsApi";
 import { getNavigation } from "../../services/navigationApi";
@@ -183,8 +184,9 @@ function Newsletter({ showTitle = true, band = false }) {
 }
 
 export default function Footer() {
-  const { data: settings } = useAsyncData(getSettings, []);
-  const { data: categories } = useAsyncData(getNavigation, []);
+  const version = useContentVersion();
+  const { data: settings } = useAsyncData(getSettings, [version]);
+  const { data: categories } = useAsyncData(getNavigation, [version]);
 
   const social = settings?.social ?? {};
   const gpsr = settings?.gpsr;
