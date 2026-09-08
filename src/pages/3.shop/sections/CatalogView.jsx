@@ -75,10 +75,12 @@ export default function CatalogView({ products, loading, error, header = {}, emp
       {routeIsEmpty && emptyState ? (
         emptyState
       ) : (
-        <div className="container-main px-4 pb-24 pt-8 sm:px-6">
+        <div className="mx-auto max-w-[1400px] px-6 pb-24 pt-8 md:px-10">
           <div className="min-w-0">
-              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-                <button
+              <div className="mb-5 flex flex-wrap items-center justify-end gap-3">
+
+                <div className="flex items-center gap-4">
+                  <button
                     type="button"
                     onClick={() => setDrawerOpen(true)}
                     aria-haspopup="dialog"
@@ -92,9 +94,8 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                         {activeCount}
                       </span>
                     )}
-                </button>
+                  </button>
 
-                <div className="flex items-center gap-4">
                   <label
                     htmlFor="catalog-sort"
                     className="flex items-center gap-2 text-xs text-espresso-soft"

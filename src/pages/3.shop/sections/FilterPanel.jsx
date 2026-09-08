@@ -9,8 +9,8 @@ import PriceRangeSlider from "./PriceRangeSlider";
 /**
  * Faceted filter drawer.
  *
- * Follows the drawer pattern from the design prototype — a left slide-over at
- * every breakpoint rather than a rail — with two things the prototype lacked:
+ * Follows the drawer pattern from the design prototype — a slide-over at every
+ * breakpoint rather than a rail, opening from the right to match its trigger — with two things the prototype lacked:
  * selections live in the URL (see useFilterParams) so a filtered view is
  * shareable, and result counts are computed for every value so a filter can
  * never lead to an empty grid. The counts are not displayed; see FilterCheckbox.
@@ -38,7 +38,7 @@ export default function FilterPanel({
       open={open}
       onClose={onClose}
       title="Filter"
-      side="left"
+      side="right"
       width="max-w-sm"
       footer={
         <div className="px-6 py-4">
