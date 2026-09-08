@@ -531,3 +531,45 @@
     color: var(--color-error);
   }
 }
+/**
+ * Print.
+ *
+ * The Receipt action on an order calls window.print(), and without this the
+ * page prints the announcement bar, the navigation, the account sidebar, the
+ * footer and the cookie notice around the thing the customer actually wants.
+ *
+ * This is deliberately not a PDF: a print stylesheet gives the same artefact
+ * with no dependency, and a real invoice — sequential number, VAT breakdown,
+ * legal entity — is a document that has to be generated on the server.
+ */
+@media print {
+  header,
+  footer,
+  nav,
+  aside,
+  [role="dialog"],
+  [role="status"],
+  [aria-label="Cookie notice"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Undo the fixed-header offset; there is no header on paper. */
+  main > div {
+    padding-top: 0 !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  /* Borders survive the printer's colour stripping; backgrounds do not. */
+  * {
+    box-shadow: none !important;
+  }
+
+  a[href^="/"]::after {
+    content: "";
+  }
+}

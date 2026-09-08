@@ -1,12 +1,16 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, PackageX } from "lucide-react";
+import { ArrowLeft, PackageX, Printer, RotateCcw } from "lucide-react";
 
+import Button from "../../components/ui/Button";
 import OrderTimeline from "../../components/account/OrderTimeline";
 import StatusChip from "../../components/ui/StatusChip";
 import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useCart } from "../../context/CartContext";
+import { useToast } from "../../context/ToastContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getOrder } from "../../services/ordersApi";
+import { getProducts } from "../../services/productsApi";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });
@@ -32,6 +36,60 @@ export default function OrderDetail() {
     loading,
     error,
   } = useAsyncData(() => getOrder(id, { userId: user?.id }), [id, user?.id]);
+
+  const { data: catalog } = useAsyncData(getProducts, []);
+  const { addItem } = useCart();
+  const { toast } = useToast();
+
+  const thumbnails = Object.fromEntries(
+    (catalog ?? []).map((p) => [p.id, p.images?.[0]]).filter(([, src]) => src),
+  );
+
+  // The fixtures record a coupon code but no discount amount, so it is what
+  // the totals do not otherwise account for.
+  const discount = order
+    ? Math.max(
+        0,
+        (order.subtotal ?? 0) + (order.shipping ?? 0) + (order.tax ?? 0) - (order.total ?? 0),
+      )
+    : 0;
+
+  /**
+   * Put this order back in the bag.
+   *
+   * Resolves each line against the live catalogue rather than trusting the
+   * order: a piece may have been withdrawn or sold out since, and saying so is
+   * more useful than silently adding four of six things.
+   */
+  const orderAgain = () => {
+    if (!catalog) return;
+    const missing = [];
+    let added = 0;
+
+    for (const item of order.items ?? []) {
+      const product = catalog.find((p) => p.id === item.productId);
+      if (!product || product.stock <= 0) {
+        missing.push(item.name);
+        continue;
+      }
+      if (addItem(product, { size: item.size, color: item.color, quantity: item.quantity })) {
+        added += 1;
+      } else {
+        missing.push(item.name);
+      }
+    }
+
+    if (added === 0) {
+      toast("None of these pieces are available at the moment.", "warning");
+      return;
+    }
+    toast(
+      missing.length
+        ? `${added} added. Unavailable: ${missing.join(", ")}.`
+        : `${added} ${added === 1 ? "piece" : "pieces"} added to your bag.`,
+      missing.length ? "warning" : "success",
+    );
+  };
 
   if (loading) {
     return (
@@ -92,16 +150,39 @@ export default function OrderDetail() {
 
       <OrderTimeline status={order.status} />
 
+      <div className="no-print flex flex-wrap gap-3">
+        <Button icon={RotateCcw} onClick={orderAgain} disabled={!catalog}>
+          Order again
+        </Button>
+        <Button variant="secondary" icon={Printer} onClick={() => window.print()}>
+          Receipt
+        </Button>
+      </div>
+
       <div className="overflow-hidden rounded-2xl border border-umber-50 bg-white">
         <ul className="divide-y divide-umber-50">
           {order.items.map((item) => (
             <li key={`${item.productId}-${item.size}-${item.color}`} className="flex items-start gap-4 px-5 py-4 sm:px-6">
+              {/* The piece itself. This was a letter tile — the first
+                  character of the product name in a coloured square — because
+                  order items carry no image; it is resolved by productId. */}
               <Link
                 to={`/product/${item.slug ?? item.productId}`}
-                className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gold-500/15 text-lg font-medium text-gold-700"
+                className="block size-16 shrink-0 overflow-hidden rounded-xl border border-umber-50"
                 aria-label={item.name}
               >
-                {item.name.charAt(0)}
+                {thumbnails[item.productId] ? (
+                  <img
+                    src={thumbnails[item.productId]}
+                    alt=""
+                    loading="lazy"
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <span className="flex size-full items-center justify-center bg-gold-500/15 text-lg font-medium text-gold-700">
+                    {item.name.charAt(0)}
+                  </span>
+                )}
               </Link>
               <div className="min-w-0 flex-1">
                 <Link
@@ -126,8 +207,12 @@ export default function OrderDetail() {
           <TotalRow label="Subtotal" amount={format(order.subtotal)} />
           <TotalRow label="Shipping" amount={format(order.shipping)} />
           <TotalRow label="Tax" amount={format(order.tax)} />
-          {order.couponCode ? (
-            <TotalRow label={`Coupon ${order.couponCode}`} amount={format(order.total)} />
+          {/* This printed format(order.total) — the order total — beside the
+              coupon label, so a discount line showed what was actually paid.
+              Derived from the parts, since the fixtures carry no discount
+              field, and hidden when it comes to nothing. */}
+          {order.couponCode && discount > 0 ? (
+            <TotalRow label={`Coupon ${order.couponCode}`} amount={`−${format(discount)}`} />
           ) : null}
           <div className="flex items-center justify-between border-t border-umber-50 pt-3">
             <dt className="font-display text-base font-medium tracking-wide">Total</dt>
