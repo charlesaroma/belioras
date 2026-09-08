@@ -5,6 +5,8 @@ import ConfirmDialog from "../components/ui/ConfirmDialog";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { useIdleTimeout } from "../hooks/useIdleTimeout";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { cn } from "../utils/cn";
 import DashSidebar from "./components/DashSidebar";
 import DashHeader from "./components/DashHeader";
 import { DASHBOARD_NAV_ITEMS } from "./lib/constants";
@@ -27,6 +29,7 @@ const IDLE_WARNING = 2 * 60 * 1000;
  */
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed] = useLocalStorage("belioras:dash:collapsed", false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -48,7 +51,15 @@ export default function DashboardLayout() {
   });
 
   return (
-    <div className="min-h-dvh bg-ivory-500 lg:pl-64">
+    <div
+      className={cn(
+        "min-h-dvh bg-ivory-500 transition-[padding] duration-300",
+        // Mirrors the sidebar's own width. Both read the same stored
+        // preference rather than one telling the other, so a reload cannot
+        // leave the shell and the rail disagreeing.
+        collapsed ? "lg:pl-[72px]" : "lg:pl-64",
+      )}
+    >
       <DashSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex min-h-dvh flex-col">

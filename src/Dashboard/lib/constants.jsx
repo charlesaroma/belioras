@@ -1,25 +1,55 @@
 /**
- * Dashboard navigation.
+ * Dashboard navigation, in groups.
+ *
+ * Eight flat items is a list you scan; grouped, it is a structure you learn.
+ * The three groups answer three different questions — what do we sell, what
+ * is selling, and how is the shop set up — which is roughly how the day
+ * divides.
  *
  * `capability` is what the signed-in person must hold to see the item. The
- * sidebar filters on it, so staff are not shown a Users tab that would refuse
- * them — an item you can see but never use is worse than one that is absent.
- * The route guard is the real check; this only keeps the menu honest.
+ * sidebar filters on it, and hides a whole group when nothing in it survives,
+ * so staff are not shown headings over empty space. The route guard is the
+ * real check; this only keeps the menu honest.
  */
-export const DASHBOARD_NAV_ITEMS = [
-  { id: "overview", label: "Overview", icon: "LayoutDashboard" },
-  { id: "products", label: "Products", icon: "Package", capability: "catalog" },
-  { id: "categories", label: "Attributes", icon: "Tags", capability: "content" },
-  { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
-  { id: "orders", label: "Orders", icon: "ShoppingCart", capability: "orders" },
-  // Customers and Team were one "Users" page listing shoppers and staff in the
-  // same table, with a role dropdown on every row — the control that grants
-  // administrator access sitting beside a customer's delivery history. They are
-  // different jobs with different audiences and different permissions.
-  { id: "customers", label: "Customers", icon: "Users", capability: "orders" },
-  { id: "team", label: "Team", icon: "ShieldCheck", capability: "team" },
-  { id: "settings", label: "Settings", icon: "Settings", capability: "settings" },
+export const DASHBOARD_NAV_GROUPS = [
+  {
+    id: "main",
+    label: null,
+    items: [{ id: "overview", label: "Overview", icon: "LayoutDashboard" }],
+  },
+  {
+    id: "catalogue",
+    label: "Catalogue",
+    items: [
+      { id: "products", label: "Products", icon: "Package", capability: "catalog" },
+      { id: "categories", label: "Attributes", icon: "Tags", capability: "content" },
+      { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
+    ],
+  },
+  {
+    id: "sales",
+    label: "Sales",
+    items: [
+      { id: "orders", label: "Orders", icon: "ShoppingCart", capability: "orders" },
+      // Customers and Team were one "Users" page listing shoppers and staff in
+      // the same table, with a role dropdown on every row — the control that
+      // grants administrator access sitting beside a customer's delivery
+      // history. Different jobs, different audiences, different permissions.
+      { id: "customers", label: "Customers", icon: "Users", capability: "orders" },
+    ],
+  },
+  {
+    id: "store",
+    label: "Store",
+    items: [
+      { id: "team", label: "Team", icon: "ShieldCheck", capability: "team" },
+      { id: "settings", label: "Settings", icon: "Settings", capability: "settings" },
+    ],
+  },
 ];
+
+/** Flat list, for anything that needs to look an item up by id. */
+export const DASHBOARD_NAV_ITEMS = DASHBOARD_NAV_GROUPS.flatMap((group) => group.items);
 
 /**
  * Order lifecycle, re-exported from the canonical vocabulary.
