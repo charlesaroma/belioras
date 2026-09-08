@@ -54,8 +54,8 @@ function DensityGroup({ options, columns, setColumns, className }) {
             tabIndex={i === tabStopIndex ? 0 : -1}
             onClick={() => setColumns(option)}
             className={cn(
-              "flex h-7 cursor-pointer items-center justify-center transition-opacity",
-              active ? "opacity-100" : "opacity-45 hover:opacity-75",
+              "flex cursor-pointer items-center justify-center p-1 transition-opacity",
+              active ? "opacity-100" : "opacity-50 hover:opacity-80",
             )}
           >
             <GridDensityIcon columns={option} active={active} />
@@ -73,13 +73,13 @@ export default function GridViewSwitcher({ columns, setColumns }) {
         options={TABLET_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden items-center gap-1.5 md:flex lg:hidden"
+        className="hidden items-center gap-1 md:flex lg:hidden"
       />
       <DensityGroup
         options={DESKTOP_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden items-center gap-1.5 lg:flex"
+        className="hidden items-center gap-1 lg:flex"
       />
     </>
   );
