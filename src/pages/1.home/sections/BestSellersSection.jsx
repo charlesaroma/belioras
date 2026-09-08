@@ -15,11 +15,10 @@ export default function BestSellersSection() {
 
   return (
     <ProductCarousel
-      eyebrow={t("home.bestSellers.eyebrow", "Most Loved")}
-      title={t("home.bestSellers.title", "Best Sellers")}
+      title={t("common.bestSellers", "Best Sellers")}
       products={data}
       loading={loading}
-      ctaLabel={t("common.viewAll", "View All")}
+      ctaLabel={t("common.viewAll", "View More")}
       ctaTo="/shop"
     />
   );

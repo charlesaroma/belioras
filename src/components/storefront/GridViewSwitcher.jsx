@@ -54,11 +54,11 @@ function DensityGroup({ options, columns, setColumns, className }) {
             tabIndex={i === tabStopIndex ? 0 : -1}
             onClick={() => setColumns(option)}
             className={cn(
-              "flex size-7 cursor-pointer items-center justify-center rounded-full transition-colors",
+              "flex h-7 cursor-pointer items-center justify-center rounded-full px-1.5 transition-colors",
               active ? "text-espresso" : "text-espresso/30 hover:text-espresso/60",
             )}
           >
-            <GridDensityIcon columns={option} className="size-[15px]" />
+            <GridDensityIcon columns={option} className="h-[15px]" />
           </button>
         );
       })}

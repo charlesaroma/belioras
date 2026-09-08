@@ -1,50 +1,64 @@
 /**
- * Grid-density glyph — N vertical bars for an N-column layout, stacked
- * horizontal bars for the single-column row layout.
+ * Grid-density glyph — an outlined frame holding N vertical bars, one per
+ * column, or stacked horizontal bars for the single-column row layout.
  *
- * The prototype shipped these as ten PNGs in /public/icons (a default and an
- * active file for each of row/2/3/4/6). Drawing them instead means:
- *  - crisp at any zoom or pixel density, where a 26px raster is not;
- *  - one glyph for every count, so adding a 5-column option needs no new asset;
- *  - active state via currentColor and opacity rather than a second file, so it
- *    inherits the theme instead of hard-coding the palette into an image;
- *  - ten fewer network requests on the catalog page.
+ * Drawn rather than loaded as image files. The prototype shipped ten PNGs for
+ * this (a default and an active state for each of row/2/3/4/6); rendering them
+ * means they stay crisp at any zoom or pixel density, a new column option needs
+ * no new asset, the active state is a colour change rather than a second file,
+ * and the catalog page makes ten fewer requests.
+ *
+ * The frame widens with the column count, so a six-column icon reads as denser
+ * than a two-column one at a glance rather than only on inspection.
  */
+const BAR = 3; // bar width
+const GAP = 2; // space between bars
+const PAD = 2.5; // inset from the frame
+const HEIGHT = 18;
+
 export default function GridDensityIcon({ columns, className }) {
   const isRow = columns === "row";
-  const size = 24;
-  const inset = 2;
-  const span = size - inset * 2;
+  const count = isRow ? 3 : columns;
 
-  // Row layout reads as content stacked full width, not as one narrow column.
+  // Row layout is a fixed square; column layouts grow with their bar count.
+  const width = isRow ? 26 : count * BAR + (count - 1) * GAP + PAD * 2;
+
   const bars = isRow
-    ? [0, 1, 2].map((i) => ({
-        x: inset,
-        y: inset + i * ((span + 2) / 3),
-        width: span,
-        height: (span - 4) / 3,
+    ? Array.from({ length: 3 }, (_, i) => ({
+        x: PAD,
+        y: PAD + i * ((HEIGHT - PAD * 2 + GAP) / 3),
+        width: 26 - PAD * 2,
+        height: (HEIGHT - PAD * 2 - GAP * 2) / 3,
       }))
-    : Array.from({ length: columns }, (_, i) => {
-        const gap = columns > 4 ? 1.5 : 2.5;
-        const barWidth = (span - gap * (columns - 1)) / columns;
-        return {
-          x: inset + i * (barWidth + gap),
-          y: inset,
-          width: barWidth,
-          height: span,
-        };
-      });
+    : Array.from({ length: count }, (_, i) => ({
+        x: PAD + i * (BAR + GAP),
+        y: PAD,
+        width: BAR,
+        height: HEIGHT - PAD * 2,
+      }));
 
   return (
     <svg
-      viewBox={`0 0 ${size} ${size}`}
+      viewBox={`0 0 ${width} ${HEIGHT}`}
+      // Height is fixed and width scales, so the glyphs share a baseline.
+      style={{ height: "100%", width: "auto" }}
       className={className}
-      fill="currentColor"
       aria-hidden="true"
       focusable="false"
     >
+      <rect
+        x="0.5"
+        y="0.5"
+        width={width - 1}
+        height={HEIGHT - 1}
+        rx="1"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        opacity="0.45"
+      />
       {bars.map((bar, i) => (
-        <rect key={i} {...bar} rx="0.75" />
+        <rect key={i} {...bar} rx="0.5" fill="currentColor" />
       ))}
     </svg>
   );

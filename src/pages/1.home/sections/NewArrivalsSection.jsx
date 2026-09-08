@@ -9,11 +9,10 @@ export default function NewArrivalsSection() {
 
   return (
     <ProductCarousel
-      eyebrow={t("home.newArrivals.eyebrow", "Just In")}
-      title={t("home.newArrivals.title", "New Arrivals")}
+      title={t("home.newArrivalsTitle", "New Arrivals")}
       products={data}
       loading={loading}
-      ctaLabel={t("common.viewAll", "View All")}
+      ctaLabel={t("common.viewAll", "View More")}
       ctaTo="/new-arrivals"
     />
   );
