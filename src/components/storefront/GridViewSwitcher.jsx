@@ -5,8 +5,8 @@ import { cn } from "../../utils/cn";
 /**
  * Product-grid density control.
  *
- * Improvements over the prototype's version, beyond swapping its PNGs for
- * drawn glyphs (see GridDensityIcon):
+ * Uses the supplied artwork in /public/icons for the glyphs themselves. The
+ * improvements over the prototype's version are behavioural:
  *
  *  - `radiogroup` semantics rather than a row of `aria-pressed` buttons. This
  *    is one choice from a set, not five independent toggles, and the difference
@@ -54,11 +54,11 @@ function DensityGroup({ options, columns, setColumns, className }) {
             tabIndex={i === tabStopIndex ? 0 : -1}
             onClick={() => setColumns(option)}
             className={cn(
-              "flex h-7 cursor-pointer items-center justify-center rounded-full px-1.5 transition-colors",
-              active ? "text-espresso" : "text-espresso/30 hover:text-espresso/60",
+              "flex h-7 cursor-pointer items-center justify-center transition-opacity",
+              active ? "opacity-100" : "opacity-45 hover:opacity-75",
             )}
           >
-            <GridDensityIcon columns={option} className="h-[15px]" />
+            <GridDensityIcon columns={option} active={active} />
           </button>
         );
       })}
@@ -73,13 +73,13 @@ export default function GridViewSwitcher({ columns, setColumns }) {
         options={TABLET_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden items-center gap-0.5 rounded-full border border-umber-50 px-1.5 py-1 md:flex lg:hidden"
+        className="hidden items-center gap-1.5 md:flex lg:hidden"
       />
       <DensityGroup
         options={DESKTOP_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden items-center gap-0.5 rounded-full border border-umber-50 px-1.5 py-1 lg:flex"
+        className="hidden items-center gap-1.5 lg:flex"
       />
     </>
   );

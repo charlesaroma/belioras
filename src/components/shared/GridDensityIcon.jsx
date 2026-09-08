@@ -1,65 +1,36 @@
+import { cn } from "../../utils/cn";
+
 /**
- * Grid-density glyph — an outlined frame holding N vertical bars, one per
- * column, or stacked horizontal bars for the single-column row layout.
+ * Grid-density glyph, rendered from the supplied artwork in /public/icons.
  *
- * Drawn rather than loaded as image files. The prototype shipped ten PNGs for
- * this (a default and an active state for each of row/2/3/4/6); rendering them
- * means they stay crisp at any zoom or pixel density, a new column option needs
- * no new asset, the active state is a colour change rather than a second file,
- * and the catalog page makes ten fewer requests.
+ * Each option has a default and an active file, so the selected state is a
+ * different image rather than a colour change — which is why `active` has to
+ * reach this component instead of being handled by the parent's text colour.
  *
- * The frame widens with the column count, so a six-column icon reads as denser
- * than a two-column one at a glance rather than only on inspection.
+ * Assets are 26px tall with widths that grow by column count (26 / 36 / 46 /
+ * 66), so a six-column icon reads as denser than a two-column one. They are
+ * rendered below their intrinsic height rather than above it: downscaling a
+ * raster stays sharp, upscaling does not.
  */
-const BAR = 3; // bar width
-const GAP = 2; // space between bars
-const PAD = 2.5; // inset from the frame
-const HEIGHT = 18;
+const INTRINSIC_HEIGHT = 26;
 
-export default function GridDensityIcon({ columns, className }) {
-  const isRow = columns === "row";
-  const count = isRow ? 3 : columns;
+const WIDTHS = { 2: 26, 3: 36, 4: 46, 6: 66, row: 26 };
 
-  // Row layout is a fixed square; column layouts grow with their bar count.
-  const width = isRow ? 26 : count * BAR + (count - 1) * GAP + PAD * 2;
-
-  const bars = isRow
-    ? Array.from({ length: 3 }, (_, i) => ({
-        x: PAD,
-        y: PAD + i * ((HEIGHT - PAD * 2 + GAP) / 3),
-        width: 26 - PAD * 2,
-        height: (HEIGHT - PAD * 2 - GAP * 2) / 3,
-      }))
-    : Array.from({ length: count }, (_, i) => ({
-        x: PAD + i * (BAR + GAP),
-        y: PAD,
-        width: BAR,
-        height: HEIGHT - PAD * 2,
-      }));
+export default function GridDensityIcon({ columns, active = false, className }) {
+  const key = columns === "row" ? "row" : columns;
+  const state = active ? "active" : "default";
 
   return (
-    <svg
-      viewBox={`0 0 ${width} ${HEIGHT}`}
-      // Height is fixed and width scales, so the glyphs share a baseline.
-      style={{ height: "100%", width: "auto" }}
-      className={className}
+    <img
+      src={`/icons/grid-${key}-${state}.png`}
+      alt=""
       aria-hidden="true"
-      focusable="false"
-    >
-      <rect
-        x="0.5"
-        y="0.5"
-        width={width - 1}
-        height={HEIGHT - 1}
-        rx="1"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-        opacity="0.45"
-      />
-      {bars.map((bar, i) => (
-        <rect key={i} {...bar} rx="0.5" fill="currentColor" />
-      ))}
-    </svg>
+      draggable="false"
+      // Intrinsic dimensions are declared so the row reserves the right space
+      // before the images load and the toolbar does not shift.
+      width={WIDTHS[key] ?? INTRINSIC_HEIGHT}
+      height={INTRINSIC_HEIGHT}
+      className={cn("h-[13px] w-auto select-none", className)}
+    />
   );
 }
