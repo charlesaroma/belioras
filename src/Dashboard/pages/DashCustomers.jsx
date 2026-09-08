@@ -10,8 +10,7 @@ import { useAsyncData } from "../../hooks/useAsyncData";
 import { getUsers } from "../../services/authApi";
 import { getAllOrders } from "../../services/ordersApi";
 import DashTable from "../components/DashTable";
-import DashToolbar, { FilterTabs, Pagination } from "../components/DashToolbar";
-import useDashList from "../hooks/useDashList";
+import DashToolbar, { FilterTabs } from "../components/DashToolbar";
 
 /**
  * Customers.
@@ -74,11 +73,13 @@ export default function DashCustomers() {
       });
   }, [users, orders]);
 
-  const list = useDashList(rows, {
-    searchKeys: ["name", "email"],
-    filterKey: "activity",
-    initialSort: { key: "spent", direction: "desc" },
-  });
+  const [query, setQuery] = useState("");
+  const [activity, setActivity] = useState("all");
+
+  const visible = useMemo(
+    () => (activity === "all" ? rows : rows.filter((r) => r.activity === activity)),
+    [rows, activity],
+  );
 
   const counts = useMemo(
     () => ({
@@ -92,52 +93,47 @@ export default function DashCustomers() {
   const columns = useMemo(
     () => [
       {
-        key: "name",
-        label: "Customer",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "name",
+        header: "Customer",
+        cell: ({ row: r }) => (
           <div className="flex items-center gap-3">
-            <Avatar user={row} size="sm" />
+            <Avatar user={r.original} size="sm" />
             <div className="min-w-0">
-              <p className="truncate font-medium text-espresso">{row.name}</p>
-              <p className="truncate text-[11px] text-espresso-soft">{row.email}</p>
+              <p className="truncate font-medium text-espresso">{r.original.name}</p>
+              <p className="truncate text-[11px] text-espresso-soft">{r.original.email}</p>
             </div>
           </div>
         ),
       },
       {
-        key: "orderCount",
-        label: "Orders",
-        sortable: true,
-        align: "right",
-        render: (row) => <span className="tabular-nums">{row.orderCount}</span>,
+        accessorKey: "orderCount",
+        header: "Orders",
+        meta: { align: "right" },
+        cell: ({ row: r }) => <span className="tabular-nums">{r.original.orderCount}</span>,
       },
       {
-        key: "spent",
-        label: "Lifetime value",
-        sortable: true,
-        align: "right",
-        render: (row) => (
-          <span className="tabular-nums">{row.spent ? format(row.spent) : "—"}</span>
+        accessorKey: "spent",
+        header: "Lifetime value",
+        meta: { align: "right" },
+        cell: ({ row: r }) => (
+          <span className="tabular-nums">{r.original.spent ? format(r.original.spent) : "—"}</span>
         ),
       },
       {
-        key: "lastOrder",
-        label: "Last order",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "lastOrder",
+        header: "Last order",
+        cell: ({ row: r }) => (
           <span className="whitespace-nowrap text-espresso-soft">
-            {row.lastOrder ? dateFmt.format(row.lastOrder) : "—"}
+            {r.original.lastOrder ? dateFmt.format(r.original.lastOrder) : "—"}
           </span>
         ),
       },
       {
-        key: "createdAt",
-        label: "Joined",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "createdAt",
+        header: "Joined",
+        cell: ({ row: r }) => (
           <span className="whitespace-nowrap text-espresso-soft">
-            {row.createdAt ? dateFmt.format(new Date(row.createdAt)) : "—"}
+            {r.original.createdAt ? dateFmt.format(new Date(r.original.createdAt)) : "—"}
           </span>
         ),
       },
@@ -148,14 +144,14 @@ export default function DashCustomers() {
   return (
     <div className="space-y-5">
       <DashToolbar
-        query={list.query}
-        onQueryChange={list.setQuery}
+        query={query}
+        onQueryChange={setQuery}
         placeholder="Search customers by name or email"
         filters={
           <FilterTabs
             ariaLabel="Filter by activity"
-            value={list.filter}
-            onChange={list.setFilter}
+            value={activity}
+            onChange={setActivity}
             options={[
               { value: "all", label: "All", count: counts.all },
               { value: "ordered", label: "Has ordered", count: counts.ordered },
@@ -167,26 +163,19 @@ export default function DashCustomers() {
 
       <DashTable
         columns={columns}
-        data={list.rows}
+        data={visible}
         loading={loading}
-        sort={list.sort}
-        onSortChange={list.setSort}
+        globalFilter={query}
+        initialSorting={[{ id: "spent", desc: true }]}
         onRowClick={setViewing}
+        unit={visible.length === 1 ? "customer" : "customers"}
         empty={{
           icon: Users,
-          title: list.query ? "No customers match" : "No customers yet",
-          description: list.query
+          title: query ? "No customers match" : "No customers yet",
+          description: query
             ? "Try a different name or email."
             : "Shoppers who register appear here.",
         }}
-      />
-
-      <Pagination
-        page={list.page}
-        pageCount={list.pageCount}
-        total={list.total}
-        onPageChange={list.setPage}
-        unit={list.total === 1 ? "customer" : "customers"}
       />
 
       <CustomerModal

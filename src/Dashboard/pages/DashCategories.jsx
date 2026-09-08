@@ -7,8 +7,7 @@ import { getProducts } from "../../services/productsApi";
 import { DIMENSION_PREFIX } from "../../utils/faceting";
 import { cn } from "../../utils/cn";
 import DashTable from "../components/DashTable";
-import DashToolbar, { Pagination } from "../components/DashToolbar";
-import useDashList from "../hooks/useDashList";
+import DashToolbar from "../components/DashToolbar";
 
 /**
  * Categories and attributes.
@@ -77,73 +76,60 @@ export default function DashCategories() {
     return rows;
   }, [taxonomy, products]);
 
-  const menuList = useDashList(leaves, {
-    searchKeys: ["label", "root", "section", "url"],
-    initialSort: { key: "root", direction: "asc" },
-  });
-
-  const attrList = useDashList(attributes, {
-    searchKeys: ["name", "dimension", "token"],
-    initialSort: { key: "dimension", direction: "asc" },
-  });
-
-  const list = tab === "menu" ? menuList : attrList;
+  const [query, setQuery] = useState("");
 
   const menuColumns = [
-    { key: "label", label: "Menu leaf", sortable: true },
-    { key: "root", label: "Under", sortable: true },
-    { key: "section", label: "Section", sortable: true },
+    { accessorKey: "label", header: "Menu leaf" },
+    { accessorKey: "root", header: "Under" },
+    { accessorKey: "section", header: "Section" },
     {
-      key: "url",
-      label: "Path",
-      render: (row) => <code className="text-[11px] text-espresso-soft">{row.url}</code>,
+      accessorKey: "url",
+      header: "Path",
+      cell: ({ getValue }) => (
+        <code className="text-[11px] text-espresso-soft">{getValue()}</code>
+      ),
     },
     {
-      key: "products",
-      label: "Pieces",
-      sortable: true,
-      align: "right",
-      render: (row) => (
-        <span className={cn("tabular-nums", row.products === 0 && "text-error")}>
-          {row.products}
-        </span>
+      accessorKey: "products",
+      header: "Pieces",
+      meta: { align: "right" },
+      cell: ({ getValue }) => (
+        <span className={cn("tabular-nums", getValue() === 0 && "text-error")}>{getValue()}</span>
       ),
     },
   ];
 
   const attrColumns = [
     {
-      key: "name",
-      label: "Value",
-      sortable: true,
-      render: (row) => (
+      accessorKey: "name",
+      header: "Value",
+      cell: ({ row }) => (
         <span className="inline-flex items-center gap-2">
-          {row.hex && (
+          {row.original.hex && (
             <span
               aria-hidden="true"
               className="inline-block size-3 border border-umber-50"
-              style={{ backgroundColor: row.hex }}
+              style={{ backgroundColor: row.original.hex }}
             />
           )}
-          {row.name}
+          {row.original.name}
         </span>
       ),
     },
-    { key: "dimension", label: "Dimension", sortable: true },
+    { accessorKey: "dimension", header: "Dimension" },
     {
-      key: "token",
-      label: "Tag",
-      render: (row) => <code className="text-[11px] text-espresso-soft">{row.token}</code>,
+      accessorKey: "token",
+      header: "Tag",
+      cell: ({ getValue }) => (
+        <code className="text-[11px] text-espresso-soft">{getValue()}</code>
+      ),
     },
     {
-      key: "products",
-      label: "Pieces",
-      sortable: true,
-      align: "right",
-      render: (row) => (
-        <span className={cn("tabular-nums", row.products === 0 && "text-error")}>
-          {row.products}
-        </span>
+      accessorKey: "products",
+      header: "Pieces",
+      meta: { align: "right" },
+      cell: ({ getValue }) => (
+        <span className={cn("tabular-nums", getValue() === 0 && "text-error")}>{getValue()}</span>
       ),
     },
   ];
@@ -186,37 +172,26 @@ export default function DashCategories() {
       )}
 
       <DashToolbar
-        query={list.query}
-        onQueryChange={list.setQuery}
+        query={query}
+        onQueryChange={setQuery}
         placeholder={tab === "menu" ? "Search menu leaves" : "Search attributes"}
       />
 
-      {tab === "menu" ? (
-        <DashTable
-          columns={menuColumns}
-          data={menuList.rows}
-          loading={navLoading}
-          sort={menuList.sort}
-          onSortChange={menuList.setSort}
-          empty={{ icon: LayoutGrid, title: "No menu leaves match" }}
-        />
-      ) : (
-        <DashTable
-          columns={attrColumns}
-          data={attrList.rows}
-          loading={taxLoading}
-          sort={attrList.sort}
-          onSortChange={attrList.setSort}
-          empty={{ icon: Tags, title: "No attributes match" }}
-        />
-      )}
-
-      <Pagination
-        page={list.page}
-        pageCount={list.pageCount}
-        total={list.total}
-        onPageChange={list.setPage}
+      {/* Keyed on the tab so the table resets its sort and page when the two
+          different shapes swap, rather than carrying one view's state into
+          the other. */}
+      <DashTable
+        key={tab}
+        columns={tab === "menu" ? menuColumns : attrColumns}
+        data={tab === "menu" ? leaves : attributes}
+        loading={tab === "menu" ? navLoading : taxLoading}
+        globalFilter={query}
+        initialSorting={[{ id: tab === "menu" ? "root" : "dimension", desc: false }]}
         unit={tab === "menu" ? "leaves" : "values"}
+        empty={{
+          icon: tab === "menu" ? LayoutGrid : Tags,
+          title: tab === "menu" ? "No menu leaves match" : "No attributes match",
+        }}
       />
 
       {/* Editing the tree itself is a drag-and-drop builder, which is its own

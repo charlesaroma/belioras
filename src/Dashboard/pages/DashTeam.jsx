@@ -12,7 +12,6 @@ import { CAPABILITIES } from "../../utils/roles";
 import { cn } from "../../utils/cn";
 import DashTable from "../components/DashTable";
 import DashToolbar from "../components/DashToolbar";
-import useDashList from "../hooks/useDashList";
 
 const STAFF_ROLES = [
   { value: "staff", label: "Staff" },
@@ -59,10 +58,7 @@ export default function DashTeam() {
     [users],
   );
 
-  const list = useDashList(team, {
-    searchKeys: ["name", "email"],
-    initialSort: { key: "role", direction: "asc" },
-  });
+  const [query, setQuery] = useState("");
 
   const dateFmt = useMemo(
     () => new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric" }),
@@ -112,51 +108,52 @@ export default function DashTeam() {
   const columns = useMemo(
     () => [
       {
-        key: "name",
-        label: "Member",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "name",
+        header: "Member",
+        cell: ({ row }) => (
           <div className="flex items-center gap-3">
-            <Avatar user={row} size="sm" />
+            <Avatar user={row.original} size="sm" />
             <div className="min-w-0">
-              <p className="truncate font-medium text-espresso">{row.name}</p>
-              <p className="truncate text-[11px] text-espresso-soft">{row.email}</p>
+              <p className="truncate font-medium text-espresso">{row.original.name}</p>
+              <p className="truncate text-[11px] text-espresso-soft">{row.original.email}</p>
             </div>
           </div>
         ),
       },
       {
-        key: "role",
-        label: "Role",
-        sortable: true,
-        render: (row) => {
+        accessorKey: "role",
+        header: "Role",
+        cell: ({ row }) => {
+          const member = row.original;
           // Changing your own role would revoke access to the page you are
           // standing on, so your row is read-only.
-          const isSelf = row.id === signedIn?.id;
+          const isSelf = member.id === signedIn?.id;
+
           if (isSelf) {
             return (
               <span
                 className={cn(
                   "inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]",
-                  ROLE_TONE[row.role],
+                  ROLE_TONE[member.role],
                 )}
                 title="You cannot change your own role"
               >
-                {STAFF_ROLES.find((r) => r.value === row.role)?.label} · you
+                {STAFF_ROLES.find((option) => option.value === member.role)?.label} · you
               </span>
             );
           }
+
           return (
             <select
-              value={row.role}
+              value={member.role}
               onClick={(e) => e.stopPropagation()}
-              onChange={(e) => setPendingRole({ user: row, role: e.target.value })}
-              aria-label={`Role for ${row.name}`}
+              onChange={(e) => setPendingRole({ user: member, role: e.target.value })}
+              aria-label={`Role for ${member.name}`}
               className="input py-1.5 text-[12px]"
             >
-              {STAFF_ROLES.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
+              {STAFF_ROLES.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -164,35 +161,36 @@ export default function DashTeam() {
         },
       },
       {
-        key: "access",
-        label: "Can manage",
-        render: (row) => (
+        id: "access",
+        header: "Can manage",
+        enableSorting: false,
+        cell: ({ row }) => (
           <span className="text-[12px] text-espresso-soft">
-            {[...(CAPABILITIES[row.role] ?? [])].join(", ") || "—"}
+            {[...(CAPABILITIES[row.original.role] ?? [])].join(", ") || "—"}
           </span>
         ),
       },
       {
-        key: "createdAt",
-        label: "Joined",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "createdAt",
+        header: "Joined",
+        cell: ({ row }) => (
           <span className="whitespace-nowrap text-espresso-soft">
-            {row.createdAt ? dateFmt.format(new Date(row.createdAt)) : "—"}
+            {row.original.createdAt ? dateFmt.format(new Date(row.original.createdAt)) : "—"}
           </span>
         ),
       },
       {
-        key: "actions",
-        label: "",
-        align: "right",
-        render: (row) =>
-          row.id === signedIn?.id ? null : (
+        id: "actions",
+        header: "",
+        enableSorting: false,
+        meta: { align: "right" },
+        cell: ({ row }) =>
+          row.original.id === signedIn?.id ? null : (
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setPendingRole({ user: row, role: "customer" });
+                setPendingRole({ user: row.original, role: "customer" });
               }}
               className="text-[11px] uppercase tracking-[0.14em] text-espresso/45 transition-colors hover:text-error"
             >
@@ -207,8 +205,8 @@ export default function DashTeam() {
   return (
     <div className="space-y-5">
       <DashToolbar
-        query={list.query}
-        onQueryChange={list.setQuery}
+        query={query}
+        onQueryChange={setQuery}
         placeholder="Search the team"
       >
         <button type="button" onClick={() => setPromoting(true)} className="btn btn-md btn-primary">
@@ -219,10 +217,11 @@ export default function DashTeam() {
 
       <DashTable
         columns={columns}
-        data={list.rows}
+        data={team}
         loading={loading}
-        sort={list.sort}
-        onSortChange={list.setSort}
+        globalFilter={query}
+        initialSorting={[{ id: "role", desc: false }]}
+        unit={team.length === 1 ? "member" : "members"}
         empty={{ icon: ShieldCheck, title: "No one on the team matches that search" }}
       />
 

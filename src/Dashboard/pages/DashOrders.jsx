@@ -11,8 +11,7 @@ import { useAsyncData } from "../../hooks/useAsyncData";
 import { getAllOrders, updateOrderStatus } from "../../services/ordersApi";
 import { ORDER_STATUS, nextStatuses, normalizeStatus } from "../../utils/orderStatus";
 import DashTable from "../components/DashTable";
-import DashToolbar, { FilterTabs, Pagination } from "../components/DashToolbar";
-import useDashList from "../hooks/useDashList";
+import DashToolbar, { FilterTabs } from "../components/DashToolbar";
 
 /**
  * Order management.
@@ -43,11 +42,14 @@ export default function DashOrders() {
     [orders],
   );
 
-  const list = useDashList(rows, {
-    searchKeys: ["id", "customer", "email"],
-    filterKey: "status",
-    initialSort: { key: "createdAt", direction: "desc" },
-  });
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  // The page owns the status tabs because they need counts from the whole set.
+  const visible = useMemo(
+    () => (statusFilter === "all" ? rows : rows.filter((o) => o.status === statusFilter)),
+    [rows, statusFilter],
+  );
 
   const counts = useMemo(() => {
     const by = (s) => rows.filter((o) => o.status === s).length;
@@ -73,42 +75,39 @@ export default function DashOrders() {
   const columns = useMemo(
     () => [
       {
-        key: "id",
-        label: "Order",
-        sortable: true,
-        render: (row) => <span className="font-medium tabular-nums">{row.id}</span>,
+        accessorKey: "id",
+        header: "Order",
+        cell: ({ row: r }) => <span className="font-medium tabular-nums">{r.original.id}</span>,
       },
-      { key: "customer", label: "Customer", sortable: true },
+      { accessorKey: "customer", header: "Customer" },
       {
-        key: "items",
-        label: "Items",
-        align: "right",
-        render: (row) => (
+        id: "items",
+        header: "Items",
+        enableSorting: false,
+        meta: { align: "right" },
+        cell: ({ row: r }) => (
           <span className="tabular-nums">
-            {(row.items ?? []).reduce((n, i) => n + (i.quantity ?? 1), 0)}
+            {(r.original.items ?? []).reduce((n, i) => n + (i.quantity ?? 1), 0)}
           </span>
         ),
       },
       {
-        key: "total",
-        label: "Total",
-        sortable: true,
-        align: "right",
-        render: (row) => <span className="tabular-nums">{format(row.total)}</span>,
+        accessorKey: "total",
+        header: "Total",
+        meta: { align: "right" },
+        cell: ({ row: r }) => <span className="tabular-nums">{format(r.original.total)}</span>,
       },
       {
-        key: "status",
-        label: "Status",
-        sortable: true,
-        render: (row) => <StatusChip status={row.status} />,
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row: r }) => <StatusChip status={r.original.status} />,
       },
       {
-        key: "createdAt",
-        label: "Placed",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "createdAt",
+        header: "Placed",
+        cell: ({ row: r }) => (
           <span className="whitespace-nowrap text-espresso-soft">
-            {dateFmt.format(new Date(row.createdAt))}
+            {dateFmt.format(new Date(r.original.createdAt))}
           </span>
         ),
       },
@@ -119,14 +118,14 @@ export default function DashOrders() {
   return (
     <div className="space-y-5">
       <DashToolbar
-        query={list.query}
-        onQueryChange={list.setQuery}
+        query={query}
+        onQueryChange={setQuery}
         placeholder="Search by reference, name or email"
         filters={
           <FilterTabs
             ariaLabel="Filter by status"
-            value={list.filter}
-            onChange={list.setFilter}
+            value={statusFilter}
+            onChange={setStatusFilter}
             options={[
               { value: "all", label: "All", count: counts.all },
               { value: "to-pay", label: "To pay", count: counts.toPay },
@@ -139,27 +138,20 @@ export default function DashOrders() {
 
       <DashTable
         columns={columns}
-        data={list.rows}
+        data={visible}
         loading={loading}
-        sort={list.sort}
-        onSortChange={list.setSort}
+        globalFilter={query}
+        initialSorting={[{ id: "createdAt", desc: true }]}
         onRowClick={setViewing}
+        unit={visible.length === 1 ? "order" : "orders"}
         empty={{
           icon: Receipt,
-          title: list.query || list.filter !== "all" ? "No orders match" : "No orders yet",
+          title: query || statusFilter !== "all" ? "No orders match" : "No orders yet",
           description:
-            list.query || list.filter !== "all"
+            query || statusFilter !== "all"
               ? "Try a different reference, or clear the status filter."
               : "Orders placed on the storefront appear here.",
         }}
-      />
-
-      <Pagination
-        page={list.page}
-        pageCount={list.pageCount}
-        total={list.total}
-        onPageChange={list.setPage}
-        unit={list.total === 1 ? "order" : "orders"}
       />
 
       <OrderDetailModal

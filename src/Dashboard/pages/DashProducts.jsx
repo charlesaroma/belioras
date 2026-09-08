@@ -5,6 +5,7 @@ import { Eye, Package, Pencil, Plus, Trash2 } from "lucide-react";
 import Button from "../../components/ui/Button";
 import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import StatusChip from "../../components/ui/StatusChip";
+import { cn } from "../../utils/cn";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
@@ -15,8 +16,7 @@ import {
   updateProduct,
 } from "../../services/productsApi";
 import DashTable from "../components/DashTable";
-import DashToolbar, { FilterTabs, Pagination } from "../components/DashToolbar";
-import useDashList from "../hooks/useDashList";
+import DashToolbar, { FilterTabs } from "../components/DashToolbar";
 import ViewProductModal from "./products/modals/ViewProductModal";
 
 /**
@@ -60,11 +60,16 @@ export default function DashProducts() {
     [products],
   );
 
-  const list = useDashList(rows, {
-    searchKeys: ["name", "slug", "category", "colors"],
-    filterKey: "status",
-    initialSort: { key: "name", direction: "asc" },
-  });
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  // The status tabs need counts from the whole set, so the page filters on
+  // status and hands the table the rest. Search, sort and paging are the
+  // table's job.
+  const visible = useMemo(
+    () => (statusFilter === "all" ? rows : rows.filter((p) => p.status === statusFilter)),
+    [rows, statusFilter],
+  );
 
   const counts = useMemo(
     () => ({
@@ -115,14 +120,13 @@ export default function DashProducts() {
   const columns = useMemo(
     () => [
       {
-        key: "name",
-        label: "Product",
-        sortable: true,
-        render: (row) => (
+        accessorKey: "name",
+        header: "Product",
+        cell: ({ row }) => (
           <div className="flex items-center gap-3">
-            {row.images?.[0] ? (
+            {row.original.images?.[0] ? (
               <img
-                src={row.images[0]}
+                src={row.original.images[0]}
                 alt=""
                 loading="lazy"
                 className="size-10 shrink-0 border border-umber-50 object-cover"
@@ -133,56 +137,64 @@ export default function DashProducts() {
               </span>
             )}
             <div className="min-w-0">
-              <p className="truncate font-medium text-espresso">{row.name}</p>
-              <p className="truncate text-[11px] text-espresso-soft">{row.slug}</p>
+              <p className="truncate font-medium text-espresso">{row.original.name}</p>
+              <p className="truncate text-[11px] text-espresso-soft">{row.original.slug}</p>
             </div>
           </div>
         ),
       },
-      { key: "category", label: "Category", sortable: true },
+      { accessorKey: "category", header: "Category" },
       {
-        key: "price",
-        label: "Price",
-        sortable: true,
-        align: "right",
-        render: (row) => <span className="tabular-nums">{format(row.price)}</span>,
+        accessorKey: "price",
+        header: "Price",
+        meta: { align: "right" },
+        cell: ({ getValue }) => <span className="tabular-nums">{format(getValue())}</span>,
       },
       {
-        key: "stock",
-        label: "Stock",
-        sortable: true,
-        align: "right",
-        render: (row) => (
-          <span
-            className={`tabular-nums ${row.stock === 0 ? "text-error" : row.stock <= 5 ? "text-warning" : ""}`}
-          >
-            {row.stock}
-          </span>
-        ),
+        accessorKey: "stock",
+        header: "Stock",
+        meta: { align: "right" },
+        cell: ({ getValue }) => {
+          const stock = getValue();
+          return (
+            <span
+              className={cn(
+                "tabular-nums",
+                stock === 0 ? "text-error" : stock <= 5 ? "text-warning" : "",
+              )}
+            >
+              {stock}
+            </span>
+          );
+        },
       },
       {
-        key: "status",
-        label: "Status",
-        sortable: true,
-        render: (row) => <StatusChip status={row.status} kind="product" />,
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ getValue }) => <StatusChip status={getValue()} kind="product" />,
       },
       {
-        key: "actions",
-        label: "",
-        align: "right",
-        render: (row) => (
+        id: "actions",
+        header: "",
+        enableSorting: false,
+        meta: { align: "right" },
+        cell: ({ row }) => (
           <div className="flex justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-            <IconAction label={`View ${row.name}`} icon={Eye} onClick={() => setViewing(row)} />
             <IconAction
-              label={`Edit ${row.name}`}
-              icon={Pencil}
-              onClick={() => navigate(`/dashboard/products/${row.id}/edit`)}
+              label={`View ${row.original.name}`}
+              icon={Eye}
+              onClick={() => setViewing(row.original)}
             />
             <IconAction
-              label={`Delete ${row.name}`}
+              label={`Edit ${row.original.name}`}
+              icon={Pencil}
+              onClick={() => navigate(`/dashboard/products/${row.original.id}/edit`)}
+            />
+            <IconAction
+              label={`Delete ${row.original.name}`}
               icon={Trash2}
               destructive
-              onClick={() => setPendingDelete(row)}
+              onClick={() => setPendingDelete(row.original)}
             />
           </div>
         ),
@@ -194,14 +206,14 @@ export default function DashProducts() {
   return (
     <div className="space-y-5">
       <DashToolbar
-        query={list.query}
-        onQueryChange={list.setQuery}
+        query={query}
+        onQueryChange={setQuery}
         placeholder="Search by name, slug, category or colour"
         filters={
           <FilterTabs
             ariaLabel="Filter by status"
-            value={list.filter}
-            onChange={list.setFilter}
+            value={statusFilter}
+            onChange={setStatusFilter}
             options={[
               { value: "all", label: "All", count: counts.all },
               { value: "active", label: "Active", count: counts.active },
@@ -237,33 +249,25 @@ export default function DashProducts() {
 
       <DashTable
         columns={columns}
-        data={list.rows}
+        data={visible}
         loading={loading}
-        sort={list.sort}
-        onSortChange={list.setSort}
-        selectable
-        selectedIds={selectedIds}
+        globalFilter={query}
+        initialSorting={[{ id: "name", desc: false }]}
+        enableSelection
         onSelectionChange={setSelectedIds}
+        unit={visible.length === 1 ? "piece" : "pieces"}
         empty={{
           icon: Package,
-          title: list.query || list.filter !== "all" ? "Nothing matches" : "No pieces yet",
+          title: query || statusFilter !== "all" ? "Nothing matches" : "No pieces yet",
           description:
-            list.query || list.filter !== "all"
+            query || statusFilter !== "all"
               ? "Try a different search, or clear the status filter."
               : "Add the first piece and it will appear on the storefront straight away.",
           action:
-            list.query || list.filter !== "all"
+            query || statusFilter !== "all"
               ? undefined
               : { label: "Add product", to: "/dashboard/products/new" },
         }}
-      />
-
-      <Pagination
-        page={list.page}
-        pageCount={list.pageCount}
-        total={list.total}
-        onPageChange={list.setPage}
-        unit={list.total === 1 ? "piece" : "pieces"}
       />
 
       <ViewProductModal open={Boolean(viewing)} onClose={() => setViewing(null)} product={viewing} />
