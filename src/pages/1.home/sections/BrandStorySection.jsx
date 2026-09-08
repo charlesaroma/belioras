@@ -32,7 +32,7 @@ export default function BrandStorySection() {
             id="brand-story-title"
             className="mt-3 font-display text-3xl tracking-wide text-ivory-50 md:text-4xl"
           >
-            {story.headline}
+            {story.heading}
           </h2>
           <p className="mt-6 leading-relaxed text-ivory-50/70">{story.body}</p>
 

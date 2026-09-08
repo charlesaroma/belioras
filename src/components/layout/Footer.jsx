@@ -254,7 +254,7 @@ export default function Footer() {
                     to={`/${category.id}`}
                     className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
                   >
-                    {category.name}
+                    {category.label}
                   </Link>
                 </li>
               ))}
@@ -355,7 +355,7 @@ export default function Footer() {
                     to={`/${category.id}`}
                     className="text-sm text-espresso/80 transition-colors hover:text-gold-700"
                   >
-                    {category.name}
+                    {category.label}
                   </Link>
                 </li>
               ))}
