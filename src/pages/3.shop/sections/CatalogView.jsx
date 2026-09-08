@@ -84,7 +84,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     onClick={() => setDrawerOpen(true)}
                     aria-haspopup="dialog"
                     aria-expanded={drawerOpen}
-                    className="relative inline-flex items-center gap-2 rounded-full border border-umber-50 px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-espresso transition-colors hover:border-espresso"
+                    className="relative inline-flex items-center gap-2 border border-espresso px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
                   >
                     <SlidersHorizontal className="size-3.5" aria-hidden="true" />
                     Filter
@@ -107,15 +107,18 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <label className="sr-only" htmlFor="catalog-sort">
-                    Sort by
+                <div className="flex items-center gap-4">
+                  <label
+                    htmlFor="catalog-sort"
+                    className="flex items-center gap-2 text-xs text-espresso-soft"
+                  >
+                    <span className="hidden uppercase tracking-widest sm:inline">Sort by</span>
                   </label>
                   <select
                     id="catalog-sort"
                     value={filters.sort}
                     onChange={(e) => setSort(e.target.value)}
-                    className="rounded-full border border-umber-50 bg-transparent px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-espresso transition-colors hover:border-espresso focus:outline-none"
+                    className="-ml-2 border border-umber-100 bg-transparent px-2 py-1.5 text-xs text-espresso outline-none transition-colors hover:border-espresso"
                   >
                     {SORT_OPTIONS.map((option) => (
                       <option key={option.value ?? option} value={option.value ?? option}>

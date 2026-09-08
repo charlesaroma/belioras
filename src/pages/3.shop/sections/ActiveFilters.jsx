@@ -58,7 +58,7 @@ export default function ActiveFilters({ facets, filters, onToggle, onClearPrice,
           type="button"
           onClick={chip.onRemove}
           aria-label={`Remove filter ${chip.group}: ${chip.label}`}
-          className="group inline-flex items-center gap-1.5 rounded-full border border-umber-100 py-1 pl-3 pr-2 text-[11px] uppercase tracking-[0.1em] text-espresso transition-colors hover:border-espresso"
+          className="group inline-flex items-center gap-1.5 border border-umber-100 py-1 pl-3 pr-2 text-[11px] uppercase tracking-[0.1em] text-espresso transition-colors hover:border-espresso"
         >
           <span className="text-espresso/40">{chip.group}</span>
           <span>{chip.label}</span>
