@@ -9,12 +9,19 @@ const PILL_TRIGGER =
 const ICON_TRIGGER =
   "flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70";
 
+// Header presentation: the bare code plus a chevron, no border. A globe and a
+// currency glyph told a shopper that a control existed but not what it was set
+// to — "EN" and "EUR" answer that without being opened. Borderless keeps the
+// pair quiet beside the icon buttons; two outlined pills would out-shout the
+// wishlist and bag.
+const CODE_TRIGGER =
+  "inline-flex items-center gap-1 px-2 py-1.5 text-[11px] uppercase tracking-[0.14em] text-current transition-opacity hover:opacity-70";
+
 /**
  * Accessible listbox used for the header's language and currency selectors.
  *
- * `iconOnly` is the header presentation the design review asked for — a clear
- * icon rather than a labelled pill. The pill form is used in denser contexts
- * such as the mobile drawer.
+ * Three trigger shapes: `variant="code"` for the header, `iconOnly` for tight
+ * contexts, and the bordered pill everywhere else (the mobile drawer).
  */
 export default function DropdownPill({
   ariaLabel,
@@ -24,10 +31,12 @@ export default function DropdownPill({
   activeCode,
   onSelect,
   iconOnly = false,
+  variant,
   showChevron = true,
   triggerClassName,
   align = "right",
 }) {
+  const isCode = variant === "code";
   const [open, setOpen] = useState(false);
   const listId = useId();
   const containerRef = useRef(null);
@@ -50,13 +59,20 @@ export default function DropdownPill({
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-label={ariaLabel}
-        className={cn(triggerClassName || (iconOnly ? ICON_TRIGGER : PILL_TRIGGER))}
+        className={cn(
+          triggerClassName ||
+            (isCode ? CODE_TRIGGER : iconOnly ? ICON_TRIGGER : PILL_TRIGGER),
+        )}
       >
-        {icon}
-        {!iconOnly && label}
-        {!iconOnly && showChevron && (
+        {!isCode && icon}
+        {(isCode || !iconOnly) && label}
+        {(isCode || !iconOnly) && showChevron && (
           <ChevronDown
-            className={cn("size-3.5 transition-transform duration-200", open && "rotate-180")}
+            className={cn(
+              "transition-transform duration-200",
+              isCode ? "size-3" : "size-3.5",
+              open && "rotate-180",
+            )}
             aria-hidden="true"
           />
         )}

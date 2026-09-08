@@ -406,15 +406,23 @@ export default function AuthLayout({ initialMode = "login" }) {
             </motion.p>
           )}
 
-          {mode === "login" && (
+          {/* Development only. This block printed a working administrator
+              password on a page that is publicly reachable in production,
+              which defeated the RequireAuth guard on /dashboard entirely —
+              anyone who found the login page could sign in as an admin.
+              import.meta.env.DEV is false in any `vite build`, so this is
+              stripped from the deployed bundle rather than merely hidden.
+              The customer address also used to read mariana@belioras.com,
+              which does not exist; the seed in users.json is example.com. */}
+          {mode === "login" && import.meta.env.DEV && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="mt-8 border border-dashed border-umber-50 rounded-2xl p-4 text-xs text-espresso/60 leading-relaxed bg-ivory-100/50"
             >
-              <p className="font-semibold text-espresso mb-2">Demo accounts</p>
+              <p className="font-semibold text-espresso mb-2">Demo accounts (dev only)</p>
               <p>Password: <span className="font-mono text-gold-700">demo123</span></p>
-              <p className="mt-1"><span className="font-mono">mariana@belioras.com</span> — Customer</p>
+              <p className="mt-1"><span className="font-mono">mariana@example.com</span> — Customer</p>
               <p><span className="font-mono">admin@belioras.com</span> — Admin</p>
             </motion.div>
           )}

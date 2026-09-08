@@ -93,7 +93,7 @@ export default function HairLengthGuidePage() {
         </ul>
         <p>
           Unsure? Send us a photograph at{" "}
-          <a href="mailto:care@belioras.com">care@belioras.com</a> and we will advise.
+          <a href="mailto:support@belioras.com">support@belioras.com</a> and we will advise.
         </p>
       </Section>
 

@@ -31,7 +31,7 @@ export default function ReturnAndRefundPolicyPage() {
       <Section title="How to return something">
         <ul>
           <li>
-            Write to <a href="mailto:returns@belioras.com">returns@belioras.com</a> with your order
+            Write to <a href="mailto:support@belioras.com">support@belioras.com</a> with your order
             number and which pieces are coming back.
           </li>
           <li>We will reply within one working day with a return label and address.</li>
@@ -59,7 +59,7 @@ export default function ReturnAndRefundPolicyPage() {
         <p>
           Nothing here limits your statutory rights. If a piece is faulty or not as described, you
           are entitled to a repair, replacement or refund, and EU law gives you two years to raise
-          it. Write to <a href="mailto:care@belioras.com">care@belioras.com</a> with a photograph and
+          it. Write to <a href="mailto:support@belioras.com">support@belioras.com</a> with a photograph and
           we will put it right.
         </p>
       </Section>

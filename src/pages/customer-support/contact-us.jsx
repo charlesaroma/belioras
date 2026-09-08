@@ -53,7 +53,7 @@ export default function ContactUsPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-espresso uppercase tracking-widest mb-1">Email</h3>
-                  <p className="text-espresso/70 text-sm">clientcare@belioras.com</p>
+                  <p className="text-espresso/70 text-sm">support@belioras.com</p>
                 </div>
               </div>
 

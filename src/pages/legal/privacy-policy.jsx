@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
         <p>
           Belioras Maison Lda., Rua Augusta 118, 1100-053 Lisboa, Portugal, is the data controller
           for the personal data described here. For any privacy question, or to exercise the rights
-          below, write to <a href="mailto:privacy@belioras.com">privacy@belioras.com</a>.
+          below, write to <a href="mailto:info@belioras.com">info@belioras.com</a>.
         </p>
       </Section>
 
@@ -95,7 +95,7 @@ export default function PrivacyPolicyPage() {
           you may withdraw it at any time without affecting what came before.
         </p>
         <p>
-          Write to <a href="mailto:privacy@belioras.com">privacy@belioras.com</a> and we will respond
+          Write to <a href="mailto:info@belioras.com">info@belioras.com</a> and we will respond
           within one month. If you are not satisfied, you may complain to the Comissão Nacional de
           Protecção de Dados (CNPD), Portugal&rsquo;s supervisory authority.
         </p>

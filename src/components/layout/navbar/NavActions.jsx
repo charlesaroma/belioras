@@ -25,9 +25,11 @@ export default function NavActions({ onCartOpen }) {
   return (
     <div className={cn("flex", "items-center", "justify-end", "gap-1")}>
       {/* Language and currency sit in the header, not the footer, so shoppers
-          can find them without hunting — agreed in the design review. */}
-      <LanguageSelector iconOnly />
-      <CurrencySelector iconOnly />
+          can find them without hunting — agreed in the design review. Shown as
+          codes (EN, EUR) rather than icons, so the current setting is legible
+          without opening either menu. */}
+      <LanguageSelector />
+      <CurrencySelector />
 
       <Link
         to="/wishlist"

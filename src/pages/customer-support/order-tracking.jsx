@@ -126,10 +126,10 @@ export default function OrderTrackingPage() {
             <p className="mt-8 text-sm text-espresso-soft">
               This order was cancelled. If that is unexpected, write to{" "}
               <a
-                href="mailto:care@belioras.com"
+                href="mailto:support@belioras.com"
                 className="text-gold-700 underline underline-offset-4"
               >
-                care@belioras.com
+                support@belioras.com
               </a>
               .
             </p>
@@ -203,7 +203,7 @@ export default function OrderTrackingPage() {
             <a href="/account">your account</a>.
           </p>
           <p>
-            Still stuck? Write to <a href="mailto:care@belioras.com">care@belioras.com</a> with the
+            Still stuck? Write to <a href="mailto:support@belioras.com">support@belioras.com</a> with the
             email address you ordered with and we will find it.
           </p>
         </Section>

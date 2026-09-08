@@ -19,7 +19,7 @@ export default function DashSettings() {
             <label className="block text-sm font-medium text-espresso mb-2">Store Email</label>
             <input
               type="email"
-              defaultValue="contact@belioras.com"
+              defaultValue="info@belioras.com"
               className="w-full px-4 py-2 rounded-lg border border-umber-50 bg-white text-sm text-espresso focus:border-gold-500 focus:outline-none"
             />
           </div>

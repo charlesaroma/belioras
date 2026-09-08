@@ -23,13 +23,16 @@
   "gpsr": {
     "manufacturer": "Belioras Maison Lda.",
     "address": "Rua Augusta 118, 1100-053 Lisboa, Portugal",
-    "email": "compliance@belioras.com",
+    "email": "info@belioras.com",
     "note": "For product safety or conformity enquiries, contact our GPSR responsible person."
   },
-  "support": {
-    "email": "hello@belioras.com",
+  "contact": {
+    "general": "info@belioras.com",
+    "support": "support@belioras.com",
     "phone": "+351 21 000 0000",
-    "hours": "Monday to Friday, 9:00–18:00 WET"
+    "hours": "Monday to Friday, 9:00–18:00 WET",
+    "boutique": "Rua Augusta 118, 1100-053 Lisboa, Portugal",
+    "responseTime": "We reply within one working day."
   },
   "social": {
     "instagram": "https://instagram.com/belioras",

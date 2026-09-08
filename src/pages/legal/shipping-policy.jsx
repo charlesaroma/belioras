@@ -73,7 +73,7 @@ export default function ShippingPolicyPage() {
       <Section title="If something goes wrong">
         <p>
           Every parcel is insured. If yours arrives damaged, or tracking has not moved for five
-          working days, write to <a href="mailto:care@belioras.com">care@belioras.com</a> and we will
+          working days, write to <a href="mailto:support@belioras.com">support@belioras.com</a> and we will
           replace it or refund you.
         </p>
       </Section>

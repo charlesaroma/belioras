@@ -10,10 +10,12 @@ import PriceRangeSlider from "./PriceRangeSlider";
  * Faceted filter drawer.
  *
  * Follows the drawer pattern from the design prototype — a slide-over at every
- * breakpoint rather than a rail, opening from the right to match its trigger — with two things the prototype lacked:
- * selections live in the URL (see useFilterParams) so a filtered view is
- * shareable, and result counts are computed for every value so a filter can
- * never lead to an empty grid. The counts are not displayed; see FilterCheckbox.
+ * breakpoint rather than a rail, opening from the left, which is where
+ * filtering conventionally lives and where the eye goes first — with two
+ * things the prototype lacked: selections live in the URL (see useFilterParams)
+ * so a filtered view is shareable, and result counts are computed for every
+ * value so a filter can never lead to an empty grid. The counts are not
+ * displayed; see FilterCheckbox.
  *
  * Generated from the taxonomy rather than hardcoded, so an attribute Belioras
  * adds in the dashboard appears here with no code change.
@@ -38,7 +40,7 @@ export default function FilterPanel({
       open={open}
       onClose={onClose}
       title="Filter"
-      side="right"
+      side="left"
       width="max-w-sm"
       footer={
         <div className="px-6 py-4">
