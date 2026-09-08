@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import { ContentProvider } from "./context/ContentContext";
 import { CurrencyProvider } from "./context/CurrencyContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { ProductDraftProvider } from "./context/ProductDraftContext";
 import { ToastProvider } from "./context/ToastContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import WishlistPage from "./pages/account/Wishlist";
@@ -17,6 +18,7 @@ import ScrollToTop from "./components/layout/ScrollToTop";
 import RequireAuth from "./components/auth/RequireAuth";
 import NotFound from "./components/layout/NotFound";
 import ToastViewport from "./components/ui/ToastViewport";
+import DraftDock from "./components/ui/DraftDock";
 
 import HomePage from "./pages/1.home/home";
 import ShopPage from "./pages/3.shop/shop";
@@ -42,6 +44,7 @@ import ReturnAndRefundPolicyPage from "./pages/legal/return-and-refund-policy";
 import CookiePolicyPage from "./pages/legal/cookie-policy";
 
 import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
+import ProductForm from "./Dashboard/pages/products/ProductForm";
 import { cn } from "./utils/cn";
 
 /** Forwards /search?q=… to the real results surface, preserving the term. */
@@ -59,13 +62,18 @@ function AppProviders({ children }) {
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>
-                <ToastProvider>
-                  {children}
-                  {/* The render half of the toast system. Without it the
-                      provider held state and ran timers while nothing was
-                      ever drawn, so every toast() call was a silent no-op. */}
-                  <ToastViewport />
-                </ToastProvider>
+                {/* Above BrowserRouter, so navigating away cannot unmount an
+                    in-progress product draft. */}
+                <ProductDraftProvider>
+                  <ToastProvider>
+                    {children}
+                    {/* The render half of the toast system. Without it the
+                        provider held state and ran timers while nothing was
+                        ever drawn, so every toast() call was a silent no-op.
+                        Uses no router hooks, so it is safe out here. */}
+                    <ToastViewport />
+                  </ToastProvider>
+                </ProductDraftProvider>
               </WishlistProvider>
             </CartProvider>
           </AuthProvider>
@@ -94,6 +102,10 @@ function App() {
     <AppProviders>
       <BrowserRouter>
         <ScrollToTop />
+        {/* Inside the router because Resume is a Link, but fed by a provider
+            that sits outside it — so the draft itself survives navigation
+            while the dock still renders app-wide, dashboard or storefront. */}
+        <DraftDock />
         <Routes>
           {/* Auth Routes - Full screen without navbar/footer */}
           <Route path="/login" element={<LoginPage />} />
@@ -116,6 +128,11 @@ function App() {
           >
             <Route index element={<DashOverview />} />
             <Route path="products" element={<DashProducts />} />
+            {/* The product form is a page, not a modal: it is long enough that
+                a 90vh box scrolling internally was the wrong container, and a
+                route makes an edit linkable and refresh-safe. */}
+            <Route path="products/new" element={<ProductForm />} />
+            <Route path="products/:id/edit" element={<ProductForm />} />
             <Route path="categories" element={<DashCategories />} />
             <Route path="orders" element={<DashOrders />} />
             <Route path="users" element={<DashUsers />} />
