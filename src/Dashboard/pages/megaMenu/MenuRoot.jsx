@@ -117,26 +117,32 @@ export default function MenuRoot({ root, open, onToggle, onPatch, countFor, cont
                 {(section.items ?? []).map((item, i) => {
                   const count = countFor(item);
                   return (
-                    <li key={item.id} className="flex flex-wrap items-center gap-2">
+                    <li
+                      key={item.id}
+                      className="flex flex-wrap items-center gap-2 border-b border-umber-50/60 pb-2 last:border-b-0 sm:border-b-0 sm:pb-0"
+                    >
+                      {/* Full width on a phone, side by side from sm. The two
+                          inputs previously shared a row with ~148px of
+                          controls in 271px of space, so the path collapsed. */}
                       <input
                         value={item.label}
                         onChange={(e) => patchItem(section.id, item.id, { label: e.target.value })}
                         aria-label="Link label"
-                        className="input w-44 py-1.5 text-[13px]"
+                        className="input w-full py-1.5 text-[13px] sm:w-44"
                       />
                       <input
                         value={item.url ?? ""}
                         onChange={(e) => patchItem(section.id, item.id, { url: e.target.value })}
                         aria-label="Link path"
                         placeholder="/dresses/mini"
-                        className="input min-w-0 flex-1 py-1.5 font-mono text-[12px]"
+                        className="input w-full min-w-0 py-1.5 font-mono text-[12px] sm:w-auto sm:flex-1"
                       />
 
                       {/* A link returning nothing is a dead end a shopper finds
                           by walking into it; better it is visible here. */}
                       <span
                         className={cn(
-                          "w-16 shrink-0 text-right text-[11px] tabular-nums",
+                          "w-16 shrink-0 text-[11px] tabular-nums sm:text-right",
                           count === 0 ? "text-error" : "text-espresso-soft",
                         )}
                         title={count === null ? "" : `${count} pieces match this link`}

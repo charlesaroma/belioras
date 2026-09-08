@@ -60,7 +60,10 @@ export default function DashToolbar({
  */
 export function FilterTabs({ options, value, onChange, ariaLabel = "Filter" }) {
   return (
-    <div role="group" aria-label={ariaLabel} className="flex border border-umber-50">
+    // flex-wrap because four tabs at ~360px exceeded the 335px available on a
+    // 375px phone and could not break, which pushed the whole page sideways.
+    // The border moves to each button so a wrapped row still reads as a group.
+    <div role="group" aria-label={ariaLabel} className="flex flex-wrap gap-px bg-umber-50">
       {options.map((option) => {
         const active = value === option.value;
         return (
@@ -70,10 +73,10 @@ export function FilterTabs({ options, value, onChange, ariaLabel = "Filter" }) {
             onClick={() => onChange(option.value)}
             aria-pressed={active}
             className={cn(
-              "border-r border-umber-50 px-3.5 py-2 text-[11px] uppercase tracking-[0.12em] transition-colors last:border-r-0",
+              "px-3.5 py-2 text-[11px] uppercase tracking-[0.12em] transition-colors",
               active
                 ? "bg-espresso text-ivory-50"
-                : "text-espresso-soft hover:bg-brown-50/60 hover:text-espresso",
+                : "bg-ivory-50 text-espresso-soft hover:bg-brown-50 hover:text-espresso",
             )}
           >
             {option.label}
