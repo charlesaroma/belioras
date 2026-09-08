@@ -16,6 +16,7 @@ import BackToTop from "./components/layout/BackToTop";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import RequireAuth from "./components/auth/RequireAuth";
 import NotFound from "./components/layout/NotFound";
+import ToastViewport from "./components/ui/ToastViewport";
 
 import HomePage from "./pages/1.home/home";
 import ShopPage from "./pages/3.shop/shop";
@@ -58,7 +59,13 @@ function AppProviders({ children }) {
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>
-                <ToastProvider>{children}</ToastProvider>
+                <ToastProvider>
+                  {children}
+                  {/* The render half of the toast system. Without it the
+                      provider held state and ran timers while nothing was
+                      ever drawn, so every toast() call was a silent no-op. */}
+                  <ToastViewport />
+                </ToastProvider>
               </WishlistProvider>
             </CartProvider>
           </AuthProvider>
