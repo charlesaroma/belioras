@@ -292,7 +292,11 @@ export default function ProductForm() {
                             onClick={() => toggleTag(dimension, value.id)}
                             aria-pressed={on}
                             className={cn(
-                              "border px-2.5 py-1 text-[12px] transition-colors",
+                              // min-h-9 keeps these a comfortable touch
+                              // target; at py-1 they were 26px tall, well
+                              // under the 44px guidance, and there are 64 of
+                              // them packed together.
+                              "min-h-9 border px-3 py-1.5 text-[12px] transition-colors",
                               on
                                 ? "border-espresso bg-espresso text-ivory-50"
                                 : "border-umber-50 text-espresso-soft hover:border-espresso/40 hover:text-espresso",
