@@ -78,24 +78,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
         <div className="mx-auto max-w-[1400px] px-6 pb-24 pt-8 md:px-10">
           <div className="min-w-0">
               <div className="mb-5 flex flex-wrap items-center justify-end gap-3">
-
                 <div className="flex items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setDrawerOpen(true)}
-                    aria-haspopup="dialog"
-                    aria-expanded={drawerOpen}
-                    className="relative inline-flex items-center gap-2 border border-espresso px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
-                  >
-                    <SlidersHorizontal className="size-3.5" aria-hidden="true" />
-                    Filter
-                    {activeCount > 0 && (
-                      <span className="flex size-4 items-center justify-center rounded-full bg-gold-500 text-[9px] font-bold leading-none text-espresso">
-                        {activeCount}
-                      </span>
-                    )}
-                  </button>
-
                   <label
                     htmlFor="catalog-sort"
                     className="flex items-center gap-2 text-xs text-espresso-soft"
@@ -114,6 +97,22 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                       </option>
                     ))}
                   </select>
+
+                  <button
+                    type="button"
+                    onClick={() => setDrawerOpen(true)}
+                    aria-haspopup="dialog"
+                    aria-expanded={drawerOpen}
+                    className="relative inline-flex items-center gap-2 border border-espresso px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
+                  >
+                    <SlidersHorizontal className="size-3.5" aria-hidden="true" />
+                    Filter
+                    {activeCount > 0 && (
+                      <span className="flex size-4 items-center justify-center rounded-full bg-gold-500 text-[9px] font-bold leading-none text-espresso">
+                        {activeCount}
+                      </span>
+                    )}
+                  </button>
 
                   <GridViewSwitcher columns={cols} setColumns={setCols} />
                 </div>
