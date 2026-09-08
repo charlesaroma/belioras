@@ -78,8 +78,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
         <div className="container-main px-4 pb-24 pt-8 sm:px-6">
           <div className="min-w-0">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <button
+                <button
                     type="button"
                     onClick={() => setDrawerOpen(true)}
                     aria-haspopup="dialog"
@@ -93,19 +92,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                         {activeCount}
                       </span>
                     )}
-                  </button>
-
-                  {/* Polite, not assertive: a count that interrupts on every
-                      checkbox tick is worse than one that waits its turn. */}
-                  <p
-                    aria-live="polite"
-                    className="text-[11px] uppercase tracking-[0.14em] text-espresso-soft"
-                  >
-                    {loading
-                      ? "Loading"
-                      : `${filtered.length} ${filtered.length === 1 ? "piece" : "pieces"}`}
-                  </p>
-                </div>
+                </button>
 
                 <div className="flex items-center gap-4">
                   <label

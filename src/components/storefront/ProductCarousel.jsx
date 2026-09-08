@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import EditorialProductCard from "./EditorialProductCard";
+import ProductCard from "./ProductCard";
 import { cn } from "../../utils/cn";
 
 /**
@@ -90,7 +90,7 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
               ))
             : items.map((product) => (
                 <div key={product.id} className="w-[75%] shrink-0 snap-start sm:w-[48%] lg:w-[23%]">
-                  <EditorialProductCard product={product} />
+                  <ProductCard product={product} />
                 </div>
               ))}
         </div>
