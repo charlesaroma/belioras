@@ -22,6 +22,8 @@ import taxonomySeed from "../data/taxonomy.json";
 import heroSeed from "../data/heroSlides.json";
 import instagramSeed from "../data/instagram.json";
 import settingsSeed from "../data/settings.json";
+import catalogSeed from "../data/catalogSeed";
+import ordersSeed from "../data/ordersSeed";
 
 const KEY_PREFIX = "belioras:content:";
 
@@ -39,6 +41,12 @@ const DOMAINS = {
   hero: { seed: heroSeed, collection: "slides" },
   instagram: { seed: instagramSeed, collection: "posts" },
   settings: { seed: settingsSeed, collection: null },
+  // Catalogue and orders were the two domains the dashboard actually needed
+  // and the only two it never had: every product and order edit lived in
+  // component state and was gone on reload. They are ordinary domains here —
+  // the same rev reconciliation, the same per-item merge.
+  products: { seed: catalogSeed, collection: "items" },
+  orders: { seed: ordersSeed, collection: "items" },
 };
 
 function storageKey(domain) {

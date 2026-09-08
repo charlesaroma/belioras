@@ -8,30 +8,23 @@ export const DASHBOARD_NAV_ITEMS = [
 ];
 
 /**
- * Order lifecycle.
+ * Order lifecycle, re-exported from the canonical vocabulary.
  *
- * Includes the four stages agreed for the customer dashboard — To pay, To
- * ship, Shipped, To review — alongside the legacy keys still present in the
- * seed data, so both render while the data migrates.
+ * This used to be its own map, which is precisely how the codebase ended up
+ * with three disagreeing status lists — and how `paid` came to be missing from
+ * two of them, rendering a blank chip for orders that had been paid for.
+ * src/utils/orderStatus.js is now the single definition, shared by the
+ * dashboard, the account pages and the public tracker; alias resolution for
+ * the legacy seed keys lives there too, in normalizeStatus.
  *
  * `tone` is a semantic name rather than a Tailwind class: these previously
  * carried literal bg-yellow/blue/purple values, which is how an admin area
  * ends up in a different palette from the storefront it administers.
+ *
+ * Import ORDER_STATUS from src/utils/orderStatus directly — it is deliberately
+ * not re-exported here, so there is one import path and no second place for
+ * the vocabulary to drift.
  */
-export const ORDER_STATUS = {
-  "to-pay": { label: "To pay", tone: "pending" },
-  "to-ship": { label: "To ship", tone: "progress" },
-  shipped: { label: "Shipped", tone: "progress" },
-  "to-review": { label: "To review", tone: "positive" },
-  reviewed: { label: "Reviewed", tone: "positive" },
-
-  // Legacy keys from the seed fixtures.
-  pending: { label: "Pending", tone: "pending" },
-  processing: { label: "Processing", tone: "progress" },
-  delivered: { label: "Delivered", tone: "positive" },
-  cancelled: { label: "Cancelled", tone: "negative" },
-  refunded: { label: "Refunded", tone: "neutral" },
-};
 
 export const PRODUCT_STATUS = {
   active: { label: "Active", tone: "positive" },

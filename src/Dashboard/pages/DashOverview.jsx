@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, Receipt, Users, Wallet } from "lucide-react";
 
+import StatusChip from "../../components/ui/StatusChip";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { getDashboardStats, getRecentOrders } from "../../services/dashboardApi";
-import { ORDER_STATUS } from "../lib/constants";
 
 import StatCard from "../components/StatCard";
 import SalesChart from "../components/SalesChart";
@@ -131,7 +131,7 @@ export default function DashOverview() {
                     {format(order.total)}
                   </td>
                   <td className="px-6 py-4">
-                    <OrderStatus status={order.status} />
+                    <StatusChip status={order.status} />
                   </td>
                   <td className="px-6 py-4 text-sm text-espresso-soft">
                     {new Intl.DateTimeFormat(locale, {
@@ -150,22 +150,3 @@ export default function DashOverview() {
   );
 }
 
-/** Uses the brand's status chips rather than stock green/blue/purple pills. */
-function OrderStatus({ status }) {
-  const meta = ORDER_STATUS[status] ?? { label: status, tone: "neutral" };
-  const tone = {
-    positive: "bg-success/10 text-success",
-    pending: "bg-gold-500/15 text-gold-800",
-    progress: "bg-brown-50 text-brown-700",
-    neutral: "bg-umber-50 text-espresso-soft",
-    negative: "bg-error/10 text-error",
-  }[meta.tone];
-
-  return (
-    <span
-      className={`inline-flex rounded-sm px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${tone}`}
-    >
-      {meta.label}
-    </span>
-  );
-}

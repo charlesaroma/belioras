@@ -1,19 +1,27 @@
-import productsSeed from "../data/products.json";
-import hairSeed from "../data/hair.json";
-import accessoriesSeed from "../data/accessories.json";
-import catalogExtraSeed from "../data/catalogExtra.json";
 import newArrivalsSeed from "../data/newArrivals.json";
 
 import { ApiError, mockApi } from "./apiClient";
+import { getState, setState } from "./contentStore";
 import { getBestSellerProductIds } from "./ordersApi";
 import { COLOR_NAME_TO_TAXONOMY, LEGACY_CATEGORY_TOKENS } from "../utils/constants";
 
 /**
- * catalogExtra holds the inventory carried over from the design prototype,
- * normalised into this repo's product shape. It is a separate file so the
- * originally authored fixtures stay identifiable when real stock replaces both.
+ * The catalogue, read through the content store rather than straight from the
+ * fixture files.
+ *
+ * This is what makes the dashboard real. Previously the catalogue was a
+ * module-level const, so an admin could add or edit a product and the change
+ * existed only in that page's component state — invisible to the storefront
+ * and gone on reload. Reading the store means one edit reaches every surface
+ * and survives a restart, and the eventual swap to a real API stays inside
+ * this file.
+ *
+ * A getter, not a captured value: setState replaces the domain object, so a
+ * const bound at module load would go stale after the first write.
  */
-const catalog = [...productsSeed, ...hairSeed, ...accessoriesSeed, ...catalogExtraSeed];
+function catalogItems() {
+  return getState("products").items;
+}
 
 /**
  * Derives the prefixed-tag vocabulary the mega menu and filters match against.
@@ -52,12 +60,12 @@ function normalize(product) {
 }
 
 export function getProducts() {
-  return mockApi(() => catalog.map(normalize));
+  return mockApi(() => catalogItems().map(normalize));
 }
 
 export function getProduct(idOrSlug) {
   return mockApi(() => {
-    const product = catalog.find((p) => p.id === idOrSlug || p.slug === idOrSlug);
+    const product = catalogItems().find((p) => p.id === idOrSlug || p.slug === idOrSlug);
     if (!product) throw new ApiError("Product not found.", 404);
     return normalize(product);
   });
@@ -65,7 +73,7 @@ export function getProduct(idOrSlug) {
 
 export function getProductsByCollection(collectionId) {
   return mockApi(() =>
-    catalog.filter((p) => p.collectionId === collectionId).map(normalize)
+    catalogItems().filter((p) => p.collectionId === collectionId).map(normalize)
   );
 }
 
@@ -75,7 +83,7 @@ export function getNewArrivals() {
       .slice()
       .sort((a, b) => (a.addedAt < b.addedAt ? 1 : -1))
       .map((entry) => {
-        const product = catalog.find((p) => p.id === entry.productId);
+        const product = catalogItems().find((p) => p.id === entry.productId);
         return product ? { ...normalize(product), addedAt: entry.addedAt } : null;
       })
       .filter(Boolean)
@@ -86,7 +94,7 @@ export function searchProducts(query) {
   return mockApi(() => {
     const q = String(query ?? "").trim().toLowerCase();
     if (!q) return [];
-    return catalog
+    return catalogItems()
       .filter((p) =>
         [p.name, p.description, (p.categories ?? []).join(" ")]
           .join(" ")
@@ -98,7 +106,7 @@ export function searchProducts(query) {
 }
 
 export function getFeaturedProducts() {
-  return mockApi(() => catalog.filter((p) => p.bestseller || p.featured).map(normalize));
+  return mockApi(() => catalogItems().filter((p) => p.bestseller || p.featured).map(normalize));
 }
 
 /**
@@ -114,18 +122,166 @@ export function getBestSellers(limit = 8) {
     const ranked = await getBestSellerProductIds({ limit });
 
     const products = ranked
-      .map(({ productId }) => catalog.find((p) => p.id === productId))
+      .map(({ productId }) => catalogItems().find((p) => p.id === productId))
       .filter(Boolean)
       .map(normalize);
 
     if (products.length >= limit) return products;
 
     const seen = new Set(products.map((p) => p.id));
-    const backfill = catalog
+    const backfill = catalogItems()
       .filter((p) => p.bestseller && !seen.has(p.id))
       .slice(0, limit - products.length)
       .map(normalize);
 
     return [...products, ...backfill];
   }, 0);
+}
+/* ------------------------------------------------------------------ writes */
+
+/**
+ * Ligatures and strokes that NFD does not decompose.
+ *
+ * Unicode normalisation splits é into e + a combining accent, but œ, æ, ø, ß
+ * and đ are single characters with no base letter to fall back to — so
+ * stripping "everything not a-z" turns "Cœur" into "cur". This maps them to
+ * the transliteration each language actually uses. It matters here: the brand
+ * is Portuguese and names its pieces in French.
+ */
+const LIGATURES = {
+  œ: "oe",
+  æ: "ae",
+  ø: "o",
+  ß: "ss",
+  đ: "d",
+  ð: "d",
+  þ: "th",
+  ł: "l",
+};
+
+/** Slugify a product name for its URL. */
+export function slugify(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/[œæøßđðþł]/g, (ch) => LIGATURES[ch] ?? ch)
+    // Split accented letters into base + combining mark, then drop the marks.
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
+/**
+ * Next free product id.
+ *
+ * The dashboard generated `PRD-${Math.random() * 1000}`, which collides often
+ * enough to matter with only a thousand slots and no uniqueness check — two
+ * products sharing an id would make the PDP resolve to whichever came first.
+ * Counting past the highest existing id cannot collide.
+ */
+function nextProductId(items) {
+  const highest = items.reduce((max, p) => {
+    const n = Number(String(p.id).match(/\d+/)?.[0] ?? 0);
+    return n > max ? n : max;
+  }, 0);
+  return `p${highest + 1}`;
+}
+
+/** Ensures a slug is unique, suffixing -2, -3 … when a name repeats. */
+function uniqueSlug(items, base, ignoreId = null) {
+  const taken = new Set(items.filter((p) => p.id !== ignoreId).map((p) => p.slug));
+  if (!taken.has(base)) return base;
+  let n = 2;
+  while (taken.has(`${base}-${n}`)) n += 1;
+  return `${base}-${n}`;
+}
+
+export function createProduct(input) {
+  return mockApi(() => {
+    const name = String(input.name ?? "").trim();
+    if (!name) throw new ApiError("A product needs a name.", 422);
+    if (!(Number(input.price) > 0)) throw new ApiError("A product needs a price.", 422);
+
+    const items = catalogItems();
+    const id = nextProductId(items);
+    const product = {
+      ...input,
+      id,
+      name,
+      slug: uniqueSlug(items, input.slug ? slugify(input.slug) : slugify(name)),
+      price: Number(input.price),
+      originalPrice: input.originalPrice ? Number(input.originalPrice) : null,
+      stock: Number(input.stock) || 0,
+      images: input.images ?? [],
+      colors: input.colors ?? [],
+      sizes: input.sizes ?? [],
+      categories: input.categories ?? [],
+      status: input.status ?? "draft",
+      createdAt: new Date().toISOString(),
+    };
+
+    setState("products", (state) => ({ ...state, items: [product, ...state.items] }));
+    return normalize(product);
+  });
+}
+
+export function updateProduct(id, patch) {
+  return mockApi(() => {
+    const items = catalogItems();
+    const existing = items.find((p) => p.id === id);
+    if (!existing) throw new ApiError("Product not found.", 404);
+
+    const name = patch.name !== undefined ? String(patch.name).trim() : existing.name;
+    if (!name) throw new ApiError("A product needs a name.", 422);
+
+    const updated = {
+      ...existing,
+      ...patch,
+      id,
+      name,
+      // Re-slug only when the name actually changed, so an existing product
+      // URL does not quietly break on an unrelated edit.
+      slug:
+        name !== existing.name
+          ? uniqueSlug(items, slugify(name), id)
+          : existing.slug,
+      price: patch.price !== undefined ? Number(patch.price) : existing.price,
+      stock: patch.stock !== undefined ? Number(patch.stock) || 0 : existing.stock,
+      updatedAt: new Date().toISOString(),
+    };
+
+    setState("products", (state) => ({
+      ...state,
+      items: state.items.map((p) => (p.id === id ? updated : p)),
+    }));
+    return normalize(updated);
+  });
+}
+
+export function deleteProduct(id) {
+  return mockApi(() => {
+    const existing = catalogItems().find((p) => p.id === id);
+    if (!existing) throw new ApiError("Product not found.", 404);
+
+    setState("products", (state) => ({
+      ...state,
+      items: state.items.filter((p) => p.id !== id),
+    }));
+    // Returned so the caller can offer Undo without having kept a copy.
+    return existing;
+  });
+}
+
+/** Re-inserts a deleted product, for the Undo action on the delete toast. */
+export function restoreProduct(product) {
+  return mockApi(() => {
+    setState("products", (state) =>
+      state.items.some((p) => p.id === product.id)
+        ? state
+        : { ...state, items: [product, ...state.items] },
+    );
+    return normalize(product);
+  });
 }

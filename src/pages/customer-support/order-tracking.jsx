@@ -6,30 +6,19 @@ import PageShell, { Section } from "../../components/layout/PageShell";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { getOrder } from "../../services/ordersApi";
-import { ORDER_STATUS, STATUS_TONES } from "../../Dashboard/lib/constants";
+import StatusChip from "../../components/ui/StatusChip";
+import Field from "../../components/ui/Field";
 import { cn } from "../../utils/cn";
-
-/**
- * The four stages agreed in the design review, in order. An order sits at one
- * of them, and everything before it is done.
- */
-const STAGES = [
-  { id: "to-pay", label: "To pay", blurb: "Awaiting payment." },
-  { id: "to-ship", label: "To ship", blurb: "Paid, being prepared in Lisbon." },
-  { id: "shipped", label: "Shipped", blurb: "With the carrier." },
-  { id: "to-review", label: "Delivered", blurb: "Arrived. Tell us how it wears." },
-];
-
-/** Legacy fixture statuses map onto the same four stages. */
-const STAGE_OF = {
-  "to-pay": 0, pending: 0,
-  "to-ship": 1, processing: 1, paid: 1,
-  shipped: 2,
-  "to-review": 3, delivered: 3, reviewed: 3,
-};
+import {
+  ORDER_STAGES as STAGES,
+  isOffTimeline,
+  normalizeStatus,
+  stageOf,
+} from "../../utils/orderStatus";
 
 export default function OrderTrackingPage() {
   const [reference, setReference] = useState("");
+  const [email, setEmail] = useState("");
   const [order, setOrder] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,13 +29,13 @@ export default function OrderTrackingPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const ref = reference.trim().toUpperCase();
-    if (!ref) return;
+    if (!ref || !email.trim()) return;
 
     setLoading(true);
     setError("");
     setOrder(null);
     try {
-      setOrder(await getOrder(ref));
+      setOrder(await getOrder(ref, { email: email.trim() }));
     } catch {
       // Deliberately does not distinguish "no such order" from "not yours" —
       // that difference would let anyone confirm whether a reference exists.
@@ -56,31 +45,47 @@ export default function OrderTrackingPage() {
     }
   };
 
-  const cancelled = order?.status === "cancelled";
-  const stageIndex = order ? (STAGE_OF[order.status] ?? 0) : -1;
+  // Cancelled and refunded orders leave the four-stage timeline entirely.
+  // The old map had no entry for refunded, so its `?? 0` fallback drew a
+  // refunded order as "To pay" — telling a reimbursed customer they still owe.
+  const offTimeline = isOffTimeline(order?.status);
+  const stageIndex = order ? stageOf(order.status) : null;
 
   return (
     <PageShell
       eyebrow="Client care"
       title="Order Tracking"
-      intro="Enter the reference from your confirmation email — it looks like ORD-1001."
+      intro="Enter the reference from your confirmation email — it looks like ORD-1001 — along with the email address the order was placed with."
     >
-      <form onSubmit={onSubmit} className="flex flex-col gap-3 sm:flex-row">
-        <label className="sr-only" htmlFor="order-ref">
-          Order reference
-        </label>
-        <input
-          id="order-ref"
-          value={reference}
-          onChange={(e) => setReference(e.target.value)}
-          placeholder="ORD-1001"
-          autoComplete="off"
-          className="flex-1 border border-umber-100 bg-transparent px-4 py-3 text-sm text-espresso outline-none transition-colors focus:border-espresso"
-        />
+      {/* Reference plus email, because the reference alone is guessable and
+          is therefore not a credential. Walking ORD-1001, ORD-1002 … used to
+          return each order in turn, with its items, totals and address. */}
+      <form onSubmit={onSubmit} className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Field label="Order reference" required className="flex-1">
+            <input
+              id="order-ref"
+              value={reference}
+              onChange={(e) => setReference(e.target.value)}
+              placeholder="ORD-1001"
+              autoComplete="off"
+            />
+          </Field>
+          <Field label="Email on the order" required className="flex-1">
+            <input
+              id="order-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              autoComplete="email"
+            />
+          </Field>
+        </div>
         <button
           type="submit"
-          disabled={loading || !reference.trim()}
-          className="inline-flex items-center justify-center gap-2 border border-espresso bg-espresso px-8 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40"
+          disabled={loading || !reference.trim() || !email.trim()}
+          className="inline-flex items-center justify-center gap-2 self-start border border-espresso bg-espresso px-8 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {loading && <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />}
           Track
@@ -101,14 +106,7 @@ export default function OrderTrackingPage() {
         <div className="mt-10 border-t border-umber-50 pt-8">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2 className="font-display text-2xl text-espresso">{order.id}</h2>
-            <span
-              className={cn(
-                "px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]",
-                STATUS_TONES[ORDER_STATUS[order.status]?.tone ?? "neutral"],
-              )}
-            >
-              {ORDER_STATUS[order.status]?.label ?? order.status}
-            </span>
+            <StatusChip status={order.status} />
           </div>
 
           <p className="mt-2 text-sm text-espresso-soft">
@@ -122,9 +120,12 @@ export default function OrderTrackingPage() {
             {format(order.total)}
           </p>
 
-          {cancelled ? (
+          {offTimeline ? (
             <p className="mt-8 text-sm text-espresso-soft">
-              This order was cancelled. If that is unexpected, write to{" "}
+              {normalizeStatus(order.status) === "refunded"
+                ? "This order was refunded. The amount is back with your bank, which can take a few working days to show."
+                : "This order was cancelled."}{" "}
+              If that is unexpected, write to{" "}
               <a
                 href="mailto:support@belioras.com"
                 className="text-gold-700 underline underline-offset-4"

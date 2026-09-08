@@ -1,6 +1,6 @@
 import { Search, Filter, Download } from "lucide-react";
 import DashTable from "../components/DashTable";
-import { ORDER_STATUS } from "../lib/constants";
+import StatusChip from "../../components/ui/StatusChip";
 
 const ORDERS = [
   { id: "ORD-001", customer: "Mariana Silva", email: "mariana@email.com", total: "$245.00", status: "delivered", date: "2024-01-15" },
@@ -19,17 +19,7 @@ const ORDER_COLUMNS = [
   { 
     key: "status", 
     label: "Status",
-    render: (row) => (
-      <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-        row.status === "delivered" ? "bg-green-100 text-green-800" :
-        row.status === "processing" ? "bg-blue-100 text-blue-800" :
-        row.status === "shipped" ? "bg-purple-100 text-purple-800" :
-        row.status === "pending" ? "bg-yellow-100 text-yellow-800" :
-        "bg-red-100 text-red-800"
-      }`}>
-        {ORDER_STATUS[row.status]?.label || row.status}
-      </span>
-    )
+    render: (row) => <StatusChip status={row.status} />
   },
   { key: "date", label: "Date" },
 ];

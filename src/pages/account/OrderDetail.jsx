@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, PackageX } from "lucide-react";
 
+import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getOrder } from "../../services/ordersApi";
@@ -41,7 +42,14 @@ function TotalRow({ label, amount, bold = false }) {
 export default function OrderDetail() {
   const { id } = useParams();
   const { format } = useCurrency();
-  const { data: order, loading, error } = useAsyncData(() => getOrder(id), [id]);
+  const { user } = useAuth();
+  // Scoped to the signed-in customer: getOrder refuses an order that is not
+  // theirs rather than trusting the id in the URL.
+  const {
+    data: order,
+    loading,
+    error,
+  } = useAsyncData(() => getOrder(id, { userId: user?.id }), [id, user?.id]);
 
   if (loading) {
     return (
