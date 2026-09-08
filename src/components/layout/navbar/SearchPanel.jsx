@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Camera, Search, X } from "lucide-react";
+
+import ImageSearch from "../../search/ImageSearch";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useCurrency } from "../../../context/CurrencyContext";
@@ -32,6 +34,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   const { data: products } = useAsyncData(getProducts, []);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
+  const [imageSearchOpen, setImageSearchOpen] = useState(false);
   const [colours, setColours] = useState([]);
   const [sizes, setSizes] = useState([]);
 
@@ -160,6 +163,18 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
           </div>
 
           <span className="hidden flex-1 lg:block" />
+
+          {/* Search by photograph. Sits beside the field rather than inside
+              it, so it reads as a second way in rather than as a control that
+              acts on what has been typed. */}
+          <button
+            type="button"
+            onClick={() => setImageSearchOpen(true)}
+            className="flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-widest text-espresso-soft transition-colors hover:text-espresso"
+          >
+            <Camera className="size-4" strokeWidth={1.5} aria-hidden="true" />
+            <span className="hidden sm:inline">Photo</span>
+          </button>
 
           <button
             type="button"
@@ -310,6 +325,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
           </div>
         </div>
       </div>
+      <ImageSearch open={imageSearchOpen} onClose={() => setImageSearchOpen(false)} />
     </div>
   );
 }
