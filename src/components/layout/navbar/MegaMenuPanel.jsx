@@ -117,7 +117,8 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
           })}
         </div>
 
-        {tiles.length > 0 && <TileGrid tiles={tiles} onNavigate={onNavigate} layout="mobile" />}
+        {/* Tiles are desktop-only. In the drawer they push the category list
+            below the fold and turn a navigation aid into a scroll. */}
       </div>
     );
   }
@@ -187,7 +188,7 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
             transition={{ duration: 0.35, delay: sections.length * STAGGER, ease: "easeOut" }}
             className="hidden w-[360px] shrink-0 xl:block"
           >
-            <TileGrid tiles={tiles} onNavigate={onNavigate} layout="desktop" />
+            <TileGrid tiles={tiles} onNavigate={onNavigate} />
           </motion.div>
         )}
       </div>
@@ -223,13 +224,12 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
  * left the right third of the panel empty. The first tile is given the taller
  * share so the block has a focal point instead of reading as a uniform grid.
  */
-function TileGrid({ tiles, onNavigate, layout }) {
-  const isDesktop = layout === "desktop";
+function TileGrid({ tiles, onNavigate }) {
 
   return (
-    <ul className={cn("grid grid-cols-2 gap-3", isDesktop && "h-[520px]")}>
+    <ul className={"grid h-[520px] grid-cols-2 gap-3"}>
       {tiles.slice(0, 2).map((tile, i) => (
-        <li key={tile.id} className={cn(isDesktop && (i === 1 ? "h-[calc(100%-2rem)] self-end" : "h-full"))}>
+        <li key={tile.id} className={i === 1 ? "h-[calc(100%-2rem)] self-end" : "h-full"}>
           <Link
             to={tile.url}
             onClick={onNavigate}
@@ -241,19 +241,17 @@ function TileGrid({ tiles, onNavigate, layout }) {
               loading="lazy"
               className={cn(
                 "w-full object-cover transition-transform duration-[600ms] ease-out group-hover/tile:scale-[1.06]",
-                isDesktop ? "h-full" : "aspect-[3/4]",
+                "h-full",
                 // Offsetting the second tile turns two equal rectangles into a
                 // composition, which is what makes it read as editorial.
-                isDesktop && i === 1 && "mt-8",
-              )}
+                              )}
             />
             <span
               aria-hidden="true"
               className={cn(
                 "pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-espresso/85 via-espresso/25 to-transparent transition-opacity duration-300 group-hover/tile:from-espresso/95",
-                isDesktop ? "h-1/2" : "h-2/3",
-                isDesktop && i === 1 && "mt-8",
-              )}
+                "h-1/2",
+                              )}
             />
             <span className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-2">
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ivory-50">

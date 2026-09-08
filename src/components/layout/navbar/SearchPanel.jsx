@@ -24,7 +24,7 @@ const DEFAULT_RESULTS = 6;
  * getBoundingClientRect, this reads the --header-height the navbar already
  * publishes: one measurement, no listener, and it cannot drift out of sync.
  */
-export default function SearchPanel({ open, onClose }) {
+export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   const navigate = useNavigate();
   const { format } = useCurrency();
   const { t } = useLanguage();
@@ -32,7 +32,6 @@ export default function SearchPanel({ open, onClose }) {
   const { data: products } = useAsyncData(getProducts, []);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
-  const [query, setQuery] = useState("");
   const [colours, setColours] = useState([]);
   const [sizes, setSizes] = useState([]);
 
@@ -43,18 +42,22 @@ export default function SearchPanel({ open, onClose }) {
   const catalog = useMemo(() => products ?? [], [products]);
   const trimmed = query.trim();
 
+  const setQuery = onQueryChange;
+
   const close = useCallback(() => {
-    setQuery("");
+    onQueryChange("");
     setColours([]);
     setSizes([]);
     onClose?.();
-  }, [onClose]);
+  }, [onClose, onQueryChange]);
 
   useEffect(() => {
     if (!open) return undefined;
 
     restoreFocusRef.current = document.activeElement;
-    inputRef.current?.focus();
+    // Only steal focus where this panel owns the field; on desktop the navbar
+    // input already has it and moving focus would interrupt typing.
+    if (window.matchMedia("(max-width: 1023px)").matches) inputRef.current?.focus();
 
     const onKeyDown = (e) => {
       if (e.key === "Escape") close();
@@ -138,7 +141,9 @@ export default function SearchPanel({ open, onClose }) {
     >
       <div className="mx-auto max-w-[1400px] px-6 py-8 lg:px-10">
         <div className="flex items-center gap-4">
-          <div className="flex flex-1 items-center gap-3 border border-umber-100 px-4 py-3 focus-within:border-espresso">
+          {/* The navbar carries the field at lg and up; duplicating it here
+              would put two search boxes on screen at once. */}
+          <div className="flex flex-1 items-center gap-3 border border-umber-100 px-4 py-3 focus-within:border-espresso lg:hidden">
             <Search className="size-4 shrink-0 text-espresso/40" aria-hidden="true" />
             <label className="sr-only" htmlFor="site-search">
               Search the collection
@@ -153,6 +158,8 @@ export default function SearchPanel({ open, onClose }) {
               className="flex-1 bg-transparent py-0.5 text-sm tracking-wide text-espresso outline-none placeholder:text-espresso/35"
             />
           </div>
+
+          <span className="hidden flex-1 lg:block" />
 
           <button
             type="button"

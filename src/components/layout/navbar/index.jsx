@@ -5,6 +5,7 @@ import { getNavigation } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
 
 import AnnouncementBar from "./AnnouncementBar";
+import SearchBar from "./SearchBar";
 import SearchPanel from "./SearchPanel";
 import Logo from "./Logo";
 import NavActions from "./NavActions";
@@ -15,7 +16,7 @@ import CartDrawer from "./CartDrawer";
 import { Menu, Search, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /**
  * Paths whose page opens on a plain light background rather than a full-bleed
@@ -55,7 +56,9 @@ export default function Navbar() {
   const [menuId, setMenuId] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const closeTimer = useRef(null);
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isLightBgPage = LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
 
@@ -159,16 +162,20 @@ export default function Navbar() {
           <Logo />
 
           <div className="flex items-center justify-end gap-4">
-            <button
-              type="button"
-              onClick={() => setSearchOpen((v) => !v)}
-              aria-label="Search"
-              aria-expanded={searchOpen}
-              aria-haspopup="dialog"
-              className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
-            >
-              <Search className="size-5" aria-hidden="true" />
-            </button>
+            <SearchBar
+              value={searchQuery}
+              onChange={(v) => {
+                setSearchQuery(v);
+                if (v) setSearchOpen(true);
+              }}
+              onFocus={() => setSearchOpen(true)}
+              onSubmit={() => {
+                const q = searchQuery.trim();
+                if (!q) return;
+                setSearchOpen(false);
+                navigate(`/shop?q=${encodeURIComponent(q)}`);
+              }}
+            />
             <NavActions onCartOpen={() => setCartOpen(true)} />
           </div>
         </div>
@@ -240,7 +247,12 @@ export default function Navbar() {
         onCartOpen={() => setCartOpen(true)}
       />
 
-      <SearchPanel open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <SearchPanel
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        query={searchQuery}
+        onQueryChange={setSearchQuery}
+      />
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </header>

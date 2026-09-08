@@ -13,9 +13,9 @@ const LOGO_SRC = "/belioras-boutique-primary-logo-rgb-belioras-original.svg";
  * blends seamlessly; the drop shadow and circular backdrop the design review
  * rejected are both gone.
  *
- * The review specified 230px. In the built navbar that reads oversized and
- * forces the header taller than the nav row needs, so it sits at 170px on
- * desktop and ramps down from there.
+ * The review specified a 230px width, but width is the wrong axis to size
+ * this on — see the note on the img below. It is sized by height instead, at
+ * 67px on desktop, a deliberate departure worth confirming with Belioras.
  */
 export default function Logo() {
   return (
@@ -27,9 +27,13 @@ export default function Logo() {
       <img
         src={LOGO_SRC}
         alt="Belioras"
-        width={170}
-        height={125}
-        className={cn("h-auto w-[110px] transition-all duration-300 sm:w-[130px] lg:w-[170px]")}
+        width={91}
+        height={67}
+        // Sized by HEIGHT, not width. The mark is a stacked lockup (~1.36:1),
+        // so constraining its width lets the artwork dictate the header's
+        // height — which is what made the navbar 182px tall. Height-based puts
+        // the header in control; 67px is the 72px that worked, less 7%.
+        className={cn("w-auto transition-all duration-300 h-[45px] sm:h-[52px] lg:h-[67px]")}
       />
     </Link>
   );
