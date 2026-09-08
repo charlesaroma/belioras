@@ -8,68 +8,74 @@ import { getFeaturedProducts } from "../../../services/productsApi";
  * Featured Collection — confirmed in the design review to take the slot New
  * Arrivals previously held.
  *
- * A 2×2 image grid with a glass card floating at the centre. Fallback imagery
- * keeps the grid whole if fewer than four products are featured, since a
- * half-empty mosaic reads as a broken page rather than a short list.
+ * Layout and dimensions match the design prototype exactly: a 2×2 grid of
+ * square tiles with a 1px gutter, no rounded corners, and a centred label
+ * card floating over the seam.
+ *
+ * The label is deliberately `pointer-events-none` with no button — the tiles
+ * themselves are the links. A CTA sitting on top of four clickable images
+ * would compete with them rather than add anything.
+ *
+ * Data comes from the services layer rather than the prototype's admin context,
+ * and the copy is translated where the prototype hardcoded English.
  */
+
+/** Keeps the grid whole when fewer than four products are featured. */
 const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1566206091558-7f218b696731?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=900&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=900&auto=format&fit=crop",
 ];
 
 export default function FeaturedCollectionSection() {
   const { data } = useAsyncData(getFeaturedProducts, []);
   const { t } = useLanguage();
 
-  const products = (data ?? []).slice(0, 4);
-  const cells = Array.from({ length: 4 }, (_, i) => ({
-    key: products[i]?.id ?? `fallback-${i}`,
-    image: products[i]?.images?.[0] ?? FALLBACK_IMAGES[i],
-    to: products[i] ? `/product/${products[i].slug}` : "/shop",
-    name: products[i]?.name ?? "",
+  const featured = (data ?? []).slice(0, 4);
+
+  const tiles = Array.from({ length: 4 }, (_, i) => ({
+    image: featured[i]?.images?.[0] ?? FALLBACK_IMAGES[i],
+    to: featured[i]?.slug ? `/product/${featured[i].slug}` : "/shop",
+    name: featured[i]?.name ?? "",
   }));
 
   return (
     <section
-      className="relative py-section-mobile md:py-section-tablet"
+      className="mx-auto max-w-[1400px] px-6 py-10 md:px-10"
       aria-labelledby="featured-collection-heading"
     >
-      <div className="container-main px-4 sm:px-6">
-        <div className="relative grid grid-cols-2 gap-2 sm:gap-3">
-          {cells.map((cell) => (
-            <Link
-              key={cell.key}
-              to={cell.to}
-              className="group relative block overflow-hidden rounded-md"
-            >
-              <img
-                src={cell.image}
-                alt={cell.name}
-                loading="lazy"
-                className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:aspect-[3/2]"
-              />
-              <span className="absolute inset-0 bg-espresso/10 transition-colors group-hover:bg-espresso/25" />
-            </Link>
-          ))}
+      <div className="relative grid grid-cols-2 gap-1">
+        {tiles.map((tile, i) => (
+          <Link
+            key={tile.to + i}
+            to={tile.to}
+            className="group block overflow-hidden bg-ivory-300"
+          >
+            <img
+              src={tile.image}
+              alt={tile.name}
+              loading="lazy"
+              className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+          </Link>
+        ))}
 
-          {/* Centred over the seam of the four tiles. */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="glass pointer-events-auto rounded-md px-6 py-6 text-center shadow-large sm:px-10 sm:py-8">
-              <p className="eyebrow">{t("home.featured.eyebrow", "Curated for you")}</p>
-              <h2
-                id="featured-collection-heading"
-                className="mt-2 font-display text-2xl leading-tight text-espresso sm:text-3xl"
-              >
-                {t("home.featured.title", "Featured")}
-                <br />
-                {t("home.featured.titleLine2", "Collection")}
-              </h2>
-              <Link to="/shop" className="btn btn-sm btn-primary mt-5">
-                {t("common.discover", "Discover")}
-              </Link>
-            </div>
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center bg-ivory-50/90 px-8 py-5 text-center shadow-sm backdrop-blur-[2px]">
+            <p className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-espresso-300">
+              {t("home.featuredKicker", "Curated for you")}
+            </p>
+            <p
+              id="featured-collection-heading"
+              className="font-display text-xl italic leading-tight text-espresso md:text-2xl"
+            >
+              {t("home.featuredLine1", "Featured")}
+            </p>
+            <p className="font-display text-xl italic leading-tight text-espresso md:text-2xl">
+              {t("home.featuredLine2", "Collection")}
+            </p>
+            <span aria-hidden="true" className="mt-3 h-px w-12 bg-gold-500" />
           </div>
         </div>
       </div>
