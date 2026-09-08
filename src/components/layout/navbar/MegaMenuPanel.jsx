@@ -49,7 +49,29 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
           {sections.map((section, idx) => {
             // First section open by default so the drawer never opens blank.
             const isOpen = openSection === section.id || (openSection === null && idx === 0);
-            return (
+
+            // A lone section whose title restates the category it sits under
+            // ("New Arrivals" inside New Arrivals) is a heading carrying no
+            // information; its links stand on their own.
+            const redundantHeading =
+              sections.length === 1 &&
+              section.title.toLowerCase() === (item.label ?? "").toLowerCase();
+
+            return redundantHeading ? (
+                <ul key={section.id} className="space-y-3 pb-2">
+                  {section.items.map((leaf) => (
+                    <li key={leaf.id}>
+                      <Link
+                        to={leaf.url}
+                        onClick={onNavigate}
+                        className="block text-sm text-espresso-soft transition-colors hover:text-gold-700"
+                      >
+                        {leaf.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
               <div key={section.id} className="border-b border-umber-50/60 last:border-b-0">
                 <button
                   type="button"

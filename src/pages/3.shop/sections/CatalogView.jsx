@@ -28,7 +28,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
   const list = useMemo(() => products ?? [], [products]);
 
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
-  const { filters, activeCount, toggleValue, setPrice, setSale, setSort, clearAll } =
+  const { filters, activeCount, toggleValue, setPrice, setSale, setSort, setQuery, clearAll } =
     useFilterParams();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -40,6 +40,8 @@ export default function CatalogView({ products, loading, error, header = {}, emp
     () => (taxonomy ? computeFacets(list, taxonomy, filters) : {}),
     [list, taxonomy, filters],
   );
+
+  const searchActive = Boolean(filters.query);
 
   const filtered = useMemo(
     () => sortProducts(applyFilters(list, filters), filters.sort),
@@ -118,7 +120,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                 </div>
               </div>
 
-              {activeCount > 0 && (
+              {(activeCount > 0 || searchActive) && (
                 <div className="mb-6">
                   <ActiveFilters
                     facets={facets}
@@ -126,6 +128,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     onToggle={toggleValue}
                     onClearPrice={() => setPrice(bounds, bounds)}
                     onSaleChange={setSale}
+                    onClearQuery={() => setQuery("")}
                     onClearAll={clearAll}
                   />
                 </div>

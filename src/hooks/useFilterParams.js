@@ -112,6 +112,11 @@ export function useFilterParams() {
     [commit],
   );
 
+  const setQuery = useCallback(
+    (value) => commit((params) => params.set(QUERY, value ?? "")),
+    [commit],
+  );
+
   const setSort = useCallback(
     (value) => commit((params) => params.set(SORT, value === "newest" ? "" : value)),
     [commit],
@@ -142,6 +147,7 @@ export function useFilterParams() {
     setPrice,
     setSale,
     setSort,
+    setQuery,
     clearAll,
   };
 }

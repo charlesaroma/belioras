@@ -10,7 +10,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
  * many rows as they need rather than clipping into one: a hidden filter is
  * worse than no filter, because it is invisible *and* still narrowing results.
  */
-export default function ActiveFilters({ facets, filters, onToggle, onClearPrice, onSaleChange, onClearAll }) {
+export default function ActiveFilters({ facets, filters, onToggle, onClearPrice, onSaleChange, onClearQuery, onClearAll }) {
   const { format } = useCurrency();
 
   const chips = [];
@@ -36,6 +36,17 @@ export default function ActiveFilters({ facets, filters, onToggle, onClearPrice,
       group: "Price",
       label: from && to ? `${from} – ${to}` : from ? `From ${from}` : `Up to ${to}`,
       onRemove: onClearPrice,
+    });
+  }
+
+  // The search term narrows results exactly as a facet does, so it belongs in
+  // the same row — otherwise the only way to clear it is editing the URL.
+  if (filters.query) {
+    chips.push({
+      key: "query",
+      group: "Search",
+      label: filters.query,
+      onRemove: onClearQuery,
     });
   }
 

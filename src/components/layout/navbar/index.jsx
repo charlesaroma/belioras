@@ -136,7 +136,7 @@ export default function Navbar() {
 
       <div
         className={`transition-all duration-300 ${
-          isScrolled || menuId || mobileOpen || cartOpen || isLightBgPage
+          isScrolled || menuId || mobileOpen || cartOpen || searchOpen || isLightBgPage
             ? "bg-ivory-50/95 backdrop-blur text-espresso shadow-sm"
             : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
         }`}
@@ -153,7 +153,7 @@ export default function Navbar() {
             />
           </div>
 
-          <Logo isScrolled={isScrolled} menuOpen={!!menuId} isLightBg={isLightBgPage} />
+          <Logo isScrolled={isScrolled} menuOpen={!!menuId || searchOpen} isLightBg={isLightBgPage} />
 
           <div className="flex items-center justify-end gap-4">
             <button
@@ -184,7 +184,7 @@ export default function Navbar() {
 
           {/* Center: Logo */}
           <div className="flex justify-center">
-            <Logo isScrolled={isScrolled} menuOpen={!!menuId} isLightBg={isLightBgPage} />
+            <Logo isScrolled={isScrolled} menuOpen={!!menuId || searchOpen} isLightBg={isLightBgPage} />
           </div>
 
           {/* Right: Search + Cart */}
@@ -229,6 +229,10 @@ export default function Navbar() {
       <MobileMenu
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
+        onSearchOpen={() => {
+          setMobileOpen(false);
+          setSearchOpen(true);
+        }}
         categories={categories}
         onCartOpen={() => setCartOpen(true)}
       />

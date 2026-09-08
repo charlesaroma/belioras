@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "../../utils/cn";
 
 const PILL_TRIGGER =
-  "inline-flex items-center gap-1 rounded-full border border-current/30 px-3 py-1 text-[11px] uppercase tracking-widest transition-colors hover:border-current/60";
+  "inline-flex items-center gap-1.5 border border-current/30 px-3 py-1.5 text-[11px] uppercase tracking-widest transition-colors hover:border-current/60";
 
 const ICON_TRIGGER =
   "flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70";
@@ -78,7 +78,7 @@ export default function DropdownPill({
             role="listbox"
             aria-label={ariaLabel}
             className={cn(
-              "absolute z-50 mt-2 max-h-64 w-44 overflow-y-auto rounded-2xl border border-umber-50 bg-ivory-50 py-1 shadow-large",
+              "absolute z-50 mt-2 max-h-64 w-44 overflow-y-auto border border-umber-50 bg-ivory-50 py-1 shadow-large",
               align === "right" ? "right-0" : "left-0",
             )}
           >

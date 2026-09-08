@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useSearchParams } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
@@ -21,7 +21,6 @@ import HomePage from "./pages/1.home/home";
 import ShopPage from "./pages/3.shop/shop";
 import CatalogPage from "./pages/3.shop/CatalogPage";
 import ProductPage from "./pages/product/product";
-import SearchPage from "./pages/search/SearchPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 
 import LoginPage from "./pages/0.auth/login";
@@ -43,6 +42,13 @@ import CookiePolicyPage from "./pages/legal/cookie-policy";
 
 import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
 import { cn } from "./utils/cn";
+
+/** Forwards /search?q=… to the real results surface, preserving the term. */
+function SearchRedirect() {
+  const [params] = useSearchParams();
+  const q = params.get("q");
+  return <Navigate to={q ? `/shop?q=${encodeURIComponent(q)}` : "/shop"} replace />;
+}
 
 function AppProviders({ children }) {
   return (
@@ -128,7 +134,13 @@ function App() {
             <Route path="/hair/*" element={<CatalogPage />} />
             <Route path="/accessories/*" element={<CatalogPage />} />
             <Route path="/product/:slug" element={<ProductPage />} />
-            <Route path="/search" element={<SearchPage />} />
+            {/*
+              One results surface. /shop already filters on ?q= and carries the
+              facets, sort and density a results page needs; /search was a stub
+              that printed the term and no products. Redirecting rather than
+              deleting keeps any existing link or bookmark working.
+            */}
+            <Route path="/search" element={<SearchRedirect />} />
             <Route path="/checkout" element={<CheckoutPage />} />
 
             <Route path="/faq" element={<FAQPage />} />

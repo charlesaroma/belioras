@@ -1,21 +1,197 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
-import { ChevronDown, Search, X, LogIn, Heart, ShoppingBag } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 
 import { NAV_LINKS } from "../../../utils/constants";
-import { useCurrency } from "../../../context/CurrencyContext";
 import { useAuth } from "../../../context/AuthContext";
-import { useWishlist } from "../../../context/WishlistContext";
 import { useCart } from "../../../context/CartContext";
-import MegaMenuPanel from "./MegaMenuPanel";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useWishlist } from "../../../context/WishlistContext";
+import { cn } from "../../../utils/cn";
 import LanguageSelector from "../../common/LanguageSelector";
+import MegaMenuPanel from "./MegaMenuPanel";
 
-const CURRENCIES = [
-  { code: "EUR", symbol: "€", flag: "🇪🇺" },
-  { code: "USD", symbol: "$", flag: "🇺🇸" },
-  { code: "GBP", symbol: "£", flag: "🇬🇧" },
-];
+/**
+ * Mobile navigation drawer.
+ *
+ * The previous version read as a utility menu rather than a boutique one:
+ * category names set in heavy uppercase sans, a pill-shaped search field and
+ * pill currency buttons against a site that is square-cornered everywhere
+ * else, circular icon chips with a filled black cart button, and four stacked
+ * utility bars competing at the bottom. The brand's display serif appeared
+ * nowhere in it.
+ *
+ * Now the categories carry the page in the display serif at a size that lets
+ * it breathe, dividers are hairlines, corners are square, and the utility
+ * area is one quiet list. A plus mark rotates to a cross on open rather than
+ * a chevron flipping — the same motif as the product page accordions.
+ */
+export default function MobileMenu({ open, onClose, categories, onCartOpen, onSearchOpen }) {
+  const { user, logout } = useAuth();
+  const { count: cartCount } = useCart();
+  const { count: wishlistCount } = useWishlist();
+  const { currency, setCurrency, currencies, symbol } = useCurrency();
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.button
+            type="button"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            aria-label="Close menu"
+            onClick={onClose}
+            className="fixed inset-0 z-50 cursor-default bg-espresso/40 backdrop-blur-sm lg:hidden"
+          />
+
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 260 }}
+            className="fixed inset-y-0 left-0 z-50 flex w-[88vw] max-w-sm flex-col bg-ivory-50 shadow-2xl lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+          >
+            <div className="flex shrink-0 items-center justify-between border-b border-umber-50 px-6 py-5">
+              <Link to="/" onClick={onClose} aria-label="Belioras — home">
+                <img src="/belioras-logo-gold.svg" alt="Belioras" className="h-12 w-auto" />
+              </Link>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close menu"
+                className="text-espresso/40 transition-colors hover:text-espresso"
+              >
+                <X className="size-5" aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto">
+              {/* Hands off to the one search surface rather than carrying a
+                  second input of its own. */}
+              <button
+                type="button"
+                onClick={onSearchOpen}
+                className="flex w-full items-center gap-3 border-b border-umber-50 px-6 py-4 text-left text-sm text-espresso-soft transition-colors hover:text-espresso"
+              >
+                <Search className="size-4" aria-hidden="true" />
+                Search the collection
+              </button>
+
+              <nav aria-label="Categories" className="px-6">
+                {NAV_LINKS.map((link) => {
+                  const category = categories?.find((c) => c.id === link.id);
+                  return category ? (
+                    <CategoryAccordion key={link.id} category={category} onClose={onClose} />
+                  ) : (
+                    <Link
+                      key={link.id}
+                      to={link.to}
+                      onClick={onClose}
+                      className="block border-b border-umber-50 py-5 font-display text-[22px] leading-none text-espresso transition-colors hover:text-gold-700"
+                    >
+                      {titleCase(link.label)}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* One quiet list, not four stacked bars. */}
+            <div className="shrink-0 border-t border-umber-50">
+              <div className="px-6">
+                {user ? (
+                  <div className="flex items-center justify-between border-b border-umber-50 py-3.5">
+                    <Link to="/account" onClick={onClose} className="min-w-0">
+                      <p className="truncate text-sm text-espresso">{user.name ?? user.email}</p>
+                      <p className="text-[11px] uppercase tracking-[0.14em] text-espresso/40">
+                        View account
+                      </p>
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        logout();
+                        onClose();
+                      }}
+                      className="shrink-0 text-[11px] uppercase tracking-[0.14em] text-espresso/40 transition-colors hover:text-gold-700"
+                    >
+                      Sign out
+                    </button>
+                  </div>
+                ) : (
+                  <UtilityRow to="/login" onClose={onClose} label="Sign in" />
+                )}
+
+                <UtilityRow
+                  to="/wishlist"
+                  onClose={onClose}
+                  label="Wishlist"
+                  meta={wishlistCount || null}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    onCartOpen?.();
+                    onClose();
+                  }}
+                  className="flex w-full items-center justify-between border-b border-umber-50 py-3.5 text-left text-sm text-espresso transition-colors hover:text-gold-700"
+                >
+                  Cart
+                  {cartCount > 0 && (
+                    <span className="text-[11px] tabular-nums text-espresso/40">{cartCount}</span>
+                  )}
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between gap-4 px-6 py-4">
+                <div className="flex items-center gap-1">
+                  {currencies.map((code) => (
+                    <button
+                      key={code}
+                      type="button"
+                      onClick={() => setCurrency(code)}
+                      aria-pressed={code === currency}
+                      className={cn(
+                        "px-2 py-1 text-[11px] uppercase tracking-[0.14em] transition-colors",
+                        code === currency
+                          ? "text-espresso underline underline-offset-4 decoration-gold-500"
+                          : "text-espresso/35 hover:text-espresso",
+                      )}
+                    >
+                      {code === currency ? `${symbol} ${code}` : code}
+                    </button>
+                  ))}
+                </div>
+                <LanguageSelector />
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function UtilityRow({ to, onClose, label, meta }) {
+  return (
+    <Link
+      to={to}
+      onClick={onClose}
+      className="flex items-center justify-between border-b border-umber-50 py-3.5 text-sm text-espresso transition-colors hover:text-gold-700"
+    >
+      {label}
+      {meta ? <span className="text-[11px] tabular-nums text-espresso/40">{meta}</span> : null}
+    </Link>
+  );
+}
 
 function CategoryAccordion({ category, onClose }) {
   const [open, setOpen] = useState(false);
@@ -26,25 +202,37 @@ function CategoryAccordion({ category, onClose }) {
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-espresso"
+        className="flex w-full items-center justify-between gap-4 py-5 text-left"
       >
-        {category.label}
-        <ChevronDown
-          className={`size-4 text-espresso/50 transition-transform ${open ? "rotate-180" : ""}`}
+        <span
+          className={cn(
+            "font-display text-[22px] leading-none transition-colors",
+            open ? "text-gold-700" : "text-espresso",
+          )}
+        >
+          {titleCase(category.label)}
+        </span>
+        {/* A plus rotating into a cross — the motif already used by the
+            product page accordions, rather than a third chevron style. */}
+        <Plus
+          className={cn(
+            "size-4 shrink-0 text-espresso/35 transition-transform duration-300",
+            open && "rotate-45",
+          )}
           aria-hidden="true"
         />
       </button>
+
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="py-2 pl-4 mb-4">
-              {/* Same renderer as the desktop flyout, in accordion mode. */}
+            <div className="pb-5">
               <MegaMenuPanel item={category} variant="mobile" onNavigate={onClose} />
             </div>
           </motion.div>
@@ -54,227 +242,9 @@ function CategoryAccordion({ category, onClose }) {
   );
 }
 
-export default function MobileMenu({ open, onClose, categories, onCartOpen }) {
-  const { currency, setCurrency } = useCurrency();
-  const { user, logout } = useAuth();
-  const { count: wishlistCount } = useWishlist();
-  const { count: cartCount } = useCart();
-  const navigate = useNavigate();
-  const [query, setQuery] = useState("");
-
-  function onSubmit(e) {
-    e.preventDefault();
-    const q = query.trim();
-    if (!q) return;
-    onClose();
-    navigate(`/search?q=${encodeURIComponent(q)}`);
-  }
-
-  return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-          {/* Backdrop */}
-          <motion.button
-            type="button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 cursor-default bg-espresso/40 backdrop-blur-sm"
-            aria-label="Close menu"
-            onClick={onClose}
-          />
-
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ type: "tween", duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
-            className="absolute inset-y-0 left-0 flex w-[min(88vw,380px)] flex-col bg-ivory-50 shadow-large"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-umber-50 px-5 py-4 shrink-0">
-              <Link to="/" onClick={onClose} className="shrink-0" aria-label="Belioras — home">
-                <img
-                  src="/belioras-logo.png"
-                  alt="Belioras"
-                  width={600}
-                  height={400}
-                  className="h-9 w-auto"
-                />
-              </Link>
-              <button
-                type="button"
-                className="flex size-10 items-center justify-center rounded-full text-espresso hover:bg-brown-50"
-                aria-label="Close menu"
-                onClick={onClose}
-              >
-                <X className="size-5" aria-hidden="true" />
-              </button>
-            </div>
-
-            {/* Search */}
-            <form onSubmit={onSubmit} role="search" aria-label="Search products" className="px-5 py-4 shrink-0">
-              <div className="relative">
-                <Search
-                  className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-espresso/40"
-                  aria-hidden="true"
-                />
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search Belioras..."
-                  className="h-11 w-full rounded-full border border-umber-50 bg-white/60 pl-11 pr-4 text-sm text-espresso placeholder-espresso/40 focus:outline-none focus:border-gold-500 transition-colors"
-                />
-              </div>
-            </form>
-
-            {/* Nav Categories — scrollable */}
-            <div className="flex-1 overflow-y-auto px-5">
-              {NAV_LINKS.filter((l) => !["new-arrivals"].includes(l.id)).map((link) => {
-                const category = categories?.find((c) => c.id === link.id);
-                if (!category) return null;
-                return <CategoryAccordion key={category.id} category={category} onClose={onClose} />;
-              })}
-
-              <Link
-                to="/new-arrivals"
-                onClick={onClose}
-                className="block border-b border-umber-50 py-3.5 text-sm font-semibold uppercase tracking-[0.14em] text-espresso"
-              >
-                New Arrivals
-              </Link>
-            </div>
-
-            {/* ── Footer strip: Account + Currency ── */}
-            <div className="shrink-0 border-t border-umber-50 bg-white/40">
-              {/* Account row */}
-              <div className="px-5 py-3 border-b border-umber-50/60">
-                {user ? (
-                  <div className="flex items-center justify-between">
-                    <Link
-                      to="/account"
-                      onClick={onClose}
-                      className="flex items-center gap-3"
-                    >
-                      <span className="flex size-8 items-center justify-center rounded-full bg-gold-500 text-sm font-semibold text-espresso shrink-0">
-                        {(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-espresso truncate">{user.name ?? user.email}</p>
-                        <p className="text-xs text-espresso/50 hover:text-gold-700 transition-colors">View account</p>
-                      </div>
-                    </Link>
-                    
-                    {/* Logout Button */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        logout();
-                        onClose();
-                      }}
-                      className="text-[10px] uppercase tracking-widest font-semibold text-espresso/40 hover:text-gold-700 transition-colors"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    to="/login"
-                    onClick={onClose}
-                    className="flex items-center gap-3 group"
-                  >
-                    <span className="flex size-8 items-center justify-center rounded-full border border-umber-50 text-espresso/60 group-hover:border-gold-500 group-hover:text-gold-600 transition-colors shrink-0">
-                      <LogIn className="size-4" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-espresso group-hover:text-gold-700 transition-colors">Sign in</p>
-                      <p className="text-xs text-espresso/50">Access your account</p>
-                    </div>
-                  </Link>
-                )}
-              </div>
-
-              {/* Wishlist & Cart row */}
-              <div className="px-5 py-3 border-b border-umber-50/60 flex items-center gap-4">
-                <Link
-                  to="/wishlist"
-                  onClick={onClose}
-                  className="flex items-center gap-3 group flex-1"
-                >
-                  <span className="flex size-8 items-center justify-center rounded-full border border-umber-50 text-espresso/60 group-hover:border-gold-500 group-hover:text-gold-600 transition-colors shrink-0 relative">
-                    <Heart className="size-4" aria-hidden="true" />
-                    {wishlistCount > 0 && (
-                      <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-gold-500 text-[10px] font-semibold text-espresso">
-                        {wishlistCount}
-                      </span>
-                    )}
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold text-espresso group-hover:text-gold-700 transition-colors">Wishlist</p>
-                    <p className="text-xs text-espresso/50">{wishlistCount} items</p>
-                  </div>
-                </Link>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (typeof onCartOpen === 'function') onCartOpen();
-                    onClose();
-                  }}
-                  className="flex items-center gap-3 group flex-1"
-                >
-                  <span className="flex size-10 items-center justify-center rounded-full bg-espresso text-ivory-50 relative shadow-sm hover:bg-gold-700 transition-colors">
-                    <ShoppingBag className="size-5" aria-hidden="true" />
-                    {cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-gold-500 text-[11px] font-bold text-espresso px-1.5">
-                        {cartCount}
-                      </span>
-                    )}
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold text-espresso group-hover:text-gold-700 transition-colors">Cart</p>
-                    <p className="text-xs text-espresso/50">{cartCount} items</p>
-                  </div>
-                </button>
-              </div>
-
-              {/* Currency row */}
-              <div className="px-5 py-3 flex items-center justify-between">
-                <p className="text-[11px] uppercase tracking-widest font-bold text-espresso/40">Currency</p>
-                <div className="flex items-center gap-1.5">
-                  {CURRENCIES.map((c) => (
-                    <button
-                      key={c.code}
-                      type="button"
-                      aria-pressed={currency === c.code}
-                      onClick={() => setCurrency(c.code)}
-                      className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
-                        currency === c.code
-                          ? "bg-espresso text-ivory-50"
-                          : "bg-transparent text-espresso/60 hover:text-espresso hover:bg-umber-50"
-                      }`}
-                    >
-                      {c.symbol} {c.code}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Language row — the drawer is the only place these controls
-                  appear below the lg breakpoint, so it carries both. */}
-              <div className="px-5 py-3 flex items-center justify-between border-t border-umber-50/60">
-                <p className="text-[11px] uppercase tracking-widest font-bold text-espresso/40">
-                  Language
-                </p>
-                <LanguageSelector />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
+/** Nav labels are stored uppercase; the serif wants sentence case. */
+function titleCase(label) {
+  return label
+    .toLowerCase()
+    .replace(/(^|\s|&\s)([a-z])/g, (m) => m.toUpperCase());
 }
