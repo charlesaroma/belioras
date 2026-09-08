@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
-import Button from "../../components/ui/Button";
 import Field from "../../components/ui/Field";
+import SettingsPanel from "./sections/SettingsPanel";
 import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useLanguage } from "../../context/LanguageContext";
@@ -93,7 +93,7 @@ export default function AccountSettings() {
 
   return (
     <div className="space-y-10">
-      <Panel
+      <SettingsPanel
         title="Profile"
         hint="How we address you, and where order confirmations go."
         onSubmit={profile.handleSubmit(onSaveProfile)}
@@ -139,9 +139,9 @@ export default function AccountSettings() {
             />
           </Field>
         )}
-      </Panel>
+      </SettingsPanel>
 
-      <Panel
+      <SettingsPanel
         title="Security"
         hint="Changing your password signs you out of nothing else — this is a demo account system."
         onSubmit={security.handleSubmit(onChangePassword)}
@@ -190,7 +190,7 @@ export default function AccountSettings() {
             })}
           />
         </Field>
-      </Panel>
+      </SettingsPanel>
 
       <section className="border border-umber-50 bg-ivory-50 p-6">
         <h2 className="font-display text-xl tracking-wide text-espresso">Preferences</h2>
@@ -234,19 +234,3 @@ export default function AccountSettings() {
   );
 }
 
-function Panel({ title, hint, children, onSubmit, submitting, submitLabel = "Save changes" }) {
-  return (
-    <form onSubmit={onSubmit} className="border border-umber-50 bg-ivory-50 p-6">
-      <h2 className="font-display text-xl tracking-wide text-espresso">{title}</h2>
-      {hint && <p className="mt-1 text-[12px] leading-relaxed text-espresso-soft">{hint}</p>}
-
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">{children}</div>
-
-      <div className="mt-6 flex justify-end">
-        <Button type="submit" size="md" loading={submitting}>
-          {submitLabel}
-        </Button>
-      </div>
-    </form>
-  );
-}

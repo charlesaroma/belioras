@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, MapPin, Plus, Trash2 } from "lucide-react";
 
+import Field from "../../components/ui/Field";
 import { useAuth } from "../../context/AuthContext";
 import { useScopedStorage } from "../../hooks/useScopedStorage";
 import { useToast } from "../../context/ToastContext";
@@ -16,25 +17,6 @@ import { useToast } from "../../context/ToastContext";
 const NO_ADDRESSES = [];
 
 const EMPTY_FORM = { recipient: "", line1: "", city: "", postcode: "", country: "" };
-
-function Field({ label, htmlFor, error, children }) {
-  return (
-    <div>
-      <label htmlFor={htmlFor} className="block text-sm font-medium text-espresso">
-        {label}
-      </label>
-      {children}
-      {error ? (
-        <p id={`${htmlFor}-error`} className="mt-1 text-xs text-rose-700" role="alert">
-          {error}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-const inputClasses =
-  "mt-1.5 w-full rounded-xl border border-umber-50 bg-ivory-50 px-3.5 py-2.5 text-sm text-espresso placeholder:text-espresso-soft/60 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20";
 
 export default function Addresses() {
   // Scoped per account. This was one device-global key seeded with a sample
@@ -119,60 +101,55 @@ export default function Addresses() {
           aria-label="Add delivery address"
         >
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Recipient" htmlFor="addr-recipient" error={errors.recipient}>
+            <Field label="Recipient" error={errors.recipient}>
               <input
                 id="addr-recipient"
                 name="recipient"
                 value={form.recipient}
                 onChange={update("recipient")}
                 placeholder="Full name"
-                className={inputClasses}
                 aria-describedby={errors.recipient ? "addr-recipient-error" : undefined}
               />
             </Field>
-            <Field label="Country" htmlFor="addr-country" error={errors.country}>
+            <Field label="Country" error={errors.country}>
               <input
                 id="addr-country"
                 name="country"
                 value={form.country}
                 onChange={update("country")}
                 placeholder="e.g. Portugal"
-                className={inputClasses}
                 aria-describedby={errors.country ? "addr-country-error" : undefined}
               />
             </Field>
             <div className="sm:col-span-2">
-              <Field label="Street address" htmlFor="addr-line1" error={errors.line1}>
+              <Field label="Street address" error={errors.line1}>
                 <input
                   id="addr-line1"
                   name="line1"
                   value={form.line1}
                   onChange={update("line1")}
                   placeholder="Street and number"
-                  className={inputClasses}
                   aria-describedby={errors.line1 ? "addr-line1-error" : undefined}
                 />
               </Field>
             </div>
-            <Field label="City" htmlFor="addr-city" error={errors.city}>
+            <Field label="City" error={errors.city}>
               <input
                 id="addr-city"
                 name="city"
                 value={form.city}
                 onChange={update("city")}
                 placeholder="City"
-                className={inputClasses}
                 aria-describedby={errors.city ? "addr-city-error" : undefined}
               />
             </Field>
-            <Field label="Postcode" htmlFor="addr-postcode" error={errors.postcode}>
+            <Field label="Postcode" error={errors.postcode}>
               <input
                 id="addr-postcode"
                 name="postcode"
                 value={form.postcode}
                 onChange={update("postcode")}
                 placeholder="e.g. 1100-053"
-                className={inputClasses}
                 aria-describedby={errors.postcode ? "addr-postcode-error" : undefined}
               />
             </Field>
