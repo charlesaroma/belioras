@@ -19,7 +19,7 @@ export default function Orders() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-medium tracking-wide">Orders</h1>
+        <h2 className="font-display text-2xl font-medium tracking-wide">Orders</h2>
         <p className="mt-1 text-sm text-espresso-soft">Review your order history and track status.</p>
       </div>
 

@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
 
+import Avatar from "../../account/Avatar";
 import { useAuth } from "../../../context/AuthContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { cn } from "../../../utils/cn";
@@ -69,8 +70,6 @@ export default function AccountMenu() {
     focusable[next]?.focus();
   };
 
-  const initial = (user.name ?? user.email ?? "U").slice(0, 1).toUpperCase();
-
   return (
     <div className="relative flex items-center">
       <button
@@ -84,13 +83,9 @@ export default function AccountMenu() {
         aria-expanded={isOpen}
         aria-controls={isOpen ? menuId : undefined}
         aria-label={t("nav.account", "Account")}
-        className="flex size-10 items-center justify-center overflow-hidden rounded-full bg-gold-500 text-sm font-semibold text-espresso transition-opacity hover:opacity-80"
+        className="transition-opacity hover:opacity-80"
       >
-        {user.avatar ? (
-          <img src={user.avatar} alt="" className="size-full object-cover" />
-        ) : (
-          initial
-        )}
+        <Avatar user={user} />
       </button>
 
       {isOpen && (

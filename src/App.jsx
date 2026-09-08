@@ -46,13 +46,15 @@ import CookiePolicyPage from "./pages/legal/cookie-policy";
 import { DashboardLayout, DashOverview, DashProducts, DashCategories, DashOrders, DashUsers, DashSettings } from "./Dashboard";
 import ProductForm from "./Dashboard/pages/products/ProductForm";
 
-import AccountLayout from "./pages/account/AccountLayout";
-import AccountProfile from "./pages/account/Profile";
-import AccountOrders from "./pages/account/Orders";
-import AccountOrderDetail from "./pages/account/OrderDetail";
-import AccountAddresses from "./pages/account/Addresses";
-import AccountWishlist from "./pages/account/Wishlist";
-import AccountSettings from "./pages/account/Settings";
+import {
+  AccountLayout,
+  AccountProfile,
+  AccountOrders,
+  AccountOrderDetail,
+  AccountAddresses,
+  AccountWishlist,
+  AccountSettings,
+} from "./pages/account";
 import { cn } from "./utils/cn";
 
 /** Forwards /search?q=… to the real results surface, preserving the term. */

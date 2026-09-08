@@ -1,58 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, PackageX } from "lucide-react";
 
+import OrderTimeline from "../../components/account/OrderTimeline";
 import StatusChip from "../../components/ui/StatusChip";
 import { useAuth } from "../../context/AuthContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getOrder } from "../../services/ordersApi";
-import { ORDER_STAGES, isOffTimeline, stageOf } from "../../utils/orderStatus";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });
-}
-
-/**
- * Where the order has reached.
- *
- * The same four stages and the same stageOf map the public tracker uses —
- * previously that logic lived in one page and the account pages showed only a
- * chip, so a customer had to leave their own order history to find out what
- * was actually happening.
- */
-function OrderTimeline({ status }) {
-  const index = stageOf(status);
-  if (isOffTimeline(status) || index === null) return null;
-
-  return (
-    <ol className="flex flex-col gap-0 border border-umber-50 p-5 sm:flex-row sm:gap-4">
-      {ORDER_STAGES.map((stage, i) => {
-        const done = i < index;
-        const current = i === index;
-        return (
-          <li key={stage.id} className="flex flex-1 items-start gap-3 py-2 sm:block">
-            <span
-              aria-hidden="true"
-              className={`mt-1 block size-2 shrink-0 rounded-full sm:mb-2 sm:mt-0 ${
-                done || current ? "bg-gold-500" : "bg-umber-100"
-              }`}
-            />
-            <div>
-              <p
-                className={`text-[12px] uppercase tracking-[0.14em] ${
-                  current ? "text-espresso" : "text-espresso-soft"
-                }`}
-              >
-                {stage.label}
-                {current && <span className="sr-only"> — current stage</span>}
-              </p>
-              <p className="mt-0.5 text-[11px] leading-relaxed text-espresso-soft">{stage.blurb}</p>
-            </div>
-          </li>
-        );
-      })}
-    </ol>
-  );
 }
 
 function TotalRow({ label, amount, bold = false }) {

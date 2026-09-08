@@ -6,15 +6,10 @@ import PageShell, { Section } from "../../components/layout/PageShell";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { getOrder } from "../../services/ordersApi";
+import OrderTimeline from "../../components/account/OrderTimeline";
 import StatusChip from "../../components/ui/StatusChip";
 import Field from "../../components/ui/Field";
-import { cn } from "../../utils/cn";
-import {
-  ORDER_STAGES as STAGES,
-  isOffTimeline,
-  normalizeStatus,
-  stageOf,
-} from "../../utils/orderStatus";
+import { isOffTimeline, normalizeStatus } from "../../utils/orderStatus";
 
 export default function OrderTrackingPage() {
   const [reference, setReference] = useState("");
@@ -49,7 +44,6 @@ export default function OrderTrackingPage() {
   // The old map had no entry for refunded, so its `?? 0` fallback drew a
   // refunded order as "To pay" — telling a reimbursed customer they still owe.
   const offTimeline = isOffTimeline(order?.status);
-  const stageIndex = order ? stageOf(order.status) : null;
 
   return (
     <PageShell
@@ -135,57 +129,7 @@ export default function OrderTrackingPage() {
               .
             </p>
           ) : (
-            <ol className="mt-8 space-y-0">
-              {STAGES.map((stage, i) => {
-                const done = i < stageIndex;
-                const current = i === stageIndex;
-                return (
-                  <li key={stage.id} className="flex gap-4">
-                    {/* The rule connects the marks into a single line of
-                        progress; the last stage has nothing below it. */}
-                    <div className="flex flex-col items-center">
-                      <span
-                        aria-hidden="true"
-                        className={cn(
-                          "mt-1.5 size-2 shrink-0 rounded-full",
-                          done || current ? "bg-gold-500" : "bg-umber-100",
-                        )}
-                      />
-                      {i < STAGES.length - 1 && (
-                        <span
-                          aria-hidden="true"
-                          className={cn("w-px flex-1", done ? "bg-gold-500" : "bg-umber-100")}
-                        />
-                      )}
-                    </div>
-
-                    <div className={cn("pb-8", i === STAGES.length - 1 && "pb-0")}>
-                      <p
-                        className={cn(
-                          "text-sm",
-                          current ? "text-espresso" : done ? "text-espresso-soft" : "text-espresso/35",
-                        )}
-                      >
-                        {stage.label}
-                        {current && (
-                          <span className="ml-2 text-[10px] uppercase tracking-[0.16em] text-gold-700">
-                            Now
-                          </span>
-                        )}
-                      </p>
-                      <p
-                        className={cn(
-                          "mt-0.5 text-[13px]",
-                          i <= stageIndex ? "text-espresso-soft" : "text-espresso/30",
-                        )}
-                      >
-                        {stage.blurb}
-                      </p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
+            <OrderTimeline status={order.status} orientation="vertical" className="mt-8" />
           )}
 
           {order.trackingRef && (

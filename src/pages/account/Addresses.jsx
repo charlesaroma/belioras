@@ -5,17 +5,15 @@ import { useAuth } from "../../context/AuthContext";
 import { useScopedStorage } from "../../hooks/useScopedStorage";
 import { useToast } from "../../context/ToastContext";
 
-const DEFAULT_ADDRESSES = [
-  {
-    id: "addr-1",
-    recipient: "Mariana Silva",
-    line1: "Rua Augusta 118",
-    city: "Lisbon",
-    postcode: "1100-053",
-    country: "Portugal",
-    isDefault: true,
-  },
-];
+/**
+ * No seed.
+ *
+ * This used to start every account with a hardcoded Lisbon address for a
+ * fictional "Mariana Silva", so a customer who had never added one opened the
+ * page to a stranger's delivery details — and, worse, could have checked out
+ * against them.
+ */
+const NO_ADDRESSES = [];
 
 const EMPTY_FORM = { recipient: "", line1: "", city: "", postcode: "", country: "" };
 
@@ -47,7 +45,7 @@ export default function Addresses() {
   const { user } = useAuth();
   const [addresses, setAddresses] = useScopedStorage(
     "belioras:addresses",
-    DEFAULT_ADDRESSES,
+    NO_ADDRESSES,
     user?.id,
   );
   const [showForm, setShowForm] = useState(false);
@@ -99,7 +97,7 @@ export default function Addresses() {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl font-medium tracking-wide">Addresses</h1>
+          <h2 className="font-display text-2xl font-medium tracking-wide">Addresses</h2>
           <p className="mt-1 text-sm text-espresso-soft">Manage the delivery addresses used at checkout.</p>
         </div>
         <button
