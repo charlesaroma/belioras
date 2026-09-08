@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+import Avatar from "../../account/Avatar";
+import { accountMenuItems } from "../../account/accountMenuItems";
 import BrandMark from "../../shared/BrandMark";
 import { AnimatePresence, motion } from "motion/react";
-import { Plus, Search, X } from "lucide-react";
+import { LogOut, Plus, Search, X } from "lucide-react";
 
 import { NAV_LINKS } from "../../../utils/constants";
 import { useAuth } from "../../../context/AuthContext";
 import { useCart } from "../../../context/CartContext";
 import { useCurrency } from "../../../context/CurrencyContext";
+import { useLanguage } from "../../../context/LanguageContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { cn } from "../../../utils/cn";
 import LanguageSelector from "../../common/LanguageSelector";
@@ -30,7 +33,9 @@ import MegaMenuPanel from "./MegaMenuPanel";
  * a chevron flipping — the same motif as the product page accordions.
  */
 export default function MobileMenu({ open, onClose, categories, onCartOpen, onSearchOpen }) {
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
+  const { t } = useLanguage();
+  const navigate = useNavigate();
   const { count: cartCount } = useCart();
   const { count: wishlistCount } = useWishlist();
   const { currency, setCurrency, currencies, symbol } = useCurrency();
@@ -109,24 +114,49 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen, onSe
             <div className="shrink-0 border-t border-umber-50">
               <div className="px-6">
                 {user ? (
-                  <div className="flex items-center justify-between border-b border-umber-50 py-3.5">
-                    <Link to="/account" onClick={onClose} className="min-w-0">
-                      <p className="truncate text-sm text-espresso">{user.name ?? user.email}</p>
-                      <p className="text-[11px] uppercase tracking-[0.14em] text-espresso/40">
-                        View account
-                      </p>
-                    </Link>
+                  <>
+                    <div className="flex items-center gap-3 border-b border-umber-50 py-3.5">
+                      <Avatar user={user} size="sm" />
+                      <div className="min-w-0">
+                        <p className="truncate text-sm text-espresso">{user.name ?? user.email}</p>
+                        <p className="truncate text-[11px] text-espresso/40">{user.email}</p>
+                      </div>
+                    </div>
+
+                    {/* The same six destinations the header dropdown offers.
+                        Five of them used to be unreachable on a phone without
+                        landing on /account first. */}
+                    {accountMenuItems({ t, isAdmin }).map((item) => (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        onClick={onClose}
+                        className="flex items-center gap-3 border-b border-umber-50 py-3.5 text-sm text-espresso transition-colors hover:text-gold-700"
+                      >
+                        <item.icon
+                          className="size-4 shrink-0 text-espresso/45"
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                        />
+                        {item.label}
+                      </Link>
+                    ))}
+
                     <button
                       type="button"
                       onClick={() => {
-                        logout();
                         onClose();
+                        // Leave the guarded route before the session clears,
+                        // or RequireAuth redirects to the sign-in page first.
+                        navigate("/", { replace: true });
+                        logout();
                       }}
-                      className="shrink-0 text-[11px] uppercase tracking-[0.14em] text-espresso/40 transition-colors hover:text-gold-700"
+                      className="flex w-full items-center gap-3 border-b border-umber-50 py-3.5 text-left text-sm text-espresso/55 transition-colors hover:text-error"
                     >
+                      <LogOut className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
                       Sign out
                     </button>
-                  </div>
+                  </>
                 ) : (
                   <UtilityRow to="/login" onClose={onClose} label="Sign in" />
                 )}

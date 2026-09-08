@@ -1,8 +1,9 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 import Avatar from "../../account/Avatar";
+import { accountMenuItems } from "../../account/accountMenuItems";
 import { useAuth } from "../../../context/AuthContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { cn } from "../../../utils/cn";
@@ -49,16 +50,7 @@ export default function AccountMenu() {
 
   if (!user) return null;
 
-  const items = [
-    { to: "/account", label: t("nav.myAccount", "My account"), icon: UserRound },
-    { to: "/account/orders", label: t("nav.orders", "Orders"), icon: Package },
-    { to: "/account/wishlist", label: t("nav.savedPieces", "Saved pieces"), icon: Heart },
-    { to: "/account/addresses", label: t("nav.addresses", "Addresses"), icon: MapPin },
-    { to: "/account/settings", label: t("nav.settings", "Settings"), icon: Settings },
-    ...(isAdmin
-      ? [{ to: "/dashboard", label: t("nav.dashboard", "Atelier dashboard"), icon: LayoutDashboard }]
-      : []),
-  ];
+  const items = accountMenuItems({ t, isAdmin });
 
   const onMenuKeyDown = (e) => {
     const delta = { ArrowDown: 1, ArrowUp: -1 }[e.key];
