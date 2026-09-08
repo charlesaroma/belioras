@@ -1,4 +1,8 @@
-import { DESKTOP_COLUMN_OPTIONS, TABLET_COLUMN_OPTIONS } from "../../utils/gridColumns";
+import {
+  DESKTOP_COLUMN_OPTIONS,
+  MOBILE_COLUMN_OPTIONS,
+  TABLET_COLUMN_OPTIONS,
+} from "../../utils/gridColumns";
 import GridDensityIcon from "../shared/GridDensityIcon";
 import { cn } from "../../utils/cn";
 
@@ -69,6 +73,15 @@ function DensityGroup({ options, columns, setColumns, className }) {
 export default function GridViewSwitcher({ columns, setColumns }) {
   return (
     <>
+      {/* Below md: one-per-row or two — anything denser makes a card too
+          narrow to read the price without zooming. This group used to not
+          exist at all, so the control was invisible on a phone. */}
+      <DensityGroup
+        options={MOBILE_COLUMN_OPTIONS}
+        columns={columns}
+        setColumns={setColumns}
+        className="flex items-center gap-1 md:hidden"
+      />
       <DensityGroup
         options={TABLET_COLUMN_OPTIONS}
         columns={columns}

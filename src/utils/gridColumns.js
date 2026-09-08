@@ -5,9 +5,8 @@
  * earlier attempt prefixed 4 and 6 with `xl:` and 3 with `lg:`, so picking "4"
  * on a laptop silently gave you 2 — the control lied about what it did.
  *
- * Phones keep a two-column floor because the switcher is hidden below `md`;
- * there is no way to ask for six columns on a 375px screen, and honouring it
- * would produce unusable cards.
+ * Phones default to two columns, but the choice between one and two is the
+ * shopper's: GridViewSwitcher renders a mobile-only group below `md` for it.
  */
 export const COLUMN_CLASSES = {
   2: "grid-cols-2",
@@ -21,7 +20,11 @@ export const COLUMN_CLASSES = {
  * Different option sets per breakpoint — the responsive column behaviour agreed
  * in the design review. Six columns is unreadable on a tablet, and a full-width
  * row view is what that size actually wants instead.
+ *
+ * Mobile only offers row (one per row) and 2 — three or more on a 375px screen
+ * makes a card too narrow to read the price without zooming.
  */
+export const MOBILE_COLUMN_OPTIONS = ["row", 2];
 export const TABLET_COLUMN_OPTIONS = ["row", 2, 3];
 export const DESKTOP_COLUMN_OPTIONS = [2, 4, 6];
 

@@ -1,11 +1,29 @@
 {
   "locales": [
-    { "code": "en", "label": "English" },
-    { "code": "fr", "label": "Français" },
-    { "code": "de", "label": "Deutsch" },
-    { "code": "zh", "label": "中文" },
-    { "code": "es", "label": "Español" },
-    { "code": "it", "label": "Italiano" }
+    {
+      "code": "en",
+      "label": "English"
+    },
+    {
+      "code": "fr",
+      "label": "Français"
+    },
+    {
+      "code": "de",
+      "label": "Deutsch"
+    },
+    {
+      "code": "zh",
+      "label": "中文"
+    },
+    {
+      "code": "es",
+      "label": "Español"
+    },
+    {
+      "code": "it",
+      "label": "Italiano"
+    }
   ],
   "strings": {
     "en": {
@@ -29,7 +47,12 @@
         "cart": "Shopping Bag",
         "search": "Search",
         "menu": "Menu",
-        "account": "Account"
+        "account": "Account",
+        "newArrivals": "New Arrivals",
+        "shop": "Shop",
+        "dresses": "Dresses",
+        "hair": "Hair",
+        "accessories": "Accessories"
       },
       "home": {
         "heroKicker": "Autumn / Winter 2026 Collection",
@@ -185,7 +208,12 @@
         "cart": "Panier",
         "search": "Rechercher",
         "menu": "Menu",
-        "account": "Compte"
+        "account": "Compte",
+        "newArrivals": "Nouveautés",
+        "shop": "Boutique",
+        "dresses": "Robes",
+        "hair": "Cheveux",
+        "accessories": "Accessoires"
       },
       "home": {
         "heroKicker": "Collection Automne / Hiver 2026",
@@ -341,7 +369,12 @@
         "cart": "Einkaufstasche",
         "search": "Suche",
         "menu": "Menü",
-        "account": "Konto"
+        "account": "Konto",
+        "newArrivals": "Neuheiten",
+        "shop": "Shop",
+        "dresses": "Kleider",
+        "hair": "Haare",
+        "accessories": "Accessoires"
       },
       "home": {
         "heroKicker": "Herbst / Winter Kollektion 2026",
@@ -497,7 +530,12 @@
         "cart": "购物袋",
         "search": "搜索",
         "menu": "菜单",
-        "account": "账户"
+        "account": "账户",
+        "newArrivals": "新品",
+        "shop": "商店",
+        "dresses": "连衣裙",
+        "hair": "美发",
+        "accessories": "配饰"
       },
       "home": {
         "heroKicker": "2026秋冬系列",
@@ -653,7 +691,12 @@
         "cart": "Bolsa de Compra",
         "search": "Buscar",
         "menu": "Menú",
-        "account": "Cuenta"
+        "account": "Cuenta",
+        "newArrivals": "Novedades",
+        "shop": "Tienda",
+        "dresses": "Vestidos",
+        "hair": "Cabello",
+        "accessories": "Accesorios"
       },
       "home": {
         "heroKicker": "Colección Otoño / Invierno 2026",
@@ -809,7 +852,12 @@
         "cart": "Borsa",
         "search": "Cerca",
         "menu": "Menu",
-        "account": "Account"
+        "account": "Account",
+        "newArrivals": "Novità",
+        "shop": "Negozio",
+        "dresses": "Abiti",
+        "hair": "Capelli",
+        "accessories": "Accessori"
       },
       "home": {
         "heroKicker": "Collezione Autunno / Inverno 2026",

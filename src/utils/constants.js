@@ -21,11 +21,13 @@ export const COLOR_HEX = {
 };
 
 export const NAV_LINKS = [
-  { id: "new-arrivals", label: "New Arrivals", to: "/new-arrivals" },
-  { id: "shop", label: "Shop", to: "/shop" },
-  { id: "dresses", label: "Dresses", to: "/dresses" },
-  { id: "hair", label: "Hair", to: "/hair" },
-  { id: "accessories", label: "Accessories", to: "/accessories" },
+  // `label` is the English fallback; `key` is what t() looks up, so the
+  // primary navigation follows the language selector like everything else.
+  { id: "new-arrivals", key: "nav.newArrivals", label: "New Arrivals", to: "/new-arrivals" },
+  { id: "shop", key: "nav.shop", label: "Shop", to: "/shop" },
+  { id: "dresses", key: "nav.dresses", label: "Dresses", to: "/dresses" },
+  { id: "hair", key: "nav.hair", label: "Hair", to: "/hair" },
+  { id: "accessories", key: "nav.accessories", label: "Accessories", to: "/accessories" },
 ];
 
 /**

@@ -103,7 +103,7 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen, onSe
                       onClick={onClose}
                       className="block border-b border-umber-50 py-5 font-display text-[22px] leading-none text-espresso transition-colors hover:text-gold-700"
                     >
-                      {titleCase(link.label)}
+                      {titleCase(t(link.key, link.label))}
                     </Link>
                   );
                 })}
