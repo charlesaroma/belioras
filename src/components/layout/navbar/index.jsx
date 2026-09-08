@@ -5,7 +5,7 @@ import { getNavigation } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
 
 import AnnouncementBar from "./AnnouncementBar";
-import SearchBar from "./SearchBar";
+import SearchPanel from "./SearchPanel";
 import Logo from "./Logo";
 import NavActions from "./NavActions";
 import NavLinks from "./NavLinks";
@@ -15,7 +15,7 @@ import CartDrawer from "./CartDrawer";
 import { Menu, Search, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 /**
  * Paths whose page opens on a plain light background rather than a full-bleed
@@ -54,10 +54,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuId, setMenuId] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [mobileQuery, setMobileQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const closeTimer = useRef(null);
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isLightBgPage = LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
 
@@ -114,7 +112,7 @@ export default function Navbar() {
       setMenuId(null);
       setCartOpen(false);
       setMobileOpen(false);
-      setMobileSearchOpen(false);
+      setSearchOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
@@ -131,15 +129,6 @@ export default function Navbar() {
   }, [cartOpen, mobileOpen]);
 
   const activeCategory = categories?.find((c) => c.id === menuId);
-
-  function onMobileSearchSubmit(e) {
-    e.preventDefault();
-    const q = mobileQuery.trim();
-    if (!q) return;
-    setMobileSearchOpen(false);
-    setMobileQuery("");
-    navigate(`/search?q=${encodeURIComponent(q)}`);
-  }
 
   return (
     <header ref={headerRef} className={cn('fixed', 'inset-x-0', 'top-0', 'z-50', 'w-full')}>
@@ -167,7 +156,16 @@ export default function Navbar() {
           <Logo isScrolled={isScrolled} menuOpen={!!menuId} isLightBg={isLightBgPage} />
 
           <div className="flex items-center justify-end gap-4">
-            <SearchBar />
+            <button
+              type="button"
+              onClick={() => setSearchOpen((v) => !v)}
+              aria-label="Search"
+              aria-expanded={searchOpen}
+              aria-haspopup="dialog"
+              className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+            >
+              <Search className="size-5" aria-hidden="true" />
+            </button>
             <NavActions onCartOpen={() => setCartOpen(true)} />
           </div>
         </div>
@@ -195,7 +193,9 @@ export default function Navbar() {
               type="button"
               className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
               aria-label="Search"
-              onClick={() => setMobileSearchOpen((v) => !v)}
+              onClick={() => setSearchOpen((v) => !v)}
+              aria-expanded={searchOpen}
+              aria-haspopup="dialog"
             >
               <Search className="size-5" aria-hidden="true" />
             </button>
@@ -215,25 +215,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mobile Search Bar (slide-down) ── */}
-        {mobileSearchOpen && (
-          <form
-            onSubmit={onMobileSearchSubmit}
-            className="lg:hidden px-4 sm:px-6 pb-3 border-t border-current/10"
-          >
-            <div className="relative mt-2">
-              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-current opacity-50" aria-hidden="true" />
-              <input
-                type="search"
-                value={mobileQuery}
-                onChange={(e) => setMobileQuery(e.target.value)}
-                placeholder="Search Belioras..."
-                autoFocus
-                className="h-10 w-full rounded-full border border-current/20 bg-current/5 pl-10 pr-4 text-sm text-current placeholder-current/50 focus:outline-none focus:border-current/40"
-              />
-            </div>
-          </form>
-        )}
 
         {/* ── Mega Menu (responsive, flush against navbar) ── */}
         <MegaMenu
@@ -251,6 +232,8 @@ export default function Navbar() {
         categories={categories}
         onCartOpen={() => setCartOpen(true)}
       />
+
+      <SearchPanel open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </header>
