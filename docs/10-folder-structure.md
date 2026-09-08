@@ -39,13 +39,15 @@ Numbered prefixes are not cosmetic — they encode primary route/nav order. **Ne
 
 | Prefix | Folder | Purpose |
 | --- | --- | --- |
-| `0.` | `auth/` | AuthLayout, login, signup, forgot password |
+| `0.` | `auth/` | AuthLayout, login, signup, forgot password, atelier (staff door) |
 | `1.` | `home/` | Landing page |
-| `2.` | `whatsNew/` | What's-new feed |
-| `3.` | `shop/` | Shop listing + CategoryPage |
-| `4.` | `dresses/` | Dresses category page |
-| `5.` | `hair/` | Hair category page |
-| `6.` | `accessories/` | Accessories category page |
+| `3.` | `shop/` | Shop listing + CatalogPage |
+
+**The gaps at 2, 4, 5 and 6 are deliberate.** Those folders held placeholder
+pages for What's New, Dresses, Hair and Accessories. All four nav destinations
+are now served by `3.shop/CatalogPage.jsx` through splat routes, so the stubs
+were deleted rather than left as dead code. The numbers stay vacant because
+renaming a live folder is what this section forbids.
 
 Unnumbered folders exist alongside them — reached via links, footer, or account menu, not primary nav:
 
@@ -53,8 +55,7 @@ Unnumbered folders exist alongside them — reached via links, footer, or accoun
 | --- | --- |
 | `product/` | Product detail page |
 | `checkout/` | CheckoutPage |
-| `search/` | Search results |
-| `account/` | AccountLayout + Profile, Orders, OrderDetail, Addresses, Wishlist |
+| `account/` | The client portal — see [11](11-client-account.md) |
 | `customer-support/` | About us, contact us, order tracking, hair-length & shoe-size guides |
 | `legal/` | Terms, privacy, cookie, shipping, return & refund policies ([08](08-eu-legal-compliance.md)) |
 | `FAQ/` | FAQ page |
@@ -105,18 +106,30 @@ Isolation rules (binding):
 
 ### `src/components/`
 
-| Subfolder | Contents |
-| --- | --- |
-| *(root)* | Hero, TrustBar |
-| `layout/` | Footer, CookieConsent, FlashSalePopup, NotFound, ScrollToTop |
-| `layout/navbar/` | AnnouncementBar, NavLinks, NavActions, MegaMenu, MobileMenu, SearchBar, CartDrawer, Logo, barrel `index.jsx` |
-| `auth/` | RequireAuth route guard |
-| `shared/` | QuantitySelector, RatingStars, SaleBadge |
-| `storefront/` | ProductCard, ProductGrid |
+No root-level files — everything sits in a subfolder.
+
+| Subfolder | Contents | Used by |
+| --- | --- | --- |
+| `ui/` | Button, Field, TagInput, Dropzone, ConfirmDialog, EmptyState, StatusChip, ToastViewport, DraftDock | Storefront, account **and** Dashboard |
+| `common/` | Modal, Drawer, DropdownPill, LanguageSelector, CurrencySelector | Both |
+| `auth/` | RequireAuth route guard | Both |
+| `account/` | Avatar, OrderTimeline, accountMenuItems | Account pages + navbar |
+| `layout/` | Footer, CookieConsent, PageShell, NotFound, Forbidden, BackToTop, ScrollToTop | Storefront |
+| `layout/navbar/` | AnnouncementBar, NavLinks, NavActions, MegaMenu, MegaMenuPanel, MobileMenu, AccountMenu, SearchBar, SearchPanel, CartDrawer, Logo, barrel `index.jsx` | Storefront |
+| `search/` | ImageSearch | SearchPanel |
+| `shared/` | BrandMark, PaymentMarks, QuantitySelector, RatingStars, GridDensityIcon | Storefront |
+| `storefront/` | ProductCard, ProductCarousel, GridViewSwitcher | Storefront + account |
+| `product/` | ColorSelector, SizeSelector | Product page |
+
+`ui/` is genuinely shared infrastructure: the Dashboard is its heaviest
+consumer. `layout/` and `layout/navbar/` are storefront-only.
 
 ### `src/context/`
 
-Five providers mounted near the App root: AuthContext, CartContext, CurrencyContext, ToastContext, WishlistContext.
+Eight providers mounted near the App root, in this order: Content, Language,
+Currency, Auth, Cart, Wishlist, **ProductDraft**, Toast. Language sits above
+Currency because price formatting needs the active locale; ProductDraft sits
+above `BrowserRouter` so an in-progress upload survives navigation.
 
 ### `src/services/`
 
@@ -139,4 +152,21 @@ Hooks: `useAsyncData`, `useLocalStorage`, `useMediaQuery`. Utils: `cn`, `constan
 5. Dashboard work stays under `src/Dashboard/` end to end.
 6. Styling uses palette tokens from `src/index.css` only — see [00](00-code-conventions.md) and [03](03-foundations.md).
 
-Where things go next: layout mechanics in [04](04-layout.md), the UI-kit inventory in [05](05-ui-kit.md), storefront flows in [06](06-storefront.md), QA gates in [09](09-qa-polish.md).
+## Two apps, two rules
+
+The Dashboard is a **top-level folder** because it is a self-contained app: its
+own chrome, its own hooks and constants, and a binding rule that neither side
+imports the other's pages.
+
+The client account area is **not**, and deliberately so. It renders inside the
+storefront `Layout` and shares `ProductCard`, `GridViewSwitcher`, `StatusChip`
+and the `ui/` primitives with it. Promoting it to a sibling of `Dashboard/`
+would mean either duplicating those or importing across the boundary the
+Dashboard rule exists to prevent — the symmetry would be cosmetic and the
+isolation false. It lives at `src/pages/account/` with a barrel, a `sections/`
+folder, and `src/components/account/` for what more than one of its pages needs.
+
+Where things go next: layout mechanics in [04](04-layout.md), the UI-kit
+inventory in [05](05-ui-kit.md), storefront flows in [06](06-storefront.md),
+the client portal in [11](11-client-account.md), QA gates in
+[09](09-qa-polish.md).

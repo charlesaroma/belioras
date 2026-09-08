@@ -18,12 +18,18 @@ Storefront-first: everything the customer sees (layout shell → UI kit → stor
 | # | Phase | Doc | Status |
 |---|-------|-----|--------|
 | 0 | Dependencies & config | `01-dependencies.md` | done |
-| 1 | Foundations (utils, contexts, services, hooks, data) | `02-data-layer.md` + `03-foundations.md` | in-progress |
-| 2 | Layout — storefront shell first (navbar folder, AI chat, footer, cookie, shell) | `04-layout.md` | pending |
-| 3 | UI kit (incl. swatches) | `05-ui-kit.md` | pending |
-| 4 | Storefront (home, shop, PDPs, search, checkout, auth, FAQ, legal) | `06-storefront.md` | pending |
-| 5 | Dashboard (11 modules) — built last | `07-dashboard.md` | pending |
-| 6 | QA & polish (a11y, responsive, lint, build, favicon) — final pass over the whole app incl. dashboard | `09-qa-polish.md` | pending |
+| 1 | Foundations (utils, contexts, services, hooks, data) | `02-data-layer.md` + `03-foundations.md` | done |
+| 2 | Layout — storefront shell first (navbar folder, AI chat, footer, cookie, shell) | `04-layout.md` | done |
+| 3 | UI kit (incl. swatches) | `05-ui-kit.md` | done |
+| 4 | Storefront (home, shop, PDPs, search, checkout, auth, FAQ, legal) | `06-storefront.md` | done |
+| 5 | Dashboard (11 modules) — built last | `07-dashboard.md` | done |
+| 6 | QA & polish (a11y, responsive, lint, build, favicon) — final pass over the whole app incl. dashboard | `09-qa-polish.md` | in-progress |
+| 7 | Client account portal | `11-client-account.md` | done |
+
+**Not done, and blocking launch:** authorization is entirely client-side. A
+forged localStorage session reaches `/dashboard/users` and every customer's
+email, because no service checks its caller. Auth itself is a mock — plaintext
+passwords in a JSON fixture. Both are backend work; see `belioras-backend`.
 
 ## Status Legend
 
