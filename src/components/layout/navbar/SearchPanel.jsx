@@ -129,7 +129,7 @@ export default function SearchPanel({ open, onClose }) {
       aria-hidden={!open}
       inert={!open || undefined}
       className={cn(
-        "fixed inset-x-0 z-40 max-h-[85vh] overflow-y-auto border-b border-umber-50 bg-ivory-50 shadow-large",
+        "surface-header fixed inset-x-0 z-40 max-h-[85vh] overflow-y-auto border-b border-umber-50 shadow-large",
         "transition-all duration-300 ease-out motion-reduce:transition-none",
         open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
       )}

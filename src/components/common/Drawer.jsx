@@ -75,7 +75,7 @@ export default function Drawer({
         aria-labelledby={titleId}
         tabIndex={-1}
         className={cn(
-          "absolute top-0 flex h-full w-full flex-col bg-ivory-50 shadow-2xl outline-none",
+          "surface-header absolute top-0 flex h-full w-full flex-col shadow-large outline-none",
           "transition-transform duration-300 ease-out motion-reduce:transition-none",
           width,
           isRight ? "right-0" : "left-0",

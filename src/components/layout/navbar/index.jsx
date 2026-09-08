@@ -135,11 +135,14 @@ export default function Navbar() {
       <AnnouncementBar />
 
       <div
-        className={`transition-all duration-300 ${
+        className={cn(
+          "transition-all duration-300",
           isScrolled || menuId || mobileOpen || cartOpen || searchOpen || isLightBgPage
-            ? "bg-ivory-50/95 backdrop-blur text-espresso shadow-sm"
-            : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50"
-        }`}
+            ? // No shadow while a panel is open: the panel hangs directly
+              // below and would catch the navbar's shadow as a grey seam.
+                cn("surface-header", !menuId && !searchOpen && "shadow-subtle")
+            : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50",
+        )}
       >
         {/* ── Desktop navbar ── */}
         <div className="hidden lg:grid w-full px-8 xl:px-16 2xl:px-24 grid-cols-[1fr_auto_1fr] items-center gap-8 xl:gap-12 py-3">

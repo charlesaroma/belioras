@@ -21,7 +21,7 @@ export default function MegaMenu({ category, onMouseEnter, onMouseLeave }) {
           transition={{ duration: 0.18, ease: "easeOut" }}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          className="hidden w-full border-t border-umber-50/60 bg-ivory-50/98 text-espresso shadow-large backdrop-blur lg:block"
+          className="surface-header hidden w-full border-t border-umber-50/60 shadow-large lg:block"
           role="navigation"
           aria-label={`${category.label} menu`}
         >

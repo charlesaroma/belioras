@@ -63,7 +63,7 @@ export default function Modal({ open, onClose, title, width = "max-w-lg", childr
         aria-labelledby={titleId}
         tabIndex={-1}
         className={cn(
-          "relative w-full bg-ivory-50 shadow-2xl outline-none",
+          "surface-header relative w-full shadow-large outline-none",
           "transition-all duration-300 ease-out motion-reduce:transition-none",
           width,
           open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",

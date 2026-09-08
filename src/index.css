@@ -284,6 +284,25 @@
     border-radius: var(--radius-md);
   }
 
+  /*
+    The one ground shared by every surface that hangs off the header — the
+    navbar in its solid state, the mega menu, the search panel and the drawers.
+
+    These previously carried three different values (ivory-50 at 95%, at 98%,
+    and solid) stacked directly on one another. Over a dark hero each opacity
+    composites to a different tone, so the seam between the navbar and the
+    panel beneath it was visible.
+
+    Opaque rather than translucent: at 95-98% the blur contributes nothing a
+    viewer can name, while backdrop-filter is a genuinely expensive composite
+    on a fixed element that repaints on every scroll frame. Solid is the
+    cleaner read and the cheaper one.
+  */
+  .surface-header {
+    background-color: var(--color-ivory-50);
+    color: var(--color-espresso);
+  }
+
   /* Glassmorphism panels — the agreed treatment for text sitting over busy
      hero and collection imagery, where neither black nor white alone holds
      enough contrast. */

@@ -53,7 +53,7 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen, onSe
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
-            className="fixed inset-y-0 left-0 z-50 flex w-[88vw] max-w-sm flex-col bg-ivory-50 shadow-2xl lg:hidden"
+            className="surface-header fixed inset-y-0 left-0 z-50 flex w-[88vw] max-w-sm flex-col shadow-large lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Menu"

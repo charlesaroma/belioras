@@ -46,7 +46,7 @@ export default function CartDrawer({ open, onClose }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="absolute inset-y-0 right-0 flex w-[min(95vw,440px)] flex-col bg-ivory-50 shadow-2xl"
+            className="surface-header absolute inset-y-0 right-0 flex w-[min(95vw,440px)] flex-col shadow-large"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-espresso/10 px-6 py-5 bg-white">
