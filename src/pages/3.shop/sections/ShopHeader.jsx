@@ -1,89 +1,61 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import { motion } from "motion/react";
 
 /**
- * Editorial banner shared by /shop and every category route. Content is passed
- * in so a category page reads as itself rather than as "All Collections".
+ * Catalog page header — /shop and every category route.
+ *
+ * No image. The previous version was a 420-480px full-bleed banner reusing
+ * the same stock photograph on every category — Dresses, Hair, Accessories
+ * and every faceted URL beneath them all showed the identical image, which
+ * reads as filler rather than as anything specific to what's being browsed,
+ * and pushes the actual product a full screen down before a shopper sees any.
+ *
+ * Replaced with the typographic language already used everywhere else on the
+ * site — New Arrivals, Best Sellers and Featured Collection all render a
+ * centred serif heading over a short gold rule. Using it here too means the
+ * catalog page finally looks like part of the same site instead of a
+ * different template, and it collapses roughly 450px of banner into about 90.
  */
-function ShopHeader({
-  eyebrow = "The Belioras Edit",
-  title = "All Collections",
-  subtitle = "Curated luxury fashion and premium hair, built around signature stories.",
-  image = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/belioras-hero-2.jpeg",
-  breadcrumb = [],
-}) {
+function ShopHeader({ title = "All Collections", breadcrumb = [] }) {
   return (
-    <section
-      className="relative h-[420px] md:h-[480px] overflow-hidden"
-      aria-labelledby="shop-title"
+    <header
+      className="border-b border-umber-50 bg-ivory-50 pb-10 text-center md:pb-14"
+      // The navbar is fixed, so page content needs to clear it explicitly.
+      // Offsetting by the measured --header-height (see navbar/index.jsx)
+      // rather than a guessed value — the same fix the product page needed
+      // after pt-32 fell short of the navbar's actual 138px. This header is no
+      // longer tall enough on its own to fall below the navbar by accident.
+      style={{ paddingTop: "calc(var(--header-height, 138px) + 2.5rem)" }}
     >
-      <img
-        src={image}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover object-center"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/50 to-espresso/10" />
+      {/* A single-item trail just repeats the h1 below it — Dresses > Dresses
+          tells a shopper nothing a root category page's own title doesn't.
+          Only worth showing once there's an actual hierarchy to trace. */}
+      {breadcrumb.length > 1 && (
+        <nav aria-label="Breadcrumb" className="mb-4">
+          <ol className="flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-espresso/40">
+            {breadcrumb.map((crumb, i) => (
+              <li key={crumb.url} className="flex items-center gap-1.5">
+                {i > 0 && <ChevronRight className="size-3" aria-hidden="true" />}
+                {i === breadcrumb.length - 1 ? (
+                  <span aria-current="page" className="text-gold-700">
+                    {crumb.label}
+                  </span>
+                ) : (
+                  <Link to={crumb.url} className="transition-colors hover:text-espresso">
+                    {crumb.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pt-16">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-[10px] font-bold uppercase tracking-[0.25em] text-gold-400 mb-4"
-        >
-          {eyebrow}
-        </motion.p>
-
-        <motion.h1
-          id="shop-title"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display text-4xl md:text-5xl text-ivory-50 tracking-wide mb-4"
-        >
-          {title}
-        </motion.h1>
-
-        {subtitle && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-sm text-ivory-50/70 max-w-md leading-relaxed"
-          >
-            {subtitle}
-          </motion.p>
-        )}
-
-        {breadcrumb.length > 0 && (
-          <motion.nav
-            aria-label="Breadcrumb"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-6"
-          >
-            <ol className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-ivory-50/60">
-              {breadcrumb.map((crumb, i) => (
-                <li key={crumb.url} className="flex items-center gap-1.5">
-                  {i > 0 && <ChevronRight className="size-3" aria-hidden="true" />}
-                  {i === breadcrumb.length - 1 ? (
-                    <span aria-current="page" className="text-gold-400">
-                      {crumb.label}
-                    </span>
-                  ) : (
-                    <Link to={crumb.url} className="transition-colors hover:text-ivory-50">
-                      {crumb.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </motion.nav>
-        )}
-      </div>
-    </section>
+      <h1 id="shop-title" className="font-display text-3xl text-espresso md:text-4xl">
+        {title}
+      </h1>
+      <span aria-hidden="true" className="mx-auto mt-4 block h-px w-12 bg-gold-500" />
+    </header>
   );
 }
 

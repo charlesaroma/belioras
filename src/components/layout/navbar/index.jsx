@@ -17,7 +17,34 @@ import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const LIGHT_BG_PATHS = ["/product", "/shop", "/account", "/contact", "/about", "/login", "/signup", "/forgot-password", "/search", "/wishlist"];
+/**
+ * Paths whose page opens on a plain light background rather than a full-bleed
+ * photo, so the navbar should render solid from the first frame instead of
+ * transparent-over-dark.
+ *
+ * /dresses, /hair, /accessories and /new-arrivals were missing here — they
+ * went through the splat-route rework after this list was written, so the
+ * navbar still treated them as hero pages. It went unnoticed while
+ * ShopHeader had its own dark banner image to sit over; once that banner was
+ * replaced with a plain header (see ShopHeader.jsx), the gap became a visible
+ * dark-to-transparent gradient smudge over blank ivory.
+ */
+const LIGHT_BG_PATHS = [
+  "/product",
+  "/shop",
+  "/dresses",
+  "/hair",
+  "/accessories",
+  "/new-arrivals",
+  "/account",
+  "/contact",
+  "/about",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/search",
+  "/wishlist",
+];
 
 export default function Navbar() {
   const { data: categories } = useAsyncData(getNavigation, []);

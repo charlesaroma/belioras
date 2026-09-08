@@ -8,20 +8,18 @@ export default function FeaturedCategoriesSection() {
   const { data: collections = [], loading } = useAsyncData(getCollections, []);
 
   return (
-    <section aria-labelledby="categories-title" className="container-main px-4 sm:px-6 md:px-8 py-section-mobile sm:py-section-tablet lg:py-section-desktop">
-      <div className="mb-10 flex items-end justify-between gap-6">
-        <div>
-          <p className="eyebrow">The Collections</p>
-          <h2
-            id="categories-title"
-            className="mt-3 font-display text-3xl tracking-wide text-espresso md:text-4xl"
-          >
-            Shop by category
-          </h2>
-        </div>
+    <section aria-label="Shop by category" className="container-main px-4 sm:px-6 md:px-8 py-section-mobile sm:py-section-tablet lg:py-section-desktop">
+      {/*
+        No heading here. Each tile already names its category in the overlay
+        ("Dresses", "Hair", "Accessories") directly below where a "Shop by
+        category" label would sit, so the label repeated information the
+        tiles state themselves a moment later. The section still has an
+        accessible name via aria-label.
+      */}
+      <div className="mb-6 flex justify-end">
         <Link
           to="/shop"
-          className="hidden items-center gap-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-gold-700 transition hover:text-gold-800 sm:inline-flex"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-gold-700 transition hover:text-gold-800"
         >
           View all
           <ArrowUpRight className="size-4" aria-hidden="true" />

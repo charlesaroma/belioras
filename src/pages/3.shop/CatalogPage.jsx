@@ -37,9 +37,7 @@ export default function CatalogPage() {
       loading={loading}
       error={error}
       header={{
-        eyebrow: resolved?.rootLabel ?? "The Belioras Edit",
         title: resolved?.label ?? "Collection",
-        subtitle: null,
         breadcrumb: resolved?.breadcrumb ?? [],
       }}
       emptyState={
