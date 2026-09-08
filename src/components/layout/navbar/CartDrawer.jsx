@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
-import { ShoppingBag, Trash2, X, Sparkles, Truck } from "lucide-react";
+import { ShoppingBag, Trash2, X } from "lucide-react";
 
 import { useCart } from "../../../context/CartContext";
 import { useCurrency } from "../../../context/CurrencyContext";
-import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getSettings } from "../../../services/settingsApi";
 import QuantitySelector from "../../shared/QuantitySelector";
 
 export default function CartDrawer({ open, onClose }) {
   const { items, subtotal, count, updateQty, removeItem } = useCart();
   const { convert, format, formatConverted } = useCurrency();
-  const { data: settings } = useAsyncData(getSettings, []);
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -22,11 +19,7 @@ export default function CartDrawer({ open, onClose }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-  const euZone = settings?.shippingZones?.find((z) => z.id === "eu");
-  const threshold = euZone ? convert(euZone.freeThreshold ?? 150) : convert(150);
   const convertedSubtotal = convert(subtotal);
-  const remainingForFree = Math.max(0, threshold - convertedSubtotal);
-  const progress = Math.min(100, (convertedSubtotal / Math.max(threshold, 1)) * 100);
 
   return (
     <AnimatePresence>
@@ -106,38 +99,6 @@ export default function CartDrawer({ open, onClose }) {
               </div>
             ) : (
               <>
-                {/* Free Shipping Progress */}
-                <div className="px-6 py-4 bg-white border-b border-espresso/10">
-                  <div className="flex items-center gap-2 mb-3">
-                    {remainingForFree > 0 ? (
-                      <Truck className="size-4 text-espresso/60" />
-                    ) : (
-                      <Sparkles className="size-4 text-gold-700" />
-                    )}
-                    <p className="text-sm text-espresso">
-                      {remainingForFree > 0 ? (
-                        <>
-                          Add{" "}
-                          <span className="font-semibold text-gold-700">
-                            {formatConverted(remainingForFree)}
-                          </span>{" "}
-                          more for free shipping
-                        </>
-                      ) : (
-                        <span className="font-semibold text-gold-700">Free shipping unlocked!</span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-espresso/10">
-                    <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-gold-600 to-gold-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${progress}%` }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
-                  </div>
-                </div>
-
                 {/* Cart Items */}
                 <ul className="flex-1 divide-y divide-espresso/10 overflow-y-auto px-6 py-4">
                   {items.map((item, index) => (
