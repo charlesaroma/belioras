@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
+import BrandMark from "../../shared/BrandMark";
 import { AnimatePresence, motion } from "motion/react";
 import { Plus, Search, X } from "lucide-react";
 
@@ -60,7 +62,7 @@ export default function MobileMenu({ open, onClose, categories, onCartOpen, onSe
           >
             <div className="flex shrink-0 items-center justify-between border-b border-umber-50 px-6 py-5">
               <Link to="/" onClick={onClose} aria-label="Belioras — home">
-                <img src="/belioras-boutique-primary-logo-rgb-belioras-original.svg" alt="Belioras" className="h-12 w-auto" />
+                <BrandMark to={null} size="sm" className="h-12" />
               </Link>
               <button
                 type="button"

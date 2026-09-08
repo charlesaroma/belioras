@@ -3,6 +3,7 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
+import BrandMark from "../../components/shared/BrandMark";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { resolveLanding } from "../../utils/roles";
@@ -184,6 +185,12 @@ export default function AuthLayout({ initialMode = "login" }) {
           transition={{ duration: 0.55 }}
           className="w-full max-w-sm"
         >
+          {/* The brand mark, and the only route back to the shop from
+              here. It sits inside the form column rather than the image panel
+              because that panel is hidden below lg — so on a phone this was
+              the one page with no Belioras branding anywhere on it. */}
+          <BrandMark wrapperClassName="mb-10 block w-fit mx-auto lg:mx-0" />
+
           <div className="mb-10 text-center lg:text-left">
             <AnimatePresence mode="wait">
               <motion.h1

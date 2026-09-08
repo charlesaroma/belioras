@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, KeyRound, Loader2, MailCheck } from "lucide-react";
 
+import BrandMark from "../../components/shared/BrandMark";
 import { mockDelay } from "../../services/apiClient";
 
 const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";
@@ -94,6 +95,12 @@ export default function ForgotPasswordPage() {
           transition={{ duration: 0.55 }}
           className="w-full max-w-sm"
         >
+          {/* The brand mark, and the only route back to the shop from
+              here. It sits inside the form column rather than the image panel
+              because that panel is hidden below lg — so on a phone this was
+              the one page with no Belioras branding anywhere on it. */}
+          <BrandMark wrapperClassName="mb-10 block w-fit mx-auto lg:mx-0" />
+
           <div className="mb-10 text-center lg:text-left">
             <h1 id="forgot-title" className="font-display text-3xl lg:text-4xl text-espresso mb-3">
               {sent ? "Check your inbox" : "Reset password"}

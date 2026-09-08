@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
+import BrandMark from "../../components/shared/BrandMark";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { isAdminRole, resolveLanding } from "../../utils/roles";
 import { validateCredentials } from "../../utils/validateCredentials";
-
-const LOGO = "/belioras-boutique-primary-logo-rgb-belioras-original.svg";
 
 /**
  * The atelier door.
@@ -85,9 +84,7 @@ export default function AtelierLogin() {
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center bg-espresso px-6 py-16">
       <div className="w-full max-w-sm">
-        <Link to="/" aria-label="Belioras — storefront" className="mx-auto block w-fit">
-          <img src={LOGO} alt="Belioras" width={91} height={67} className="h-14 w-auto" />
-        </Link>
+        <BrandMark label="Belioras — storefront" wrapperClassName="mx-auto block w-fit" />
 
         <p className="eyebrow mt-8 text-center">Atelier</p>
         <h1 className="mt-2 text-center font-display text-3xl tracking-wide text-ivory-50">
