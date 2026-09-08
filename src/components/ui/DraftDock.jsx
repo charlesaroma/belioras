@@ -5,8 +5,6 @@ import { ImagePlus, X } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useProductDraft } from "../../context/ProductDraftContext";
 
-const ADMIN_ROLES = new Set(["super-admin", "staff"]);
-
 /**
  * The minimised upload, docked bottom-right.
  *
@@ -25,11 +23,11 @@ const ADMIN_ROLES = new Set(["super-admin", "staff"]);
  */
 export default function DraftDock() {
   const { drafts, clearDraft } = useProductDraft();
-  const { role } = useAuth();
+  const { isAdmin } = useAuth();
   const reduceMotion = useReducedMotion();
 
   // Only staff have anywhere to restore a product draft to.
-  if (!ADMIN_ROLES.has(role) || drafts.length === 0) return null;
+  if (!isAdmin || drafts.length === 0) return null;
 
   return (
     <div className="pointer-events-none fixed bottom-0 right-0 z-[65] flex flex-col items-end gap-2 p-4 sm:p-6">

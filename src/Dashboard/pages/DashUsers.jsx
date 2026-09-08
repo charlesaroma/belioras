@@ -42,7 +42,8 @@ export default function DashUsers() {
   const { format } = useCurrency();
   const { locale } = useLanguage();
   const { toast } = useToast();
-  const { user: signedIn } = useAuth();
+  const { user: signedIn, can } = useAuth();
+  const canManageTeam = can("team");
 
   const [revision, setRevision] = useState(0);
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
@@ -87,7 +88,7 @@ export default function DashUsers() {
     const { user, role } = pendingRole;
     setPendingRole(null);
     try {
-      await updateUserRole(user.id, role);
+      await updateUserRole(user.id, role, signedIn);
       refresh();
       toast(`${user.name} is now ${ROLES.find((r) => r.value === role)?.label}.`, "success");
     } catch (err) {
@@ -125,16 +126,19 @@ export default function DashUsers() {
         render: (row) => {
           // Changing your own role out from under yourself would revoke access
           // to the page you are standing on.
+          // Read-only for anyone without `team`, and for your own row: changing
+          // your own role would revoke access to the page you are standing on.
           const isSelf = row.id === signedIn?.id;
-          return isSelf ? (
+          return isSelf || !canManageTeam ? (
             <span
               className={cn(
                 "inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]",
                 ROLE_TONE[row.role],
               )}
-              title="You cannot change your own role"
+              title={isSelf ? "You cannot change your own role" : "Only an administrator can change roles"}
             >
-              {ROLES.find((r) => r.value === row.role)?.label ?? row.role} · you
+              {ROLES.find((r) => r.value === row.role)?.label ?? row.role}
+              {isSelf && " · you"}
             </span>
           ) : (
             <select
@@ -180,7 +184,7 @@ export default function DashUsers() {
         ),
       },
     ],
-    [format, dateFmt, signedIn?.id],
+    [format, dateFmt, signedIn?.id, canManageTeam],
   );
 
   return (

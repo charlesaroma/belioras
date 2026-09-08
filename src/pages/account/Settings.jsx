@@ -20,7 +20,7 @@ import { useToast } from "../../context/ToastContext";
  * no idea what the shopper preferred.
  */
 export default function AccountSettings() {
-  const { user, updateProfile, changePassword } = useAuth();
+  const { user, updateProfile, changePassword, verifyPassword } = useAuth();
   const { language, setLanguage, locales } = useLanguage();
   const { currency, setCurrency, currencies } = useCurrency();
   const { toast } = useToast();
@@ -30,18 +30,32 @@ export default function AccountSettings() {
       name: user?.name ?? "",
       email: user?.email ?? "",
       phone: user?.phone ?? "",
+      currentPassword: "",
     },
   });
+
+  /**
+   * Changing the email address is the sensitive one: it is the address every
+   * password reset and order confirmation goes to, so taking it over is how
+   * an account gets taken over. Ask for the password only when it has actually
+   * changed — a name or phone edit stays a single step.
+   */
+  const emailChanged = profile.watch("email")?.trim().toLowerCase() !== user?.email?.toLowerCase();
 
   const security = useForm({
     defaultValues: { currentPassword: "", newPassword: "", confirmPassword: "" },
   });
 
   const onSaveProfile = async (values) => {
+    const { currentPassword, ...patch } = values;
+
     try {
-      await updateProfile(values);
+      // Throws 401 before anything is written, so a wrong password cannot
+      // half-apply the change.
+      if (emailChanged) await verifyPassword(currentPassword);
+      await updateProfile(patch);
       toast("Profile saved.", "success");
-      profile.reset(values);
+      profile.reset({ ...patch, currentPassword: "" });
     } catch (err) {
       toast(err.message ?? "Could not save your profile.", "error");
     }
@@ -107,6 +121,24 @@ export default function AccountSettings() {
         <Field label="Telephone" helper="Only used if the carrier needs to reach you.">
           <input type="tel" {...profile.register("phone")} />
         </Field>
+
+        {emailChanged && (
+          <Field
+            label="Confirm with your password"
+            required
+            className="sm:col-span-2"
+            error={profile.formState.errors.currentPassword?.message}
+            helper="Changing the address on the account needs your current password."
+          >
+            <input
+              type="password"
+              autoComplete="current-password"
+              {...profile.register("currentPassword", {
+                required: "Enter your password to change the email address.",
+              })}
+            />
+          </Field>
+        )}
       </Panel>
 
       <Panel

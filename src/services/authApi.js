@@ -1,5 +1,6 @@
 import { ApiError, mockApi } from "./apiClient";
 import { getState, setState } from "./contentStore";
+import { can } from "../utils/roles";
 
 /**
  * Accounts.
@@ -126,6 +127,23 @@ export function updateProfile(id, patch) {
   });
 }
 
+/**
+ * Confirm someone is who they say before a sensitive change.
+ *
+ * Separate from changePassword so the caller does not have to "change" a
+ * password to itself just to check it — that performed a pointless write and
+ * read as a trick rather than an intention.
+ */
+export function verifyPassword(id, password) {
+  return mockApi(() => {
+    const user = userItems().find((u) => u.id === id);
+    if (!user || user.password !== password) {
+      throw new ApiError("That is not your current password.", 401);
+    }
+    return true;
+  });
+}
+
 export function changePassword(id, { currentPassword, newPassword } = {}) {
   return mockApi(() => {
     const user = userItems().find((u) => u.id === id);
@@ -147,11 +165,29 @@ export function changePassword(id, { currentPassword, newPassword } = {}) {
   });
 }
 
-/** Admin action. Separate from updateProfile so a customer cannot self-promote. */
-export function updateUserRole(id, role) {
+/**
+ * Change an account's role. Administrator action.
+ *
+ * `actor` is who is asking. Without it this trusted any caller, so a member of
+ * staff could reach the users page and promote a colleague — or an account
+ * they controlled — to super-admin, escalating past their own permissions.
+ *
+ * The check is written here rather than only in the UI so the contract is
+ * explicit and the backend enforces the same rule for real. While auth is
+ * client-side this is a statement of intent, not a wall.
+ */
+export function updateUserRole(id, role, actor) {
   return mockApi(() => {
+    if (!can(actor?.role, "team")) {
+      throw new ApiError("Only an administrator can change roles.", 403);
+    }
+
     if (!["super-admin", "staff", "customer"].includes(role)) {
       throw new ApiError(`Unknown role: ${role}`, 422);
+    }
+
+    if (actor?.id === id) {
+      throw new ApiError("You cannot change your own role.", 403);
     }
 
     const user = userItems().find((u) => u.id === id);

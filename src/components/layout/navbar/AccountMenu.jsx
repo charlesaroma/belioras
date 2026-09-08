@@ -6,8 +6,6 @@ import { useAuth } from "../../../context/AuthContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { cn } from "../../../utils/cn";
 
-const ADMIN_ROLES = new Set(["super-admin", "staff"]);
-
 /**
  * The signed-in account menu.
  *
@@ -21,7 +19,7 @@ const ADMIN_ROLES = new Set(["super-admin", "staff"]);
  * items, focus returned to the trigger on close.
  */
 export default function AccountMenu() {
-  const { user, role, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const { t } = useLanguage();
   const { pathname } = useLocation();
 
@@ -56,7 +54,7 @@ export default function AccountMenu() {
     { to: "/account/wishlist", label: t("nav.savedPieces", "Saved pieces"), icon: Heart },
     { to: "/account/addresses", label: t("nav.addresses", "Addresses"), icon: MapPin },
     { to: "/account/settings", label: t("nav.settings", "Settings"), icon: Settings },
-    ...(ADMIN_ROLES.has(role)
+    ...(isAdmin
       ? [{ to: "/dashboard", label: t("nav.dashboard", "Atelier dashboard"), icon: LayoutDashboard }]
       : []),
   ];

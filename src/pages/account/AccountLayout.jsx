@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
@@ -26,9 +26,9 @@ const NAV = [
  * ended up underneath it.
  */
 export default function AccountLayout() {
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isAdmin = user?.role === "super-admin" || user?.role === "staff";
 
   return (
     <div
@@ -73,7 +73,15 @@ export default function AccountLayout() {
 
               <button
                 type="button"
-                onClick={logout}
+                onClick={async () => {
+                  // Leave the guarded route first. Clearing the session while
+                  // still on /account re-renders RequireAuth, which redirects
+                  // to the sign-in page before this navigate can run — so a
+                  // shopper signing out landed on a login form they had just
+                  // walked away from.
+                  navigate("/", { replace: true });
+                  await logout();
+                }}
                 className="flex items-center gap-3 py-3 text-left text-[13px] text-espresso-soft transition-colors hover:text-error"
               >
                 <LogOut className="size-4" strokeWidth={1.5} aria-hidden="true" />

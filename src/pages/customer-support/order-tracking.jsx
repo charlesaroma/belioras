@@ -201,7 +201,7 @@ export default function OrderTrackingPage() {
           <p>
             It is in the subject line of your confirmation email, and at the top of your invoice. If
             you ordered with an account, every order is listed under{" "}
-            <a href="/account">your account</a>.
+            <Link to="/account">your account</Link>.
           </p>
           <p>
             Still stuck? Write to <a href="mailto:support@belioras.com">support@belioras.com</a> with the

@@ -19,6 +19,10 @@ import Button from "./Button";
 export default function ConfirmDialog({
   open,
   onClose,
+  // Distinct from onClose when the cancel button does something other than
+  // simply dismiss — the idle warning uses it to sign out deliberately, while
+  // Escape and the backdrop keep the session alive.
+  onCancel,
   onConfirm,
   title = "Are you sure?",
   description,
@@ -51,7 +55,7 @@ export default function ConfirmDialog({
       </div>
 
       <div className="mt-7 flex justify-end gap-3">
-        <Button variant="ghost" size="md" onClick={onClose} disabled={loading}>
+        <Button variant="ghost" size="md" onClick={onCancel ?? onClose} disabled={loading}>
           {cancelLabel}
         </Button>
         <Button

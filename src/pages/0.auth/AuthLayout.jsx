@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
+import { resolveLanding } from "../../utils/roles";
+import { validateCredentials } from "../../utils/validateCredentials";
 
 const HERO_IMAGE_LOGIN = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";
 const HERO_IMAGE_SIGNUP = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/hero-image-belioras.PNG";
-const MIN_PASSWORD_LENGTH = 6;
+
 
 const inputBase =
   "w-full border-b border-umber-50 bg-transparent px-0 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-espresso focus:outline-none transition-colors";
@@ -55,6 +57,7 @@ export default function AuthLayout({ initialMode = "login" }) {
   const { login, register, isAuthenticated, loading: submitting, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [mode, setMode] = useState(initialMode);
   const [showPassword, setShowPassword] = useState(false);
@@ -70,24 +73,22 @@ export default function AuthLayout({ initialMode = "login" }) {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
 
-  const validateLogin = () => {
-    const next = {};
-    if (!loginEmail.trim()) next.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginEmail.trim())) next.email = "Enter a valid email.";
-    if (!loginPassword) next.password = "Password is required.";
-    return next;
-  };
+  // Already signed in? There is nothing to do here. `isAuthenticated` and
+  // `user` were destructured for this and the check was never written, so a
+  // signed-in shopper who clicked a stale /login link was shown the sign-in
+  // form again as though their session had lapsed.
+  if (isAuthenticated) {
+    return <Navigate to={resolveLanding(user, location.state?.from)} replace />;
+  }
 
-  const validateSignup = () => {
-    const next = {};
-    if (!signupName.trim()) next.name = "Full name is required.";
-    if (!signupEmail.trim()) next.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupEmail.trim())) next.email = "Enter a valid email.";
-    if (!signupPassword) next.password = "Password is required.";
-    else if (signupPassword.length < MIN_PASSWORD_LENGTH)
-      next.password = `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
-    return next;
-  };
+  const validateLogin = () =>
+    validateCredentials({ email: loginEmail, password: loginPassword });
+
+  const validateSignup = () =>
+    validateCredentials(
+      { name: signupName, email: signupEmail, password: signupPassword },
+      { requireName: true, enforceLength: true },
+    );
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -97,13 +98,15 @@ export default function AuthLayout({ initialMode = "login" }) {
     try {
       const result = await login({ email: loginEmail.trim(), password: loginPassword });
       toast("Welcome back to Belioras", "success");
-      // Navigate after successful login based on user role
-      // Small delay to ensure context is updated
-      setTimeout(() => {
-        const isAdmin = result?.user?.role === "admin" || result?.user?.role === "super-admin" || result?.user?.role === "staff";
-        const redirectPath = isAdmin ? "/dashboard" : "/account";
-        navigate(redirectPath, { replace: true });
-      }, 100);
+      // resolveLanding honours the page they were trying to reach before being
+      // asked to sign in. RequireAuth has always recorded it and nothing ever
+      // read it, so a shopper following a link to one order was signed in and
+      // then dumped on the account overview.
+      //
+      // Navigated directly: setSession is synchronous, so the setTimeout that
+      // used to wrap this bought nothing and left an uncancelled timer that
+      // fired even if the component had unmounted.
+      navigate(resolveLanding(result?.user, location.state?.from), { replace: true });
     } catch (err) {
       setError(err?.message ?? "Sign in failed. Please try again.");
     }
@@ -117,13 +120,7 @@ export default function AuthLayout({ initialMode = "login" }) {
     try {
       const result = await register({ name: signupName.trim(), email: signupEmail.trim(), password: signupPassword });
       toast("Welcome to Belioras", "success");
-      // Navigate after successful signup based on user role
-      // Small delay to ensure context is updated
-      setTimeout(() => {
-        const isAdmin = result?.user?.role === "admin" || result?.user?.role === "super-admin" || result?.user?.role === "staff";
-        const redirectPath = isAdmin ? "/dashboard" : "/account";
-        navigate(redirectPath, { replace: true });
-      }, 100);
+      navigate(resolveLanding(result?.user, location.state?.from), { replace: true });
     } catch (err) {
       setError(err?.message ?? "Registration failed. Please try again.");
     }
@@ -420,10 +417,10 @@ export default function AuthLayout({ initialMode = "login" }) {
               animate={{ opacity: 1 }}
               className="mt-8 border border-dashed border-umber-50 rounded-2xl p-4 text-xs text-espresso/60 leading-relaxed bg-ivory-100/50"
             >
-              <p className="font-semibold text-espresso mb-2">Demo accounts (dev only)</p>
+              <p className="font-semibold text-espresso mb-2">Demo account (dev only)</p>
               <p>Password: <span className="font-mono text-gold-700">demo123</span></p>
               <p className="mt-1"><span className="font-mono">mariana@example.com</span> — Customer</p>
-              <p><span className="font-mono">admin@belioras.com</span> — Admin</p>
+              <p className="mt-2 text-espresso/40">Staff accounts are listed on the atelier door.</p>
             </motion.div>
           )}
         </motion.div>

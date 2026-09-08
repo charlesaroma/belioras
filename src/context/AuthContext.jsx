@@ -1,12 +1,14 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { can as canWithRole, isAdminRole } from "../utils/roles";
 import {
   changePassword as changePasswordApi,
   login as loginApi,
   logout as logoutApi,
   register as registerApi,
   updateProfile as updateProfileApi,
+  verifyPassword as verifyPasswordApi,
 } from "../services/authApi";
 
 const AuthContext = createContext(null);
@@ -66,6 +68,14 @@ export function AuthProvider({ children }) {
     [userId, setSession],
   );
 
+  const verifyPassword = useCallback(
+    async (password) => {
+      if (!userId) throw new Error("Not signed in.");
+      return verifyPasswordApi(userId, password);
+    },
+    [userId],
+  );
+
   const changePassword = useCallback(
     async (payload) => {
       if (!userId) throw new Error("Not signed in.");
@@ -78,6 +88,10 @@ export function AuthProvider({ children }) {
     () => ({
       user: session?.user ?? null,
       role: session?.user?.role ?? null,
+      // Derived once here rather than re-derived in every consumer, which is
+      // how four copies of the rule appeared and one of them drifted.
+      isAdmin: isAdminRole(session?.user?.role),
+      can: (capability) => canWithRole(session?.user?.role, capability),
       token: session?.token ?? null,
       loading,
       isAuthenticated: Boolean(session?.token),
@@ -86,8 +100,9 @@ export function AuthProvider({ children }) {
       logout,
       updateProfile,
       changePassword,
+      verifyPassword,
     }),
-    [session, loading, login, register, logout, updateProfile, changePassword]
+    [session, loading, login, register, logout, updateProfile, changePassword, verifyPassword]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

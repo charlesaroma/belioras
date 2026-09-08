@@ -1,10 +1,18 @@
+/**
+ * Dashboard navigation.
+ *
+ * `capability` is what the signed-in person must hold to see the item. The
+ * sidebar filters on it, so staff are not shown a Users tab that would refuse
+ * them — an item you can see but never use is worse than one that is absent.
+ * The route guard is the real check; this only keeps the menu honest.
+ */
 export const DASHBOARD_NAV_ITEMS = [
   { id: "overview", label: "Overview", icon: "LayoutDashboard" },
-  { id: "products", label: "Products", icon: "Package" },
-  { id: "categories", label: "Categories", icon: "LayoutGrid" },
-  { id: "orders", label: "Orders", icon: "ShoppingCart" },
-  { id: "users", label: "Users", icon: "Users" },
-  { id: "settings", label: "Settings", icon: "Settings" },
+  { id: "products", label: "Products", icon: "Package", capability: "catalog" },
+  { id: "categories", label: "Categories", icon: "LayoutGrid", capability: "content" },
+  { id: "orders", label: "Orders", icon: "ShoppingCart", capability: "orders" },
+  { id: "users", label: "Users", icon: "Users", capability: "team" },
+  { id: "settings", label: "Settings", icon: "Settings", capability: "settings" },
 ];
 
 /**

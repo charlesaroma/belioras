@@ -28,6 +28,7 @@ import CheckoutPage from "./pages/checkout/CheckoutPage";
 import LoginPage from "./pages/0.auth/login";
 import SignupPage from "./pages/0.auth/signup";
 import ForgotPasswordPage from "./pages/0.auth/forgotpassword";
+import AtelierLoginPage from "./pages/0.auth/atelier";
 
 import FAQPage from "./pages/FAQ/faq";
 import AboutUsPage from "./pages/customer-support/about-us";
@@ -120,6 +121,14 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
           {/*
+            The staff door, deliberately separate from the shopper's. Linked
+            from nowhere on the storefront. Both call the same login(); the
+            split is about who each page is for, and it is where the backend
+            will attach staff 2FA and tighter rate limiting.
+          */}
+          <Route path="/atelier" element={<AtelierLoginPage />} />
+
+          {/*
             Guarded. The component existed and was written for exactly this,
             but was never applied — so the admin area, including customer
             names, emails and order totals, was reachable by anyone who typed
@@ -142,8 +151,28 @@ function App() {
             <Route path="products/:id/edit" element={<ProductForm />} />
             <Route path="categories" element={<DashCategories />} />
             <Route path="orders" element={<DashOrders />} />
-            <Route path="users" element={<DashUsers />} />
-            <Route path="settings" element={<DashSettings />} />
+            {/*
+              Staff run the shop; only administrators manage the team and the
+              store's configuration. Staff could previously open this page and
+              promote a colleague — or an account they controlled — to
+              super-admin.
+            */}
+            <Route
+              path="users"
+              element={
+                <RequireAuth adminOnly capability="team">
+                  <DashUsers />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="settings"
+              element={
+                <RequireAuth adminOnly capability="settings">
+                  <DashSettings />
+                </RequireAuth>
+              }
+            />
           </Route>
 
           {/* Main App Routes - With navbar/footer */}

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   LayoutGrid,
@@ -29,7 +29,13 @@ const iconMap = { LayoutDashboard, Package, LayoutGrid, ShoppingCart, Users, Set
  */
 export default function DashSidebar({ isOpen, onClose }) {
   const { pathname } = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, can } = useAuth();
+  const navigate = useNavigate();
+
+  // Only the sections this person can actually use.
+  const navItems = DASHBOARD_NAV_ITEMS.filter(
+    (item) => !item.capability || can(item.capability),
+  );
 
   return (
     <>
@@ -65,7 +71,7 @@ export default function DashSidebar({ isOpen, onClose }) {
 
         <nav className="flex-1 overflow-y-auto px-3 py-6" aria-label="Dashboard">
           <ul className="space-y-0.5">
-            {DASHBOARD_NAV_ITEMS.map((item) => {
+            {navItems.map((item) => {
               const Icon = iconMap[item.icon];
               const to = item.id === "overview" ? "/dashboard" : `/dashboard/${item.id}`;
               const isActive =
@@ -114,7 +120,12 @@ export default function DashSidebar({ isOpen, onClose }) {
 
           <button
             type="button"
-            onClick={() => typeof logout === "function" && logout()}
+            onClick={async () => {
+              // Same ordering as the account area: leave the guarded route
+              // before the session disappears, or the guard redirects first.
+              navigate("/atelier", { replace: true });
+              if (typeof logout === "function") await logout();
+            }}
             className="flex w-full items-center gap-2.5 px-4 py-2.5 text-[12px] uppercase tracking-[0.14em] text-ivory-50/55 transition-colors hover:bg-ivory-50/5 hover:text-ivory-50"
           >
             <LogOut className="size-4" strokeWidth={1.5} aria-hidden="true" />
