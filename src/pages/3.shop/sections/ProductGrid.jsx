@@ -5,7 +5,7 @@ import { cn } from "../../../utils/cn";
 
 function ProductGrid({ filtered, cols, loading, error, onClearFilters, hasActiveFilters = false }) {
   return (
-    <section className="container-main px-4 sm:px-6 md:px-8 pt-10 pb-24">
+    <section className="pt-2">
       {loading ? (
         <div className="flex justify-center py-32">
           <div className="size-8 animate-spin rounded-full border-2 border-gold-500 border-t-transparent" />
