@@ -1,48 +1,176 @@
-import usersSeed from "../data/users.json";
-
 import { ApiError, mockApi } from "./apiClient";
+import { getState, setState } from "./contentStore";
 
-const users = [...usersSeed];
+/**
+ * Accounts.
+ *
+ * Still a mock: passwords are compared in plain text against a JSON fixture
+ * and the session lives in localStorage. That is a stub standing in for the
+ * backend `identity` module, and it must not survive to production — see the
+ * note in the phase plan. What changed is persistence: users go through the
+ * content store, so a registration, a renamed profile or a changed password
+ * is still there after a reload, where previously all three lived in a
+ * module-level array and vanished with the next refresh.
+ */
+function userItems() {
+  return getState("users").items;
+}
 
-function publicUser({ id, name, email, role }) {
-  return { id, name, email, role };
+/**
+ * The fields safe to put in a session.
+ *
+ * `password` is the one field that must never leave. `createdAt` used to be
+ * stripped too, which is why the account page hardcoded "Member since 2026"
+ * rather than showing the real date.
+ */
+function publicUser(user) {
+  if (!user) return null;
+  const { password, ...rest } = user;
+  void password;
+  return rest;
 }
 
 function createToken(user) {
   return `tok_${user.id}_${Date.now().toString(36)}`;
 }
 
+function findByEmail(email) {
+  const normalized = String(email ?? "").trim().toLowerCase();
+  return userItems().find((u) => u.email.toLowerCase() === normalized);
+}
+
 export function login({ email, password } = {}) {
   return mockApi(() => {
-    const user = users.find(
-      (u) =>
-        u.email.toLowerCase() === String(email ?? "").trim().toLowerCase() &&
-        u.password === password
-    );
-    if (!user) throw new ApiError("Invalid email or password.", 401);
+    const user = findByEmail(email);
+    if (!user || user.password !== password) {
+      throw new ApiError("Invalid email or password.", 401);
+    }
     return { token: createToken(user), user: publicUser(user) };
   });
 }
 
 export function register({ name, email, password } = {}) {
   return mockApi(() => {
-    const normalized = String(email ?? "").trim().toLowerCase();
-    if (users.some((u) => u.email.toLowerCase() === normalized)) {
+    if (findByEmail(email)) {
       throw new ApiError("An account with this email already exists.", 409);
     }
+
+    const items = userItems();
+    const highest = items.reduce((max, u) => {
+      const n = Number(String(u.id).replace(/\D/g, "")) || 0;
+      return n > max ? n : max;
+    }, 0);
+
     const user = {
-      id: `u${users.length + 100}`,
+      id: `u${highest + 1}`,
       name,
-      email: normalized,
+      email: String(email).trim().toLowerCase(),
       password,
       role: "customer",
       createdAt: new Date().toISOString().slice(0, 10),
     };
-    users.push(user);
+
+    setState("users", (state) => ({ ...state, items: [...state.items, user] }));
     return { token: createToken(user), user: publicUser(user) };
   });
 }
 
 export function logout() {
   return mockApi(() => null, 120);
+}
+
+/** Every account, for the admin users page. Passwords are stripped. */
+export function getUsers() {
+  return mockApi(() => userItems().map(publicUser));
+}
+
+/**
+ * Update a profile.
+ *
+ * No mutation of any kind existed before this — a grep for updateProfile or
+ * changePassword across the whole repo returned nothing, so a customer had no
+ * way to correct their own name.
+ *
+ * `role` is deliberately not accepted here: a customer editing their own
+ * profile must not be able to promote themselves. Role changes go through
+ * updateUserRole, which is an admin action.
+ */
+export function updateProfile(id, patch) {
+  return mockApi(() => {
+    const user = userItems().find((u) => u.id === id);
+    if (!user) throw new ApiError("Account not found.", 404);
+
+    if (patch.email) {
+      const taken = findByEmail(patch.email);
+      if (taken && taken.id !== id) {
+        throw new ApiError("That email is already in use.", 409);
+      }
+    }
+
+    const { role, password, id: _ignored, ...safe } = patch;
+    void role;
+    void password;
+    void _ignored;
+
+    const updated = {
+      ...user,
+      ...safe,
+      email: patch.email ? String(patch.email).trim().toLowerCase() : user.email,
+    };
+
+    setState("users", (state) => ({
+      ...state,
+      items: state.items.map((u) => (u.id === id ? updated : u)),
+    }));
+    return publicUser(updated);
+  });
+}
+
+export function changePassword(id, { currentPassword, newPassword } = {}) {
+  return mockApi(() => {
+    const user = userItems().find((u) => u.id === id);
+    if (!user) throw new ApiError("Account not found.", 404);
+    // Requires the current password, so a borrowed unlocked browser cannot be
+    // used to lock the real owner out of their own account.
+    if (user.password !== currentPassword) {
+      throw new ApiError("That is not your current password.", 401);
+    }
+    if (!newPassword || newPassword.length < 6) {
+      throw new ApiError("Choose a password of at least 6 characters.", 422);
+    }
+
+    setState("users", (state) => ({
+      ...state,
+      items: state.items.map((u) => (u.id === id ? { ...u, password: newPassword } : u)),
+    }));
+    return true;
+  });
+}
+
+/** Admin action. Separate from updateProfile so a customer cannot self-promote. */
+export function updateUserRole(id, role) {
+  return mockApi(() => {
+    if (!["super-admin", "staff", "customer"].includes(role)) {
+      throw new ApiError(`Unknown role: ${role}`, 422);
+    }
+
+    const user = userItems().find((u) => u.id === id);
+    if (!user) throw new ApiError("Account not found.", 404);
+
+    // Refuse to remove the last administrator — an unadministrable store is
+    // not a state the UI should be able to reach.
+    if (user.role === "super-admin" && role !== "super-admin") {
+      const admins = userItems().filter((u) => u.role === "super-admin");
+      if (admins.length <= 1) {
+        throw new ApiError("This is the only administrator; promote another first.", 409);
+      }
+    }
+
+    const updated = { ...user, role };
+    setState("users", (state) => ({
+      ...state,
+      items: state.items.map((u) => (u.id === id ? updated : u)),
+    }));
+    return publicUser(updated);
+  });
 }

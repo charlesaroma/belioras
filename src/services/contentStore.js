@@ -24,6 +24,7 @@ import instagramSeed from "../data/instagram.json";
 import settingsSeed from "../data/settings.json";
 import catalogSeed from "../data/catalogSeed";
 import ordersSeed from "../data/ordersSeed";
+import usersSeed from "../data/usersSeed";
 
 const KEY_PREFIX = "belioras:content:";
 
@@ -47,6 +48,7 @@ const DOMAINS = {
   // the same rev reconciliation, the same per-item merge.
   products: { seed: catalogSeed, collection: "items" },
   orders: { seed: ordersSeed, collection: "items" },
+  users: { seed: usersSeed, collection: "items" },
 };
 
 function storageKey(domain) {
