@@ -24,6 +24,7 @@ import ShopPage from "./pages/3.shop/shop";
 import CatalogPage from "./pages/3.shop/CatalogPage";
 import ProductPage from "./pages/product/product";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
+import CheckoutConfirmation from "./pages/checkout/Confirmation";
 
 import LoginPage from "./pages/0.auth/login";
 import SignupPage from "./pages/0.auth/signup";
@@ -227,7 +228,10 @@ function App() {
               deleting keeps any existing link or bookmark working.
             */}
             <Route path="/search" element={<SearchRedirect />} />
+            {/* Guest checkout by design — requiring registration before a
+                first purchase is a well-known way to lose the purchase. */}
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/checkout/confirmed/:id" element={<CheckoutConfirmation />} />
 
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/about-us" element={<AboutUsPage />} />
