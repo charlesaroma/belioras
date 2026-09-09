@@ -19,12 +19,29 @@ import { cn } from "../../utils/cn";
 import ProductGallery from "./sections/ProductGallery";
 
 /** Body measurements in centimetres. */
+/** Body measurements, in centimetres. Garments only. */
 const SIZE_TABLE = [
   { size: "XS", bust: 80, waist: 62, hips: 88 },
   { size: "S", bust: 84, waist: 66, hips: 92 },
   { size: "M", bust: 88, waist: 70, hips: 96 },
   { size: "L", bust: 94, waist: 76, hips: 102 },
   { size: "XL", bust: 100, waist: 82, hips: 108 },
+];
+
+/**
+ * Footwear conversions, matching /shoe-size-guide. EU is the reference scale.
+ *
+ * Shoes previously opened the garment table above, so someone choosing EU 38
+ * pumps was shown bust, waist and hip measurements — a chart with no bearing
+ * on the decision they were making.
+ */
+const SHOE_TABLE = [
+  { eu: 36, uk: 3, us: 5, cm: 22.5 },
+  { eu: 37, uk: 4, us: 6, cm: 23.5 },
+  { eu: 38, uk: 5, us: 7, cm: 24.1 },
+  { eu: 39, uk: 6, us: 8, cm: 25.1 },
+  { eu: 40, uk: 6.5, us: 9, cm: 25.9 },
+  { eu: 41, uk: 7.5, us: 10, cm: 26.7 },
 ];
 
 export default function ProductPage() {
@@ -224,6 +241,9 @@ function BuyPanel({ product }) {
   const saved = has(product.id);
   const soldOut = product.stock === 0;
   const needsSize = product.sizes?.length > 1;
+  // EU-scaled sizes mean footwear, which needs the conversion chart instead
+  // of body measurements.
+  const isFootwear = product.sizes?.some((s) => /^eu\d+$/i.test(s));
 
   const handleAdd = () => {
     if (needsSize && !size) {
@@ -343,28 +363,57 @@ function BuyPanel({ product }) {
         onClose={() => setSizeGuideOpen(false)}
         title={t("pdp.sizeGuide", "Size guide")}
       >
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-umber-50 text-left text-[10px] uppercase tracking-widest text-espresso-soft">
-              <th className="pb-2">Size</th>
-              <th className="pb-2">Bust</th>
-              <th className="pb-2">Waist</th>
-              <th className="pb-2">Hips</th>
-            </tr>
-          </thead>
-          <tbody className="text-espresso-soft">
-            {SIZE_TABLE.map((row) => (
-              <tr key={row.size} className="border-b border-umber-50/60 last:border-0">
-                <td className="py-2.5 font-medium text-espresso">{row.size}</td>
-                <td className="py-2.5">{row.bust} cm</td>
-                <td className="py-2.5">{row.waist} cm</td>
-                <td className="py-2.5">{row.hips} cm</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {/* Shoes are sized on a different scale entirely, so they get the
+            conversion table rather than body measurements. */}
+        <div className="-mx-1 overflow-x-auto">
+          {isFootwear ? (
+            <table className="w-full min-w-[320px] text-sm">
+              <thead>
+                <tr className="border-b border-umber-50 text-left text-[10px] uppercase tracking-widest text-espresso-soft">
+                  <th className="pb-2 pr-4">EU</th>
+                  <th className="pb-2 pr-4">UK</th>
+                  <th className="pb-2 pr-4">US</th>
+                  <th className="pb-2">Foot length</th>
+                </tr>
+              </thead>
+              <tbody className="text-espresso-soft">
+                {SHOE_TABLE.map((row) => (
+                  <tr key={row.eu} className="border-b border-umber-50/60 last:border-0">
+                    <td className="py-2.5 pr-4 font-medium text-espresso">{row.eu}</td>
+                    <td className="py-2.5 pr-4">{row.uk}</td>
+                    <td className="py-2.5 pr-4">{row.us}</td>
+                    <td className="py-2.5">{row.cm} cm</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <table className="w-full min-w-[320px] text-sm">
+              <thead>
+                <tr className="border-b border-umber-50 text-left text-[10px] uppercase tracking-widest text-espresso-soft">
+                  <th className="pb-2 pr-4">Size</th>
+                  <th className="pb-2 pr-4">Bust</th>
+                  <th className="pb-2 pr-4">Waist</th>
+                  <th className="pb-2">Hips</th>
+                </tr>
+              </thead>
+              <tbody className="text-espresso-soft">
+                {SIZE_TABLE.map((row) => (
+                  <tr key={row.size} className="border-b border-umber-50/60 last:border-0">
+                    <td className="py-2.5 pr-4 font-medium text-espresso">{row.size}</td>
+                    <td className="py-2.5 pr-4">{row.bust} cm</td>
+                    <td className="py-2.5 pr-4">{row.waist} cm</td>
+                    <td className="py-2.5">{row.hips} cm</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
         <p className="mt-4 text-xs text-espresso/40">
-          Measurements are of the body, not the garment. Between sizes, we suggest the larger.
+          {isFootwear
+            ? "Our shoes are made on European lasts and run true to size. Between sizes, we suggest the larger."
+            : "Measurements are of the body, not the garment. Between sizes, we suggest the larger."}
         </p>
       </Modal>
     </>
