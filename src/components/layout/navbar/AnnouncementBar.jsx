@@ -2,7 +2,6 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getTopBanner } from "../../../services/promotionsApi";
 import CurrencySelector from "../../common/CurrencySelector";
-import LanguageSelector from "../../common/LanguageSelector";
 
 /**
  * The promo marquee, and on mobile the header's utility row.
@@ -70,10 +69,14 @@ export default function AnnouncementBar() {
   );
 }
 
+/**
+ * Currency only. Language moved down beside the bag — a shopper reaches for
+ * it far more often — and only one of the two fits there while the wordmark
+ * stays centred. See navbar/index.jsx.
+ */
 function Utilities() {
   return (
-    <div className="flex items-center gap-2">
-      <LanguageSelector />
+    <div className="flex items-center">
       <CurrencySelector />
     </div>
   );

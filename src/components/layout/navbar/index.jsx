@@ -18,6 +18,7 @@ import { Menu, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import LanguageSelector from "../../common/LanguageSelector";
 
 /**
  * Paths whose page opens on a plain light background rather than a full-bleed
@@ -182,28 +183,37 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mobile / Tablet navbar ── */}
-        <div className="lg:hidden w-full px-4 sm:px-6 grid grid-cols-[auto_1fr_auto] items-center py-3 gap-2">
+        {/* ── Mobile / Tablet navbar ──
+            1fr_auto_1fr, matching the desktop row: the two side columns are
+            always equal, so the wordmark stays centred whatever the sides
+            hold. With auto_1fr_auto it drifted by exactly the difference
+            between the two — 62px, at every width.
+
+            Language sits beside the bag because a shopper needs it to hand.
+            Only one selector fits: the mark is 61px and the sides get about
+            113px each at 320px, which takes language (50) plus the bag (44),
+            but not currency (59) as well. Currency stays one row up. */}
+        <div className="lg:hidden w-full px-4 sm:px-6 grid grid-cols-[1fr_auto_1fr] items-center py-3 gap-2">
           {/* Left: Burger */}
-          <button
-            type="button"
-            className="flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-          >
-            <Menu className="size-5" aria-hidden="true" />
-          </button>
+          <div className="flex items-center justify-start">
+            <button
+              type="button"
+              className="flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+              aria-label="Open menu"
+              onClick={() => setMobileOpen(true)}
+            >
+              <Menu className="size-5" aria-hidden="true" />
+            </button>
+          </div>
 
           {/* Center: Logo */}
           <div className="flex justify-center">
             <Logo />
           </div>
 
-          {/* Right: the bag alone, matching the burger's 44px so the wordmark
-              sits at true centre. Language and currency moved up to the
-              announcement row — see AnnouncementBar. Each destination still
-              lives in exactly one place; search is in the drawer. */}
-          <div className="flex items-center justify-end">
+          {/* Right: language, then the bag. */}
+          <div className="flex items-center justify-end gap-2">
+            <LanguageSelector />
             <button
               type="button"
               className="relative flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
