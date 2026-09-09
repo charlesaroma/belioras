@@ -81,8 +81,13 @@ export default function CatalogView({ products, loading, error, header = {}, emp
       ) : (
         <div className="mx-auto max-w-[1400px] px-6 pb-24 pt-8 md:px-10">
           <div className="min-w-0">
+              {/* The inner group could not wrap, so at 390px it overflowed a
+                  342px row and justify-end pushed the sort control off the
+                  LEFT edge — invisible to a scrollWidth check, since negative
+                  overflow does not grow the page. The select now flexes and
+                  the density switcher is pushed right. */}
               <div className="mb-5 flex flex-wrap items-center justify-end gap-3">
-                <div className="flex items-center gap-4">
+                <div className="flex w-full items-center gap-2 sm:w-auto sm:gap-4">
                   <label
                     htmlFor="catalog-sort"
                     className="flex items-center gap-2 text-xs text-espresso-soft"
@@ -93,7 +98,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     id="catalog-sort"
                     value={filters.sort}
                     onChange={(e) => setSort(e.target.value)}
-                    className="-ml-2 min-h-11 border border-umber-100 bg-transparent px-2 text-xs text-espresso outline-none transition-colors hover:border-espresso"
+                    className="min-w-0 flex-1 min-h-11 border border-umber-100 bg-transparent px-2 text-xs text-espresso outline-none transition-colors hover:border-espresso sm:-ml-2 sm:flex-none"
                   >
                     {SORT_OPTIONS.map((option) => (
                       <option key={option.value ?? option} value={option.value ?? option}>
@@ -107,7 +112,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     onClick={() => setDrawerOpen(true)}
                     aria-haspopup="dialog"
                     aria-expanded={drawerOpen}
-                    className="relative inline-flex min-h-11 items-center gap-2 border border-espresso px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
+                    className="relative inline-flex min-h-11 shrink-0 items-center gap-2 border border-espresso px-3 sm:px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
                   >
                     <SlidersHorizontal className="size-3.5" aria-hidden="true" />
                     Filter
@@ -118,7 +123,9 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     )}
                   </button>
 
-                  <GridViewSwitcher columns={cols} setColumns={setCols} />
+                  <div className="ml-auto flex shrink-0 items-center sm:ml-0">
+                    <GridViewSwitcher columns={cols} setColumns={setCols} />
+                  </div>
                 </div>
               </div>
 

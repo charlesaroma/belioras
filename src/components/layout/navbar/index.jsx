@@ -18,8 +18,6 @@ import { Menu, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import CurrencySelector from "../../common/CurrencySelector";
-import LanguageSelector from "../../common/LanguageSelector";
 
 /**
  * Paths whose page opens on a plain light background rather than a full-bleed
@@ -201,14 +199,11 @@ export default function Navbar() {
             <Logo />
           </div>
 
-          {/* Right: language, currency, cart. Each destination lives in
-              exactly one place — search moved to the drawer (which already
-              had a row for it), and language/currency moved out of the
-              drawer's footer to here, so nothing is offered twice.
-              gap-2 keeps 8px between adjacent touch targets. */}
-          <div className="flex items-center gap-2">
-            <LanguageSelector />
-            <CurrencySelector />
+          {/* Right: the bag alone, matching the burger's 44px so the wordmark
+              sits at true centre. Language and currency moved up to the
+              announcement row — see AnnouncementBar. Each destination still
+              lives in exactly one place; search is in the drawer. */}
+          <div className="flex items-center justify-end">
             <button
               type="button"
               className="relative flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
