@@ -16,7 +16,7 @@ export default function SizeSelector({ options = [], value, onChange = () => {} 
             aria-checked={selected}
             onClick={() => onChange(size)}
             className={cn(
-              "min-w-[44px] border px-3 py-2.5 text-center text-xs uppercase tracking-wider transition-all duration-150",
+              "flex min-h-11 min-w-11 items-center justify-center border px-3 text-center text-xs uppercase tracking-wider transition-all duration-150",
               selected
                 ? "border-espresso bg-espresso text-ivory-50"
                 : "border-umber-100 bg-transparent text-espresso-soft hover:border-espresso",

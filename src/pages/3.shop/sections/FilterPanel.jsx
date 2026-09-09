@@ -213,7 +213,7 @@ function PriceSection({ bounds, filters, onPriceChange, onSaleChange }) {
         showLabels={false}
       />
 
-      <label className="mt-5 flex cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft">
+      <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft lg:min-h-0">
         <NativeCheckbox checked={filters.onSale} onChange={() => onSaleChange(!filters.onSale)} />
         On sale only
       </label>
@@ -225,7 +225,7 @@ function PriceInput({ label, value, min, max, symbol, onCommit }) {
   const [draft, setDraft] = useState(null);
 
   return (
-    <span className="inline-flex items-center gap-1 border border-umber-100 px-2 py-1.5 focus-within:border-espresso">
+    <span className="inline-flex min-h-11 items-center gap-1 border border-umber-100 px-2 focus-within:border-espresso lg:min-h-0 lg:py-1.5">
       <span aria-hidden="true" className="text-xs text-espresso/40">
         {symbol}
       </span>
@@ -263,7 +263,7 @@ function PriceInput({ label, value, min, max, symbol, onCommit }) {
  */
 function FilterCheckbox({ checked, label, onChange }) {
   return (
-    <label className="flex min-w-0 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft transition-colors hover:text-espresso">
+    <label className="flex min-h-11 min-w-0 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft transition-colors hover:text-espresso lg:min-h-0">
       <NativeCheckbox checked={checked} onChange={onChange} />
       <span className="truncate">{label}</span>
     </label>

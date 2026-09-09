@@ -174,7 +174,7 @@ export default function ProductPage() {
               onClick={handleShare}
               aria-label={t("pdp.share", "Share this piece")}
               title={t("pdp.share", "Share this piece")}
-              className="mt-1 flex size-9 shrink-0 items-center justify-center text-espresso-soft transition-colors hover:text-espresso"
+              className="-mr-2.5 mt-1 flex size-11 shrink-0 items-center justify-center text-espresso-soft transition-colors hover:text-espresso"
             >
               <Share2 className="size-4" aria-hidden="true" />
             </button>
@@ -297,14 +297,17 @@ function BuyPanel({ product }) {
         </div>
       )}
 
-      <div className="mt-8 flex items-center gap-5">
+      {/* At 390px the quantity stepper, the button and the heart left the
+          button about 100px, so "Add to bag" broke across three lines. Below
+          sm the primary action takes its own full-width row. */}
+      <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-5">
         <QuantitySelector value={qty} onChange={setQty} max={Math.max(product.stock, 1)} />
 
         <button
           type="button"
           onClick={handleAdd}
           disabled={soldOut}
-          className="flex-1 border border-espresso bg-espresso px-10 py-4 text-sm font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40"
+          className="order-last w-full border border-espresso bg-espresso px-6 py-4 text-sm font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40 sm:order-none sm:w-auto sm:flex-1 sm:px-10"
         >
           {soldOut
             ? t("pdp.soldOut", "Sold out")
@@ -319,7 +322,7 @@ function BuyPanel({ product }) {
           aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
           aria-pressed={saved}
           className={cn(
-            "flex size-12 shrink-0 items-center justify-center border transition-all",
+            "ml-auto flex size-12 shrink-0 items-center justify-center border transition-all sm:ml-0",
             saved
               ? "border-espresso bg-espresso text-gold-400"
               : "border-umber-100 text-espresso-soft hover:border-espresso",

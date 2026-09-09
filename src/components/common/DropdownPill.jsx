@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "../../utils/cn";
 
 const PILL_TRIGGER =
-  "inline-flex items-center gap-1.5 border border-current/30 px-3 py-1.5 text-[11px] uppercase tracking-widest transition-colors hover:border-current/60";
+  "inline-flex min-h-11 items-center gap-1.5 border border-current/30 px-3 text-[11px] uppercase tracking-widest transition-colors hover:border-current/60";
 
 const ICON_TRIGGER =
   "flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70";
@@ -15,7 +15,7 @@ const ICON_TRIGGER =
 // pair quiet beside the icon buttons; two outlined pills would out-shout the
 // wishlist and bag.
 const CODE_TRIGGER =
-  "inline-flex items-center gap-1 px-2 py-1.5 text-[11px] uppercase tracking-[0.14em] text-current transition-opacity hover:opacity-70";
+  "inline-flex min-h-11 items-center gap-1 px-2 text-[11px] uppercase tracking-[0.14em] text-current transition-opacity hover:opacity-70";
 
 /**
  * Accessible listbox used for the header's language and currency selectors.
@@ -109,7 +109,7 @@ export default function DropdownPill({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left text-xs uppercase tracking-wide transition-colors hover:bg-brown-50",
+                    "flex min-h-11 w-full items-center justify-between gap-3 px-4 text-left text-xs uppercase tracking-wide transition-colors hover:bg-brown-50",
                     opt.code === activeCode ? "text-gold-700" : "text-espresso",
                   )}
                 >

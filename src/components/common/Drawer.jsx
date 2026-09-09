@@ -93,7 +93,7 @@ export default function Drawer({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="text-espresso/40 transition-colors hover:text-espresso"
+            className="-mr-3 flex size-11 items-center justify-center text-espresso/40 transition-colors hover:text-espresso"
           >
             <X className="size-5" aria-hidden="true" />
           </button>

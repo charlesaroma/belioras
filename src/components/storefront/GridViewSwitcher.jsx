@@ -58,7 +58,9 @@ function DensityGroup({ options, columns, setColumns, className }) {
             tabIndex={i === tabStopIndex ? 0 : -1}
             onClick={() => setColumns(option)}
             className={cn(
-              "flex cursor-pointer items-center justify-center p-1 transition-opacity",
+              // 44px where a finger picks it, 36px on desktop where a mouse
+              // does. At p-1 alone the target was 34px on a phone.
+              "flex size-11 cursor-pointer items-center justify-center transition-opacity lg:size-9",
               active ? "opacity-100" : "opacity-50 hover:opacity-80",
             )}
           >
@@ -80,13 +82,13 @@ export default function GridViewSwitcher({ columns, setColumns }) {
         options={MOBILE_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="flex items-center gap-1 md:hidden"
+        className="flex items-center gap-2 md:hidden"
       />
       <DensityGroup
         options={TABLET_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden items-center gap-1 md:flex lg:hidden"
+        className="hidden items-center gap-2 md:flex lg:hidden"
       />
       <DensityGroup
         options={DESKTOP_COLUMN_OPTIONS}

@@ -93,7 +93,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     id="catalog-sort"
                     value={filters.sort}
                     onChange={(e) => setSort(e.target.value)}
-                    className="-ml-2 border border-umber-100 bg-transparent px-2 py-1.5 text-xs text-espresso outline-none transition-colors hover:border-espresso"
+                    className="-ml-2 min-h-11 border border-umber-100 bg-transparent px-2 text-xs text-espresso outline-none transition-colors hover:border-espresso"
                   >
                     {SORT_OPTIONS.map((option) => (
                       <option key={option.value ?? option} value={option.value ?? option}>
@@ -107,7 +107,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                     onClick={() => setDrawerOpen(true)}
                     aria-haspopup="dialog"
                     aria-expanded={drawerOpen}
-                    className="relative inline-flex items-center gap-2 border border-espresso px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
+                    className="relative inline-flex min-h-11 items-center gap-2 border border-espresso px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
                   >
                     <SlidersHorizontal className="size-3.5" aria-hidden="true" />
                     Filter

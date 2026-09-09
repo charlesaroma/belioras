@@ -154,7 +154,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
         <div className="flex items-center gap-4">
           {/* The navbar carries the field at lg and up; duplicating it here
               would put two search boxes on screen at once. */}
-          <div className="flex flex-1 items-center gap-3 border border-umber-100 px-4 py-3 focus-within:border-espresso lg:hidden">
+          <div className="flex flex-1 items-center gap-3 border border-umber-100 px-4 focus-within:border-espresso lg:hidden">
             <Search className="size-4 shrink-0 text-espresso/40" aria-hidden="true" />
             <label className="sr-only" htmlFor="site-search">
               Search the collection
@@ -166,7 +166,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && submit()}
               placeholder={t("common.searchPlaceholder", "Search the collection…")}
-              className="flex-1 bg-transparent py-0.5 text-sm tracking-wide text-espresso outline-none placeholder:text-espresso/35"
+              className="min-h-11 flex-1 bg-transparent text-sm tracking-wide text-espresso outline-none placeholder:text-espresso/35"
             />
           </div>
 
@@ -178,7 +178,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
           <button
             type="button"
             onClick={() => setImageSearchOpen(true)}
-            className="flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-widest text-espresso-soft transition-colors hover:text-espresso"
+            className="flex min-h-11 shrink-0 items-center gap-1.5 px-1 text-[11px] uppercase tracking-widest text-espresso-soft transition-colors hover:text-espresso"
           >
             <Camera className="size-4" strokeWidth={1.5} aria-hidden="true" />
             <span className="hidden sm:inline">Photo</span>
@@ -187,7 +187,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
           <button
             type="button"
             onClick={close}
-            className="flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-widest text-espresso-soft transition-colors hover:text-espresso"
+            className="flex min-h-11 shrink-0 items-center gap-1.5 px-1 text-[11px] uppercase tracking-widest text-espresso-soft transition-colors hover:text-espresso"
           >
             <X className="size-3.5" aria-hidden="true" />
             <span className="hidden sm:inline">Close</span>
@@ -219,7 +219,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
                 <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-espresso">
                   Colour
                 </p>
-                <div className="flex max-w-[180px] flex-wrap gap-2">
+                <div className="-mx-2 flex max-w-[220px] flex-wrap lg:mx-0 lg:max-w-[180px] lg:gap-2">
                   {colourSwatches.map((c) => {
                     const active = colours.includes(c.id);
                     return (
@@ -230,14 +230,18 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
                         aria-pressed={active}
                         aria-label={c.name}
                         title={c.name}
-                        className={cn(
-                          "size-7 border transition-all",
-                          active
-                            ? "border-transparent ring-2 ring-espresso ring-offset-1"
-                            : "border-umber-100 hover:border-espresso/40",
-                        )}
-                        style={{ backgroundColor: c.hex }}
-                      />
+                        className="flex size-11 items-center justify-center lg:size-7"
+                      >
+                        <span
+                          className={cn(
+                            "size-7 border transition-all",
+                            active
+                              ? "border-transparent ring-2 ring-espresso ring-offset-1"
+                              : "border-umber-100 hover:border-espresso/40",
+                          )}
+                          style={{ backgroundColor: c.hex }}
+                        />
+                      </button>
                     );
                   })}
                 </div>
@@ -259,7 +263,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
                         onClick={() => toggle(setSizes)(s)}
                         aria-pressed={active}
                         className={cn(
-                          "flex h-8 min-w-[34px] items-center justify-center border px-2 text-xs uppercase transition-all",
+                          "flex h-11 min-w-11 items-center justify-center border px-2 text-xs uppercase transition-all lg:h-8 lg:min-w-[34px]",
                           active
                             ? "border-espresso bg-espresso text-ivory-50"
                             : "border-umber-100 text-espresso-soft hover:border-espresso",

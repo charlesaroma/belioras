@@ -87,7 +87,7 @@ export default function ProductCard({ product }) {
         aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name}`}
         aria-pressed={saved}
         className={cn(
-          "absolute right-3 top-3 flex size-9 items-center justify-center rounded-full backdrop-blur",
+          "absolute right-2 top-2 flex size-11 items-center justify-center rounded-full backdrop-blur",
           "transition-all duration-300",
           saved ? "bg-espresso/80 text-gold-400" : "bg-ivory-50/80 text-espresso-soft",
           // Revealed on hover at desktop widths, permanent on touch, and always

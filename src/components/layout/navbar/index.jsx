@@ -189,7 +189,7 @@ export default function Navbar() {
           {/* Left: Burger */}
           <button
             type="button"
-            className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+            className="flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
             aria-label="Open menu"
             onClick={() => setMobileOpen(true)}
           >
@@ -211,7 +211,7 @@ export default function Navbar() {
             <CurrencySelector />
             <button
               type="button"
-              className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+              className="relative flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
               aria-label={`Open cart, ${count} items`}
               onClick={() => setCartOpen(true)}
             >
