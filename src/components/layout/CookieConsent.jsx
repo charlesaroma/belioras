@@ -87,7 +87,11 @@ export default function CookieConsent() {
           role="region"
           aria-live="polite"
           aria-label={t("cookies.label", "Cookie notice")}
-          className="fixed inset-x-0 bottom-0 z-[70] border-t border-gold-500/20 bg-espresso/95 backdrop-blur"
+          // Below the modal layer (50+), above ordinary page content. At
+          // z-[70] this bottom-anchored bar sat over every open drawer — on a
+          // phone it covered the mobile menu's whole footer, so a first-time
+          // visitor could not reach Sign in until they dismissed cookies.
+          className="fixed inset-x-0 bottom-0 z-[45] border-t border-gold-500/20 bg-espresso/95 backdrop-blur"
         >
           <div className="container-main flex flex-col items-center gap-5 px-4 py-5 sm:px-6 md:flex-row md:justify-between md:gap-8">
             <div className="text-center md:text-left">

@@ -244,7 +244,6 @@ export default function Navbar() {
           setSearchOpen(true);
         }}
         categories={categories}
-        onCartOpen={() => setCartOpen(true)}
       />
 
       <SearchPanel

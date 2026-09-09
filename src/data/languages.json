@@ -52,7 +52,10 @@
         "shop": "Shop",
         "dresses": "Dresses",
         "hair": "Hair",
-        "accessories": "Accessories"
+        "accessories": "Accessories",
+        "signIn": "Sign in",
+        "createAccount": "Create account",
+        "savedPieces": "Saved pieces"
       },
       "home": {
         "heroKicker": "Autumn / Winter 2026 Collection",
@@ -213,7 +216,10 @@
         "shop": "Boutique",
         "dresses": "Robes",
         "hair": "Cheveux",
-        "accessories": "Accessoires"
+        "accessories": "Accessoires",
+        "signIn": "Se connecter",
+        "createAccount": "Créer un compte",
+        "savedPieces": "Pièces enregistrées"
       },
       "home": {
         "heroKicker": "Collection Automne / Hiver 2026",
@@ -374,7 +380,10 @@
         "shop": "Shop",
         "dresses": "Kleider",
         "hair": "Haare",
-        "accessories": "Accessoires"
+        "accessories": "Accessoires",
+        "signIn": "Anmelden",
+        "createAccount": "Konto erstellen",
+        "savedPieces": "Gemerkte Stücke"
       },
       "home": {
         "heroKicker": "Herbst / Winter Kollektion 2026",
@@ -535,7 +544,10 @@
         "shop": "商店",
         "dresses": "连衣裙",
         "hair": "美发",
-        "accessories": "配饰"
+        "accessories": "配饰",
+        "signIn": "登录",
+        "createAccount": "创建账户",
+        "savedPieces": "收藏单品"
       },
       "home": {
         "heroKicker": "2026秋冬系列",
@@ -696,7 +708,10 @@
         "shop": "Tienda",
         "dresses": "Vestidos",
         "hair": "Cabello",
-        "accessories": "Accesorios"
+        "accessories": "Accesorios",
+        "signIn": "Iniciar sesión",
+        "createAccount": "Crear cuenta",
+        "savedPieces": "Piezas guardadas"
       },
       "home": {
         "heroKicker": "Colección Otoño / Invierno 2026",
@@ -857,7 +872,10 @@
         "shop": "Negozio",
         "dresses": "Abiti",
         "hair": "Capelli",
-        "accessories": "Accessori"
+        "accessories": "Accessori",
+        "signIn": "Accedi",
+        "createAccount": "Crea un account",
+        "savedPieces": "Pezzi salvati"
       },
       "home": {
         "heroKicker": "Collezione Autunno / Inverno 2026",
