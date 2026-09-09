@@ -14,10 +14,12 @@ import NavLinks from "./NavLinks";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "./CartDrawer";
-import { Menu, Search, ShoppingBag } from "lucide-react";
+import { Menu, ShoppingBag } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCart } from "../../../context/CartContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import CurrencySelector from "../../common/CurrencySelector";
+import LanguageSelector from "../../common/LanguageSelector";
 
 /**
  * Paths whose page opens on a plain light background rather than a full-bleed
@@ -199,18 +201,13 @@ export default function Navbar() {
             <Logo />
           </div>
 
-          {/* Right: Search + Cart */}
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
-              aria-label="Search"
-              onClick={() => setSearchOpen((v) => !v)}
-              aria-expanded={searchOpen}
-              aria-haspopup="dialog"
-            >
-              <Search className="size-5" aria-hidden="true" />
-            </button>
+          {/* Right: language, currency, cart. Search moved out — it already
+              has a dedicated row inside the mobile drawer ("Search the
+              collection"), so a second entry point here was redundant with a
+              tap already one step away. */}
+          <div className="flex items-center gap-0.5">
+            <LanguageSelector />
+            <CurrencySelector />
             <button
               type="button"
               className="relative flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
