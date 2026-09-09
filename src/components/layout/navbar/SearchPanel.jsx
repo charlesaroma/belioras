@@ -59,10 +59,16 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   useEffect(() => {
     if (!open) return undefined;
 
-    restoreFocusRef.current = document.activeElement;
     // Only steal focus where this panel owns the field; on desktop the navbar
     // input already has it and moving focus would interrupt typing.
-    if (window.matchMedia("(max-width: 1023px)").matches) inputRef.current?.focus();
+    const ownsFocus = window.matchMedia("(max-width: 1023px)").matches;
+
+    // Restore focus only if we took it. On desktop the previously focused
+    // element is the navbar's own search input, whose onFocus reopens this
+    // panel — so restoring focus on close put it straight back, and the
+    // Close button looked broken even though it had run.
+    restoreFocusRef.current = ownsFocus ? document.activeElement : null;
+    if (ownsFocus) inputRef.current?.focus();
 
     const onKeyDown = (e) => {
       if (e.key === "Escape") close();

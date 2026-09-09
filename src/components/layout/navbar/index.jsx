@@ -201,11 +201,12 @@ export default function Navbar() {
             <Logo />
           </div>
 
-          {/* Right: language, currency, cart. Search moved out — it already
-              has a dedicated row inside the mobile drawer ("Search the
-              collection"), so a second entry point here was redundant with a
-              tap already one step away. */}
-          <div className="flex items-center gap-0.5">
+          {/* Right: language, currency, cart. Each destination lives in
+              exactly one place — search moved to the drawer (which already
+              had a row for it), and language/currency moved out of the
+              drawer's footer to here, so nothing is offered twice.
+              gap-2 keeps 8px between adjacent touch targets. */}
+          <div className="flex items-center gap-2">
             <LanguageSelector />
             <CurrencySelector />
             <button
