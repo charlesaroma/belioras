@@ -65,7 +65,7 @@ import {
   AccountAddresses,
   AccountWishlist,
   AccountSettings,
-} from "./pages/account";
+} from "./customerDashboard";
 import { cn } from "./utils/cn";
 
 /** Forwards /search?q=… to the real results surface, preserving the term. */

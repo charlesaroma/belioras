@@ -1,8 +1,8 @@
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
 
-import { useAuth } from "../../context/AuthContext";
-import { cn } from "../../utils/cn";
+import { useAuth } from "../context/AuthContext";
+import { cn } from "../utils/cn";
 
 const NAV = [
   { to: "/account", end: true, label: "Overview", icon: UserRound },

@@ -1,37 +1,40 @@
 # 11 — Client Account (The Signed-In Shopper)
 
-**Rule:** The account area is part of the storefront, not a second app. It renders inside `Layout`, reuses storefront components, and lives at `src/pages/account/`. Everything a signed-in customer can do is here; everything an admin can do is in [07](07-dashboard.md).
+**Rule:** `src/customerDashboard/` is the signed-in customer's app. It renders inside the storefront `Layout`, not a shell of its own — a customer checking an order has not left the shop. Everything a signed-in customer can do is here; everything an admin can do is in [07](07-dashboard.md).
 
 Shoppers sign in at `/login`; staff use `/atelier`, which is linked from nowhere public. Both call the same `login()` and land the person by role — refusing the "wrong" door would tell anyone probing which addresses belong to staff.
 
-## Why It Is Not `src/Account/`
+## Two Dashboards, One Rule Each
 
-The Dashboard earns a top-level folder by being self-contained — its own chrome, hooks and constants, and a binding rule that neither side imports the other's pages ([10](10-folder-structure.md)). The account area is the opposite: it renders inside the storefront shell and shares `ProductCard`, `GridViewSwitcher`, `StatusChip` and the `ui/` primitives. A sibling folder would force either duplication or a cross-boundary import, so the symmetry would be cosmetic.
+`src/customerDashboard/` and the admin `src/Dashboard/` are named to match on purpose, and held to opposite isolation rules — see [10](10-folder-structure.md#two-dashboards-one-rule-each) for the full reasoning. In short: the admin dashboard never touches storefront code; the customer dashboard freely reuses `ProductCard`, `GridViewSwitcher`, `StatusChip` and the `ui/` primitives from it.
+
+That's also why `Avatar`, `OrderTimeline` and `accountMenuItems` are **not** inside `customerDashboard/` — they live in `src/components/account/` because the admin `Dashboard/` sidebar and its Customers/Team pages import them too, alongside the storefront navbar and the public order tracker. Five consumers, only one of them a customer-dashboard page; nesting them here would point the admin area's imports backwards through the customer's own folder.
 
 ## Structure
 
 ```
-src/pages/account/
-├── index.jsx              # Barrel — App.jsx imports the area in one line
-├── AccountLayout.jsx      # Shell: heading, left rail, <Outlet/>. Owns the page's only h1
-├── Profile.jsx            # Overview
-├── Orders.jsx             # History list
-├── OrderDetail.jsx        # One order + timeline + order again + receipt
-├── Addresses.jsx          # Address book
-├── Wishlist.jsx           # Saved pieces
-├── Settings.jsx           # Profile, security, preferences
-└── sections/
-    └── SettingsPanel.jsx  # Private to Settings
+src/customerDashboard/
+├── index.jsx              # Barrel — mirrors Dashboard/index.jsx
+├── AccountLayout.jsx      # Heading, left rail, <Outlet/>. Owns the page's only h1
+├── pages/
+│   ├── Profile.jsx        # Overview
+│   ├── Orders.jsx         # History list
+│   ├── OrderDetail.jsx    # One order + timeline + order again + receipt
+│   ├── Addresses.jsx      # Address book
+│   ├── Wishlist.jsx       # Saved pieces
+│   ├── Settings.jsx       # Profile, security, preferences
+│   └── sections/
+│       └── SettingsPanel.jsx  # Private to Settings
 
-src/components/account/    # Shared by ≥2 account surfaces
-├── Avatar.jsx             # Initials or photo. Also used by the navbar
-├── OrderTimeline.jsx      # Four stages. Also used by the public tracker
+src/components/account/    # Shared across MORE than customerDashboard alone
+├── Avatar.jsx             # Initials or photo — navbar, admin Dashboard, here
+├── OrderTimeline.jsx      # Four stages — public tracker, admin Dashboard, here
 └── accountMenuItems.js    # One list, rendered by AccountMenu and MobileMenu
 ```
 
 ## Routes
 
-All under `<RequireAuth>` — no `adminOnly`, so staff can shop as themselves.
+All under `<RequireAuth>` — no `adminOnly`, so staff can shop as themselves. URLs stayed at `/account/*` when the source moved into `customerDashboard/`; moving the code is not the same decision as moving what a customer types in the browser or has bookmarked.
 
 | Path | Page |
 | --- | --- |
@@ -57,7 +60,7 @@ All under `<RequireAuth>` — no `adminOnly`, so staff can shop as themselves.
 | Wishlist | `context/WishlistContext` | Per-account via `useScopedStorage` |
 | Addresses | `useScopedStorage("belioras:addresses", [], user.id)` | Per-account. **No seed** — it once shipped a fictional customer's Lisbon address to every new account |
 | Profile | `context/AuthContext` → `updateProfile`, `changePassword`, `verifyPassword` | |
-| Status vocabulary | `utils/orderStatus` | One definition, shared with the Dashboard and the public tracker |
+| Status vocabulary | `utils/orderStatus` | One definition, shared with the admin `Dashboard/` and the public tracker |
 
 ## Per-User Isolation (Binding)
 
