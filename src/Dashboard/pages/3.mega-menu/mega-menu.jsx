@@ -10,6 +10,7 @@ import { getNavigation, resetNavigation, updateNavigation } from "../../../servi
 import { getProducts } from "../../../services/productsApi";
 import IconAction from "../../components/IconAction";
 import MenuRoot from "./sections/MenuRoot";
+import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/menuTree";
 
 /**
  * The mega menu.
@@ -45,24 +46,9 @@ export default function DashMegaMenu() {
 
   const dirty = Boolean(edits) && JSON.stringify(edits) !== JSON.stringify(navigation);
 
-  /** Live product count per link, matched on the leaf's own slug segment. */
-  const countFor = (item) => {
-    if (!products) return null;
-    const slug = item.slug?.split("/").pop();
-    if (!slug) return null;
-    return products.filter((p) => (p.tags ?? []).some((t) => t.endsWith(`:${slug}`))).length;
-  };
-
-  const patchRoot = (rootId, patch) =>
-    setEdits(draft.map((r) => (r.id === rootId ? { ...r, ...patch } : r)));
-
-  const moveRoot = (index, delta) => {
-    const target = index + delta;
-    if (target < 0 || target >= draft.length) return;
-    const next = [...draft];
-    [next[index], next[target]] = [next[target], next[index]];
-    setEdits(next);
-  };
+  const countFor = (item) => countForItem(item, products);
+  const patchRoot = (rootId, patch) => setEdits(patchRootIn(draft, rootId, patch));
+  const moveRoot = (index, delta) => setEdits(moveRootIn(draft, index, delta));
 
   const save = async () => {
     setSaving(true);
@@ -93,16 +79,13 @@ export default function DashMegaMenu() {
     );
   }
 
-  const totalLinks = draft.reduce(
-    (n, root) => n + (root.sections ?? []).reduce((m, s) => m + (s.items ?? []).length, 0),
-    0,
-  );
+  const linkCount = totalLinks(draft);
 
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-[12px] text-espresso-soft">
-          {draft.length} top-level menus · {totalLinks} links
+          {draft.length} top-level menus · {linkCount} links
           {dirty && <span className="ml-2 text-gold-700">· unsaved changes</span>}
         </p>
 
