@@ -60,6 +60,8 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  // Where the open mega-menu trigger sits, so a compact panel opens under it.
+  const [menuAnchor, setMenuAnchor] = useState(0);
   const closeTimer = useRef(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -159,6 +161,7 @@ export default function Navbar() {
               onOpen={openMenu}
               onScheduleClose={scheduleCloseMenu}
               onCancelClose={cancelCloseMenu}
+              onAnchorChange={setMenuAnchor}
             />
           </div>
 
@@ -234,7 +237,7 @@ export default function Navbar() {
         {/* ── Mega Menu (responsive, flush against navbar) ── */}
         <MegaMenu
           category={activeCategory}
-          products={products}
+          anchorLeft={menuAnchor}
           onMouseEnter={cancelCloseMenu}
           onMouseLeave={scheduleCloseMenu}
         />

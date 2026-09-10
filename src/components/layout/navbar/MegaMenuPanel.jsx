@@ -44,7 +44,13 @@ const STAGGER = 0.035;
  */
 const ITEMS_PER_SECTION = 6;
 
-export default function MegaMenuPanel({ item, variant = "desktop", onNavigate }) {
+export default function MegaMenuPanel({
+  item,
+  variant = "desktop",
+  onNavigate,
+  columns = 3,
+  showTiles = true,
+}) {
   const [openSection, setOpenSection] = useState(null);
   const reduceMotion = useReducedMotion();
 
@@ -176,7 +182,14 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
           Shop carries five sections. Five columns beside the imagery is
           unreadable, so they cap at two on lg and three on xl and wrap.
         */}
-        <div className="grid min-w-0 flex-1 grid-cols-2 gap-x-10 gap-y-9 xl:grid-cols-3 xl:gap-x-12">
+        {/* Column count comes from the caller, which derives it from how much
+            this category actually holds — see megaMenuLayout.js. It used to be
+            a hard grid-cols-2 xl:grid-cols-3, so a single-section root spread
+            one short list across three columns of nothing. */}
+        <div
+          className="grid min-w-0 flex-1 gap-x-10 gap-y-9 xl:gap-x-12"
+          style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+        >
           {sections.map((section, i) => (
             <motion.div
               key={section.id}
@@ -227,7 +240,7 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
           ))}
         </div>
 
-        {tiles.length > 0 && (
+        {showTiles && tiles.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

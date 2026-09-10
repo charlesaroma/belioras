@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
@@ -6,8 +7,33 @@ import { NAV_LINKS } from "../../../utils/constants";
 
 const MEGA_IDS = ["new-arrivals", "shop", "dresses", "hair", "accessories"];
 
-export default function NavLinks({ links, menuId, onOpen, onScheduleClose, onCancelClose }) {
+export default function NavLinks({
+  links,
+  menuId,
+  onOpen,
+  onScheduleClose,
+  onCancelClose,
+  onAnchorChange,
+}) {
   const { t } = useLanguage();
+  const itemRefs = useRef({});
+
+  /**
+   * Report where the open trigger sits, so a compact mega menu can open
+   * underneath it instead of at the page edge.
+   *
+   * Measured rather than guessed, the same way the navbar publishes
+   * --header-height: the offset is a function of the label text, the locale
+   * and the breakpoint, so any hardcoded value is wrong as soon as one of
+   * those changes.
+   */
+  useLayoutEffect(() => {
+    if (!menuId || !onAnchorChange) return;
+    const el = itemRefs.current[menuId];
+    const header = el?.closest("header");
+    if (!el || !header) return;
+    onAnchorChange(el.getBoundingClientRect().left - header.getBoundingClientRect().left);
+  }, [menuId, onAnchorChange]);
 
   return (
     // Visibility is governed by the navbar's own `hidden lg:grid` container;
@@ -21,8 +47,11 @@ export default function NavLinks({ links, menuId, onOpen, onScheduleClose, onCan
           const open = menuId === link.id;
 
           return (
-            <li 
-              key={link.id} 
+            <li
+              key={link.id}
+              ref={(el) => {
+                itemRefs.current[link.id] = el;
+              }}
               onMouseEnter={() => {
                 if (hasMenu) {
                   onCancelClose();
