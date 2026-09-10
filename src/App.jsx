@@ -26,10 +26,10 @@ import ProductPage from "./pages/product/product";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 import CheckoutConfirmation from "./pages/checkout/Confirmation";
 
-import LoginPage from "./pages/0.auth/login";
-import SignupPage from "./pages/0.auth/signup";
-import ForgotPasswordPage from "./pages/0.auth/forgotpassword";
-import AtelierLoginPage from "./pages/0.auth/atelier";
+import LoginPage from "./pages/0.auth/customer/login";
+import SignupPage from "./pages/0.auth/customer/signup";
+import ForgotPasswordPage from "./pages/0.auth/customer/forgotpassword";
+import AtelierLoginPage from "./pages/0.auth/admin/atelier";
 
 import FAQPage from "./pages/FAQ/faq";
 import AboutUsPage from "./pages/customer-support/about-us";

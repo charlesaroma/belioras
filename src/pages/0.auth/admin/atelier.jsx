@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
-import BrandMark from "../../components/shared/BrandMark";
-import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../context/ToastContext";
-import { isAdminRole, resolveLanding } from "../../utils/roles";
-import { validateCredentials } from "../../utils/validateCredentials";
+import BrandMark from "../../../components/shared/BrandMark";
+import { useAuth } from "../../../context/AuthContext";
+import { useToast } from "../../../context/ToastContext";
+import { isAdminRole, resolveLanding } from "../../../utils/roles";
+import { validateCredentials } from "../../../utils/validateCredentials";
 
 /**
  * The atelier door.
