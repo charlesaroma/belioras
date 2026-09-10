@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from "motion/react";
 
 import MegaMenuPanel from "./MegaMenuPanel";
-import { megaMenuColumns, megaMenuLayoutFor } from "./megaMenuLayout";
+import { megaMenuColumns, megaMenuLayoutFor } from "./megaMenu/megaMenuLayout";
 
 export default function MegaMenu({ category, anchorLeft, onMouseEnter, onMouseLeave }) {
 
