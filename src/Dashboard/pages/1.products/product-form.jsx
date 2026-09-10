@@ -1,0 +1,146 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { useToast } from "../../../context/ToastContext";
+import { useProductDraft } from "../../../context/ProductDraftContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getTaxonomy } from "../../../services/navigationApi";
+import { createProduct, getProduct, updateProduct } from "../../../services/productsApi";
+import { DIMENSION_PREFIX } from "../../../utils/faceting";
+
+import FormHeader from "./sections/FormHeader";
+import FormMain from "./sections/FormMain";
+import FormSidebar from "./sections/FormSidebar";
+import FormSkeleton from "./sections/FormSkeleton";
+import { useProductDraftSync } from "./sections/useProductDraftSync";
+import { EMPTY_PRODUCT, toPayload } from "./sections/productPayload";
+
+/**
+ * Create and edit a product.
+ *
+ * Replaces AddProductModal and EditProductModal — two 299-line files that were
+ * about 95% identical, differing only in their title, submit label and which
+ * callback they invoked. Roughly 600 lines for one form.
+ *
+ * It is a page rather than a modal because the form is long: images, five
+ * attribute dimensions, pricing and visibility do not belong in a 90vh box
+ * that scrolls internally. Being a route also means an edit is linkable and
+ * survives a refresh.
+ *
+ * This file owns the form state and the save; the two columns and the draft
+ * synchronisation live in sections/.
+ */
+export default function ProductForm() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const draft = useProductDraft();
+  const isEdit = Boolean(id);
+
+  const { data: existing, loading: loadingProduct } = useAsyncData(
+    () => (isEdit ? getProduct(id) : Promise.resolve(null)),
+    [id],
+  );
+  // getTaxonomy resolves to the dimensions map itself, not the whole document.
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+  const dimensions = taxonomy ?? {};
+
+  const [images, setImages] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm({ defaultValues: EMPTY_PRODUCT });
+
+  const values = watch();
+  const snapshot = JSON.stringify({
+    values,
+    colors,
+    sizes,
+    tags,
+    // Strip the Blob: it serialises to {} and only wastes the storage quota.
+    images: images.map(({ id: imgId, url, name }) => ({ id: imgId, url, name })),
+  });
+
+  useProductDraftSync({
+    isEdit,
+    existing,
+    draft,
+    reset,
+    setImages,
+    setColors,
+    setSizes,
+    setTags,
+    snapshot,
+    toast,
+  });
+
+  const toggleTag = (dimension, valueId) => {
+    const token = `${DIMENSION_PREFIX[dimension] ?? dimension}:${valueId}`;
+    setTags((prev) => (prev.includes(token) ? prev.filter((t) => t !== token) : [...prev, token]));
+  };
+
+  const discardDraft = () => {
+    draft.clearDraft("new-product");
+    reset(EMPTY_PRODUCT);
+    setImages([]);
+    setColors([]);
+    setSizes([]);
+    setTags([]);
+  };
+
+  const onSubmit = async (formValues) => {
+    const payload = toPayload(formValues, { images, colors, sizes, tags });
+    try {
+      if (isEdit) {
+        const saved = await updateProduct(id, payload);
+        toast(`${saved.name} saved.`, "success");
+      } else {
+        const created = await createProduct(payload);
+        draft.clearDraft("new-product");
+        toast(`${created.name} added to the catalogue.`, "success");
+      }
+      navigate("/dashboard/products");
+    } catch (err) {
+      toast(err.message ?? "Could not save that product.", "error");
+    }
+  };
+
+  if (isEdit && loadingProduct) return <FormSkeleton />;
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-24">
+      <FormHeader
+        isEdit={isEdit}
+        hasDraft={Boolean(draft.draftFor("new-product"))}
+        onDiscardDraft={discardDraft}
+        submitting={isSubmitting}
+      />
+
+      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+        <FormMain
+          register={register}
+          errors={errors}
+          images={images}
+          setImages={setImages}
+          onImageProgress={(p) => draft.updateDraft("new-product", { progress: p })}
+          dimensions={dimensions}
+          tags={tags}
+          onToggleTag={toggleTag}
+          colors={colors}
+          setColors={setColors}
+          sizes={sizes}
+          setSizes={setSizes}
+        />
+        <FormSidebar register={register} errors={errors} />
+      </div>
+    </form>
+  );
+}

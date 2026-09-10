@@ -1,9 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, Package, Pencil, Plus, Trash2 } from "lucide-react";
+import { Package } from "lucide-react";
 
-import Button from "../../../components/ui/Button";
-import { cn } from "../../../utils/cn";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -14,10 +12,10 @@ import {
   updateProduct,
 } from "../../../services/productsApi";
 import DashTable from "../../components/DashTable";
-import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
+import ProductsToolbar from "./sections/ProductsToolbar";
 import ViewProductModal from "./sections/ViewProductModal";
 import { buildProductColumns } from "./sections/productColumns";
-import { statusTabs, toRows } from "./sections/productRows";
+import { emptyState, statusTabs, toRows } from "./sections/productRows";
 import BulkActionsBar from "./sections/BulkActionsBar";
 import DeleteProductDialog from "./sections/DeleteProductDialog";
 
@@ -111,23 +109,13 @@ export default function DashProducts() {
 
   return (
     <div className="space-y-5">
-      <DashToolbar
+      <ProductsToolbar
         query={query}
         onQueryChange={setQuery}
-        placeholder="Search by name, slug, category or colour"
-        filters={
-          <FilterTabs
-            ariaLabel="Filter by status"
-            value={statusFilter}
-            onChange={setStatusFilter}
-            options={tabs}
-          />
-        }
-      >
-        <Button icon={Plus} to="/dashboard/products/new">
-          Add product
-        </Button>
-      </DashToolbar>
+        tabs={tabs}
+        status={statusFilter}
+        onStatusChange={setStatusFilter}
+      />
 
       <BulkActionsBar
         count={selectedIds.length}
@@ -144,18 +132,7 @@ export default function DashProducts() {
         enableSelection
         onSelectionChange={setSelectedIds}
         unit={visible.length === 1 ? "piece" : "pieces"}
-        empty={{
-          icon: Package,
-          title: query || statusFilter !== "all" ? "Nothing matches" : "No pieces yet",
-          description:
-            query || statusFilter !== "all"
-              ? "Try a different search, or clear the status filter."
-              : "Add the first piece and it will appear on the storefront straight away.",
-          action:
-            query || statusFilter !== "all"
-              ? undefined
-              : { label: "Add product", to: "/dashboard/products/new" },
-        }}
+        empty={{ icon: Package, ...emptyState(Boolean(query) || statusFilter !== "all") }}
       />
 
       <ViewProductModal open={Boolean(viewing)} onClose={() => setViewing(null)} product={viewing} />

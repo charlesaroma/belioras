@@ -22,3 +22,23 @@ export function statusTabs(rows) {
     { value: "out_of_stock", label: "Sold out", count: by("out_of_stock") },
   ];
 }
+
+/**
+ * Empty-state copy.
+ *
+ * Two different situations wear the same slot: a catalogue with nothing in it
+ * yet, and a filter that happens to match nothing. Only the first should offer
+ * "Add product" — the second wants the filter cleared, not a new piece.
+ */
+export function emptyState(filtering) {
+  return filtering
+    ? {
+        title: "Nothing matches",
+        description: "Try a different search, or clear the status filter.",
+      }
+    : {
+        title: "No pieces yet",
+        description: "Add the first piece and it will appear on the storefront straight away.",
+        action: { label: "Add product", to: "/dashboard/products/new" },
+      };
+}
