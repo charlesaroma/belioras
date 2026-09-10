@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, Receipt, Users, Wallet } from "lucide-react";
 
-import StatusChip from "../../components/ui/StatusChip";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { getDashboardStats, getRecentOrders } from "../../services/dashboardApi";
+import StatusChip from "../../../components/ui/StatusChip";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useLanguage } from "../../../context/LanguageContext";
+import { getDashboardStats, getRecentOrders } from "../../../services/dashboardApi";
 
-import StatCard from "../components/StatCard";
-import SalesChart from "../components/SalesChart";
+import StatCard from "../../components/StatCard";
+import SalesChart from "../../components/SalesChart";
 
 /**
  * Overview.

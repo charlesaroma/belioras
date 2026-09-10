@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, PackageOpen } from "lucide-react";
 
-import StatusChip from "../../components/ui/StatusChip";
-import { useAuth } from "../../context/AuthContext";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getOrders } from "../../services/ordersApi";
+import StatusChip from "../../../components/ui/StatusChip";
+import { useAuth } from "../../../context/AuthContext";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getOrders } from "../../../services/ordersApi";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "short", year: "numeric" });

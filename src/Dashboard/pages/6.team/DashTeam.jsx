@@ -1,17 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
 import { ShieldCheck, UserCog } from "lucide-react";
 
-import Avatar from "../../components/account/Avatar";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import { useAuth } from "../../context/AuthContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { useToast } from "../../context/ToastContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getUsers, updateUserRole } from "../../services/authApi";
-import { CAPABILITIES } from "../../utils/roles";
-import { cn } from "../../utils/cn";
-import DashTable from "../components/DashTable";
-import DashToolbar from "../components/DashToolbar";
+import Avatar from "../../../components/account/Avatar";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
+import { useAuth } from "../../../context/AuthContext";
+import { useLanguage } from "../../../context/LanguageContext";
+import { useToast } from "../../../context/ToastContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getUsers, updateUserRole } from "../../../services/authApi";
+import { CAPABILITIES } from "../../../utils/roles";
+import { cn } from "../../../utils/cn";
+import DashTable from "../../components/DashTable";
+import DashToolbar from "../../components/DashToolbar";
 
 const STAFF_ROLES = [
   { value: "staff", label: "Staff" },

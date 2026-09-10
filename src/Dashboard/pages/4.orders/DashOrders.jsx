@@ -1,17 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
 import { Receipt } from "lucide-react";
 
-import Button from "../../components/ui/Button";
-import StatusChip from "../../components/ui/StatusChip";
-import Modal from "../../components/common/Modal";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { useToast } from "../../context/ToastContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getAllOrders, updateOrderStatus } from "../../services/ordersApi";
-import { ORDER_STATUS, nextStatuses, normalizeStatus } from "../../utils/orderStatus";
-import DashTable from "../components/DashTable";
-import DashToolbar, { FilterTabs } from "../components/DashToolbar";
+import Button from "../../../components/ui/Button";
+import StatusChip from "../../../components/ui/StatusChip";
+import Modal from "../../../components/common/Modal";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useLanguage } from "../../../context/LanguageContext";
+import { useToast } from "../../../context/ToastContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getAllOrders, updateOrderStatus } from "../../../services/ordersApi";
+import { ORDER_STATUS, nextStatuses, normalizeStatus } from "../../../utils/orderStatus";
+import DashTable from "../../components/DashTable";
+import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
 
 /**
  * Order management.

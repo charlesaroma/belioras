@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, RotateCcw, Save } from "lucide-react";
 
-import Button from "../../components/ui/Button";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import { useContentVersion } from "../../context/ContentContext";
-import { useToast } from "../../context/ToastContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getNavigation, resetNavigation, updateNavigation } from "../../services/navigationApi";
-import { getProducts } from "../../services/productsApi";
-import IconButton from "./megaMenu/IconButton";
-import MenuRoot from "./megaMenu/MenuRoot";
+import Button from "../../../components/ui/Button";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
+import { useContentVersion } from "../../../context/ContentContext";
+import { useToast } from "../../../context/ToastContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getNavigation, resetNavigation, updateNavigation } from "../../../services/navigationApi";
+import { getProducts } from "../../../services/productsApi";
+import IconButton from "./sections/IconButton";
+import MenuRoot from "./sections/MenuRoot";
 
 /**
  * The mega menu.

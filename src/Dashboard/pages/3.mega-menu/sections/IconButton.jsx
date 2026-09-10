@@ -1,4 +1,4 @@
-import { cn } from "../../../utils/cn";
+import { cn } from "../../../../utils/cn";
 
 /** Small square action inside a menu row. */
 export default function IconButton({ label, icon: Icon, onClick, disabled, destructive }) {

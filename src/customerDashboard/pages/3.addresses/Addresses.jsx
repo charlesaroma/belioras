@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Check, MapPin, Plus, Trash2 } from "lucide-react";
 
-import Field from "../../components/ui/Field";
-import { useAuth } from "../../context/AuthContext";
-import { useScopedStorage } from "../../hooks/useScopedStorage";
-import { useToast } from "../../context/ToastContext";
+import Field from "../../../components/ui/Field";
+import { useAuth } from "../../../context/AuthContext";
+import { useScopedStorage } from "../../../hooks/useScopedStorage";
+import { useToast } from "../../../context/ToastContext";
 
 /**
  * No seed.

@@ -14,9 +14,11 @@
  * the customer's own folder.
  */
 export { default as AccountLayout } from "./AccountLayout";
-export { default as AccountProfile } from "./pages/Profile";
-export { default as AccountOrders } from "./pages/Orders";
-export { default as AccountOrderDetail } from "./pages/OrderDetail";
-export { default as AccountAddresses } from "./pages/Addresses";
-export { default as AccountWishlist } from "./pages/Wishlist";
-export { default as AccountSettings } from "./pages/Settings";
+
+// Pages, numbered in account-menu order (see components/account/accountMenuItems.js)
+export { default as AccountProfile } from "./pages/0.profile/Profile";
+export { default as AccountOrders } from "./pages/1.orders/Orders";
+export { default as AccountOrderDetail } from "./pages/1.orders/OrderDetail";
+export { default as AccountWishlist } from "./pages/2.wishlist/Wishlist";
+export { default as AccountAddresses } from "./pages/3.addresses/Addresses";
+export { default as AccountSettings } from "./pages/4.settings/Settings";

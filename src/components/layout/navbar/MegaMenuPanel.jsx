@@ -76,7 +76,7 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
                       <Link
                         to={leaf.url}
                         onClick={onNavigate}
-                        className="block text-sm text-espresso-soft transition-colors hover:text-gold-700"
+                        className="block text-sm text-espresso transition-colors hover:text-gold-700"
                       >
                         {leaf.label}
                       </Link>
@@ -148,7 +148,7 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
                             <Link
                               to={leaf.url}
                               onClick={onNavigate}
-                              className="block text-sm text-espresso-soft transition-colors hover:text-gold-700"
+                              className="block text-sm text-espresso transition-colors hover:text-gold-700"
                             >
                               {leaf.label}
                             </Link>
@@ -198,7 +198,7 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
                     <Link
                       to={leaf.url}
                       onClick={onNavigate}
-                      className="group/link relative inline-block text-[13px] leading-snug text-espresso-soft transition-colors duration-200 hover:text-espresso"
+                      className="group/link relative inline-block text-[13px] leading-snug text-espresso transition-colors duration-200 hover:text-gold-700"
                     >
                       {leaf.label}
                       {/* Gold rule that sweeps out from the left on hover —

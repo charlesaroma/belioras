@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 
-import Field from "../../components/ui/Field";
+import Field from "../../../components/ui/Field";
 import SettingsPanel from "./sections/SettingsPanel";
-import { useAuth } from "../../context/AuthContext";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { useToast } from "../../context/ToastContext";
+import { useAuth } from "../../../context/AuthContext";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useLanguage } from "../../../context/LanguageContext";
+import { useToast } from "../../../context/ToastContext";
 
 /**
  * Profile, security and preferences.

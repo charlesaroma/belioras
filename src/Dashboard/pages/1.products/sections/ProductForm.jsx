@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check } from "lucide-react";
 
-import Button from "../../../components/ui/Button";
-import Dropzone from "../../../components/ui/Dropzone";
-import Field from "../../../components/ui/Field";
-import TagInput from "../../../components/ui/TagInput";
-import { useToast } from "../../../context/ToastContext";
-import { useProductDraft } from "../../../context/ProductDraftContext";
-import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getTaxonomy } from "../../../services/navigationApi";
-import { createProduct, getProduct, updateProduct } from "../../../services/productsApi";
-import { DIMENSION_ORDER, DIMENSION_PREFIX } from "../../../utils/faceting";
-import { cn } from "../../../utils/cn";
+import Button from "../../../../components/ui/Button";
+import Dropzone from "../../../../components/ui/Dropzone";
+import Field from "../../../../components/ui/Field";
+import TagInput from "../../../../components/ui/TagInput";
+import { useToast } from "../../../../context/ToastContext";
+import { useProductDraft } from "../../../../context/ProductDraftContext";
+import { useAsyncData } from "../../../../hooks/useAsyncData";
+import { getTaxonomy } from "../../../../services/navigationApi";
+import { createProduct, getProduct, updateProduct } from "../../../../services/productsApi";
+import { DIMENSION_ORDER, DIMENSION_PREFIX } from "../../../../utils/faceting";
+import { cn } from "../../../../utils/cn";
 
 const COLLECTIONS = [
   { id: "dresses", label: "Dresses" },

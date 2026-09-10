@@ -1,4 +1,4 @@
-import Button from "../../../components/ui/Button";
+import Button from "../../../../components/ui/Button";
 
 /**
  * A titled block of settings with its own save button.

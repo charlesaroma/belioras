@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 
-import { cn } from "../../../utils/cn";
+import { cn } from "../../../../utils/cn";
 import IconButton from "./IconButton";
 
 /**

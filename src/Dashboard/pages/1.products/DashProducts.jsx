@@ -2,22 +2,22 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, Package, Pencil, Plus, Trash2 } from "lucide-react";
 
-import Button from "../../components/ui/Button";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import StatusChip from "../../components/ui/StatusChip";
-import { cn } from "../../utils/cn";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useToast } from "../../context/ToastContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
+import Button from "../../../components/ui/Button";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
+import StatusChip from "../../../components/ui/StatusChip";
+import { cn } from "../../../utils/cn";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useToast } from "../../../context/ToastContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
 import {
   deleteProduct,
   getProducts,
   restoreProduct,
   updateProduct,
-} from "../../services/productsApi";
-import DashTable from "../components/DashTable";
-import DashToolbar, { FilterTabs } from "../components/DashToolbar";
-import ViewProductModal from "./products/modals/ViewProductModal";
+} from "../../../services/productsApi";
+import DashTable from "../../components/DashTable";
+import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
+import ViewProductModal from "./sections/ViewProductModal";
 
 /**
  * Product management.

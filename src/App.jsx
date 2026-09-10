@@ -55,7 +55,7 @@ import {
   DashTeam,
   DashSettings,
 } from "./Dashboard";
-import ProductForm from "./Dashboard/pages/products/ProductForm";
+import ProductForm from "./Dashboard/pages/1.products/sections/ProductForm";
 
 import {
   AccountLayout,

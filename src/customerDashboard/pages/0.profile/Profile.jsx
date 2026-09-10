@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Heart, MapPin, Package } from "lucide-react";
 
-import Avatar from "../../components/account/Avatar";
-import OrderTimeline from "../../components/account/OrderTimeline";
-import StatusChip from "../../components/ui/StatusChip";
-import EmptyState from "../../components/ui/EmptyState";
-import { useAuth } from "../../context/AuthContext";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useWishlist } from "../../context/WishlistContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { useScopedStorage } from "../../hooks/useScopedStorage";
-import { getOrders } from "../../services/ordersApi";
-import { getProducts } from "../../services/productsApi";
-import { isOffTimeline } from "../../utils/orderStatus";
+import Avatar from "../../../components/account/Avatar";
+import OrderTimeline from "../../../components/account/OrderTimeline";
+import StatusChip from "../../../components/ui/StatusChip";
+import EmptyState from "../../../components/ui/EmptyState";
+import { useAuth } from "../../../context/AuthContext";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useWishlist } from "../../../context/WishlistContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useScopedStorage } from "../../../hooks/useScopedStorage";
+import { getOrders } from "../../../services/ordersApi";
+import { getProducts } from "../../../services/productsApi";
+import { isOffTimeline } from "../../../utils/orderStatus";
 
 /**
  * The account overview.

@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { LayoutGrid, Tags } from "lucide-react";
 
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getNavigation, getTaxonomy } from "../../services/navigationApi";
-import { getProducts } from "../../services/productsApi";
-import { DIMENSION_PREFIX } from "../../utils/faceting";
-import { cn } from "../../utils/cn";
-import DashTable from "../components/DashTable";
-import DashToolbar from "../components/DashToolbar";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getNavigation, getTaxonomy } from "../../../services/navigationApi";
+import { getProducts } from "../../../services/productsApi";
+import { DIMENSION_PREFIX } from "../../../utils/faceting";
+import { cn } from "../../../utils/cn";
+import DashTable from "../../components/DashTable";
+import DashToolbar from "../../components/DashToolbar";
 
 /**
  * Categories and attributes.

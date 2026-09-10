@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
 import { Users } from "lucide-react";
 
-import Avatar from "../../components/account/Avatar";
-import Modal from "../../components/common/Modal";
-import StatusChip from "../../components/ui/StatusChip";
-import { useCurrency } from "../../context/CurrencyContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getUsers } from "../../services/authApi";
-import { getAllOrders } from "../../services/ordersApi";
-import DashTable from "../components/DashTable";
-import DashToolbar, { FilterTabs } from "../components/DashToolbar";
+import Avatar from "../../../components/account/Avatar";
+import Modal from "../../../components/common/Modal";
+import StatusChip from "../../../components/ui/StatusChip";
+import { useCurrency } from "../../../context/CurrencyContext";
+import { useLanguage } from "../../../context/LanguageContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getUsers } from "../../../services/authApi";
+import { getAllOrders } from "../../../services/ordersApi";
+import DashTable from "../../components/DashTable";
+import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
 
 /**
  * Customers.

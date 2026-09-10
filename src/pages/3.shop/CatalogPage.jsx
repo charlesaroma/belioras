@@ -42,7 +42,7 @@ export default function CatalogPage() {
       }}
       emptyState={
         resolved ? (
-          <div className="container-main px-4 py-section-mobile text-center md:py-section-tablet">
+          <div className="container-main py-section-mobile text-center md:py-section-tablet">
             <p className="eyebrow">Coming soon</p>
             <h2 className="mt-3 font-display text-2xl text-espresso md:text-3xl">
               This edit is being curated

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Check } from "lucide-react";
 
-import Button from "../../components/ui/Button";
-import Field from "../../components/ui/Field";
-import { useToast } from "../../context/ToastContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getSettings, updateSettings } from "../../services/settingsApi";
+import Button from "../../../components/ui/Button";
+import Field from "../../../components/ui/Field";
+import { useToast } from "../../../context/ToastContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getSettings, updateSettings } from "../../../services/settingsApi";
 
 /**
  * Store settings.

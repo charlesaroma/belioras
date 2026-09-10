@@ -1,18 +1,18 @@
 import { useMemo, useState } from "react";
 import { Heart, PackageX } from "lucide-react";
 
-import EmptyState from "../../components/ui/EmptyState";
-import ProductCard from "../../components/storefront/ProductCard";
-import GridViewSwitcher from "../../components/storefront/GridViewSwitcher";
-import { useWishlist } from "../../context/WishlistContext";
-import { useAsyncData } from "../../hooks/useAsyncData";
-import { getProducts } from "../../services/productsApi";
+import EmptyState from "../../../components/ui/EmptyState";
+import ProductCard from "../../../components/storefront/ProductCard";
+import GridViewSwitcher from "../../../components/storefront/GridViewSwitcher";
+import { useWishlist } from "../../../context/WishlistContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getProducts } from "../../../services/productsApi";
 import {
   COLUMN_CLASSES,
   COLUMN_GAP_CLASSES,
   DEFAULT_COLUMNS,
-} from "../../utils/gridColumns";
-import { cn } from "../../utils/cn";
+} from "../../../utils/gridColumns";
+import { cn } from "../../../utils/cn";
 
 /**
  * Saved pieces.

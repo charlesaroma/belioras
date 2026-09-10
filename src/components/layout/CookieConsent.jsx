@@ -93,7 +93,7 @@ export default function CookieConsent() {
           // visitor could not reach Sign in until they dismissed cookies.
           className="fixed inset-x-0 bottom-0 z-[45] border-t border-gold-500/20 bg-espresso/95 backdrop-blur"
         >
-          <div className="container-main flex flex-col items-center gap-5 px-4 py-5 sm:px-6 md:flex-row md:justify-between md:gap-8">
+          <div className="container-main flex flex-col items-center gap-5 py-5 md:flex-row md:justify-between md:gap-8">
             <div className="text-center md:text-left">
               <h2 className="mb-1 text-sm font-semibold tracking-wide text-ivory-50">
                 {t("cookies.title", "Your privacy matters")}

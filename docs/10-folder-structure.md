@@ -96,9 +96,29 @@ A complete admin app living beside the storefront:
 | `index.jsx` | Router/entry for the admin area |
 | `DashboardLayout.jsx` | Sidebar + header shell |
 | `lib/constants.jsx` | Dashboard-only constants |
-| `components/` | DashHeader, DashSidebar, DashTable, SalesChart, StatCard |
-| `pages/` | DashOverview, DashProducts, DashCategories, DashMegaMenu, DashOrders, DashCustomers, DashTeam, DashSettings |
-| `pages/categories/modals/`, `pages/products/modals/` | Create/edit modals colocated with their page |
+| `components/` | DashHeader, DashSidebar, DashTable, SalesChart, StatCard — chrome shared by every page |
+| `pages/<n>.<name>/` | One numbered folder per page, in sidebar order |
+| `pages/<n>.<name>/sections/` | That page's private parts — forms, modals, sub-components |
+
+Page folders are numbered the same way `src/pages/` numbers the storefront,
+and for the same reason: the number is the order the sidebar shows them
+(`lib/constants.jsx`), so the folder listing and the navigation read alike.
+
+```
+pages/
+├── 0.overview/    DashOverview.jsx
+├── 1.products/    DashProducts.jsx  + sections/ (ProductForm, 4 modals)
+├── 2.categories/  DashCategories.jsx + sections/ (4 modals)
+├── 3.mega-menu/   DashMegaMenu.jsx  + sections/ (MenuRoot, IconButton)
+├── 4.orders/      DashOrders.jsx
+├── 5.customers/   DashCustomers.jsx
+├── 6.team/        DashTeam.jsx
+└── 7.settings/    DashSettings.jsx
+```
+
+Modals sit directly in `sections/` rather than a nested `modals/` folder —
+`sections/` already means "private to this page", and a second level said the
+same thing twice.
 
 Isolation rules (binding):
 
@@ -110,8 +130,25 @@ Isolation rules (binding):
 ### `src/customerDashboard/`
 
 The signed-in customer's own app, structured the same way as `Dashboard/` —
-a barrel, a layout shell, a `pages/` folder — but held to a different
-isolation rule. See [Two dashboards, one rule each](#two-dashboards-one-rule-each).
+a barrel, a layout shell, numbered page folders each owning a `sections/` —
+but held to a different isolation rule. See
+[Two dashboards, one rule each](#two-dashboards-one-rule-each).
+
+Numbered in account-menu order (`components/account/accountMenuItems.js`),
+so the folder listing matches the left rail a customer actually sees:
+
+```
+pages/
+├── 0.profile/    Profile.jsx
+├── 1.orders/     Orders.jsx, OrderDetail.jsx
+├── 2.wishlist/   Wishlist.jsx
+├── 3.addresses/  Addresses.jsx
+└── 4.settings/   Settings.jsx + sections/SettingsPanel.jsx
+```
+
+`OrderDetail` sits inside `1.orders/` rather than taking a number of its own:
+it is the detail view of that page, not a separate destination — nothing in
+the account menu links to it directly.
 
 | Path | Role |
 | --- | --- |
