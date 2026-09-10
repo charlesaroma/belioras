@@ -1,8 +1,8 @@
-/* Product Component: ColorSelector */
-import { COLOR_HEX } from "../../utils/constants";
-import { cn } from "../../utils/cn";
+/* Colour Swatches */
+import { COLOR_HEX } from "../../../../utils/constants";
+import { cn } from "../../../../utils/cn";
 
-export default function ColorSelector({ options = [], value, onChange = () => {} }) {
+export default function ProductBuyPanelColors({ options = [], value, onChange = () => {} }) {
   if (!options.length) return null;
 
   return (

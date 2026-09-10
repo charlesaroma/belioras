@@ -1,7 +1,7 @@
-/* Product Component: SizeSelector */
-import { cn } from "../../utils/cn";
+/* Size Chips */
+import { cn } from "../../../../utils/cn";
 
-export default function SizeSelector({ options = [], value, onChange = () => {} }) {
+export default function ProductBuyPanelSizes({ options = [], value, onChange = () => {} }) {
   if (!options.length) return null;
 
   return (

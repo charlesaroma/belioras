@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { cn } from "../../../utils/cn";
 
-export default function ProductGallery({ images = [], name = "" }) {
+export default function ProductPageGallery({ images = [], name = "" }) {
   const [active, setActive] = useState(0);
 
   if (!images.length) return <div className="aspect-[3/4] w-full bg-ivory-200" />;
