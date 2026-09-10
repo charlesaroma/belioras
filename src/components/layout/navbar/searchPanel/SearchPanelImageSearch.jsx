@@ -1,12 +1,12 @@
-/* Search Component: ImageSearch */
+/* Search By Photograph */
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, ImageUp, Loader2, X } from "lucide-react";
 
-import Button from "../ui/Button";
-import Modal from "../common/Modal";
-import { searchByImage } from "../../services/visualSearchApi";
-import { cn } from "../../utils/cn";
+import Button from "../../../ui/Button";
+import Modal from "../../../common/Modal";
+import { searchByImage } from "../../../../services/visualSearchApi";
+import { cn } from "../../../../utils/cn";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/heic";
 
@@ -35,7 +35,7 @@ async function prepare(file, crop) {
   return { blob, url: URL.createObjectURL(blob) };
 }
 
-export default function ImageSearch({ open, onClose }) {
+export default function SearchPanelImageSearch({ open, onClose }) {
 
   const navigate = useNavigate();
 
