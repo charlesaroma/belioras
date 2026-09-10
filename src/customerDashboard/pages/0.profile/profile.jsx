@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Heart, MapPin, Package } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import Avatar from "../../../components/account/Avatar";
-import OrderTimeline from "../../../components/account/OrderTimeline";
-import StatusChip from "../../../components/ui/StatusChip";
-import EmptyState from "../../../components/ui/EmptyState";
 import { useAuth } from "../../../context/AuthContext";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useWishlist } from "../../../context/WishlistContext";
@@ -12,7 +8,14 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useScopedStorage } from "../../../hooks/useScopedStorage";
 import { getOrders } from "../../../services/ordersApi";
 import { getProducts } from "../../../services/productsApi";
-import { isOffTimeline } from "../../../utils/orderStatus";
+
+import ProfileHeader from "./sections/ProfileHeader";
+import LatestOrder from "./sections/LatestOrder";
+import DeliversTo from "./sections/DeliversTo";
+import SavedPieces from "./sections/SavedPieces";
+
+/** How many saved pieces the overview previews before linking onward. */
+const PREVIEW_COUNT = 4;
 
 /**
  * The account overview.
@@ -50,142 +53,27 @@ export default function Profile() {
   const saved = (wishlistIds ?? [])
     .map((id) => products?.find((p) => p.id === id))
     .filter(Boolean)
-    .slice(0, 4);
+    .slice(0, PREVIEW_COUNT);
 
   return (
     <div className="space-y-8">
-      {/* Who you are */}
-      <section className="flex flex-wrap items-center gap-4 border-b border-umber-50 pb-6">
-        <Avatar user={user} size="lg" />
-        <div className="min-w-0 flex-1">
-          <h2 className="font-display text-xl tracking-wide text-espresso">{user?.name}</h2>
-          <p className="mt-0.5 text-[13px] text-espresso-soft">{user?.email}</p>
-        </div>
-        <dl className="flex gap-8">
-          <Stat label="Orders" value={ordersLoading ? "—" : (orders?.length ?? 0)} />
-          <Stat label="Saved" value={wishlistCount} />
-          <Stat
-            label="Member since"
-            value={user?.createdAt ? new Date(user.createdAt).getFullYear() : "—"}
-          />
-        </dl>
-      </section>
+      <ProfileHeader
+        user={user}
+        orderCount={orders?.length ?? 0}
+        wishlistCount={wishlistCount}
+        loading={ordersLoading}
+      />
 
-      {/* Where your order is */}
-      <section>
-        <div className="mb-4 flex items-baseline justify-between gap-4">
-          <h2 className="font-display text-xl tracking-wide text-espresso">Latest order</h2>
-          {(orders?.length ?? 0) > 1 && (
-            <Link to="/account/orders" className="eyebrow hover:opacity-70">
-              All orders
-            </Link>
-          )}
-        </div>
-
-        {ordersLoading ? (
-          <div className="skeleton h-32 w-full" />
-        ) : !latest ? (
-          <EmptyState
-            icon={Package}
-            title="No orders yet"
-            description="When you order, this is where you will follow it."
-            action={{ label: "Browse the collection", to: "/shop" }}
-          />
-        ) : (
-          <Link
-            to={`/account/orders/${latest.id}`}
-            className="block border border-umber-50 p-5 transition-colors hover:border-espresso/25"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="font-medium tabular-nums text-espresso">{latest.id}</p>
-                <p className="mt-0.5 text-[12px] text-espresso-soft">
-                  {(latest.items ?? []).length}{" "}
-                  {(latest.items ?? []).length === 1 ? "piece" : "pieces"} ·{" "}
-                  {format(latest.total)}
-                </p>
-              </div>
-              <StatusChip status={latest.status} />
-            </div>
-
-            {isOffTimeline(latest.status) ? (
-              <p className="mt-4 text-[13px] text-espresso-soft">
-                This order is closed. Open it for the details.
-              </p>
-            ) : (
-              <OrderTimeline status={latest.status} bordered={false} className="mt-4" />
-            )}
-          </Link>
-        )}
-      </section>
+      <LatestOrder
+        order={latest}
+        loading={ordersLoading}
+        totalOrders={orders?.length ?? 0}
+        format={format}
+      />
 
       <div className="grid gap-8 md:grid-cols-2">
-        {/* Where it goes */}
-        <section>
-          <div className="mb-4 flex items-baseline justify-between gap-4">
-            <h2 className="font-display text-xl tracking-wide text-espresso">Delivers to</h2>
-            <Link to="/account/addresses" className="eyebrow hover:opacity-70">
-              Manage
-            </Link>
-          </div>
-
-          {defaultAddress ? (
-            <address className="border border-umber-50 p-5 text-[13px] not-italic leading-relaxed text-espresso-soft">
-              <span className="block font-medium text-espresso">{defaultAddress.recipient}</span>
-              {defaultAddress.line1}
-              <br />
-              {defaultAddress.city} {defaultAddress.postcode}
-              <br />
-              {defaultAddress.country}
-            </address>
-          ) : (
-            <EmptyState
-              icon={MapPin}
-              title="No address saved"
-              description="Add one and checkout becomes a step shorter."
-              action={{ label: "Add an address", to: "/account/addresses" }}
-            />
-          )}
-        </section>
-
-        {/* What you kept */}
-        <section>
-          <div className="mb-4 flex items-baseline justify-between gap-4">
-            <h2 className="font-display text-xl tracking-wide text-espresso">Saved pieces</h2>
-            {wishlistCount > 0 && (
-              <Link to="/account/wishlist" className="eyebrow hover:opacity-70">
-                All {wishlistCount}
-              </Link>
-            )}
-          </div>
-
-          {saved.length === 0 ? (
-            <EmptyState
-              icon={Heart}
-              title="Nothing saved yet"
-              description="Tap the heart on any piece to keep it here."
-              action={{ label: "Discover the collection", to: "/shop" }}
-            />
-          ) : (
-            <ul className="grid grid-cols-4 gap-2">
-              {saved.map((product) => (
-                <li key={product.id}>
-                  <Link
-                    to={`/product/${product.slug}`}
-                    className="block border border-umber-50 transition-opacity hover:opacity-80"
-                  >
-                    <img
-                      src={product.images?.[0]}
-                      alt={product.name}
-                      loading="lazy"
-                      className="aspect-[3/4] w-full object-cover"
-                    />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+        <DeliversTo address={defaultAddress} />
+        <SavedPieces pieces={saved} total={wishlistCount} />
       </div>
 
       <Link
@@ -195,15 +83,6 @@ export default function Profile() {
         Account settings
         <ArrowRight className="size-3.5" aria-hidden="true" />
       </Link>
-    </div>
-  );
-}
-
-function Stat({ label, value }) {
-  return (
-    <div>
-      <dt className="text-[10px] uppercase tracking-[0.18em] text-espresso-soft">{label}</dt>
-      <dd className="mt-1 font-display text-2xl tabular-nums text-espresso">{value}</dd>
     </div>
   );
 }

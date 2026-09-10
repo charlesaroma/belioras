@@ -9,7 +9,7 @@ import { getAllOrders, updateOrderStatus } from "../../../services/ordersApi";
 import { ORDER_STATUS, normalizeStatus } from "../../../utils/orderStatus";
 import DashTable from "../../components/DashTable";
 import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
-import { buildOrderColumns } from "./sections/orderColumns";
+import { buildOrderColumns } from "../../lib/orderColumns";
 import OrderDetailModal from "./sections/OrderDetailModal";
 
 /**
