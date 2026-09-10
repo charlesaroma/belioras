@@ -5,10 +5,10 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getNavigation, getTaxonomy } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
 import DashTable from "../../components/DashTable";
-import DashToolbar from "../../components/DashToolbar";
-import ViewTabs from "./sections/ViewTabs";
-import { toAttributeRows, toLeafRows } from "./sections/categoryRows";
-import { ATTRIBUTE_COLUMNS, MENU_COLUMNS } from "./sections/categoryColumns";
+import ViewTabs from "./sections/categoriesTable/CategoriesTableViewTabs";
+import CategoriesToolbar from "./sections/categoriesTable/CategoriesTableToolbar";
+import { toAttributeRows, toLeafRows } from "./sections/categoriesTable/categoriesTableRows";
+import { ATTRIBUTE_COLUMNS, MENU_COLUMNS } from "./sections/categoriesTable/categoriesTableColumns";
 
 /**
  * Categories and attributes.
@@ -54,11 +54,7 @@ export default function DashCategories() {
         </p>
       )}
 
-      <DashToolbar
-        query={query}
-        onQueryChange={setQuery}
-        placeholder={isMenu ? "Search menu leaves" : "Search attributes"}
-      />
+      <CategoriesToolbar query={query} onQueryChange={setQuery} isMenu={isMenu} />
 
       {/* Keyed on the tab so the table resets its sort and page when the two
           different shapes swap, rather than carrying one view's state into

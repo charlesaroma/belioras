@@ -1,7 +1,7 @@
-import Avatar from "../../../../components/account/Avatar";
-import { CAPABILITIES } from "../../../../utils/roles";
-import { cn } from "../../../../utils/cn";
-import { ROLE_TONE, STAFF_ROLES, roleLabel } from "./constants";
+import Avatar from "../../../../../components/account/Avatar";
+import { CAPABILITIES } from "../../../../../utils/roles";
+import { cn } from "../../../../../utils/cn";
+import { ROLE_TONE, STAFF_ROLES, roleLabel } from "./teamTableRoles";
 
 /**
  * Table columns for the team list.

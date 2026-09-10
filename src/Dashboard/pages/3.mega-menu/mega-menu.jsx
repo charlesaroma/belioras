@@ -9,8 +9,8 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getNavigation, resetNavigation, updateNavigation } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
 import IconAction from "../../components/IconAction";
-import MenuRoot from "./sections/MenuRoot";
-import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/menuTree";
+import MenuRoot from "./sections/MegaMenuRoot";
+import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
 
 /**
  * The mega menu.

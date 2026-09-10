@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Check } from "lucide-react";
 
-import Button from "../../../../components/ui/Button";
+import Button from "../../../../../components/ui/Button";
 
 /** Back link, the discard-draft escape hatch, and the submit. */
 export default function FormHeader({ isEdit, hasDraft, onDiscardDraft, submitting }) {

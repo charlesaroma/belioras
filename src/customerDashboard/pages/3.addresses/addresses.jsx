@@ -6,7 +6,7 @@ import { useScopedStorage } from "../../../hooks/useScopedStorage";
 import { useToast } from "../../../context/ToastContext";
 import AddressForm from "./sections/AddressForm";
 import AddressList from "./sections/AddressList";
-import { EMPTY_FORM, NO_ADDRESSES, validateAddress } from "./sections/addressRules";
+import { EMPTY_FORM, NO_ADDRESSES, validateAddress } from "./sections/addressesRules";
 
 /**
  * The address book.

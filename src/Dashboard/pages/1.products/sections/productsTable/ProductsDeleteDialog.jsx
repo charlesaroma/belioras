@@ -1,4 +1,4 @@
-import ConfirmDialog from "../../../../components/ui/ConfirmDialog";
+import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
 
 /**
  * Delete confirmation.

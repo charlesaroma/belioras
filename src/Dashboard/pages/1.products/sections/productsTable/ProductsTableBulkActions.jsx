@@ -1,4 +1,4 @@
-import Button from "../../../../components/ui/Button";
+import Button from "../../../../../components/ui/Button";
 
 /** Appears only once rows are ticked; publishing or drafting many at once. */
 export default function BulkActionsBar({ count, onSetStatus, onClear }) {

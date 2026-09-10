@@ -1,6 +1,6 @@
-import { DIMENSION_ORDER, DIMENSION_PREFIX } from "../../../../utils/faceting";
-import { cn } from "../../../../utils/cn";
-import FormSection from "./FormSection";
+import { DIMENSION_ORDER, DIMENSION_PREFIX } from "../../../../../utils/faceting";
+import { cn } from "../../../../../utils/cn";
+import FormSection from "./ProductFormSection";
 
 /**
  * The taxonomy chips.

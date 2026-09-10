@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { ShieldCheck, UserCog } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 import { useAuth } from "../../../context/AuthContext";
 import { useLanguage } from "../../../context/LanguageContext";
@@ -7,10 +7,10 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getUsers, updateUserRole } from "../../../services/authApi";
 import DashTable from "../../components/DashTable";
-import DashToolbar from "../../components/DashToolbar";
-import { roleLabel } from "./sections/constants";
-import { buildTeamColumns } from "./sections/teamColumns";
-import { AddMemberDialog, RoleChangeDialog } from "./sections/TeamDialogs";
+import { roleLabel } from "./sections/teamTable/teamTableRoles";
+import { buildTeamColumns } from "./sections/teamTable/teamTableColumns";
+import { AddMemberDialog, RoleChangeDialog } from "./sections/teamTable/TeamTableDialogs";
+import TeamToolbar from "./sections/teamTable/TeamTableToolbar";
 
 /**
  * The team.
@@ -105,12 +105,11 @@ export default function DashTeam() {
 
   return (
     <div className="space-y-5">
-      <DashToolbar query={query} onQueryChange={setQuery} placeholder="Search the team">
-        <button type="button" onClick={() => setPromoting(true)} className="btn btn-md btn-primary">
-          <UserCog className="size-4" aria-hidden="true" />
-          Add an existing account
-        </button>
-      </DashToolbar>
+      <TeamToolbar
+        query={query}
+        onQueryChange={setQuery}
+        onAddExisting={() => setPromoting(true)}
+      />
 
       <DashTable
         columns={columns}

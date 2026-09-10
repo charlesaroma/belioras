@@ -12,9 +12,9 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getOrder } from "../../../services/ordersApi";
 import { getProducts } from "../../../services/productsApi";
 
-import OrderLines from "./sections/OrderLines";
-import { OrderNotFound, OrderSkeleton } from "./sections/OrderStates";
-import { discountOn, reorder } from "./sections/orderAgain";
+import OrderLines from "./sections/OrderDetailLines";
+import { OrderNotFound, OrderSkeleton } from "./sections/OrderDetailStates";
+import { discountOn, reorder } from "./sections/orderDetailActions";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });

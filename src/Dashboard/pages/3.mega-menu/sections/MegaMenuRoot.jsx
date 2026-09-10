@@ -1,9 +1,9 @@
 import { ChevronDown, Plus } from "lucide-react";
 
 import { cn } from "../../../../utils/cn";
-import { makeRootEditor } from "./menuEdits";
-import MenuLinkRow from "./MenuLinkRow";
-import MenuTiles from "./MenuTiles";
+import { makeRootEditor } from "./megaMenuEdits";
+import MenuLinkRow from "./MegaMenuLinkRow";
+import MenuTiles from "./MegaMenuTiles";
 
 /**
  * One top-level menu — Shop, Dresses, Hair — with its sections and links.

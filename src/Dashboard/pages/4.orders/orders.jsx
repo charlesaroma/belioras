@@ -8,9 +8,9 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getAllOrders, updateOrderStatus } from "../../../services/ordersApi";
 import { ORDER_STATUS, normalizeStatus } from "../../../utils/orderStatus";
 import DashTable from "../../components/DashTable";
-import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
-import { buildOrderColumns } from "./sections/orderColumns";
-import OrderDetailModal from "./sections/OrderDetailModal";
+import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
+import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
+import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 
 /**
  * Order management.
@@ -50,9 +50,15 @@ export default function DashOrders() {
     [rows, statusFilter],
   );
 
-  const counts = useMemo(() => {
-    const by = (s) => rows.filter((o) => o.status === s).length;
-    return { all: rows.length, toPay: by("to-pay"), toShip: by("to-ship"), shipped: by("shipped") };
+  // The tabs need counts from the whole set, not the filtered one.
+  const tabs = useMemo(() => {
+    const by = (status) => rows.filter((o) => o.status === status).length;
+    return [
+      { value: "all", label: "All", count: rows.length },
+      { value: "to-pay", label: "To pay", count: by("to-pay") },
+      { value: "to-ship", label: "To ship", count: by("to-ship") },
+      { value: "shipped", label: "Shipped", count: by("shipped") },
+    ];
   }, [rows]);
 
   const advance = async (order, status) => {
@@ -75,23 +81,12 @@ export default function DashOrders() {
 
   return (
     <div className="space-y-5">
-      <DashToolbar
+      <OrdersToolbar
         query={query}
         onQueryChange={setQuery}
-        placeholder="Search by reference, name or email"
-        filters={
-          <FilterTabs
-            ariaLabel="Filter by status"
-            value={statusFilter}
-            onChange={setStatusFilter}
-            options={[
-              { value: "all", label: "All", count: counts.all },
-              { value: "to-pay", label: "To pay", count: counts.toPay },
-              { value: "to-ship", label: "To ship", count: counts.toShip },
-              { value: "shipped", label: "Shipped", count: counts.shipped },
-            ]}
-          />
-        }
+        tabs={tabs}
+        status={statusFilter}
+        onStatusChange={setStatusFilter}
       />
 
       <DashTable

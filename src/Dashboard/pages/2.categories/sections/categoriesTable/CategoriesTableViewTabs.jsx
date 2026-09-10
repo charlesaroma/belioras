@@ -1,6 +1,6 @@
 import { LayoutGrid, Tags } from "lucide-react";
 
-import { cn } from "../../../../utils/cn";
+import { cn } from "../../../../../utils/cn";
 
 /**
  * Two different things live on this page and the tabs say so: menu leaves are

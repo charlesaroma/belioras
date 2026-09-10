@@ -1,7 +1,7 @@
-import Button from "../../../../components/ui/Button";
-import StatusChip from "../../../../components/ui/StatusChip";
-import Modal from "../../../../components/common/Modal";
-import { ORDER_STATUS, nextStatuses } from "../../../../utils/orderStatus";
+import Button from "../../../../../components/ui/Button";
+import StatusChip from "../../../../../components/ui/StatusChip";
+import Modal from "../../../../../components/common/Modal";
+import { ORDER_STATUS, nextStatuses } from "../../../../../utils/orderStatus";
 
 /** Order detail, replacing the console.log that used to be the row action. */
 export default function OrderDetailModal({ order, onClose, onAdvance, format, dateFmt }) {

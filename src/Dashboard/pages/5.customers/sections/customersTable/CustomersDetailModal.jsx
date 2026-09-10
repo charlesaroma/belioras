@@ -1,6 +1,6 @@
-import Avatar from "../../../../components/account/Avatar";
-import Modal from "../../../../components/common/Modal";
-import StatusChip from "../../../../components/ui/StatusChip";
+import Avatar from "../../../../../components/account/Avatar";
+import Modal from "../../../../../components/common/Modal";
+import StatusChip from "../../../../../components/ui/StatusChip";
 
 /** One customer and what they have bought — the reason to open this page. */
 export default function CustomerModal({ customer, onClose, format, dateFmt }) {

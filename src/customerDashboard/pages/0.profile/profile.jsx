@@ -10,9 +10,9 @@ import { getOrders } from "../../../services/ordersApi";
 import { getProducts } from "../../../services/productsApi";
 
 import ProfileHeader from "./sections/ProfileHeader";
-import LatestOrder from "./sections/LatestOrder";
-import DeliversTo from "./sections/DeliversTo";
-import SavedPieces from "./sections/SavedPieces";
+import LatestOrder from "./sections/ProfileLatestOrder";
+import DeliversTo from "./sections/ProfileDeliversTo";
+import SavedPieces from "./sections/ProfileSavedPieces";
 
 /** How many saved pieces the overview previews before linking onward. */
 const PREVIEW_COUNT = 4;

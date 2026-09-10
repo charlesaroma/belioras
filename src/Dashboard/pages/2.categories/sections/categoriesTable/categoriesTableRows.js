@@ -1,4 +1,4 @@
-import { DIMENSION_PREFIX } from "../../../../utils/faceting";
+import { DIMENSION_PREFIX } from "../../../../../utils/faceting";
 
 /**
  * Flattens the navigation tree into one row per menu leaf, with how many

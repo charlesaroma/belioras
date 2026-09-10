@@ -7,10 +7,10 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getUsers } from "../../../services/authApi";
 import { getAllOrders } from "../../../services/ordersApi";
 import DashTable from "../../components/DashTable";
-import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
-import { activityTabs, toRows } from "./sections/customerRows";
-import { buildCustomerColumns } from "./sections/customerColumns";
-import CustomerModal from "./sections/CustomerModal";
+import { activityTabs, toRows } from "./sections/customersTable/customersTableRows";
+import { buildCustomerColumns } from "./sections/customersTable/customersTableColumns";
+import CustomerModal from "./sections/customersTable/CustomersDetailModal";
+import CustomersToolbar from "./sections/customersTable/CustomersTableToolbar";
 
 /**
  * Customers.
@@ -56,18 +56,12 @@ export default function DashCustomers() {
 
   return (
     <div className="space-y-5">
-      <DashToolbar
+      <CustomersToolbar
         query={query}
         onQueryChange={setQuery}
-        placeholder="Search customers by name or email"
-        filters={
-          <FilterTabs
-            ariaLabel="Filter by activity"
-            value={activity}
-            onChange={setActivity}
-            options={tabs}
-          />
-        }
+        tabs={tabs}
+        activity={activity}
+        onActivityChange={setActivity}
       />
 
       <DashTable

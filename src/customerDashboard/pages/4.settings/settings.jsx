@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 
 import SettingsPanel from "./sections/SettingsPanel";
-import ProfileFields from "./sections/ProfileFields";
-import SecurityFields from "./sections/SecurityFields";
-import PreferencesPanel from "./sections/PreferencesPanel";
+import ProfileFields from "./sections/SettingsProfileFields";
+import SecurityFields from "./sections/SettingsSecurityFields";
+import PreferencesPanel from "./sections/SettingsPreferencesPanel";
 import { useAuth } from "../../../context/AuthContext";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";

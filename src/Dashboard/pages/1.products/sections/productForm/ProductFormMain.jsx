@@ -1,8 +1,8 @@
-import Dropzone from "../../../../components/ui/Dropzone";
-import Field from "../../../../components/ui/Field";
-import TagInput from "../../../../components/ui/TagInput";
-import FormSection from "./FormSection";
-import FormAttributes from "./FormAttributes";
+import Dropzone from "../../../../../components/ui/Dropzone";
+import Field from "../../../../../components/ui/Field";
+import TagInput from "../../../../../components/ui/TagInput";
+import FormSection from "./ProductFormSection";
+import FormAttributes from "./ProductFormAttributes";
 
 /** Basics, media, attributes and variants — the wide column. */
 export default function FormMain({

@@ -5,9 +5,9 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getDashboardStats, getRecentOrders } from "../../../services/dashboardApi";
 
-import KeyFigures from "./sections/KeyFigures";
-import RevenuePanel from "./sections/RevenuePanel";
-import RecentOrders from "./sections/RecentOrders";
+import KeyFigures from "./sections/OverviewKeyFigures";
+import RevenuePanel from "./sections/OverviewRevenuePanel";
+import RecentOrders from "./sections/overviewTable/OverviewRecentOrders";
 
 const RECENT_ORDER_COUNT = 6;
 

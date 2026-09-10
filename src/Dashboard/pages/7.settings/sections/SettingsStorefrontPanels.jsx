@@ -1,5 +1,5 @@
 import Field from "../../../../components/ui/Field";
-import Panel from "./Panel";
+import Panel from "./SettingsPanel";
 
 /** Announcement bar, cookie notice and VAT — the three things a shopper sees. */
 export default function StorefrontPanels({ register, errors }) {

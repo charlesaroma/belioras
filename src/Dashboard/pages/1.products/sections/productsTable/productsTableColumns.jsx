@@ -1,8 +1,8 @@
 import { Eye, Package, Pencil, Trash2 } from "lucide-react";
 
-import StatusChip from "../../../../components/ui/StatusChip";
-import { cn } from "../../../../utils/cn";
-import IconAction from "../../../components/IconAction";
+import StatusChip from "../../../../../components/ui/StatusChip";
+import { cn } from "../../../../../utils/cn";
+import IconAction from "../../../../components/IconAction";
 
 /** Low stock reads amber, none reads red — the two states worth acting on. */
 const LOW_STOCK = 5;

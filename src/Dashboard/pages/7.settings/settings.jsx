@@ -6,10 +6,10 @@ import Button from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getSettings, updateSettings } from "../../../services/settingsApi";
-import ContactPanel from "./sections/ContactPanel";
-import StorefrontPanels from "./sections/StorefrontPanels";
-import ShippingZonesPanel from "./sections/ShippingZonesPanel";
-import CompliancePanels from "./sections/CompliancePanels";
+import ContactPanel from "./sections/SettingsContactPanel";
+import StorefrontPanels from "./sections/SettingsStorefrontPanels";
+import ShippingZonesPanel from "./sections/SettingsShippingZonesPanel";
+import CompliancePanels from "./sections/SettingsCompliancePanels";
 import { toFormValues, toSettingsPayload } from "./sections/settingsForm";
 
 /**

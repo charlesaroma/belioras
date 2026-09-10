@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Receipt } from "lucide-react";
 
-import DashTable from "../../../components/DashTable";
-import { buildRecentOrderColumns } from "./recentOrderColumns";
+import DashTable from "../../../../components/DashTable";
+import { buildRecentOrderColumns } from "./overviewRecentOrderColumns";
 
 /**
  * The last handful of orders, with a way through to the full list.

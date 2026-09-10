@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { X, Package, DollarSign, Box, CheckCircle, Clock, XCircle } from "lucide-react";
-import { PRODUCT_STATUS } from "../../../lib/constants";
+import { PRODUCT_STATUS } from "../../../../lib/constants";
 
 export default function ViewProductModal({ open, onClose, product }) {
   const getStatusIcon = (status) => {

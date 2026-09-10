@@ -1,5 +1,5 @@
 import Field from "../../../../components/ui/Field";
-import Panel from "./Panel";
+import Panel from "./SettingsPanel";
 
 /**
  * Shipping zones.

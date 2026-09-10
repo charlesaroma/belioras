@@ -1,4 +1,4 @@
-import StatusChip from "../../../../components/ui/StatusChip";
+import StatusChip from "../../../../../components/ui/StatusChip";
 
 /**
  * Table columns for the Orders page.

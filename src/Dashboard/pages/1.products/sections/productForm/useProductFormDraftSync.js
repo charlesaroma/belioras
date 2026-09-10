@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { toFormValues } from "./productPayload";
+import { toFormValues } from "./productFormPayload";
 
 /**
  * Keeps the minimisable draft dock and this form in step, for new products.

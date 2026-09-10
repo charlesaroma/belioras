@@ -1,5 +1,5 @@
-import ConfirmDialog from "../../../../components/ui/ConfirmDialog";
-import { roleLabel } from "./constants";
+import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
+import { roleLabel } from "./teamTableRoles";
 
 /**
  * Confirms a role change, or the removal of atelier access.

@@ -1,4 +1,4 @@
-import { cn } from "../../../../utils/cn";
+import { cn } from "../../../../../utils/cn";
 
 /** Zero pieces reads red on both tables: it means a dead end. */
 const pieceCount = ({ getValue }) => (

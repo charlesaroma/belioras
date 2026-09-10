@@ -12,12 +12,12 @@ import {
   updateProduct,
 } from "../../../services/productsApi";
 import DashTable from "../../components/DashTable";
-import ProductsToolbar from "./sections/ProductsToolbar";
-import ViewProductModal from "./sections/ViewProductModal";
-import { buildProductColumns } from "./sections/productColumns";
-import { emptyState, statusTabs, toRows } from "./sections/productRows";
-import BulkActionsBar from "./sections/BulkActionsBar";
-import DeleteProductDialog from "./sections/DeleteProductDialog";
+import ProductsToolbar from "./sections/productsTable/ProductsTableToolbar";
+import ViewProductModal from "./sections/productsTable/ProductsViewModal";
+import { buildProductColumns } from "./sections/productsTable/productsTableColumns";
+import { emptyState, statusTabs, toRows } from "./sections/productsTable/productsTableRows";
+import BulkActionsBar from "./sections/productsTable/ProductsTableBulkActions";
+import DeleteProductDialog from "./sections/productsTable/ProductsDeleteDialog";
 
 /**
  * Product management.

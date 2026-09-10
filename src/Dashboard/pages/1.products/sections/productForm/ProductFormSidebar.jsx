@@ -1,6 +1,6 @@
-import Field from "../../../../components/ui/Field";
-import FormSection from "./FormSection";
-import { COLLECTIONS } from "./productPayload";
+import Field from "../../../../../components/ui/Field";
+import FormSection from "./ProductFormSection";
+import { COLLECTIONS } from "./productFormPayload";
 
 /** Pricing, stock and visibility — the narrow column beside the main form. */
 export default function FormSidebar({ register, errors }) {

@@ -1,5 +1,5 @@
 import Field from "../../../../components/ui/Field";
-import Panel from "./Panel";
+import Panel from "./SettingsPanel";
 
 /** GPSR responsible person, and the social accounts the footer links to. */
 export default function CompliancePanels({ register, errors }) {

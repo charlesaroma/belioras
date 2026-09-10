@@ -9,12 +9,12 @@ import { getTaxonomy } from "../../../services/navigationApi";
 import { createProduct, getProduct, updateProduct } from "../../../services/productsApi";
 import { DIMENSION_PREFIX } from "../../../utils/faceting";
 
-import FormHeader from "./sections/FormHeader";
-import FormMain from "./sections/FormMain";
-import FormSidebar from "./sections/FormSidebar";
-import FormSkeleton from "./sections/FormSkeleton";
-import { useProductDraftSync } from "./sections/useProductDraftSync";
-import { EMPTY_PRODUCT, toPayload } from "./sections/productPayload";
+import FormHeader from "./sections/productForm/ProductFormHeader";
+import FormMain from "./sections/productForm/ProductFormMain";
+import FormSidebar from "./sections/productForm/ProductFormSidebar";
+import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
+import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
+import { EMPTY_PRODUCT, toPayload } from "./sections/productForm/productFormPayload";
 
 /**
  * Create and edit a product.
