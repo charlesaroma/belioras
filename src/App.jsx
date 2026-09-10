@@ -66,7 +66,6 @@ import {
   AccountWishlist,
   AccountSettings,
 } from "./customerDashboard";
-import { cn } from "./utils/cn";
 
 /* Search Redirect */
 function SearchRedirect() {
@@ -110,7 +109,7 @@ function AppProviders({ children }) {
 /* Storefront Layout: Defines the persistent storefront shell */
 function Layout() {
   return (
-    <div className={cn('flex', 'min-h-dvh', 'flex-col', 'bg-ivory-50', 'text-espresso')}>
+    <div className={"flex min-h-dvh flex-col bg-ivory-50 text-espresso"}>
       <Navbar />
       <main className="flex-1">
         <Outlet />

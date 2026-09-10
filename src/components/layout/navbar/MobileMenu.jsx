@@ -26,6 +26,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
     <AnimatePresence>
       {open && (
         <>
+          {/* Overlay */}
           <motion.button
             type="button"
             initial={{ opacity: 0 }}
@@ -37,6 +38,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
             className="fixed inset-0 z-50 cursor-default bg-espresso/40 backdrop-blur-sm lg:hidden"
           />
 
+          {/* Panel */}
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
@@ -62,10 +64,11 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
             </div>
 
             <div className="flex-1 overflow-y-auto overscroll-contain">
-              {/* Reads as a field, not a menu row: this is the one control on
-                  the panel, and the only search surface on a phone. It hands
-                  off to SearchPanel rather than carrying a second input. */}
-              <div className="px-6 pb-6 pt-5">
+{/* Reads as a field, not a menu row: this is the one control on
+          the panel, and the only search surface on a phone. It hands
+          off to SearchPanel rather than carrying a second input. */}
+      {/* Search */}
+      <div className="px-6 pb-6 pt-5">
                 <button
                   type="button"
                   onClick={onSearchOpen}

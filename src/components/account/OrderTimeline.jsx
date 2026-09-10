@@ -8,7 +8,6 @@ export default function OrderTimeline({
   bordered = true,
   className,
 }) {
-
   const index = stageOf(status);
   if (isOffTimeline(status) || index === null) return null;
 
@@ -23,19 +22,16 @@ export default function OrderTimeline({
       )}
     >
       {ORDER_STAGES.map((stage, i) => {
-
         const done = i < index;
-
         const current = i === index;
-
         const last = i === ORDER_STAGES.length - 1;
 
         if (vertical) {
           return (
-            <li key={stage.id} className="flex gap-4">
-              {/* The rule connects the marks into a single line of progress;
-                  the last stage has nothing below it. */}
-              <div className="flex flex-col items-center">
+            <li key={stage.id} className={"flex gap-4"}>
+              {/* Timeline Graphic Container */}
+              <div className={"flex flex-col items-center"}>
+                {/* Status Dot */}
                 <span
                   aria-hidden="true"
                   className={cn(
@@ -44,6 +40,7 @@ export default function OrderTimeline({
                   )}
                 />
                 {!last && (
+                  /* Connecting Line */
                   <span
                     aria-hidden="true"
                     className={cn("w-px flex-1", done ? "bg-gold-500" : "bg-umber-100")}
@@ -51,7 +48,9 @@ export default function OrderTimeline({
                 )}
               </div>
 
+              {/* Stage Details */}
               <div className={cn("pb-8", last && "pb-0")}>
+                {/* Stage Label */}
                 <p
                   className={cn(
                     "text-sm",
@@ -60,11 +59,12 @@ export default function OrderTimeline({
                 >
                   {stage.label}
                   {current && (
-                    <span className="ml-2 text-[10px] uppercase tracking-[0.16em] text-gold-700">
+                    <span className={"ml-2 text-[10px] uppercase tracking-[0.16em] text-gold-700"}>
                       Now
                     </span>
                   )}
                 </p>
+                {/* Stage Blurb */}
                 <p
                   className={cn(
                     "mt-0.5 text-[13px]",
@@ -79,7 +79,8 @@ export default function OrderTimeline({
         }
 
         return (
-          <li key={stage.id} className="flex flex-1 items-start gap-3 py-2 sm:block">
+          <li key={stage.id} className={"flex flex-1 items-start gap-3 py-2 sm:block"}>
+            {/* Status Dot */}
             <span
               aria-hidden="true"
               className={cn(
@@ -87,7 +88,9 @@ export default function OrderTimeline({
                 done || current ? "bg-gold-500" : "bg-umber-100",
               )}
             />
+            {/* Stage Content */}
             <div>
+              {/* Stage Label */}
               <p
                 className={cn(
                   "text-[12px] uppercase tracking-[0.14em]",
@@ -97,7 +100,8 @@ export default function OrderTimeline({
                 {stage.label}
                 {current && <span className="sr-only"> — current stage</span>}
               </p>
-              <p className="mt-0.5 text-[11px] leading-relaxed text-espresso-soft">{stage.blurb}</p>
+              {/* Stage Blurb */}
+              <p className={"mt-0.5 text-[11px] leading-relaxed text-espresso-soft"}>{stage.blurb}</p>
             </div>
           </li>
         );

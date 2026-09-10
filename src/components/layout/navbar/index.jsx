@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { getNavigation } from "../../../services/navigationApi";
-import { getProducts } from "../../../services/productsApi";
 
 import AnnouncementBar from "./AnnouncementBar";
 import SearchBar from "./SearchBar";
@@ -43,7 +42,6 @@ export default function Navbar() {
 
   const version = useContentVersion();
   const { data: categories } = useAsyncData(getNavigation, [version]);
-  const { data: products } = useAsyncData(getProducts, []);
   const { count } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -134,16 +132,17 @@ export default function Navbar() {
   const activeCategory = categories?.find((c) => c.id === menuId);
 
   return (
-    <header ref={headerRef} className={cn('fixed', 'inset-x-0', 'top-0', 'z-50', 'w-full')}>
+    <header ref={headerRef} className={"fixed inset-x-0 top-0 z-50 w-full"}>
       <AnnouncementBar />
 
+      {/* Navbar background transition container */}
       <div
         className={cn(
           "transition-all duration-300",
           isScrolled || menuId || mobileOpen || cartOpen || searchOpen || isLightBgPage
             ? // No shadow while a panel is open: the panel hangs directly
               // below and would catch the navbar's shadow as a grey seam.
-                cn("surface-header", !menuId && !searchOpen && "shadow-subtle")
+              cn("surface-header", !menuId && !searchOpen && "shadow-subtle")
             : "bg-gradient-to-b from-black/60 via-black/30 to-transparent text-ivory-50",
         )}
       >
@@ -194,7 +193,7 @@ export default function Navbar() {
             113px each at 320px, which takes language (50) plus the bag (44),
             but not currency (59) as well. Currency stays one row up. */}
         <div className="lg:hidden w-full px-4 sm:px-6 grid grid-cols-[1fr_auto_1fr] items-center py-3 gap-2">
-          {/* Left: Burger */}
+          {/* Left: Burger menu button */}
           <div className="flex items-center justify-start">
             <button
               type="button"
@@ -211,7 +210,7 @@ export default function Navbar() {
             <Logo />
           </div>
 
-          {/* Right: language, then the bag. */}
+          {/* Right: language selector and cart button */}
           <div className="flex items-center justify-end gap-2">
             <LanguageSelector />
             <button
