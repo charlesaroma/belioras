@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Eye, Package, Pencil, Plus, Trash2 } from "lucide-react";
 
 import Button from "../../../components/ui/Button";
-import ConfirmDialog from "../../../components/ui/ConfirmDialog";
 import { cn } from "../../../utils/cn";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
@@ -18,6 +17,9 @@ import DashTable from "../../components/DashTable";
 import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
 import ViewProductModal from "./sections/ViewProductModal";
 import { buildProductColumns } from "./sections/productColumns";
+import { statusTabs, toRows } from "./sections/productRows";
+import BulkActionsBar from "./sections/BulkActionsBar";
+import DeleteProductDialog from "./sections/DeleteProductDialog";
 
 /**
  * Product management.
@@ -45,20 +47,7 @@ export default function DashProducts() {
   const [pendingDelete, setPendingDelete] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
 
-  /**
-   * Products carry stock and a status; the list needs one field to filter on.
-   * Derived here rather than stored so it can never disagree with the stock
-   * count sitting next to it.
-   */
-  const rows = useMemo(
-    () =>
-      (products ?? []).map((p) => ({
-        ...p,
-        status: p.stock === 0 ? "out_of_stock" : (p.status ?? "active"),
-        category: p.collectionId ?? "—",
-      })),
-    [products],
-  );
+  const rows = useMemo(() => toRows(products), [products]);
 
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -71,15 +60,7 @@ export default function DashProducts() {
     [rows, statusFilter],
   );
 
-  const counts = useMemo(
-    () => ({
-      all: rows.length,
-      active: rows.filter((p) => p.status === "active").length,
-      draft: rows.filter((p) => p.status === "draft").length,
-      out_of_stock: rows.filter((p) => p.status === "out_of_stock").length,
-    }),
-    [rows],
-  );
+  const tabs = useMemo(() => statusTabs(rows), [rows]);
 
   const confirmDelete = async () => {
     const product = pendingDelete;
@@ -139,12 +120,7 @@ export default function DashProducts() {
             ariaLabel="Filter by status"
             value={statusFilter}
             onChange={setStatusFilter}
-            options={[
-              { value: "all", label: "All", count: counts.all },
-              { value: "active", label: "Active", count: counts.active },
-              { value: "draft", label: "Draft", count: counts.draft },
-              { value: "out_of_stock", label: "Sold out", count: counts.out_of_stock },
-            ]}
+            options={tabs}
           />
         }
       >
@@ -153,24 +129,11 @@ export default function DashProducts() {
         </Button>
       </DashToolbar>
 
-      {selectedIds.length > 0 && (
-        <div className="flex flex-wrap items-center gap-3 border border-gold-500/40 bg-gold-500/5 px-4 py-3">
-          <p className="text-[12px] text-espresso">
-            {selectedIds.length} selected
-          </p>
-          <div className="ml-auto flex gap-2">
-            <Button size="sm" variant="secondary" onClick={() => bulkSetStatus("active")}>
-              Publish
-            </Button>
-            <Button size="sm" variant="secondary" onClick={() => bulkSetStatus("draft")}>
-              Move to draft
-            </Button>
-            <Button size="sm" variant="ghost" onClick={() => setSelectedIds([])}>
-              Clear
-            </Button>
-          </div>
-        </div>
-      )}
+      <BulkActionsBar
+        count={selectedIds.length}
+        onSetStatus={bulkSetStatus}
+        onClear={() => setSelectedIds([])}
+      />
 
       <DashTable
         columns={columns}
@@ -197,24 +160,11 @@ export default function DashProducts() {
 
       <ViewProductModal open={Boolean(viewing)} onClose={() => setViewing(null)} product={viewing} />
 
-      <ConfirmDialog
-        open={Boolean(pendingDelete)}
+      <DeleteProductDialog
+        product={pendingDelete}
+        format={format}
         onClose={() => setPendingDelete(null)}
         onConfirm={confirmDelete}
-        title="Delete this piece?"
-        description="It will be removed from the storefront immediately. You can undo this from the confirmation that follows."
-        summary={
-          pendingDelete && (
-            <span>
-              <strong className="font-medium">{pendingDelete.name}</strong>
-              {" · "}
-              {format(pendingDelete.price)}
-              {" · "}
-              {pendingDelete.stock} in stock
-            </span>
-          )
-        }
-        confirmLabel="Delete"
       />
     </div>
   );
