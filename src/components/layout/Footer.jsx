@@ -36,7 +36,6 @@ const LEGAL_LINKS = [
 /* EMAIL RE */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/* Instagram Icon */
 function InstagramIcon({ className }) {
   return (
     <svg
@@ -56,7 +55,6 @@ function InstagramIcon({ className }) {
   );
 }
 
-/* Column Title */
 function ColumnTitle({ children }) {
   return (
     <h3 className="font-display text-sm font-medium uppercase tracking-[0.14em] text-espresso">
@@ -65,7 +63,6 @@ function ColumnTitle({ children }) {
   );
 }
 
-/* Collapsible Section */
 function CollapsibleSection({ title, children, defaultOpen = false }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 

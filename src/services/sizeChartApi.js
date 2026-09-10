@@ -12,7 +12,6 @@ import { getState } from "./contentStore";
  * disagree about what a size means.
  */
 
-/* get Size Charts */
 export function getSizeCharts() {
   return mockApi(() => structuredClone(getState("sizeCharts")), 0);
 }

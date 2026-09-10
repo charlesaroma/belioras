@@ -37,7 +37,6 @@ function createToken(user) {
   return `tok_${user.id}_${Date.now().toString(36)}`;
 }
 
-/* find By Email */
 function findByEmail(email) {
 
   const normalized = String(email ?? "").trim().toLowerCase();
@@ -89,7 +88,6 @@ export function register({ name, email, password } = {}) {
 
     const highest = items.reduce((max, u) => {
 
-/* n */
       const n = Number(String(u.id).replace(/\D/g, "")) || 0;
       return n > max ? n : max;
     }, 0);
@@ -215,7 +213,6 @@ export function changePassword(id, { currentPassword, newPassword } = {}) {
  * client-side this is a statement of intent, not a wall.
  */
 
-/* update User Role */
 export function updateUserRole(id, role, actor) {
   return mockApi(() => {
     if (!can(actor?.role, "team")) {

@@ -9,7 +9,6 @@ import { useState } from "react";
  * settings surface for anything that should outlive a visit.
  */
 
-/* use Measurement Unit */
 export function useMeasurementUnit(initial = "cm") {
   const [unit, setUnit] = useState(initial);
   return { unit, setUnit };

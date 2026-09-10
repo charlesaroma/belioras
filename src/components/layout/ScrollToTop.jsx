@@ -8,7 +8,6 @@ export default function ScrollToTop() {
   /* Scroll Handler */
   useEffect(() => {
 
-/* prefers Reduced Motion */
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
   }, [pathname, search]);

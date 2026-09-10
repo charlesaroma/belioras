@@ -3,13 +3,11 @@ import { createContext, useCallback, useContext, useMemo } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-/* Product Draft Context */
 const ProductDraftContext = createContext(null);
 
 /* STORAGE KEY */
 const STORAGE_KEY = "belioras:draft:product";
 
-/* same Except Timestamp */
 function sameExceptTimestamp(a, b) {
 
   const strip = (draft) => {
@@ -21,7 +19,6 @@ function sameExceptTimestamp(a, b) {
   return strip(a) === strip(b);
 }
 
-/* Product Draft Provider */
 export function ProductDraftProvider({ children }) {
   const [drafts, setDrafts] = useLocalStorage(STORAGE_KEY, {});
 
@@ -81,7 +78,6 @@ export function ProductDraftProvider({ children }) {
   return <ProductDraftContext.Provider value={value}>{children}</ProductDraftContext.Provider>;
 }
 
-/* use Product Draft */
 export function useProductDraft() {
 
   const ctx = useContext(ProductDraftContext);

@@ -24,12 +24,10 @@ const collections = [
   },
 ];
 
-/* get Collections */
 export function getCollections() {
   return mockApi(() => collections.map((c) => ({ ...c })));
 }
 
-/* get Collection */
 export function getCollection(idOrSlug) {
   return mockApi(() => collections.find((c) => c.id === idOrSlug || c.slug === idOrSlug) ?? null);
 }

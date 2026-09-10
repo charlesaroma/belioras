@@ -12,7 +12,6 @@ import { matchesResolved, resolveNavPath, splitPath } from "../utils/navTokens";
  * always resolves, and an invented path always 404s.
  */
 
-/* find Nav Match */
 function findNavMatch(pathname) {
 
   const path = pathname.replace(/\/+$/, "");

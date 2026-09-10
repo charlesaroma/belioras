@@ -11,7 +11,6 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * only apply to registration, which exists on the customer door alone.
  */
 
-/* validate Credentials */
 export function validateCredentials(
   { name, email, password },
   { requireName = false, enforceLength = false } = {},

@@ -10,7 +10,6 @@ import { toFormValues } from "./productFormPayload";
  * there is nothing to recover that is not already saved.
  */
 
-/* use Product Draft Sync */
 export function useProductDraftSync({
   isEdit,
   existing,

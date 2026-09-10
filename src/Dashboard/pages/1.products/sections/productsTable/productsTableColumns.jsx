@@ -8,7 +8,6 @@ import IconAction from "../../../../components/IconAction";
 /* LOW STOCK */
 const LOW_STOCK = 5;
 
-/* build Product Columns */
 export function buildProductColumns({ format, onView, onEdit, onDelete }) {
   return [
     {

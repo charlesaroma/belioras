@@ -22,7 +22,6 @@ export default function CartDrawer({ open, onClose }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-/* converted Subtotal */
   const convertedSubtotal = convert(subtotal);
 
   return (

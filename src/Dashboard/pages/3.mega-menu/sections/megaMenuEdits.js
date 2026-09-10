@@ -5,7 +5,6 @@
  * and the reordering arithmetic is testable on its own.
  */
 
-/* make Root Editor */
 export function makeRootEditor(root, onPatch) {
 
   const sections = root.sections ?? [];
@@ -13,7 +12,6 @@ export function makeRootEditor(root, onPatch) {
   const patchSection = (sectionId, patch) =>
     onPatch({ sections: sections.map((s) => (s.id === sectionId ? { ...s, ...patch } : s)) });
 
-/* section By Id */
   const sectionById = (id) => sections.find((s) => s.id === id);
 
   return {

@@ -13,7 +13,6 @@ import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 
-/* Dash Orders */
 export default function DashOrders() {
   const { format } = useCurrency();
   const { locale } = useLanguage();

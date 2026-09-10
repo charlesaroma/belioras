@@ -37,7 +37,6 @@ export function tokenFor(dimension, value) {
  * in faceted search and getting it backwards makes filters feel broken.
  */
 
-/* matches Selection */
 export function matchesSelection(product, dimensions, { ignore = null } = {}) {
 
   const tags = new Set(product.tags ?? []);
@@ -81,7 +80,6 @@ export function applyFilters(products, { dimensions, price, onSale, query }) {
  * are alternatives, not additions.
  */
 
-/* compute Facets */
 export function computeFacets(products, taxonomy, activeFilters) {
   const { dimensions, price, onSale, query } = activeFilters;
 
@@ -147,7 +145,6 @@ export function priceBounds(products) {
   return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
 }
 
-/* sort Products */
 export function sortProducts(products, sort) {
 
   const list = [...products];

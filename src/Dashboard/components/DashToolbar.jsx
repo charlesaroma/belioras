@@ -45,7 +45,6 @@ export default function DashToolbar({
   );
 }
 
-/* Filter Tabs */
 export function FilterTabs({ options, value, onChange, ariaLabel = "Filter" }) {
   return (
     // flex-wrap because four tabs at ~360px exceeded the 335px available on a

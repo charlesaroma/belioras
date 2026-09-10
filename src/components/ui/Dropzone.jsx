@@ -107,7 +107,6 @@ export default function Dropzone({
     [images, max, onChange, onProgress],
   );
 
-/* remove At */
   const removeAt = (i) => {
 
     const image = images[i];

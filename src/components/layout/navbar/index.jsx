@@ -57,7 +57,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-/* is Light Bg Page */
   const isLightBgPage = LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
 
   const headerRef = useRef(null);
@@ -92,13 +91,11 @@ export default function Navbar() {
     setMenuId((prev) => (toggle && prev === id ? null : id));
   };
 
-/* schedule Close Menu */
   const scheduleCloseMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setMenuId(null), 160);
   };
 
-/* cancel Close Menu */
   const cancelCloseMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   };
@@ -128,7 +125,6 @@ export default function Navbar() {
     };
   }, [cartOpen, mobileOpen]);
 
-/* active Category */
   const activeCategory = categories?.find((c) => c.id === menuId);
 
   return (
@@ -171,7 +167,6 @@ export default function Navbar() {
               onFocus={() => setSearchOpen(true)}
               onSubmit={() => {
 
-/* q */
                 const q = searchQuery.trim();
                 if (!q) return;
                 setSearchOpen(false);

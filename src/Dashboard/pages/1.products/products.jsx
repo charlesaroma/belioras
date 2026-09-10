@@ -20,7 +20,6 @@ import { emptyState, statusTabs, toRows } from "./sections/productsTable/product
 import BulkActionsBar from "./sections/productsTable/ProductsTableBulkActions";
 import DeleteProductDialog from "./sections/productsTable/ProductsDeleteDialog";
 
-/* Dash Products */
 export default function DashProducts() {
 
   const navigate = useNavigate();
@@ -52,7 +51,6 @@ export default function DashProducts() {
 
   const tabs = useMemo(() => statusTabs(rows), [rows]);
 
-/* confirm Delete */
   const confirmDelete = async () => {
 
     const product = pendingDelete;
@@ -79,7 +77,6 @@ export default function DashProducts() {
     }
   };
 
-/* bulk Set Status */
   const bulkSetStatus = async (status) => {
 
     const ids = [...selectedIds];

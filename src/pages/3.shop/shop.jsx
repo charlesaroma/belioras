@@ -6,7 +6,6 @@ import { getProducts } from "../../services/productsApi";
 
 import CatalogView from "./sections/CatalogView";
 
-/* Shop Page */
 export default function ShopPage() {
   const { data: products, loading, error } = useAsyncData(getProducts, []);
   const [params] = useSearchParams();

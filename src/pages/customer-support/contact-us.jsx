@@ -21,7 +21,6 @@ const SUBJECTS = [
   { value: "other", label: "Something else", to: "general" },
 ];
 
-/* Contact Us Page */
 export default function ContactUsPage() {
   const { toast } = useToast();
 
@@ -42,7 +41,6 @@ export default function ContactUsPage() {
 
   const chosen = SUBJECTS.find((s) => s.value === watch("subject"));
 
-/* routed To */
   const routedTo =
     chosen?.to === "general"
       ? (contact?.general ?? CONTACT_EMAIL.general)

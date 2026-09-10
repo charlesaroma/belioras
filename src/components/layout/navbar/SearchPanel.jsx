@@ -70,7 +70,6 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
       if (e.key === "Escape") close();
     };
 
-/* on Pointer Down */
     const onPointerDown = (e) => {
       if (panelRef.current && !panelRef.current.contains(e.target)) close();
     };
@@ -87,7 +86,6 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     };
   }, [open, close]);
 
-/* colour Swatches */
   const colourSwatches = useMemo(() => {
 
     const stocked = new Set(

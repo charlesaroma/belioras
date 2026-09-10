@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/* use Async Data */
 export function useAsyncData(fn, deps = []) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);

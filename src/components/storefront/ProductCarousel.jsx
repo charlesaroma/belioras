@@ -48,7 +48,6 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
 
   if (!loading && items.length === 0) return null;
 
-/* heading Id */
   const headingId = `${title.replace(/\s+/g, "-").toLowerCase()}-heading`;
 
   return (

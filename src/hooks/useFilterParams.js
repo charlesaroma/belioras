@@ -30,7 +30,6 @@ const QUERY = "q";
 
 const RESERVED = new Set([PRICE_MIN, PRICE_MAX, SALE, SORT, QUERY]);
 
-/* use Filter Params */
 export function useFilterParams() {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -99,7 +98,6 @@ export function useFilterParams() {
     [commit],
   );
 
-/* clear Dimension */
   const clearDimension = useCallback(
     (dimension) => commit((params) => params.delete(dimension)),
     [commit],

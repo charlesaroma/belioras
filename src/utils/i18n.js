@@ -62,7 +62,6 @@ export function locales() {
   return languagesData.locales;
 }
 
-/* is Supported Language */
 export function isSupportedLanguage(code) {
   return languagesData.locales.some((locale) => locale.code === code);
 }

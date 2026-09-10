@@ -10,7 +10,6 @@ export function getReviews(productId) {
   );
 }
 
-/* get Recent Reviews */
 export function getRecentReviews(limit = 3) {
   return mockApi(() =>
     reviewsSeed

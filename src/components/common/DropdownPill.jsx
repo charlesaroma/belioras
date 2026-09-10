@@ -37,10 +37,8 @@ export default function DropdownPill({
   const isCode = variant === "code";
   const [open, setOpen] = useState(false);
 
-/* list Id */
   const listId = useId();
 
-/* container Ref */
   const containerRef = useRef(null);
 
   /* Keyboard Event Handler */

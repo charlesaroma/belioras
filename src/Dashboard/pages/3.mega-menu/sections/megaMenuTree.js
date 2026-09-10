@@ -17,7 +17,6 @@ export function totalLinks(tree) {
   );
 }
 
-/* patch Root In */
 export function patchRootIn(tree, rootId, patch) {
   return tree.map((r) => (r.id === rootId ? { ...r, ...patch } : r));
 }

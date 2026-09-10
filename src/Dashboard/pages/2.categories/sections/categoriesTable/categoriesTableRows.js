@@ -8,7 +8,6 @@ import { DIMENSION_PREFIX } from "../../../../../utils/faceting";
  * thing this page can tell an admin.
  */
 
-/* to Leaf Rows */
 export function toLeafRows(navigation, products) {
 
   const rows = [];

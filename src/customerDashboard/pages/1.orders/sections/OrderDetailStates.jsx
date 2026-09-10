@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, PackageX } from "lucide-react";
 
-/* Order Skeleton */
 export function OrderSkeleton() {
   return (
     <div className="space-y-6" aria-hidden="true">
@@ -22,7 +21,6 @@ export function OrderSkeleton() {
   );
 }
 
-/* Order Not Found */
 export function OrderNotFound() {
   return (
     <div className="rounded-2xl border border-umber-50 bg-white px-6 py-16 text-center">

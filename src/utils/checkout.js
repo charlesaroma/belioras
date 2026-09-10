@@ -43,12 +43,10 @@ export function zoneIdFor(country) {
  * by the coupon's own maxDiscount.
  */
 
-/* compute Totals */
 export function computeTotals({ items = [], country, coupon = null, settings }) {
 
   const zones = settings?.shipping?.zones ?? [];
 
-/* zone Id */
   const zoneId = zoneIdFor(country);
 
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0] ?? { flat: 0 };
@@ -105,7 +103,6 @@ function round(n) {
  * checkout page rather than only in the returns policy.
  */
 
-/* non Returnable Items */
 export function nonReturnableItems(items = [], catalog = []) {
   return items.filter((i) => catalog.find((p) => p.id === i.id)?.isNonReturnable);
 }

@@ -3,7 +3,6 @@ import { formatInches, unitLabel } from "../../../utils/measurements";
 import SizeChartTable from "./SizeChartTable";
 import SizeChartUnitToggle from "./SizeChartUnitToggle";
 
-/* Size Chart Hair Lengths */
 export function SizeChartHairLengths({ hair, unit, onUnitChange }) {
 
   const columns = [`Length (${unitLabel(unit)})`, "Falls at", "Note"];
@@ -19,7 +18,6 @@ export function SizeChartHairLengths({ hair, unit, onUnitChange }) {
   );
 }
 
-/* Size Chart Hair Textures */
 export function SizeChartHairTextures({ hair }) {
 
   const rows = hair.textures.map((t) => [t.name, t.note]);

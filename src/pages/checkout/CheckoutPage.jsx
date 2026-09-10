@@ -36,7 +36,6 @@ export default function CheckoutPage() {
   const [coupon, setCoupon] = useState(null);
   const [placing, setPlacing] = useState(false);
 
-/* default Address */
   const defaultAddress = savedAddresses.find((a) => a.isDefault) ?? savedAddresses[0] ?? null;
 
   const {
@@ -61,7 +60,6 @@ export default function CheckoutPage() {
 
   const totals = computeTotals({ items, country, coupon, settings });
 
-/* non Returnable */
   const nonReturnable = nonReturnableItems(items, catalog ?? []);
 
   const useSaved = (address) => {

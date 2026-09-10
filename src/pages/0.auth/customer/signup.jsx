@@ -6,10 +6,8 @@ import CustomerSignupForm from "./sections/CustomerSignupForm";
 import { SignupTerms } from "./sections/CustomerAuthNotes";
 import { useRedirectIfSignedIn } from "./sections/useRedirectIfSignedIn";
 
-/* Signup Page */
 export default function SignupPage() {
 
-/* redirect To */
   const redirectTo = useRedirectIfSignedIn();
   if (redirectTo) return <Navigate to={redirectTo} replace />;
 

@@ -11,7 +11,6 @@ import { resolveLanding } from "../../../../utils/roles";
  * link was shown the sign-in form again as though their session had lapsed.
  */
 
-/* use Redirect If Signed In */
 export function useRedirectIfSignedIn() {
   const { isAuthenticated, user } = useAuth();
 

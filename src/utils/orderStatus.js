@@ -77,7 +77,6 @@ export function normalizeStatus(status) {
  * orders need their own message, not a timeline with the first dot lit.
  */
 
-/* stage Of */
 export function stageOf(status) {
 
   const canonical = normalizeStatus(status);
@@ -110,7 +109,6 @@ export function statusLabel(status) {
  * correction, not a normal step, and should not be one click away.
  */
 
-/* next Statuses */
 export function nextStatuses(status) {
   switch (normalizeStatus(status)) {
     case "to-pay":

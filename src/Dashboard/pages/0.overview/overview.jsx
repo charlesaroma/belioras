@@ -13,7 +13,6 @@ import RecentOrders from "./sections/overviewTable/OverviewRecentOrders";
 /* RECENT ORDER COUNT */
 const RECENT_ORDER_COUNT = 6;
 
-/* Dash Overview */
 export default function DashOverview() {
   const { data: stats, loading } = useAsyncData(getDashboardStats, []);
   const { data: orders } = useAsyncData(() => getRecentOrders(RECENT_ORDER_COUNT), []);

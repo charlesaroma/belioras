@@ -1,7 +1,6 @@
 /* Admin Dashboard Page: Products - ProductsDeleteDialog */
 import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
 
-/* Delete Product Dialog */
 export default function DeleteProductDialog({ product, format, onClose, onConfirm }) {
   return (
     <ConfirmDialog

@@ -11,7 +11,6 @@ import CategoriesToolbar from "./sections/categoriesTable/CategoriesTableToolbar
 import { toAttributeRows, toLeafRows } from "./sections/categoriesTable/categoriesTableRows";
 import { ATTRIBUTE_COLUMNS, MENU_COLUMNS } from "./sections/categoriesTable/categoriesTableColumns";
 
-/* Dash Categories */
 export default function DashCategories() {
   const [tab, setTab] = useState("menu");
   const [query, setQuery] = useState("");

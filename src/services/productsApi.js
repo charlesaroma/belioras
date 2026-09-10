@@ -20,7 +20,6 @@ import { COLOR_NAME_TO_TAXONOMY, LEGACY_CATEGORY_TOKENS } from "../utils/constan
  * const bound at module load would go stale after the first write.
  */
 
-/* catalog Items */
 function catalogItems() {
   return getState("products").items;
 }
@@ -65,7 +64,6 @@ function normalize(product) {
   return { ...product, images: product.images ?? [], tags: deriveTags(product) };
 }
 
-/* get Products */
 export function getProducts() {
   return mockApi(() => catalogItems().map(normalize));
 }
@@ -79,14 +77,12 @@ export function getProduct(idOrSlug) {
   });
 }
 
-/* get Products By Collection */
 export function getProductsByCollection(collectionId) {
   return mockApi(() =>
     catalogItems().filter((p) => p.collectionId === collectionId).map(normalize)
   );
 }
 
-/* get New Arrivals */
 export function getNewArrivals() {
   return mockApi(() =>
     newArrivalsSeed
@@ -101,11 +97,9 @@ export function getNewArrivals() {
   );
 }
 
-/* search Products */
 export function searchProducts(query) {
   return mockApi(() => {
 
-/* q */
     const q = String(query ?? "").trim().toLowerCase();
     if (!q) return [];
     return catalogItems()
@@ -119,7 +113,6 @@ export function searchProducts(query) {
   });
 }
 
-/* get Featured Products */
 export function getFeaturedProducts() {
   return mockApi(() => catalogItems().filter((p) => p.bestseller || p.featured).map(normalize));
 }
@@ -133,7 +126,6 @@ export function getFeaturedProducts() {
  * component because a real backend would apply the same rule server-side.
  */
 
-/* get Best Sellers */
 export function getBestSellers(limit = 8) {
   return mockApi(async () => {
 
@@ -202,12 +194,10 @@ export function slugify(value) {
  * Counting past the highest existing id cannot collide.
  */
 
-/* next Product Id */
 function nextProductId(items) {
 
   const highest = items.reduce((max, p) => {
 
-/* n */
     const n = Number(String(p.id).match(/\d+/)?.[0] ?? 0);
     return n > max ? n : max;
   }, 0);

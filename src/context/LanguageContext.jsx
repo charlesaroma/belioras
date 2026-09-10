@@ -5,10 +5,8 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { DEFAULT_LANGUAGE, isSupportedLanguage, locales, t as translate } from "../utils/i18n";
 import { localeForLanguage } from "../utils/formatCurrency";
 
-/* Language Context */
 const LanguageContext = createContext(null);
 
-/* Language Provider */
 export function LanguageProvider({ children }) {
   const [stored, setLanguage] = useLocalStorage("belioras:language", DEFAULT_LANGUAGE);
 

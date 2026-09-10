@@ -3,10 +3,8 @@ import { createContext, useCallback, useContext, useMemo, useSyncExternalStore }
 
 import * as contentStore from "../services/contentStore";
 
-/* Content Context */
 const ContentContext = createContext(null);
 
-/* Content Provider */
 export function ContentProvider({ children }) {
 
   const version = useSyncExternalStore(
@@ -33,7 +31,6 @@ export function useContent() {
   return ctx;
 }
 
-/* use Content Version */
 export function useContentVersion() {
   return useSyncExternalStore(
     contentStore.subscribe,

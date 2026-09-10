@@ -17,7 +17,6 @@ import { getProducts } from "./productsApi";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-/* get Dashboard Stats */
 export function getDashboardStats() {
   return mockApi(async () => {
     const [orders, products] = await Promise.all([getAllOrders(), getProducts()]);
@@ -74,7 +73,6 @@ export function getRecentOrders(limit = 5) {
   }, 0);
 }
 
-/* group By Month */
 function groupByMonth(orders) {
 
   const map = new Map();

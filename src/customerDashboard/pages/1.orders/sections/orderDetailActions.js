@@ -45,7 +45,6 @@ export function reorder({ order, catalog, addItem, toast }) {
  * The fixtures record a coupon code but no discount amount, so it is derived.
  */
 
-/* discount On */
 export function discountOn(order) {
   if (!order) return 0;
   return Math.max(

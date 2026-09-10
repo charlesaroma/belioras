@@ -12,7 +12,6 @@ import StatusChip from "../../components/ui/StatusChip";
 import Field from "../../components/ui/Field";
 import { isOffTimeline, normalizeStatus } from "../../utils/orderStatus";
 
-/* Order Tracking Page */
 export default function OrderTrackingPage() {
   const [reference, setReference] = useState("");
   const [email, setEmail] = useState("");

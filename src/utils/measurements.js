@@ -25,7 +25,6 @@ export function cmToIn(cm) {
  * 23 quietly moved EU 36 onto EU 37's length.
  */
 
-/* format Measurement */
 export function formatMeasurement(cm, unit, { decimals = 0 } = {}) {
   if (cm == null) return "—";
   if (unit === "in") return `${round(cmToIn(cm), 1)}"`;

@@ -7,7 +7,6 @@ const ZONES = [
   { zone: "Rest of World", cost: "€19.00", free: "—", time: "7–14 working days" },
 ];
 
-/* Shipping Policy Page */
 export default function ShippingPolicyPage() {
   return (
     <PageShell

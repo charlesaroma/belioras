@@ -13,7 +13,6 @@ import IconAction from "../../components/IconAction";
 import MenuRoot from "./sections/MegaMenuRoot";
 import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
 
-/* Dash Mega Menu */
 export default function DashMegaMenu() {
   const { toast } = useToast();
 

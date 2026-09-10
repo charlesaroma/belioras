@@ -10,7 +10,6 @@ import TestimonialsSection from "./sections/TestimonialsSection";
 import BrandStorySection from "./sections/BrandStorySection";
 import InstagramGridSection from "./sections/InstagramGridSection";
 
-/* Home Page */
 export default function HomePage() {
   return (
     <>

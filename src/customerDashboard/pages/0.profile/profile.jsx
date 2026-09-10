@@ -34,7 +34,6 @@ export default function Profile() {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   )[0];
 
-/* default Address */
   const defaultAddress = addresses.find((a) => a.isDefault) ?? addresses[0] ?? null;
 
   const saved = (wishlistIds ?? [])

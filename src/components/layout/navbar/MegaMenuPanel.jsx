@@ -65,14 +65,20 @@ export default function MegaMenuPanel({
                   ))}
                 </ul>
               ) : (
-              <div key={section.id} className="border-b border-umber-50/60 last:border-b-0">
+              <div
+                key={section.id}
+                className={cn(
+                  "border-b border-umber-50/60 border-l-2 pl-3 transition-colors duration-300 last:border-b-0",
+                  isOpen ? "border-l-gold-500 bg-brown-50/40" : "border-l-transparent",
+                )}
+              >
                 <button
                   type="button"
                   onClick={() => setOpenSection((cur) => (cur === section.id ? null : section.id))}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between py-3.5 text-left"
+                  className="flex w-full items-center justify-between py-3.5 pr-2 text-left"
                 >
-                  <span className="eyebrow">{section.title}</span>
+                  <span className={cn("eyebrow", isOpen && "!text-espresso")}>{section.title}</span>
                   <ChevronDown
                     className={cn(
                       "size-4 shrink-0 text-espresso-300 transition-transform duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -153,14 +159,7 @@ export default function MegaMenuPanel({
   return (
     <div className="flex flex-col">
       <div className="flex gap-12 xl:gap-16">
-        {/*
-          Shop carries five sections. Five columns beside the imagery is
-          unreadable, so they cap at two on lg and three on xl and wrap.
-        */}
-        {/* Column count comes from the caller, which derives it from how much
-            this category actually holds — see megaMenuLayout.js. It used to be
-            a hard grid-cols-2 xl:grid-cols-3, so a single-section root spread
-            one short list across three columns of nothing. */}
+        {/* Link Columns */}
         <div
           className="grid min-w-0 flex-1 gap-x-10 gap-y-9 xl:gap-x-12"
           style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
@@ -251,7 +250,6 @@ export default function MegaMenuPanel({
   );
 }
 
-/* Tile Grid */
 function TileGrid({ tiles, onNavigate }) {
 
   return (

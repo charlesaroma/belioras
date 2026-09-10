@@ -58,7 +58,6 @@ const DOMAINS = {
   users: { seed: usersSeed, collection: "items" },
 };
 
-/* storage Key */
 function storageKey(domain) {
   return `${KEY_PREFIX}${domain}`;
 }
@@ -91,10 +90,8 @@ function writeStored(domain, state) {
  * added (not present in the seed) are appended.
  */
 
-/* hydrate Collection */
 export function hydrateCollection(seedItems = [], storedItems = [], key = "id") {
 
-/* stored By Id */
   const storedById = new Map(storedItems.map((item) => [item[key], item]));
 
   const merged = seedItems.map((seedItem) => {

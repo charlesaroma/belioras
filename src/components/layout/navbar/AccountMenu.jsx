@@ -22,10 +22,8 @@ export default function AccountMenu() {
 
   const isOpen = open && openedAt === pathname;
 
-/* menu Id */
   const menuId = useId();
 
-/* trigger Ref */
   const triggerRef = useRef(null);
 
   const itemsRef = useRef([]);
@@ -48,7 +46,6 @@ export default function AccountMenu() {
 
   const items = accountMenuItems({ t, isAdmin });
 
-/* on Menu Key Down */
   const onMenuKeyDown = (e) => {
 
     const delta = { ArrowDown: 1, ArrowUp: -1 }[e.key];

@@ -4,7 +4,6 @@ import { CAPABILITIES } from "../../../../../utils/roles";
 import { cn } from "../../../../../utils/cn";
 import { ROLE_TONE, STAFF_ROLES, roleLabel } from "./teamTableRoles";
 
-/* build Team Columns */
 export function buildTeamColumns({ dateFmt, signedInId, onStageRoleChange }) {
   return [
     {

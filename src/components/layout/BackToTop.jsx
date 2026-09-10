@@ -19,7 +19,6 @@ export default function BackToTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-/* scroll To Top */
   const scrollToTop = () => {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

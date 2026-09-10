@@ -37,7 +37,6 @@ export const CAPABILITIES = {
   [ROLES.CUSTOMER]: new Set(),
 };
 
-/* is Admin Role */
 export function isAdminRole(role) {
   return ADMIN_ROLES.has(role);
 }
@@ -66,7 +65,6 @@ export function landingFor(user) {
  * the correct refusal it is.
  */
 
-/* resolve Landing */
 export function resolveLanding(user, from) {
 
   const fallback = landingFor(user);

@@ -4,7 +4,6 @@ import { Plus } from "lucide-react";
 import Button from "../../../../../components/ui/Button";
 import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
 
-/* Products Toolbar */
 export default function ProductsToolbar({ query, onQueryChange, tabs, status, onStatusChange }) {
   return (
     <DashToolbar

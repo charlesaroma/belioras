@@ -83,7 +83,6 @@ export function splitPath(pathname) {
  * `/shop/color/chartreuse` resolves here but still 404s there.
  */
 
-/* resolve Nav Path */
 export function resolveNavPath(pathname) {
 
   const parts = splitPath(pathname);
@@ -149,7 +148,6 @@ export function resolveNavPath(pathname) {
  * "a dress AND (mini OR midi OR maxi)".
  */
 
-/* matches Resolved */
 export function matchesResolved(tags, resolved) {
   if (!resolved) return false;
 

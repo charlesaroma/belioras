@@ -1,7 +1,6 @@
 /* Admin Dashboard Page: Orders - ordersTableColumns */
 import StatusChip from "../../../../../components/ui/StatusChip";
 
-/* build Order Columns */
 export function buildOrderColumns({ format, dateFmt }) {
   return [
     {

@@ -4,7 +4,6 @@ import StatusChip from "../../../../../components/ui/StatusChip";
 import Modal from "../../../../../components/common/Modal";
 import { ORDER_STATUS, nextStatuses } from "../../../../../utils/orderStatus";
 
-/* Order Detail Modal */
 export default function OrderDetailModal({ order, onClose, onAdvance, format, dateFmt }) {
 
   const transitions = order ? nextStatuses(order.status) : [];

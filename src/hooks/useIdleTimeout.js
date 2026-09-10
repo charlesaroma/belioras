@@ -25,7 +25,6 @@ const THROTTLE = 30_000;
  * which are outside render.
  */
 
-/* use Idle Timeout */
 export function useIdleTimeout({
   timeout = 30 * 60 * 1000,
   warnBefore = 2 * 60 * 1000,
@@ -35,7 +34,6 @@ export function useIdleTimeout({
 
   const timers = useRef({ idle: null, warn: null });
 
-/* last Activity */
   const lastActivity = useRef(0);
 
   // Held in a ref so a caller passing an inline arrow does not rebuild the
@@ -73,7 +71,6 @@ export function useIdleTimeout({
     lastActivity.current = Date.now();
     schedule();
 
-/* on Activity */
     const onActivity = () => {
 
       const now = Date.now();

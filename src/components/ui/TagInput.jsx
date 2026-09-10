@@ -28,7 +28,6 @@ export default function TagInput({
     setDraft("");
   };
 
-/* remove At */
   const removeAt = (i) => onChange(values.filter((_, idx) => idx !== i));
 
   const onKeyDown = (e) => {

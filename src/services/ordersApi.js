@@ -15,12 +15,10 @@ function orderItems() {
   return getState("orders").items;
 }
 
-/* next Order Number */
 function nextOrderNumber(items) {
 
   const highest = items.reduce((max, o) => {
 
-/* n */
     const n = Number(String(o.id).replace(/\D/g, "")) || 0;
     return n > max ? n : max;
   }, 1000);
@@ -51,13 +49,11 @@ export function getAllOrders() {
  * as a rollup updated on order.paid rather than scanning on read.
  */
 
-/* get Best Seller Product Ids */
 export function getBestSellerProductIds({ limit = 12, sinceDays = null } = {}) {
   return mockApi(() => {
 
     const cutoff = sinceDays ? Date.now() - sinceDays * 86400000 : null;
 
-/* units By Product */
     const unitsByProduct = new Map();
 
     for (const order of orderItems()) {
@@ -151,7 +147,6 @@ export function createOrder(payload) {
  * chip on two different surfaces.
  */
 
-/* update Order Status */
 export function updateOrderStatus(id, status) {
   return mockApi(() => {
 

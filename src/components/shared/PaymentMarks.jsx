@@ -73,7 +73,6 @@ function Amex() {
   );
 }
 
-/* Pay Pal */
 function PayPal() {
   return (
     <Chip label="PayPal">
@@ -110,7 +109,6 @@ function PayPal() {
   );
 }
 
-/* Apple Pay */
 function ApplePay() {
   return (
     <Chip label="Apple Pay">
@@ -161,7 +159,6 @@ function Klarna() {
 
 const MARKS = [Visa, Mastercard, Amex, PayPal, ApplePay, Klarna];
 
-/* Payment Marks */
 export default function PaymentMarks({ className = "" }) {
   return (
     <ul

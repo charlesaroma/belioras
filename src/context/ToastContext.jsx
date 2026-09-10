@@ -1,7 +1,6 @@
 /* Context Provider: ToastContext */
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 
-/* Toast Context */
 const ToastContext = createContext(null);
 
 let nextId = 0;
@@ -12,7 +11,6 @@ const DEFAULT_DURATION = 4000;
 /* ACTION DURATION */
 const ACTION_DURATION = 8000;
 
-/* Toast Provider */
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   // id -> {timer, expiresAt, remaining}

@@ -10,7 +10,6 @@ import { getState, setState } from "./contentStore";
  * change anything even in principle.
  */
 
-/* get Settings */
 export function getSettings() {
   return mockApi(() => structuredClone(getState("settings")), 0);
 }
@@ -23,7 +22,6 @@ export function getSettings() {
  * omits a section leaves it intact.
  */
 
-/* update Settings */
 export function updateSettings(patch) {
   return mockApi(() => {
 

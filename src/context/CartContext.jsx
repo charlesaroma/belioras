@@ -3,14 +3,12 @@ import { createContext, useCallback, useContext, useMemo } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-/* Cart Context */
 const CartContext = createContext(null);
 
 function clampQty(qty, stock) {
   return Math.min(Math.max(1, Math.floor(qty)), Math.max(0, stock));
 }
 
-/* Cart Provider */
 export function CartProvider({ children }) {
   const [items, setItems] = useLocalStorage("belioras:cart", []);
 
@@ -70,7 +68,6 @@ export function CartProvider({ children }) {
 
   const clear = useCallback(() => setItems([]), [setItems]);
 
-/* is In Cart */
   const isInCart = useCallback((productId) => items.some((i) => i.id === productId), [items]);
 
   const value = useMemo(() => {

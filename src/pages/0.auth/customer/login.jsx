@@ -6,10 +6,8 @@ import CustomerLoginForm from "./sections/CustomerLoginForm";
 import { DemoAccountNote } from "./sections/CustomerAuthNotes";
 import { useRedirectIfSignedIn } from "./sections/useRedirectIfSignedIn";
 
-/* Login Page */
 export default function LoginPage() {
 
-/* redirect To */
   const redirectTo = useRedirectIfSignedIn();
   if (redirectTo) return <Navigate to={redirectTo} replace />;
 

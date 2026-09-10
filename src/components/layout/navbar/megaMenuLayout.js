@@ -25,7 +25,6 @@ export function megaMenuLayoutFor(category) {
  * column is what stretched Accessories' three short lists across the viewport.
  */
 
-/* mega Menu Columns */
 export function megaMenuColumns(category, layout) {
 
   const sections = category?.sections?.length ?? 1;

@@ -7,7 +7,6 @@ import {
 import GridDensityIcon from "../shared/GridDensityIcon";
 import { cn } from "../../utils/cn";
 
-/* Density Group */
 function DensityGroup({ options, columns, setColumns, className }) {
   // The two breakpoint sets do not overlap completely — a desktop choice of 4
   // or 6 has no equivalent in the tablet set. Without a fallback tab stop the
@@ -15,7 +14,6 @@ function DensityGroup({ options, columns, setColumns, className }) {
   // unreachable by keyboard.
   const selectedIndex = options.indexOf(columns);
 
-/* tab Stop Index */
   const tabStopIndex = selectedIndex === -1 ? 0 : selectedIndex;
 
   const onKeyDown = (e) => {

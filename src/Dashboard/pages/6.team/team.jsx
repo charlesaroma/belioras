@@ -13,7 +13,6 @@ import { buildTeamColumns } from "./sections/teamTable/teamTableColumns";
 import { AddMemberDialog, RoleChangeDialog } from "./sections/teamTable/TeamTableDialogs";
 import TeamToolbar from "./sections/teamTable/TeamTableToolbar";
 
-/* Dash Team */
 export default function DashTeam() {
   const { locale } = useLanguage();
   const { toast } = useToast();

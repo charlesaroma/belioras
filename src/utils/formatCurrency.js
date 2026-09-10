@@ -24,7 +24,6 @@ const LOCALE_BY_LANGUAGE = {
   zh: "zh-Hans",
 };
 
-/* locale For Language */
 export function localeForLanguage(language) {
   return LOCALE_BY_LANGUAGE[language] ?? LOCALE_BY_LANGUAGE.en;
 }
@@ -40,7 +39,6 @@ export function convertFromBase(amountInEur, to = "EUR") {
  * target rate then leaves the value in `to`.
  */
 
-/* convert Amount */
 export function convertAmount(amount, from = "EUR", to = "EUR") {
   if (from === to) return amount;
   return (amount / (RATES[from] ?? 1)) * (RATES[to] ?? 1);
@@ -51,10 +49,8 @@ export function convertAmount(amount, from = "EUR", to = "EUR") {
  * per product card, so they are cached for the lifetime of the page.
  */
 
-/* formatter Cache */
 const formatterCache = new Map();
 
-/* get Formatter */
 function getFormatter(locale, currency) {
 
   const key = `${locale}|${currency}`;
@@ -79,7 +75,6 @@ function getFormatter(locale, currency) {
  * differs from the static mockups.
  */
 
-/* format Currency */
 export function formatCurrency(amount, currency = "EUR", locale = "en-GB") {
   return getFormatter(locale, currency).format(Number(amount) || 0);
 }

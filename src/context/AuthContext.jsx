@@ -12,10 +12,8 @@ import {
   verifyPassword as verifyPasswordApi,
 } from "../services/authApi";
 
-/* Auth Context */
 const AuthContext = createContext(null);
 
-/* Auth Provider */
 export function AuthProvider({ children }) {
   const [session, setSession] = useLocalStorage("belioras:auth", null);
   const [loading, setLoading] = useState(false);

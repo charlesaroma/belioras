@@ -3,7 +3,6 @@ import { UserCog } from "lucide-react";
 
 import DashToolbar from "../../../../components/DashToolbar";
 
-/* Team Toolbar */
 export default function TeamToolbar({ query, onQueryChange, onAddExisting }) {
   return (
     <DashToolbar query={query} onQueryChange={onQueryChange} placeholder="Search the team">

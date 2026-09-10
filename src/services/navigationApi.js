@@ -9,12 +9,10 @@ import { getState, resetDomain, setState } from "./contentStore";
  * resolves, and a path that is not in the tree always 404s.
  */
 
-/* get Navigation */
 export function getNavigation() {
   return mockApi(() => getState("navigation").items, 0);
 }
 
-/* get Nav Item */
 export function getNavItem(id) {
   return mockApi(() => getState("navigation").items.find((item) => item.id === id) ?? null, 0);
 }
@@ -29,7 +27,6 @@ export function getNavLeaves() {
   return mockApi(() => flattenLeaves(getState("navigation").items), 0);
 }
 
-/* flatten Leaves */
 export function flattenLeaves(items) {
   return items.flatMap((root) =>
     root.sections.flatMap((section) =>
@@ -51,7 +48,6 @@ export function flattenLeaves(items) {
  * Callers pass the roots array; `rev` is preserved by the store.
  */
 
-/* update Navigation */
 export function updateNavigation(items) {
   return mockApi(() => {
     setState("navigation", (state) => ({ ...state, items }));

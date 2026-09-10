@@ -1,7 +1,6 @@
 /* Admin Dashboard Page: Customers - CustomersTableToolbar */
 import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
 
-/* Customers Toolbar */
 export default function CustomersToolbar({ query, onQueryChange, tabs, activity, onActivityChange }) {
   return (
     <DashToolbar

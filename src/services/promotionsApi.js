@@ -8,7 +8,6 @@ function isActive({ start, end } = {}) {
   return (!start || new Date(start).getTime() <= now) && (!end || new Date(end).getTime() >= now);
 }
 
-/* get Promotions */
 export function getPromotions() {
   return mockApi(() => JSON.parse(JSON.stringify(promotionsSeed)));
 }
@@ -20,7 +19,6 @@ export function getPromotions() {
  * day that sale expired.
  */
 
-/* get Top Banner */
 export function getTopBanner() {
   return mockApi(() => {
     const { topBanner, announcements } = promotionsSeed;
@@ -32,7 +30,6 @@ export function getTopBanner() {
   });
 }
 
-/* get Flash Sale */
 export function getFlashSale() {
   return mockApi(() =>
     promotionsSeed.flashSale?.active && isActive(promotionsSeed.flashSale)

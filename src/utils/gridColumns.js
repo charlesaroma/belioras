@@ -48,7 +48,6 @@ export const COLUMN_GAP_CLASSES = {
   row: "gap-y-10",
 };
 
-/* is Valid Columns */
 export function isValidColumns(value) {
   return value === "row" || [2, 3, 4, 6].includes(value);
 }

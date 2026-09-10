@@ -24,7 +24,6 @@ import { mockApi } from "./apiClient";
  * mis-detected chip rather than being stuck with it.
  */
 
-/* search By Image */
 export function searchByImage(blob) {
   return mockApi(() => {
     if (!blob) {

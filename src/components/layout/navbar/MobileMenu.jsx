@@ -64,11 +64,8 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
             </div>
 
             <div className="flex-1 overflow-y-auto overscroll-contain">
-{/* Reads as a field, not a menu row: this is the one control on
-          the panel, and the only search surface on a phone. It hands
-          off to SearchPanel rather than carrying a second input. */}
-      {/* Search */}
-      <div className="px-6 pb-6 pt-5">
+              {/* Search */}
+              <div className="px-6 pb-6 pt-5">
                 <button
                   type="button"
                   onClick={onSearchOpen}
@@ -207,7 +204,6 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
   );
 }
 
-/* Quiet Row */
 function QuietRow({ to, onClose, icon: Icon, label, meta }) {
   return (
     <Link
@@ -224,14 +220,18 @@ function QuietRow({ to, onClose, icon: Icon, label, meta }) {
   );
 }
 
-/* Category Accordion */
 function CategoryAccordion({ category, onClose }) {
   const [open, setOpen] = useState(false);
 
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="border-b border-umber-50">
+    <div
+      className={cn(
+        "-mx-6 border-b border-umber-50 border-l-2 px-6 transition-colors duration-300",
+        open ? "border-l-gold-500 bg-brown-50/45" : "border-l-transparent",
+      )}
+    >
       <button
         type="button"
         aria-expanded={open}

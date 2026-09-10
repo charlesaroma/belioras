@@ -37,7 +37,6 @@ function isEmpty(value) {
  * into a different person's account.
  */
 
-/* use Scoped Storage */
 export function useScopedStorage(baseKey, initialValue, userId, { merge } = {}) {
 
   const key = userId ? `${baseKey}:${userId}` : baseKey;
@@ -53,7 +52,6 @@ export function useScopedStorage(baseKey, initialValue, userId, { merge } = {}) 
   useEffect(() => {
     if (activeKey.current === key) return;
 
-/* previous Key */
     const previousKey = activeKey.current;
     activeKey.current = key;
 

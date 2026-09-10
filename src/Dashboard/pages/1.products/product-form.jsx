@@ -17,7 +17,6 @@ import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
 import { EMPTY_PRODUCT, toPayload } from "./sections/productForm/productFormPayload";
 
-/* Product Form */
 export default function ProductForm() {
   const { id } = useParams();
 
@@ -80,7 +79,6 @@ export default function ProductForm() {
     setTags((prev) => (prev.includes(token) ? prev.filter((t) => t !== token) : [...prev, token]));
   };
 
-/* discard Draft */
   const discardDraft = () => {
     draft.clearDraft("new-product");
     reset(EMPTY_PRODUCT);

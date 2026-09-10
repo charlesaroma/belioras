@@ -6,7 +6,6 @@
  * why this sniffs them rather than reading a category.
  */
 
-/* size Chart Kind For */
 export function sizeChartKindFor(product) {
 
   const sizes = product?.sizes ?? [];

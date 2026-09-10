@@ -20,7 +20,6 @@ export default function HeroSection() {
 
   const slides = data?.slides ?? [];
 
-/* autoplay Ms */
   const autoplayMs = data?.autoplayMs ?? AUTOPLAY_MS;
 
   const [index, setIndex] = useState(0);
@@ -30,7 +29,6 @@ export default function HeroSection() {
 
   const count = slides.length;
 
-/* go To */
   const goTo = useCallback((i) => setIndex(count ? ((i % count) + count) % count : 0), [count]);
 
   // Autoplay is suppressed under prefers-reduced-motion: an unattended slide

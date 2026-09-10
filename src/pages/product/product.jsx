@@ -24,7 +24,6 @@ import { cn } from "../../utils/cn";
 
 import ProductGallery from "./sections/ProductGallery";
 
-/* Product Page */
 export default function ProductPage() {
   const { slug } = useParams();
 
@@ -51,10 +50,8 @@ export default function ProductPage() {
 
   const suggestions = (related ?? []).filter((p) => p.id !== product?.id).slice(0, 4);
 
-/* came From Within Site */
   const cameFromWithinSite = location.key !== "default";
 
-/* collection Path */
   const collectionPath = product?.collectionId ? `/${product.collectionId}` : "/shop";
 
   const handleShare = async () => {
@@ -203,7 +200,6 @@ export default function ProductPage() {
   );
 }
 
-/* Buy Panel */
 function BuyPanel({ product }) {
   const { addItem } = useCart();
   const { has, toggle } = useWishlist();

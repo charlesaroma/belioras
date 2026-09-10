@@ -34,7 +34,6 @@ export default function PageShell({
   );
 }
 
-/* Section */
 export function Section({ title, children }) {
   return (
     <section className="border-b border-umber-50/70 py-7 first:pt-0 last:border-b-0">
@@ -50,7 +49,6 @@ export function Section({ title, children }) {
   );
 }
 
-/* Draft Notice */
 export function DraftNotice({ children }) {
   return (
     <div className="mb-8 border-l-2 border-gold-500 py-3 pl-5">

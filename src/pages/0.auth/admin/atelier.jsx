@@ -9,7 +9,6 @@ import { useToast } from "../../../context/ToastContext";
 import { isAdminRole, resolveLanding } from "../../../utils/roles";
 import { validateCredentials } from "../../../utils/validateCredentials";
 
-/* Atelier Login */
 export default function AtelierLogin() {
   const { login, loading, isAuthenticated, user } = useAuth();
   const { toast } = useToast();
@@ -46,7 +45,6 @@ export default function AtelierLogin() {
       // Same generic rejection, for the same reason.
       const result = await login({ email: email.trim(), password, realm: "staff" });
 
-/* signed In */
       const signedIn = result?.user;
 
       if (isAdminRole(signedIn?.role)) {

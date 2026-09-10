@@ -1,5 +1,4 @@
 
-/* Size Chart Figure */
 export default function SizeChartFigure({ className = "" }) {
   return (
     <svg

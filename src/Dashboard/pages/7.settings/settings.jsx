@@ -13,7 +13,6 @@ import ShippingZonesPanel from "./sections/SettingsShippingZonesPanel";
 import CompliancePanels from "./sections/SettingsCompliancePanels";
 import { toFormValues, toSettingsPayload } from "./sections/settingsForm";
 
-/* Dash Settings */
 export default function DashSettings() {
   const { toast } = useToast();
   const { data: settings, loading } = useAsyncData(getSettings, []);
