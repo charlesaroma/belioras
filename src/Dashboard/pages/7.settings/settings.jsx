@@ -13,6 +13,7 @@ import ShippingZonesPanel from "./sections/SettingsShippingZonesPanel";
 import CompliancePanels from "./sections/SettingsCompliancePanels";
 import { toFormValues, toSettingsPayload } from "./sections/settingsForm";
 
+/* Dash Settings */
 export default function DashSettings() {
   const { toast } = useToast();
   const { data: settings, loading } = useAsyncData(getSettings, []);
@@ -24,11 +25,13 @@ export default function DashSettings() {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  /* Side Effect */
   useEffect(() => {
     if (settings) reset(toFormValues(settings));
   }, [settings, reset]);
 
   const [zoneEdits, setZones] = useState(null);
+
   const zones = zoneEdits ?? settings?.shipping?.zones ?? [];
 
   const onSubmit = async (values) => {

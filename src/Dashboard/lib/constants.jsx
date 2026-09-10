@@ -1,4 +1,5 @@
 
+/* DASHBOARD NAV GROUPS */
 export const DASHBOARD_NAV_GROUPS = [
   {
     id: "main",
@@ -36,14 +37,17 @@ export const DASHBOARD_NAV_GROUPS = [
   },
 ];
 
+/* DASHBOARD NAV ITEMS */
 export const DASHBOARD_NAV_ITEMS = DASHBOARD_NAV_GROUPS.flatMap((group) => group.items);
 
+/* PRODUCT STATUS */
 export const PRODUCT_STATUS = {
   active: { label: "Active", tone: "positive" },
   draft: { label: "Draft", tone: "neutral" },
   out_of_stock: { label: "Out of stock", tone: "negative" },
 };
 
+/* STATUS TONES */
 export const STATUS_TONES = {
   positive: "bg-success/10 text-success",
   pending: "bg-gold-500/15 text-gold-800",

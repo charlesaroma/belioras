@@ -12,6 +12,7 @@ import CurrencySelector from "../../common/CurrencySelector";
 import LanguageSelector from "../../common/LanguageSelector";
 import { cn } from "../../../utils/cn";
 
+/* ICON BUTTON */
 const ICON_BUTTON =
   "relative flex size-10 items-center justify-center rounded-full text-current transition-all hover:scale-110 hover:text-gold-700 cursor-pointer";
 
@@ -59,7 +60,6 @@ export default function NavActions({ onCartOpen }) {
           <User className="size-5" aria-hidden="true" />
         </Link>
       )}
-
 
       <button
         type="button"

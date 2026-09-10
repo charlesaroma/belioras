@@ -13,6 +13,7 @@ const ICONS = {
 };
 
 export default function TrustBadgesSection() {
+
   const version = useContentVersion();
   const { data: settings } = useAsyncData(getSettings, [version]);
 
@@ -24,6 +25,7 @@ export default function TrustBadgesSection() {
       <div className="container-main py-10">
         <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item) => {
+
             const Icon = ICONS[item.icon] ?? ShieldCheck;
             return (
               <li key={item.title} className="flex flex-col items-center text-center">

@@ -14,9 +14,11 @@ import SizeChartHowTo from "./SizeChartHowTo";
 
 export default function SizeChart({ kind = "garment" }) {
   const { data: charts, loading } = useAsyncData(getSizeCharts, []);
+
   const tabs = sizeChartTabsFor(kind);
   const [active, setActive] = useState(tabs[0].id);
   const { unit, setUnit } = useMeasurementUnit();
+
   const idBase = useId();
 
   if (loading || !charts) {

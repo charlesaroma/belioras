@@ -7,11 +7,13 @@ import { ArrowLeft, KeyRound, Loader2, MailCheck } from "lucide-react";
 import BrandMark from "../../../components/shared/BrandMark";
 import { mockDelay } from "../../../services/apiClient";
 
+/* HERO IMAGE */
 const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";
 
 const inputBase =
   "w-full border-b border-umber-50 bg-transparent px-0 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-espresso focus:outline-none transition-colors";
 
+/* Floating Input */
 function FloatingInput({ id, label, type = "text", value, onChange, error, autoComplete }) {
   return (
     <div className="relative">
@@ -43,6 +45,7 @@ function FloatingInput({ id, label, type = "text", value, onChange, error, autoC
   );
 }
 
+/* Forgot Password Page */
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);

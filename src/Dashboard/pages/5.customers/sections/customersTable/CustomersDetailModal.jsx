@@ -3,6 +3,7 @@ import Avatar from "../../../../../components/account/Avatar";
 import Modal from "../../../../../components/common/Modal";
 import StatusChip from "../../../../../components/ui/StatusChip";
 
+/* Customer Modal */
 export default function CustomerModal({ customer, onClose, format, dateFmt }) {
   return (
     <Modal

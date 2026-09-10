@@ -1,3 +1,4 @@
+/* COLOR HEX */
 export const COLOR_HEX = {
   Ebony: "#120700",
   "Jet Black": "#120700",
@@ -20,6 +21,7 @@ export const COLOR_HEX = {
   Gold: "#D9B166",
 };
 
+/* NAV LINKS */
 export const NAV_LINKS = [
   // `label` is the English fallback; `key` is what t() looks up, so the
   // primary navigation follows the language selector like everything else.
@@ -38,6 +40,8 @@ export const NAV_LINKS = [
  * Once products carry real `tags[]`, this map and the derivation in
  * productsApi.normalize() can both be deleted.
  */
+
+/* LEGACY CATEGORY TOKENS */
 export const LEGACY_CATEGORY_TOKENS = {
   midi: "len:midi",
   maxi: "len:maxi",
@@ -56,6 +60,8 @@ export const LEGACY_CATEGORY_TOKENS = {
  * Catalog colours are display names ("Ebony", "Champagne"); the taxonomy keys
  * on swatch ids. This maps one to the other so `/shop/color/black` matches.
  */
+
+/* COLOR NAME TO TAXONOMY */
 export const COLOR_NAME_TO_TAXONOMY = {
   Ebony: "black",
   "Jet Black": "black",
@@ -78,15 +84,18 @@ export const COLOR_NAME_TO_TAXONOMY = {
   Slate: "blue",
 };
 
+/* SALE BADGE */
 export const SALE_BADGE = {
   minDiscountPct: 10,
   label: (product) => {
     if (!product.originalPrice || product.originalPrice <= product.price) return null;
+
     const pct = Math.round((1 - product.price / product.originalPrice) * 100);
     return pct >= SALE_BADGE.minDiscountPct ? `Save ${pct}%` : null;
   },
 };
 
+/* DRESS SIZES */
 export const DRESS_SIZES = ["0", "2", "4", "6", "8", "10", "12", "14"];
 /**
  * The only two mailboxes Belioras actually operates.
@@ -106,6 +115,8 @@ export const DRESS_SIZES = ["0", "2", "4", "6", "8", "10", "12", "14"];
  * these constants in static page copy; read settings.contact where the value
  * should follow what Belioras sets in the dashboard.
  */
+
+/* CONTACT EMAIL */
 export const CONTACT_EMAIL = {
   general: "info@belioras.com",
   support: "support@belioras.com",

@@ -12,7 +12,9 @@ export default function CartDrawer({ open, onClose }) {
   const { items, subtotal, count, updateQty, removeItem } = useCart();
   const { convert, format, formatConverted } = useCurrency();
 
+  /* Keyboard Event Handler */
   useEffect(() => {
+
     const onKeyDown = (e) => {
       if (e.key === "Escape") onClose();
     };
@@ -20,6 +22,7 @@ export default function CartDrawer({ open, onClose }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
+/* converted Subtotal */
   const convertedSubtotal = convert(subtotal);
 
   return (

@@ -2,7 +2,9 @@
 import { Star } from "lucide-react";
 
 export default function RatingStars({ rating = 0, count, className = "" }) {
+
   const value = Number(rating) || 0;
+
   const reviews = count != null ? ` · ${count} review${count === 1 ? "" : "s"}` : "";
 
   return (
@@ -13,6 +15,7 @@ export default function RatingStars({ rating = 0, count, className = "" }) {
     >
       <span aria-hidden="true" className="inline-flex items-center gap-0.5 text-gold-600">
         {[1, 2, 3, 4, 5].map((i) => {
+
           const fill = Math.max(0, Math.min(1, value - (i - 1)));
           return (
             <Star

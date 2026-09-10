@@ -4,8 +4,12 @@ import SizeChartTable from "./SizeChartTable";
 import SizeChartUnitToggle from "./SizeChartUnitToggle";
 
 export default function SizeChartBodyTable({ garment, unit, onUnitChange }) {
+
+/* u */
   const u = unitLabel(unit);
+
   const columns = ["Size", `Bust (${u})`, `Waist (${u})`, `Hip (${u})`];
+
   const rows = garment.rows.map((r) => [
     r.size,
     formatRange(r.bust, unit),

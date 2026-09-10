@@ -15,6 +15,7 @@ const NAV = [
 
 export default function AccountLayout() {
   const { user, isAdmin, logout } = useAuth();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

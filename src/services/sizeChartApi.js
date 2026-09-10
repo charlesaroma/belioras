@@ -11,6 +11,8 @@ import { getState } from "./contentStore";
  * backs the product-page modal and both standalone guides, so they cannot
  * disagree about what a size means.
  */
+
+/* get Size Charts */
 export function getSizeCharts() {
   return mockApi(() => structuredClone(getState("sizeCharts")), 0);
 }

@@ -1,6 +1,7 @@
 /* Customer Dashboard Page: Settings - SettingsSecurityFields */
 import Field from "../../../../components/ui/Field";
 
+/* MIN LENGTH */
 const MIN_LENGTH = 6;
 
 export default function SecurityFields({ form }) {

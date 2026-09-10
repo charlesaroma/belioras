@@ -17,11 +17,15 @@ import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
 import { EMPTY_PRODUCT, toPayload } from "./sections/productForm/productFormPayload";
 
+/* Product Form */
 export default function ProductForm() {
   const { id } = useParams();
+
   const navigate = useNavigate();
   const { toast } = useToast();
+
   const draft = useProductDraft();
+
   const isEdit = Boolean(id);
 
   const { data: existing, loading: loadingProduct } = useAsyncData(
@@ -30,6 +34,7 @@ export default function ProductForm() {
   );
   // getTaxonomy resolves to the dimensions map itself, not the whole document.
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+
   const dimensions = taxonomy ?? {};
 
   const [images, setImages] = useState([]);
@@ -46,6 +51,7 @@ export default function ProductForm() {
   } = useForm({ defaultValues: EMPTY_PRODUCT });
 
   const values = watch();
+
   const snapshot = JSON.stringify({
     values,
     colors,
@@ -69,10 +75,12 @@ export default function ProductForm() {
   });
 
   const toggleTag = (dimension, valueId) => {
+
     const token = `${DIMENSION_PREFIX[dimension] ?? dimension}:${valueId}`;
     setTags((prev) => (prev.includes(token) ? prev.filter((t) => t !== token) : [...prev, token]));
   };
 
+/* discard Draft */
   const discardDraft = () => {
     draft.clearDraft("new-product");
     reset(EMPTY_PRODUCT);
@@ -83,12 +91,15 @@ export default function ProductForm() {
   };
 
   const onSubmit = async (formValues) => {
+
     const payload = toPayload(formValues, { images, colors, sizes, tags });
     try {
       if (isEdit) {
+
         const saved = await updateProduct(id, payload);
         toast(`${saved.name} saved.`, "success");
       } else {
+
         const created = await createProduct(payload);
         draft.clearDraft("new-product");
         toast(`${created.name} added to the catalogue.`, "success");

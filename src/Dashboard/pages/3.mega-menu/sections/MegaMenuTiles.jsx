@@ -1,4 +1,5 @@
 
+/* Menu Tiles */
 export default function MenuTiles({ tiles, editor }) {
   if (!tiles?.length) return null;
 

@@ -4,9 +4,11 @@ import { ChevronDown } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
+/* PILL TRIGGER */
 const PILL_TRIGGER =
   "inline-flex min-h-11 items-center gap-1.5 border border-current/30 px-3 text-[11px] uppercase tracking-widest transition-colors hover:border-current/60";
 
+/* ICON TRIGGER */
 const ICON_TRIGGER =
   "flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70";
 
@@ -31,13 +33,20 @@ export default function DropdownPill({
   triggerClassName,
   align = "right",
 }) {
+
   const isCode = variant === "code";
   const [open, setOpen] = useState(false);
+
+/* list Id */
   const listId = useId();
+
+/* container Ref */
   const containerRef = useRef(null);
 
+  /* Keyboard Event Handler */
   useEffect(() => {
     if (!open) return undefined;
+
     const onKeyDown = (e) => {
       if (e.key === "Escape") setOpen(false);
     };

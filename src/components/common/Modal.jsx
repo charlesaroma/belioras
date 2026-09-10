@@ -5,10 +5,14 @@ import { X } from "lucide-react";
 import { cn } from "../../utils/cn";
 
 export default function Modal({ open, onClose, title, width = "max-w-lg", children }) {
+
   const panelRef = useRef(null);
+
   const restoreFocusRef = useRef(null);
+
   const titleId = useId();
 
+  /* Focus Management */
   useEffect(() => {
     if (!open) return undefined;
 

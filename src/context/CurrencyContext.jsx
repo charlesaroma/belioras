@@ -10,8 +10,10 @@ import {
 } from "../utils/formatCurrency";
 import { useLanguage } from "./LanguageContext";
 
+/* Currency Context */
 const CurrencyContext = createContext(null);
 
+/* Currency Provider */
 export function CurrencyProvider({ children }) {
   const [currency, setCurrency] = useLocalStorage("belioras:currency", "EUR");
   const { locale } = useLanguage();
@@ -23,6 +25,7 @@ export function CurrencyProvider({ children }) {
     [currency, locale],
   );
 
+/* format Converted */
   const formatConverted = useCallback(
     (amount) => formatCurrency(amount, currency, locale),
     [currency, locale],
@@ -45,6 +48,7 @@ export function CurrencyProvider({ children }) {
 }
 
 export function useCurrency() {
+
   const ctx = useContext(CurrencyContext);
   if (!ctx) throw new Error("useCurrency must be used within CurrencyProvider");
   return ctx;

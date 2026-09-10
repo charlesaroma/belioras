@@ -2,6 +2,7 @@
 import PageShell, { Section } from "../../components/layout/PageShell";
 import SizeChart from "../../components/storefront/sizeChart/SizeChart";
 
+/* Shoe Size Guide Page */
 export default function ShoeSizeGuidePage() {
   return (
     <PageShell

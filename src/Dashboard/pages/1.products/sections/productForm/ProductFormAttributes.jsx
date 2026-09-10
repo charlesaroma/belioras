@@ -11,13 +11,16 @@ export default function FormAttributes({ dimensions, tags, onToggle }) {
     >
       <div className="space-y-5">
         {DIMENSION_ORDER.filter((d) => dimensions[d]).map((dimension) => {
+
           const prefix = DIMENSION_PREFIX[dimension] ?? dimension;
           return (
             <div key={dimension}>
               <p className="input-label">{dimension}</p>
               <div className="flex flex-wrap gap-1.5">
                 {dimensions[dimension].values.map((value) => {
+
                   const token = `${prefix}:${value.id}`;
+
                   const on = tags.includes(token);
                   return (
                     <button

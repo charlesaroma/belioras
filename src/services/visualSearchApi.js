@@ -23,6 +23,8 @@ import { mockApi } from "./apiClient";
  * useFilterParams with no new filtering code, and the shopper can correct a
  * mis-detected chip rather than being stuck with it.
  */
+
+/* search By Image */
 export function searchByImage(blob) {
   return mockApi(() => {
     if (!blob) {

@@ -3,12 +3,17 @@ import { createContext, useCallback, useContext, useMemo } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
+/* Product Draft Context */
 const ProductDraftContext = createContext(null);
 
+/* STORAGE KEY */
 const STORAGE_KEY = "belioras:draft:product";
 
+/* same Except Timestamp */
 function sameExceptTimestamp(a, b) {
+
   const strip = (draft) => {
+
     const rest = { ...draft };
     delete rest.updatedAt;
     return JSON.stringify(rest);
@@ -16,12 +21,14 @@ function sameExceptTimestamp(a, b) {
   return strip(a) === strip(b);
 }
 
+/* Product Draft Provider */
 export function ProductDraftProvider({ children }) {
   const [drafts, setDrafts] = useLocalStorage(STORAGE_KEY, {});
 
   const startDraft = useCallback(
     (key, data) => {
       setDrafts((prev) => {
+
         const existing = prev[key];
         // Replace rather than merge: a cleared field or a removed image has to
         // actually disappear from the draft, which a shallow merge would keep.
@@ -49,6 +56,7 @@ export function ProductDraftProvider({ children }) {
     (key) => {
       setDrafts((prev) => {
         if (!prev[key]) return prev;
+
         const next = { ...prev };
         delete next[key];
         return next;
@@ -73,7 +81,9 @@ export function ProductDraftProvider({ children }) {
   return <ProductDraftContext.Provider value={value}>{children}</ProductDraftContext.Provider>;
 }
 
+/* use Product Draft */
 export function useProductDraft() {
+
   const ctx = useContext(ProductDraftContext);
   if (!ctx) throw new Error("useProductDraft must be used within ProductDraftProvider");
   return ctx;

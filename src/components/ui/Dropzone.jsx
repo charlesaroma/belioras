@@ -5,13 +5,21 @@ import { ImagePlus, Star, X } from "lucide-react";
 import { cn } from "../../utils/cn";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif";
+
+/* MAX BYTES */
 const MAX_BYTES = 10 * 1024 * 1024;
+
+/* MAX EDGE */
 const MAX_EDGE = 1600;
 
 async function processImage(file) {
+
   const bitmap = await createImageBitmap(file);
+
   const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
+
   const width = Math.round(bitmap.width * scale);
+
   const height = Math.round(bitmap.height * scale);
 
   const canvas = document.createElement("canvas");
@@ -34,18 +42,22 @@ export default function Dropzone({
   const [dragging, setDragging] = useState(false);
   const [busy, setBusy] = useState(null); // {done, total}
   const [error, setError] = useState("");
+
   const inputRef = useRef(null);
 
   // Object URLs are a manual resource. Revoke on unmount, and only those this
   // component minted — remote URLs on an existing product must survive.
   const mintedRef = useRef(new Set());
+  /* Side Effect */
   useEffect(() => {
+
     const minted = mintedRef.current;
     return () => minted.forEach((url) => URL.revokeObjectURL(url));
   }, []);
 
   const ingest = useCallback(
     async (fileList) => {
+
       const files = Array.from(fileList ?? []);
       if (!files.length) return;
 
@@ -70,9 +82,11 @@ export default function Dropzone({
       if (!usable.length) return;
 
       setError("");
+
       const added = [];
 
       for (const [i, file] of usable.entries()) {
+
         const progress = { done: i, total: usable.length };
         setBusy(progress);
         onProgress?.(progress);
@@ -93,7 +107,9 @@ export default function Dropzone({
     [images, max, onChange, onProgress],
   );
 
+/* remove At */
   const removeAt = (i) => {
+
     const image = images[i];
     if (image?.url && mintedRef.current.has(image.url)) {
       URL.revokeObjectURL(image.url);
@@ -104,6 +120,7 @@ export default function Dropzone({
 
   const makePrimary = (i) => {
     if (i === 0) return;
+
     const next = [...images];
     const [moved] = next.splice(i, 1);
     onChange([moved, ...next]);

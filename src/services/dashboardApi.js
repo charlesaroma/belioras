@@ -17,19 +17,25 @@ import { getProducts } from "./productsApi";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+/* get Dashboard Stats */
 export function getDashboardStats() {
   return mockApi(async () => {
     const [orders, products] = await Promise.all([getAllOrders(), getProducts()]);
 
     const live = orders.filter((o) => o.status !== "cancelled");
+
     const revenue = live.reduce((sum, o) => sum + (o.total ?? 0), 0);
+
     const customers = new Set(live.map((o) => o.userId ?? o.email)).size;
 
     // Month-over-month, using the most recent month present in the data rather
     // than the calendar month — seed data is not necessarily current.
     const byMonth = groupByMonth(live);
+
     const months = [...byMonth.keys()].sort();
+
     const current = byMonth.get(months.at(-1)) ?? { revenue: 0, count: 0 };
+
     const previous = byMonth.get(months.at(-2)) ?? { revenue: 0, count: 0 };
 
     return {
@@ -52,6 +58,7 @@ export function getDashboardStats() {
 /** The five most recent orders, shaped for the overview table. */
 export function getRecentOrders(limit = 5) {
   return mockApi(async () => {
+
     const orders = await getAllOrders();
     return orders
       .slice()
@@ -67,12 +74,17 @@ export function getRecentOrders(limit = 5) {
   }, 0);
 }
 
+/* group By Month */
 function groupByMonth(orders) {
+
   const map = new Map();
   for (const order of orders) {
+
     const date = new Date(order.createdAt);
     if (Number.isNaN(date.getTime())) continue;
+
     const key = `${date.getFullYear()}-${date.getMonth()}`;
+
     const entry = map.get(key) ?? { revenue: 0, count: 0 };
     entry.revenue += order.total ?? 0;
     entry.count += 1;

@@ -3,10 +3,12 @@ import promotionsSeed from "../data/promotions.json";
 import { mockApi } from "./apiClient";
 
 function isActive({ start, end } = {}) {
+
   const now = Date.now();
   return (!start || new Date(start).getTime() <= now) && (!end || new Date(end).getTime() >= now);
 }
 
+/* get Promotions */
 export function getPromotions() {
   return mockApi(() => JSON.parse(JSON.stringify(promotionsSeed)));
 }
@@ -17,6 +19,8 @@ export function getPromotions() {
  * banner was inside its date window, so the whole ticker silently vanished the
  * day that sale expired.
  */
+
+/* get Top Banner */
 export function getTopBanner() {
   return mockApi(() => {
     const { topBanner, announcements } = promotionsSeed;
@@ -28,6 +32,7 @@ export function getTopBanner() {
   });
 }
 
+/* get Flash Sale */
 export function getFlashSale() {
   return mockApi(() =>
     promotionsSeed.flashSale?.active && isActive(promotionsSeed.flashSale)

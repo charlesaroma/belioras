@@ -10,6 +10,7 @@ export const CATEGORIES = ["All", "Dresses", "Hair", "Accessories"];
 
 export const STYLES = ["All", "Evening", "Everyday", "Midi", "Maxi", "Bags", "Jewelry", "Scarves", "Belts", "Straight", "Wavy"];
 
+/* SORT OPTIONS */
 export const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
   { value: "price-low", label: "Price: Low to High" },

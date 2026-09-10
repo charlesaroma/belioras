@@ -14,7 +14,9 @@ import PasswordToggle from "./PasswordToggle";
 export default function CustomerLoginForm() {
   const { login, loading: submitting } = useAuth();
   const { toast } = useToast();
+
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const [email, setEmail] = useState("");
@@ -30,6 +32,7 @@ export default function CustomerLoginForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const errs = validateCredentials({ email, password });
     if (Object.keys(errs).length) {
       setFieldErrors(errs);

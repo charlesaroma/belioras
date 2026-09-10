@@ -7,6 +7,7 @@ import DashTable from "../../../../components/DashTable";
 import { buildRecentOrderColumns } from "./overviewRecentOrderColumns";
 
 export default function RecentOrders({ orders, format, dateFmt }) {
+
   const columns = useMemo(
     () => buildRecentOrderColumns({ format, dateFmt }),
     [format, dateFmt],

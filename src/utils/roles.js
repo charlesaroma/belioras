@@ -30,12 +30,14 @@ export const ADMIN_ROLES = new Set([ROLES.SUPER_ADMIN, ROLES.STAFF]);
  * settings are excluded for the same reason — legal entity, tax rate and the
  * published contact addresses are not day-to-day operations.
  */
+
 export const CAPABILITIES = {
   [ROLES.SUPER_ADMIN]: new Set(["catalog", "orders", "content", "settings", "team"]),
   [ROLES.STAFF]: new Set(["catalog", "orders", "content"]),
   [ROLES.CUSTOMER]: new Set(),
 };
 
+/* is Admin Role */
 export function isAdminRole(role) {
   return ADMIN_ROLES.has(role);
 }
@@ -63,7 +65,10 @@ export function landingFor(user) {
  * would land them on a 403 — which reads as a broken sign-in rather than as
  * the correct refusal it is.
  */
+
+/* resolve Landing */
 export function resolveLanding(user, from) {
+
   const fallback = landingFor(user);
   if (!from || typeof from !== "string" || !from.startsWith("/")) return fallback;
 

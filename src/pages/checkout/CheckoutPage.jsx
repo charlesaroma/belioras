@@ -21,10 +21,12 @@ import DeliveryForm from "./sections/DeliveryForm";
 import OrderSummary from "./sections/OrderSummary";
 
 export default function CheckoutPage() {
+
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
   const { items, clear } = useCart();
+
   const version = useContentVersion();
 
   const { data: settings } = useAsyncData(getSettings, [version]);
@@ -34,6 +36,7 @@ export default function CheckoutPage() {
   const [coupon, setCoupon] = useState(null);
   const [placing, setPlacing] = useState(false);
 
+/* default Address */
   const defaultAddress = savedAddresses.find((a) => a.isDefault) ?? savedAddresses[0] ?? null;
 
   const {
@@ -55,7 +58,10 @@ export default function CheckoutPage() {
   });
 
   const country = watch("country");
+
   const totals = computeTotals({ items, country, coupon, settings });
+
+/* non Returnable */
   const nonReturnable = nonReturnableItems(items, catalog ?? []);
 
   const useSaved = (address) => {
@@ -69,6 +75,7 @@ export default function CheckoutPage() {
   const placeOrder = async (values) => {
     setPlacing(true);
     try {
+
       const order = await createOrder({
         userId: user?.id ?? null,
         email: values.email.trim().toLowerCase(),

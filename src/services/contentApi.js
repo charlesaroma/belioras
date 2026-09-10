@@ -9,6 +9,7 @@ import { getState } from "./contentStore";
  * element — an artificial delay here shows as a blank first paint.
  */
 
+/* get Hero Slides */
 export function getHeroSlides() {
   return mockApi(() => {
     const { slides, autoplayMs } = getState("hero");
@@ -16,6 +17,7 @@ export function getHeroSlides() {
   }, 0);
 }
 
+/* get Instagram Posts */
 export function getInstagramPosts() {
   return mockApi(() => {
     const { posts, handle } = getState("instagram");

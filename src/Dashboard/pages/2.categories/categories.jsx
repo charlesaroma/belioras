@@ -11,6 +11,7 @@ import CategoriesToolbar from "./sections/categoriesTable/CategoriesTableToolbar
 import { toAttributeRows, toLeafRows } from "./sections/categoriesTable/categoriesTableRows";
 import { ATTRIBUTE_COLUMNS, MENU_COLUMNS } from "./sections/categoriesTable/categoriesTableColumns";
 
+/* Dash Categories */
 export default function DashCategories() {
   const [tab, setTab] = useState("menu");
   const [query, setQuery] = useState("");
@@ -20,9 +21,11 @@ export default function DashCategories() {
   const { data: products } = useAsyncData(getProducts, []);
 
   const leaves = useMemo(() => toLeafRows(navigation, products), [navigation, products]);
+
   const attributes = useMemo(() => toAttributeRows(taxonomy, products), [taxonomy, products]);
 
   const isMenu = tab === "menu";
+
   const emptyLeaves = leaves.filter((l) => l.products === 0).length;
 
   return (

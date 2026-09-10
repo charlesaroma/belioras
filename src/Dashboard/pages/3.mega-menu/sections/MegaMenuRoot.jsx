@@ -7,8 +7,11 @@ import MenuLinkRow from "./MegaMenuLinkRow";
 import MenuTiles from "./MegaMenuTiles";
 
 export default function MenuRoot({ root, open, onToggle, onPatch, countFor, controls }) {
+
   const sections = root.sections ?? [];
+
   const editor = makeRootEditor(root, onPatch);
+
   const linkCount = sections.reduce((n, s) => n + (s.items ?? []).length, 0);
 
   return (

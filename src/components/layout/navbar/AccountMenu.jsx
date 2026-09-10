@@ -19,14 +19,21 @@ export default function AccountMenu() {
   // not leave the menu hanging open over the new page, and comparing the path
   // during render does that without a second render pass.
   const [openedAt, setOpenedAt] = useState(pathname);
+
   const isOpen = open && openedAt === pathname;
 
+/* menu Id */
   const menuId = useId();
+
+/* trigger Ref */
   const triggerRef = useRef(null);
+
   const itemsRef = useRef([]);
 
+  /* Keyboard Event Handler */
   useEffect(() => {
     if (!isOpen) return undefined;
+
     const onKeyDown = (e) => {
       if (e.key === "Escape") {
         setOpen(false);
@@ -41,12 +48,17 @@ export default function AccountMenu() {
 
   const items = accountMenuItems({ t, isAdmin });
 
+/* on Menu Key Down */
   const onMenuKeyDown = (e) => {
+
     const delta = { ArrowDown: 1, ArrowUp: -1 }[e.key];
     if (!delta) return;
     e.preventDefault();
+
     const focusable = itemsRef.current.filter(Boolean);
+
     const current = focusable.indexOf(document.activeElement);
+
     const next = (current + delta + focusable.length) % focusable.length;
     focusable[next]?.focus();
   };

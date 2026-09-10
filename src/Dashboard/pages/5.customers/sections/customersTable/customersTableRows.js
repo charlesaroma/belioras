@@ -5,14 +5,18 @@
  * what they are worth, and when the last one landed. Activity is derived so
  * the filter has one field to work on rather than recomputing per row.
  */
+
 export function toRows(users, orders) {
+
   const byUser = new Map();
   for (const order of orders ?? []) {
     if (!order.userId) continue;
+
     const entry = byUser.get(order.userId) ?? { count: 0, spent: 0, last: null, orders: [] };
     entry.count += 1;
     entry.spent += order.total ?? 0;
     entry.orders.push(order);
+
     const placed = new Date(order.createdAt);
     if (!entry.last || placed > entry.last) entry.last = placed;
     byUser.set(order.userId, entry);
@@ -21,6 +25,7 @@ export function toRows(users, orders) {
   return (users ?? [])
     .filter((u) => u.role === "customer")
     .map((u) => {
+
       const stats = byUser.get(u.id);
       return {
         ...u,
@@ -37,6 +42,7 @@ export function toRows(users, orders) {
 
 /** Counts for the activity tabs, which need the whole set. */
 export function activityTabs(rows) {
+
   const by = (a) => rows.filter((r) => r.activity === a).length;
   return [
     { value: "all", label: "All", count: rows.length },

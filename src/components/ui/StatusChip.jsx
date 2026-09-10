@@ -14,7 +14,9 @@ export default function StatusChip({ status, kind = "order", className }) {
   const key = kind === "order" ? (normalizeStatus(status) ?? status) : status;
 
   const entry = SETS[kind]?.[key];
+
   const label = entry?.label ?? String(status).replace(/[-_]/g, " ");
+
   const tone = STATUS_TONES[entry?.tone ?? "neutral"];
 
   return (

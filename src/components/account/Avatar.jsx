@@ -8,6 +8,7 @@ const SIZES = {
 };
 
 export default function Avatar({ user, size = "md", className }) {
+
   const initial = (user?.name ?? user?.email ?? "U").slice(0, 1).toUpperCase();
 
   return (

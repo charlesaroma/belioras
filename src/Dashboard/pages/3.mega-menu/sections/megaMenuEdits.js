@@ -4,12 +4,16 @@
  * Each returns the patch to hand back up, so the component stays declarative
  * and the reordering arithmetic is testable on its own.
  */
+
+/* make Root Editor */
 export function makeRootEditor(root, onPatch) {
+
   const sections = root.sections ?? [];
 
   const patchSection = (sectionId, patch) =>
     onPatch({ sections: sections.map((s) => (s.id === sectionId ? { ...s, ...patch } : s)) });
 
+/* section By Id */
   const sectionById = (id) => sections.find((s) => s.id === id);
 
   return {
@@ -22,9 +26,12 @@ export function makeRootEditor(root, onPatch) {
 
     /** Arrows rather than drag: they work by keyboard and on a phone. */
     moveItem: (sectionId, index, delta) => {
+
       const section = sectionById(sectionId);
+
       const target = index + delta;
       if (target < 0 || target >= section.items.length) return;
+
       const items = [...section.items];
       [items[index], items[target]] = [items[target], items[index]];
       patchSection(sectionId, { items });
@@ -36,7 +43,9 @@ export function makeRootEditor(root, onPatch) {
       }),
 
     addItem: (sectionId) => {
+
       const section = sectionById(sectionId);
+
       const id = `${sectionId}-new-${Date.now().toString(36)}`;
       patchSection(sectionId, {
         items: [...section.items, { id, label: "New link", slug: "", url: root.url }],

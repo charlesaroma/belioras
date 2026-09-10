@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 /** Module-level, so it needs no memoisation and no dependency suppression. */
 function read(key, fallback) {
   try {
+
     const stored = window.localStorage.getItem(key);
     return stored ? JSON.parse(stored) : fallback;
   } catch {
@@ -35,23 +36,31 @@ function isEmpty(value) {
  * anonymous key is cleared afterwards, so a later sign-out cannot re-adopt it
  * into a different person's account.
  */
+
+/* use Scoped Storage */
 export function useScopedStorage(baseKey, initialValue, userId, { merge } = {}) {
+
   const key = userId ? `${baseKey}:${userId}` : baseKey;
 
   const [value, setValue] = useState(() => read(key, initialValue));
+
   const activeKey = useRef(key);
+
   const fallback = useRef(initialValue);
 
   // Swap stores when the account changes: sign-in, sign-out, or a different
   // person signing in on the same browser.
   useEffect(() => {
     if (activeKey.current === key) return;
+
+/* previous Key */
     const previousKey = activeKey.current;
     activeKey.current = key;
 
     let next = read(key, fallback.current);
 
     if (userId && merge && previousKey === baseKey) {
+
       const anonymous = read(baseKey, fallback.current);
       if (!isEmpty(anonymous)) {
         next = merge(next, anonymous);
@@ -66,6 +75,7 @@ export function useScopedStorage(baseKey, initialValue, userId, { merge } = {}) 
     setValue(next);
   }, [key, baseKey, userId, merge]);
 
+  /* Keyboard Event Handler */
   useEffect(() => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));

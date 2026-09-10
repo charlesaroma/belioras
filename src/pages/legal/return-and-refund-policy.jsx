@@ -1,6 +1,7 @@
 /* Page: Legal - return-and-refund-policy */
 import PageShell, { Section } from "../../components/layout/PageShell";
 
+/* Return And Refund Policy Page */
 export default function ReturnAndRefundPolicyPage() {
   return (
     <PageShell

@@ -20,6 +20,7 @@ export default function FilterPanel({
   onSaleChange,
   onClearAll,
 }) {
+
   const dimensions = Object.values(facets ?? {});
 
   return (
@@ -71,6 +72,7 @@ export default function FilterPanel({
                 shopper still cannot reach an empty grid either way.
               */}
               {facet.values.map((value) => {
+
                 const selected = (filters.dimensions[facet.id] ?? []).includes(value.id);
 
                 return (
@@ -110,8 +112,10 @@ export default function FilterPanel({
   );
 }
 
+/* Filter Section */
 function FilterSection({ title, defaultOpen = false, selectedCount = 0, children }) {
   const [open, setOpen] = useState(defaultOpen);
+
   const isActive = selectedCount > 0;
 
   return (
@@ -154,9 +158,12 @@ function FilterSection({ title, defaultOpen = false, selectedCount = 0, children
   );
 }
 
+/* Price Section */
 function PriceSection({ bounds, filters, onPriceChange, onSaleChange }) {
   const { symbol } = useCurrency();
+
   const lo = filters.price.min ?? bounds[0];
+
   const hi = filters.price.max ?? bounds[1];
 
   return (
@@ -203,6 +210,7 @@ function PriceSection({ bounds, filters, onPriceChange, onSaleChange }) {
   );
 }
 
+/* Price Input */
 function PriceInput({ label, value, min, max, symbol, onCommit }) {
   const [draft, setDraft] = useState(null);
 
@@ -232,6 +240,7 @@ function PriceInput({ label, value, min, max, symbol, onCommit }) {
   );
 }
 
+/* Filter Checkbox */
 function FilterCheckbox({ checked, label, onChange }) {
   return (
     <label className="flex min-h-11 min-w-0 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft transition-colors hover:text-espresso lg:min-h-0">
@@ -241,6 +250,7 @@ function FilterCheckbox({ checked, label, onChange }) {
   );
 }
 
+/* Native Checkbox */
 function NativeCheckbox({ checked, disabled, onChange }) {
   return (
     <span className="relative flex size-4 shrink-0 items-center justify-center">

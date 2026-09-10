@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { cn } from "../../utils/cn";
 
+/* LOGO SRC */
 const LOGO_SRC = "/belioras-boutique-primary-logo-rgb-belioras-original.svg";
 
 const SIZES = {
@@ -20,6 +21,7 @@ export default function BrandMark({
   wrapperClassName,
   label = "Belioras — home",
 }) {
+
   const image = (
     <img
       src={LOGO_SRC}

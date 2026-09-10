@@ -6,11 +6,15 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { cn } from "../../../utils/cn";
 
+/* EASE OUT SOFT */
 const EASE_OUT_SOFT = [0.22, 1, 0.36, 1];
+
+/* SECTION DURATION */
 const SECTION_DURATION = 0.38;
 
 const STAGGER = 0.035;
 
+/* ITEMS PER SECTION */
 const ITEMS_PER_SECTION = 6;
 
 export default function MegaMenuPanel({
@@ -21,11 +25,13 @@ export default function MegaMenuPanel({
   showTiles = true,
 }) {
   const [openSection, setOpenSection] = useState(null);
+
   const reduceMotion = useReducedMotion();
 
   if (!item) return null;
 
   const sections = item.sections ?? [];
+
   const tiles = item.tiles ?? [];
   if (!sections.length && !tiles.length) return null;
 
@@ -245,6 +251,7 @@ export default function MegaMenuPanel({
   );
 }
 
+/* Tile Grid */
 function TileGrid({ tiles, onNavigate }) {
 
   return (

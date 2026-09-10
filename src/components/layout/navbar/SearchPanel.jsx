@@ -14,14 +14,17 @@ import { getTaxonomy } from "../../../services/navigationApi";
 import { COLOR_NAME_TO_TAXONOMY } from "../../../utils/constants";
 import { cn } from "../../../utils/cn";
 
+/* DEFAULT RESULTS */
 const DEFAULT_RESULTS = 6;
 
 export default function SearchPanel({ open, onClose, query, onQueryChange }) {
+
   const navigate = useNavigate();
   const { format } = useCurrency();
   const { t } = useLanguage();
 
   const { data: products } = useAsyncData(getProducts, []);
+
   const version = useContentVersion();
   const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
 
@@ -30,10 +33,13 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   const [sizes, setSizes] = useState([]);
 
   const panelRef = useRef(null);
+
   const inputRef = useRef(null);
+
   const restoreFocusRef = useRef(null);
 
   const catalog = useMemo(() => products ?? [], [products]);
+
   const trimmed = query.trim();
 
   const setQuery = onQueryChange;
@@ -45,6 +51,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     onClose?.();
   }, [onClose, onQueryChange]);
 
+  /* Focus Management */
   useEffect(() => {
     if (!open) return undefined;
 
@@ -62,6 +69,8 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     const onKeyDown = (e) => {
       if (e.key === "Escape") close();
     };
+
+/* on Pointer Down */
     const onPointerDown = (e) => {
       if (panelRef.current && !panelRef.current.contains(e.target)) close();
     };
@@ -78,7 +87,9 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     };
   }, [open, close]);
 
+/* colour Swatches */
   const colourSwatches = useMemo(() => {
+
     const stocked = new Set(
       catalog.flatMap((p) => (p.colors ?? []).map((c) => COLOR_NAME_TO_TAXONOMY[c]).filter(Boolean)),
     );
@@ -86,12 +97,14 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   }, [catalog, taxonomy]);
 
   const sizeChips = useMemo(() => {
+
     const stocked = new Set(catalog.flatMap((p) => p.sizes ?? []));
     // "default" is the placeholder carried by one-size pieces, not a size.
     return [...stocked].filter((s) => s && s !== "default");
   }, [catalog]);
 
   const results = useMemo(() => {
+
     const base = trimmed
       ? catalog.filter((p) =>
           `${p.name} ${p.description ?? ""}`.toLowerCase().includes(trimmed.toLowerCase()),
@@ -209,6 +222,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
                 </p>
                 <div className="-mx-2 flex max-w-[220px] flex-wrap lg:mx-0 lg:max-w-[180px] lg:gap-2">
                   {colourSwatches.map((c) => {
+
                     const active = colours.includes(c.id);
                     return (
                       <button
@@ -243,6 +257,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {sizeChips.map((s) => {
+
                     const active = sizes.includes(s);
                     return (
                       <button

@@ -12,7 +12,10 @@ import { Heart, LayoutDashboard, MapPin, Package, Settings, UserRound } from "lu
  * `t` and `isAdmin` are passed in rather than read from context, so this stays
  * a pure function and each menu keeps its own presentation.
  */
+
+/* account Menu Items */
 export function accountMenuItems({ t, isAdmin }) {
+
   const label = (key, fallback) => (t ? t(key, fallback) : fallback);
 
   return [

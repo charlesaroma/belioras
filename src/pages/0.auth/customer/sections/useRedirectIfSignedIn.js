@@ -10,8 +10,11 @@ import { resolveLanding } from "../../../../utils/roles";
  * itself was never written, so a signed-in shopper who clicked a stale /login
  * link was shown the sign-in form again as though their session had lapsed.
  */
+
+/* use Redirect If Signed In */
 export function useRedirectIfSignedIn() {
   const { isAuthenticated, user } = useAuth();
+
   const location = useLocation();
   return isAuthenticated ? resolveLanding(user, location.state?.from) : null;
 }

@@ -24,7 +24,10 @@ export function megaMenuLayoutFor(category) {
  * A compact panel never exceeds two, however many sections it has: a third
  * column is what stretched Accessories' three short lists across the viewport.
  */
+
+/* mega Menu Columns */
 export function megaMenuColumns(category, layout) {
+
   const sections = category?.sections?.length ?? 1;
   if (layout === "full") return Math.min(sections, 3);
   return Math.min(sections, 2);

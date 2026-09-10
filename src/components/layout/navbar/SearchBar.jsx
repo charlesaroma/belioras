@@ -19,12 +19,14 @@ export default function SearchBar({ value, onChange, onFocus, onSubmit }) {
   // under live text is a distraction at exactly the wrong moment.
   const paused = Boolean(value);
 
+  /* Side Effect */
   useEffect(() => {
     if (paused) return undefined;
 
     const phrase = PHRASES[phraseIndex];
 
     if (!deleting && charIndex === phrase.length) {
+
       const hold = setTimeout(() => setDeleting(true), 2000);
       return () => clearTimeout(hold);
     }
@@ -36,6 +38,7 @@ export default function SearchBar({ value, onChange, onFocus, onSubmit }) {
           setPhraseIndex((i) => (i + 1) % PHRASES.length);
           return;
         }
+
         const next = charIndex + (deleting ? -1 : 1);
         setPlaceholder(phrase.substring(0, next));
         setCharIndex(next);

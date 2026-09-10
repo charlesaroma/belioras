@@ -10,6 +10,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 
+/* Account Settings */
 export default function AccountSettings() {
   const { user, updateProfile, changePassword, verifyPassword } = useAuth();
   const { language, setLanguage, locales } = useLanguage();
@@ -31,6 +32,7 @@ export default function AccountSettings() {
     defaultValues: { currentPassword: "", newPassword: "", confirmPassword: "" },
   });
 
+/* on Save Profile */
   const onSaveProfile = async (values) => {
     const { currentPassword, ...patch } = values;
 
@@ -46,6 +48,7 @@ export default function AccountSettings() {
     }
   };
 
+/* on Change Password */
   const onChangePassword = async (values) => {
     try {
       await changePassword({
@@ -59,6 +62,7 @@ export default function AccountSettings() {
     }
   };
 
+/* save Preference */
   const savePreference = async (patch, applyLocally) => {
     applyLocally();
     try {

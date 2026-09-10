@@ -18,6 +18,7 @@ import MegaMenuPanel from "./MegaMenuPanel";
 export default function MobileMenu({ open, onClose, categories, onSearchOpen }) {
   const { user, isAdmin, logout } = useAuth();
   const { t } = useLanguage();
+
   const navigate = useNavigate();
   const { count: wishlistCount } = useWishlist();
 
@@ -77,6 +78,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
 
               <nav aria-label="Categories" className="border-t border-umber-50 px-6">
                 {NAV_LINKS.map((link) => {
+
                   const category = categories?.find((c) => c.id === link.id);
                   return category ? (
                     <CategoryAccordion key={link.id} category={category} onClose={onClose} />
@@ -202,6 +204,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
   );
 }
 
+/* Quiet Row */
 function QuietRow({ to, onClose, icon: Icon, label, meta }) {
   return (
     <Link
@@ -218,8 +221,10 @@ function QuietRow({ to, onClose, icon: Icon, label, meta }) {
   );
 }
 
+/* Category Accordion */
 function CategoryAccordion({ category, onClose }) {
   const [open, setOpen] = useState(false);
+
   const reduceMotion = useReducedMotion();
 
   return (

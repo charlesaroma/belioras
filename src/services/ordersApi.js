@@ -10,12 +10,17 @@ import { isOffTimeline, normalizeStatus } from "../utils/orderStatus";
  * next reload. Same reasoning as the catalogue: a getter, not a captured
  * value, because setState replaces the domain object.
  */
+
 function orderItems() {
   return getState("orders").items;
 }
 
+/* next Order Number */
 function nextOrderNumber(items) {
+
   const highest = items.reduce((max, o) => {
+
+/* n */
     const n = Number(String(o.id).replace(/\D/g, "")) || 0;
     return n > max ? n : max;
   }, 1000);
@@ -45,9 +50,14 @@ export function getAllOrders() {
  * Orders that never completed are excluded; a real backend would compute this
  * as a rollup updated on order.paid rather than scanning on read.
  */
+
+/* get Best Seller Product Ids */
 export function getBestSellerProductIds({ limit = 12, sinceDays = null } = {}) {
   return mockApi(() => {
+
     const cutoff = sinceDays ? Date.now() - sinceDays * 86400000 : null;
+
+/* units By Product */
     const unitsByProduct = new Map();
 
     for (const order of orderItems()) {
@@ -85,9 +95,12 @@ export function getBestSellerProductIds({ limit = 12, sinceDays = null } = {}) {
  * The mismatch and the missing-order cases deliberately return the same error,
  * so the response cannot be used to confirm that a reference exists.
  */
+
 export function getOrder(id, as = {}) {
   return mockApi(() => {
+
     const notFound = new ApiError("No order matches those details.", 404);
+
     const order = orderItems().find((o) => o.id === id);
     if (!order) throw notFound;
 
@@ -103,8 +116,11 @@ export function getOrder(id, as = {}) {
 
 export function createOrder(payload) {
   return mockApi(() => {
+
     const now = new Date().toISOString();
+
     const items = orderItems();
+
     const order = {
       id: `ORD-${nextOrderNumber(items)}`,
       userId: payload.userId ?? null,
@@ -134,8 +150,11 @@ export function createOrder(payload) {
  * nothing knows how to render — which is how `paid` ended up showing a blank
  * chip on two different surfaces.
  */
+
+/* update Order Status */
 export function updateOrderStatus(id, status) {
   return mockApi(() => {
+
     const canonical = normalizeStatus(status);
     if (!canonical) throw new ApiError(`Unknown order status: ${status}`, 422);
 

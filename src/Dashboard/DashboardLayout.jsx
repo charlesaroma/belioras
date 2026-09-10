@@ -12,18 +12,23 @@ import DashSidebar from "./components/DashSidebar";
 import DashHeader from "./components/DashHeader";
 import { DASHBOARD_NAV_ITEMS } from "./lib/constants";
 
+/* IDLE TIMEOUT */
 const IDLE_TIMEOUT = 30 * 60 * 1000;
+
+/* IDLE WARNING */
 const IDLE_WARNING = 2 * 60 * 1000;
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed] = useLocalStorage("belioras:dash:collapsed", false);
   const { pathname } = useLocation();
+
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { toast } = useToast();
 
   const segment = pathname.replace(/^\/dashboard\/?/, "").split("/")[0] || "overview";
+
   const title = DASHBOARD_NAV_ITEMS.find((item) => item.id === segment)?.label ?? "Dashboard";
 
   const onIdle = useCallback(async () => {

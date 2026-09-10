@@ -7,6 +7,7 @@ const pieceCount = ({ getValue }) => (
 
 const code = ({ getValue }) => <code className="text-[11px] text-espresso-soft">{getValue()}</code>;
 
+/* MENU COLUMNS */
 export const MENU_COLUMNS = [
   { accessorKey: "label", header: "Menu leaf" },
   { accessorKey: "root", header: "Under" },
@@ -15,6 +16,7 @@ export const MENU_COLUMNS = [
   { accessorKey: "products", header: "Pieces", meta: { align: "right" }, cell: pieceCount },
 ];
 
+/* ATTRIBUTE COLUMNS */
 export const ATTRIBUTE_COLUMNS = [
   {
     accessorKey: "name",

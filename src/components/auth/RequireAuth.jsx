@@ -6,9 +6,11 @@ import Forbidden from "../layout/Forbidden";
 
 export default function RequireAuth({ children, adminOnly = false, capability = null }) {
   const { isAuthenticated, isAdmin, can } = useAuth();
+
   const location = useLocation();
 
   if (!isAuthenticated) {
+
     const door = adminOnly || capability ? "/atelier" : "/login";
     return <Navigate to={door} state={{ from: location.pathname + location.search }} replace />;
   }

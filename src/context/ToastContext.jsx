@@ -1,20 +1,25 @@
 /* Context Provider: ToastContext */
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 
+/* Toast Context */
 const ToastContext = createContext(null);
 
 let nextId = 0;
 
+/* DEFAULT DURATION */
 const DEFAULT_DURATION = 4000;
 
+/* ACTION DURATION */
 const ACTION_DURATION = 8000;
 
+/* Toast Provider */
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   // id -> {timer, expiresAt, remaining}
   const timers = useRef(new Map());
 
   const clearTimer = useCallback((id) => {
+
     const entry = timers.current.get(id);
     if (entry?.timer) clearTimeout(entry.timer);
     timers.current.delete(id);
@@ -30,6 +35,7 @@ export function ToastProvider({ children }) {
 
   const schedule = useCallback(
     (id, ms) => {
+
       const timer = setTimeout(() => dismiss(id), ms);
       timers.current.set(id, { timer, expiresAt: Date.now() + ms, remaining: ms });
     },
@@ -38,11 +44,13 @@ export function ToastProvider({ children }) {
 
   const toast = useCallback(
     (message, typeOrOptions = "info") => {
+
       const options =
         typeof typeOrOptions === "string" ? { type: typeOrOptions } : (typeOrOptions ?? {});
       const { type = "info", action, duration } = options;
 
       const id = ++nextId;
+
       const ms = duration ?? (action ? ACTION_DURATION : DEFAULT_DURATION);
 
       setToasts((prev) => [...prev, { id, message, type, action }]);
@@ -53,6 +61,7 @@ export function ToastProvider({ children }) {
   );
 
   const pause = useCallback((id) => {
+
     const entry = timers.current.get(id);
     if (!entry?.timer) return;
     clearTimeout(entry.timer);
@@ -65,6 +74,7 @@ export function ToastProvider({ children }) {
 
   const resume = useCallback(
     (id) => {
+
       const entry = timers.current.get(id);
       // Only resume something that is actually paused, so a stray pointerleave
       // cannot stack a second timer onto a live toast.
@@ -83,6 +93,7 @@ export function ToastProvider({ children }) {
 }
 
 export function useToast() {
+
   const ctx = useContext(ToastContext);
   if (!ctx) throw new Error("useToast must be used within ToastProvider");
   return ctx;

@@ -1,6 +1,7 @@
 /* Page: Customer-support - about-us */
 import { motion } from "motion/react";
 
+/* About Us Page */
 export default function AboutUsPage() {
   return (
     <section aria-labelledby="about-title" className="overflow-hidden">

@@ -7,6 +7,7 @@ import ProductCard from "./ProductCard";
 import { cn } from "../../utils/cn";
 
 export default function ProductCarousel({ title, products, loading, ctaLabel, ctaTo, limit = 8 }) {
+
   const trackRef = useRef(null);
   const [overflows, setOverflows] = useState(false);
 
@@ -14,6 +15,7 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
 
   // Arrows are noise when everything already fits.
   useEffect(() => {
+
     const track = trackRef.current;
     if (!track) return undefined;
 
@@ -26,8 +28,10 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
   }, [items.length]);
 
   const scroll = useCallback((direction) => {
+
     const track = trackRef.current;
     if (!track) return;
+
     const cardWidth = track.firstChild?.offsetWidth ?? 300;
     track.scrollBy({ left: direction * (cardWidth + 20), behavior: "smooth" });
   }, []);
@@ -44,6 +48,7 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
 
   if (!loading && items.length === 0) return null;
 
+/* heading Id */
   const headingId = `${title.replace(/\s+/g, "-").toLowerCase()}-heading`;
 
   return (
@@ -103,7 +108,9 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
 }
 
 function Arrow({ direction, onClick }) {
+
   const isLeft = direction === "left";
+
   const Icon = isLeft ? ChevronLeft : ChevronRight;
 
   return (

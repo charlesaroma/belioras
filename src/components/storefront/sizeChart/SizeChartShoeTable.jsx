@@ -4,7 +4,9 @@ import SizeChartTable from "./SizeChartTable";
 import SizeChartUnitToggle from "./SizeChartUnitToggle";
 
 export default function SizeChartShoeTable({ footwear, unit, onUnitChange }) {
+
   const columns = ["EU", "UK", "US", `Foot length (${unitLabel(unit)})`];
+
   const rows = footwear.rows.map((r) => [r.eu, r.uk, r.us, formatMeasurement(r.cm, unit, { decimals: 1 })]);
 
   return (

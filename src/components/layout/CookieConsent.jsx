@@ -10,9 +10,11 @@ import { useLanguage } from "../../context/LanguageContext";
 import { getSettings } from "../../services/settingsApi";
 
 const ACCEPTED = "accepted";
+
 const REJECTED = "rejected";
 
 export default function CookieConsent() {
+
   const version = useContentVersion();
   const { data: settings } = useAsyncData(getSettings, [version]);
   const { t } = useLanguage();
@@ -22,16 +24,21 @@ export default function CookieConsent() {
   const [consent, setConsent] = useLocalStorage("belioras:cookies", null);
 
   const policyVersion = settings?.cookieBanner?.policyVersion ?? 1;
+
   const recorded = consent && typeof consent === "object" ? consent : null;
+
   const needsChoice = !recorded || recorded.policyVersion !== policyVersion;
 
   const decide = (choice) =>
     setConsent({ choice, at: new Date().toISOString(), policyVersion });
 
   const isVisible = needsChoice && !!settings;
+
   const barRef = useRef(null);
 
+  /* Side Effect */
   useEffect(() => {
+
     const root = document.documentElement;
 
     if (!isVisible) {
@@ -40,11 +47,13 @@ export default function CookieConsent() {
     }
 
     const measure = () => {
+
       const height = barRef.current?.offsetHeight ?? 0;
       root.style.setProperty("--consent-bar-height", `${height}px`);
     };
 
     measure();
+
     const observer = new ResizeObserver(measure);
     if (barRef.current) observer.observe(barRef.current);
 

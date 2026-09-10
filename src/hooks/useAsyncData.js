@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+/* use Async Data */
 export function useAsyncData(fn, deps = []) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const fnRef = useRef(fn);
 
+  /* Side Effect */
   useEffect(() => {
     fnRef.current = fn;
   }, [fn]);
@@ -22,6 +25,7 @@ export function useAsyncData(fn, deps = []) {
     }
   }, []);
 
+  /* Side Effect */
   useEffect(() => {
     run();
   }, [...deps]);

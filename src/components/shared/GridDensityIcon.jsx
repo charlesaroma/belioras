@@ -1,12 +1,15 @@
 /* Shared Component: GridDensityIcon */
 import { cn } from "../../utils/cn";
 
+/* INTRINSIC HEIGHT */
 const INTRINSIC_HEIGHT = 26;
 
 const WIDTHS = { 2: 26, 3: 36, 4: 46, 6: 66, row: 26 };
 
 export default function GridDensityIcon({ columns, active = false, className }) {
+
   const key = columns === "row" ? "row" : columns;
+
   const state = active ? "active" : "default";
 
   return (

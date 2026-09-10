@@ -2,7 +2,9 @@
 import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
 import { roleLabel } from "./teamTableRoles";
 
+/* Role Change Dialog */
 export function RoleChangeDialog({ pending, onClose, onConfirm }) {
+
   const removing = pending?.role === "customer";
 
   return (
@@ -30,6 +32,7 @@ export function RoleChangeDialog({ pending, onClose, onConfirm }) {
   );
 }
 
+/* Add Member Dialog */
 export function AddMemberDialog({ open, email, onEmailChange, onClose, onConfirm }) {
   return (
     <ConfirmDialog

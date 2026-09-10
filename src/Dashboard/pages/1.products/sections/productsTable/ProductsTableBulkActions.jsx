@@ -1,6 +1,7 @@
 /* Admin Dashboard Page: Products - ProductsTableBulkActions */
 import Button from "../../../../../components/ui/Button";
 
+/* Bulk Actions Bar */
 export default function BulkActionsBar({ count, onSetStatus, onClear }) {
   if (count === 0) return null;
 

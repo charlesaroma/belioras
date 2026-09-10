@@ -8,21 +8,29 @@ import { useContentVersion } from "../../../context/ContentContext";
 import { getHeroSlides } from "../../../services/contentApi";
 import { cn } from "../../../utils/cn";
 
+/* AUTOPLAY MS */
 const AUTOPLAY_MS = 6000;
 
 export default function HeroSection() {
+
   const version = useContentVersion();
   const { data } = useAsyncData(getHeroSlides, [version]);
+
   const reduceMotion = useReducedMotion();
 
   const slides = data?.slides ?? [];
+
+/* autoplay Ms */
   const autoplayMs = data?.autoplayMs ?? AUTOPLAY_MS;
 
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+
   const timerRef = useRef(null);
 
   const count = slides.length;
+
+/* go To */
   const goTo = useCallback((i) => setIndex(count ? ((i % count) + count) % count : 0), [count]);
 
   // Autoplay is suppressed under prefers-reduced-motion: an unattended slide
@@ -36,6 +44,7 @@ export default function HeroSection() {
   // A content edit can shorten the deck while a later slide is showing; clamp
   // during render so the stale index never reaches the DOM.
   const safeIndex = count ? Math.min(index, count - 1) : 0;
+
   const slide = slides[safeIndex];
 
   if (!slide) return <section className="h-[100svh] min-h-[600px] w-full bg-espresso" />;

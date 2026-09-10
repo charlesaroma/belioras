@@ -6,8 +6,10 @@ export function getCoupons() {
   return mockApi(() => couponsSeed.map((c) => ({ ...c })));
 }
 
+/* validate Coupon */
 export function validateCoupon(code, subtotal = 0) {
   return mockApi(() => {
+
     const coupon = couponsSeed.find(
       (c) => c.code.toLowerCase() === String(code ?? "").trim().toLowerCase()
     );

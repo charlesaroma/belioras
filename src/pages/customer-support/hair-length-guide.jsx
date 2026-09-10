@@ -2,6 +2,7 @@
 import PageShell, { Section } from "../../components/layout/PageShell";
 import SizeChart from "../../components/storefront/sizeChart/SizeChart";
 
+/* Hair Length Guide Page */
 export default function HairLengthGuidePage() {
   return (
     <PageShell

@@ -68,8 +68,11 @@ import {
 } from "./customerDashboard";
 import { cn } from "./utils/cn";
 
+/* Search Redirect */
 function SearchRedirect() {
   const [params] = useSearchParams();
+
+/* q */
   const q = params.get("q");
   return <Navigate to={q ? `/shop?q=${encodeURIComponent(q)}` : "/shop"} replace />;
 }

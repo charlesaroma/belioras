@@ -32,6 +32,8 @@ const DIMENSION_PREFIX = {
  *
  * Anything absent falls through to `cat:<value>`.
  */
+
+/* CATEGORY ALIASES */
 const CATEGORY_ALIASES = {
   "mini-dresses": { tokens: ["len:mini"], match: "all" },
   "midi-dresses": { tokens: ["len:midi"], match: "all" },
@@ -49,6 +51,8 @@ const COLOR_ALIASES = {
  * Menu entries that deliberately span several values — "Mini, Midi & Maxi
  * Dresses" is one link covering three lengths, so it matches on `any`.
  */
+
+/* GROUP TOKENS */
 const GROUP_TOKENS = {
   "mini-midi-maxi": { tokens: ["len:mini", "len:midi", "len:maxi"], match: "any" },
   "party-evening": { tokens: ["occ:party", "occ:evening"], match: "any" },
@@ -78,7 +82,10 @@ export function splitPath(pathname) {
  * catalogApi additionally checks the path exists in the navigation tree, so
  * `/shop/color/chartreuse` resolves here but still 404s there.
  */
+
+/* resolve Nav Path */
 export function resolveNavPath(pathname) {
+
   const parts = splitPath(pathname);
   if (parts.length === 0) return null;
 
@@ -92,6 +99,7 @@ export function resolveNavPath(pathname) {
 
   // /dresses/mini-midi-maxi, /new-arrivals/catalog — a curated grouping.
   if (rest.length === 1) {
+
     const group = GROUP_TOKENS[rest[0]];
     if (!group) return null;
     return {
@@ -109,6 +117,7 @@ export function resolveNavPath(pathname) {
   // /shop/occasion/party, /hair/wigs/straight — dimension + value.
   if (rest.length === 2) {
     const [dimension, value] = rest;
+
     const prefix = DIMENSION_PREFIX[dimension];
     if (!prefix) return null;
 
@@ -139,8 +148,11 @@ export function resolveNavPath(pathname) {
  * with the resolved match mode, so "Mini, Midi & Maxi Dresses" means
  * "a dress AND (mini OR midi OR maxi)".
  */
+
+/* matches Resolved */
 export function matchesResolved(tags, resolved) {
   if (!resolved) return false;
+
   const tagSet = tags instanceof Set ? tags : new Set(tags);
 
   const base = resolved.baseTokens ?? [];

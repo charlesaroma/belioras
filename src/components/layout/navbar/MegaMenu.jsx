@@ -5,8 +5,11 @@ import MegaMenuPanel from "./MegaMenuPanel";
 import { megaMenuColumns, megaMenuLayoutFor } from "./megaMenuLayout";
 
 export default function MegaMenu({ category, anchorLeft, onMouseEnter, onMouseLeave }) {
+
   const layout = category ? megaMenuLayoutFor(category) : "compact";
+
   const columns = megaMenuColumns(category, layout);
+
   const compact = layout === "compact";
 
   return (

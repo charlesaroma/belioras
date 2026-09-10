@@ -27,8 +27,11 @@ export default function TableHead({ table, enableSelection }) {
           )}
 
           {headerGroup.headers.map((header) => {
+
             const canSort = header.column.getCanSort();
+
             const direction = header.column.getIsSorted();
+
             const Icon = !direction ? ChevronsUpDown : direction === "asc" ? ArrowUp : ArrowDown;
 
             return (

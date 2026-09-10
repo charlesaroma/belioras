@@ -9,15 +9,20 @@ import { searchByImage } from "../../services/visualSearchApi";
 import { cn } from "../../utils/cn";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/heic";
+
+/* MAX EDGE */
 const MAX_EDGE = 512;
 
 async function prepare(file, crop) {
+
   const bitmap = await createImageBitmap(file);
 
   // Square centre crop by default: garment photos are usually centred, and a
   // square is what the model will be fed regardless.
   const side = crop ?? Math.min(bitmap.width, bitmap.height);
+
   const sx = (bitmap.width - side) / 2;
+
   const sy = (bitmap.height - side) / 2;
 
   const canvas = document.createElement("canvas");
@@ -31,9 +36,13 @@ async function prepare(file, crop) {
 }
 
 export default function ImageSearch({ open, onClose }) {
+
   const navigate = useNavigate();
+
   const fileRef = useRef(null);
+
   const cameraRef = useRef(null);
+
   const objectUrl = useRef(null);
 
   const [preview, setPreview] = useState(null);
@@ -71,6 +80,7 @@ export default function ImageSearch({ open, onClose }) {
     setError("");
     setState("preparing");
     try {
+
       const prepared = await prepare(file);
       if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
       objectUrl.current = prepared.url;
@@ -85,6 +95,7 @@ export default function ImageSearch({ open, onClose }) {
 
   const submit = async () => {
     setState("searching");
+
     const response = await searchByImage(blob);
     setResult(response);
     setState("done");

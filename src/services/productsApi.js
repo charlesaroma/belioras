@@ -19,6 +19,8 @@ import { COLOR_NAME_TO_TAXONOMY, LEGACY_CATEGORY_TOKENS } from "../utils/constan
  * A getter, not a captured value: setState replaces the domain object, so a
  * const bound at module load would go stale after the first write.
  */
+
+/* catalog Items */
 function catalogItems() {
   return getState("products").items;
 }
@@ -31,7 +33,9 @@ function catalogItems() {
  * products carry authored `tags[]`, this can be deleted along with
  * LEGACY_CATEGORY_TOKENS.
  */
+
 function deriveTags(product) {
+
   const tags = new Set(product.tags ?? []);
 
   if (product.collectionId) tags.add(`cat:${product.collectionId}`);
@@ -40,6 +44,7 @@ function deriveTags(product) {
   if (product.featured) tags.add("tag:featured");
 
   for (const category of product.categories ?? []) {
+
     const token = LEGACY_CATEGORY_TOKENS[category];
     if (token) tags.add(token);
     // Keep the raw value too, so a menu leaf whose slug already matches a
@@ -48,6 +53,7 @@ function deriveTags(product) {
   }
 
   for (const color of product.colors ?? []) {
+
     const swatch = COLOR_NAME_TO_TAXONOMY[color];
     if (swatch) tags.add(`color:${swatch}`);
   }
@@ -59,30 +65,35 @@ function normalize(product) {
   return { ...product, images: product.images ?? [], tags: deriveTags(product) };
 }
 
+/* get Products */
 export function getProducts() {
   return mockApi(() => catalogItems().map(normalize));
 }
 
 export function getProduct(idOrSlug) {
   return mockApi(() => {
+
     const product = catalogItems().find((p) => p.id === idOrSlug || p.slug === idOrSlug);
     if (!product) throw new ApiError("Product not found.", 404);
     return normalize(product);
   });
 }
 
+/* get Products By Collection */
 export function getProductsByCollection(collectionId) {
   return mockApi(() =>
     catalogItems().filter((p) => p.collectionId === collectionId).map(normalize)
   );
 }
 
+/* get New Arrivals */
 export function getNewArrivals() {
   return mockApi(() =>
     newArrivalsSeed
       .slice()
       .sort((a, b) => (a.addedAt < b.addedAt ? 1 : -1))
       .map((entry) => {
+
         const product = catalogItems().find((p) => p.id === entry.productId);
         return product ? { ...normalize(product), addedAt: entry.addedAt } : null;
       })
@@ -90,8 +101,11 @@ export function getNewArrivals() {
   );
 }
 
+/* search Products */
 export function searchProducts(query) {
   return mockApi(() => {
+
+/* q */
     const q = String(query ?? "").trim().toLowerCase();
     if (!q) return [];
     return catalogItems()
@@ -105,6 +119,7 @@ export function searchProducts(query) {
   });
 }
 
+/* get Featured Products */
 export function getFeaturedProducts() {
   return mockApi(() => catalogItems().filter((p) => p.bestseller || p.featured).map(normalize));
 }
@@ -117,8 +132,11 @@ export function getFeaturedProducts() {
  * section would look broken. The backfill lives here rather than in the
  * component because a real backend would apply the same rule server-side.
  */
+
+/* get Best Sellers */
 export function getBestSellers(limit = 8) {
   return mockApi(async () => {
+
     const ranked = await getBestSellerProductIds({ limit });
 
     const products = ranked
@@ -129,6 +147,7 @@ export function getBestSellers(limit = 8) {
     if (products.length >= limit) return products;
 
     const seen = new Set(products.map((p) => p.id));
+
     const backfill = catalogItems()
       .filter((p) => p.bestseller && !seen.has(p.id))
       .slice(0, limit - products.length)
@@ -148,6 +167,7 @@ export function getBestSellers(limit = 8) {
  * the transliteration each language actually uses. It matters here: the brand
  * is Portuguese and names its pieces in French.
  */
+
 const LIGATURES = {
   œ: "oe",
   æ: "ae",
@@ -181,8 +201,13 @@ export function slugify(value) {
  * products sharing an id would make the PDP resolve to whichever came first.
  * Counting past the highest existing id cannot collide.
  */
+
+/* next Product Id */
 function nextProductId(items) {
+
   const highest = items.reduce((max, p) => {
+
+/* n */
     const n = Number(String(p.id).match(/\d+/)?.[0] ?? 0);
     return n > max ? n : max;
   }, 0);
@@ -191,6 +216,7 @@ function nextProductId(items) {
 
 /** Ensures a slug is unique, suffixing -2, -3 … when a name repeats. */
 function uniqueSlug(items, base, ignoreId = null) {
+
   const taken = new Set(items.filter((p) => p.id !== ignoreId).map((p) => p.slug));
   if (!taken.has(base)) return base;
   let n = 2;
@@ -200,12 +226,15 @@ function uniqueSlug(items, base, ignoreId = null) {
 
 export function createProduct(input) {
   return mockApi(() => {
+
     const name = String(input.name ?? "").trim();
     if (!name) throw new ApiError("A product needs a name.", 422);
     if (!(Number(input.price) > 0)) throw new ApiError("A product needs a price.", 422);
 
     const items = catalogItems();
+
     const id = nextProductId(items);
+
     const product = {
       ...input,
       id,
@@ -229,7 +258,9 @@ export function createProduct(input) {
 
 export function updateProduct(id, patch) {
   return mockApi(() => {
+
     const items = catalogItems();
+
     const existing = items.find((p) => p.id === id);
     if (!existing) throw new ApiError("Product not found.", 404);
 
@@ -262,6 +293,7 @@ export function updateProduct(id, patch) {
 
 export function deleteProduct(id) {
   return mockApi(() => {
+
     const existing = catalogItems().find((p) => p.id === id);
     if (!existing) throw new ApiError("Product not found.", 404);
 

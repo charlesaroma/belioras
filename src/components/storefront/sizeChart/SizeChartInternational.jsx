@@ -2,7 +2,9 @@
 import SizeChartTable from "./SizeChartTable";
 
 export default function SizeChartInternational({ international }) {
+
   const columns = ["Size", ...international.columns];
+
   const rows = international.rows.map((r) => [r.size, r.us, r.uk, r.eu, r.aus, r.tr]);
 
   return (

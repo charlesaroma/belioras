@@ -9,6 +9,8 @@ import { toFormValues } from "./productFormPayload";
  * later change back out. Editing an existing product never touches the draft —
  * there is nothing to recover that is not already saved.
  */
+
+/* use Product Draft Sync */
 export function useProductDraftSync({
   isEdit,
   existing,
@@ -30,6 +32,7 @@ export function useProductDraftSync({
    * guarded by comparing formData.name to product.name — which silently
    * stopped working the moment you cleared the name field.
    */
+  /* Side Effect */
   useEffect(() => {
     if (!existing) return;
     reset(toFormValues(existing));
@@ -55,8 +58,10 @@ export function useProductDraftSync({
   // Effects run in declaration order, so the mirror effect below already
   // sees this as true on mount.
   const restored = useRef(false);
+  /* Side Effect */
   useEffect(() => {
     if (isEdit || restored.current) return;
+
     const saved = draftFor("new-product");
     restored.current = true;
     if (!saved?.values) return;
@@ -68,6 +73,7 @@ export function useProductDraftSync({
 
     const usable = (saved.images ?? []).filter((img) => img.url && !img.url.startsWith("blob:"));
     setImages(usable);
+
     const lost = (saved.images ?? []).length - usable.length;
     if (lost > 0) {
       toast(
@@ -84,8 +90,10 @@ export function useProductDraftSync({
    * render — otherwise this would write on every render rather than on every
    * actual change.
    */
+  /* Side Effect */
   useEffect(() => {
     if (isEdit || !restored.current) return;
+
     const parsed = JSON.parse(snapshot);
     if (!parsed.values.name?.trim() && parsed.images.length === 0) return;
     startDraft("new-product", {

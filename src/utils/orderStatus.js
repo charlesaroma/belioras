@@ -31,6 +31,7 @@ export const ORDER_STAGES = [
  * Every status this codebase has ever written, mapped to its canonical form.
  * Keep aliases here rather than special-casing them at call sites.
  */
+
 const ALIASES = {
   "to-pay": "to-pay",
   pending: "to-pay",
@@ -75,22 +76,28 @@ export function normalizeStatus(status) {
  * Returning null rather than 0 for cancelled and refunded is the point: those
  * orders need their own message, not a timeline with the first dot lit.
  */
+
+/* stage Of */
 export function stageOf(status) {
+
   const canonical = normalizeStatus(status);
   if (!canonical) return null;
   if (canonical === "reviewed") return ORDER_STAGES.length - 1;
+
   const index = ORDER_STAGES.findIndex((s) => s.id === canonical);
   return index === -1 ? null : index;
 }
 
 /** True for an order that ended without being delivered. */
 export function isOffTimeline(status) {
+
   const canonical = normalizeStatus(status);
   return canonical === "cancelled" || canonical === "refunded";
 }
 
 /** Label for any status, falling back to the raw key made readable. */
 export function statusLabel(status) {
+
   const canonical = normalizeStatus(status);
   return ORDER_STATUS[canonical]?.label ?? String(status ?? "").replace(/[-_]/g, " ");
 }
@@ -102,6 +109,8 @@ export function statusLabel(status) {
  * shipped notifies the customer, refunding moves money. Reversing them is a
  * correction, not a normal step, and should not be one click away.
  */
+
+/* next Statuses */
 export function nextStatuses(status) {
   switch (normalizeStatus(status)) {
     case "to-pay":

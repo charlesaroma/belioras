@@ -1,6 +1,7 @@
 /* Admin Dashboard Page: Customers - customersTableColumns */
 import Avatar from "../../../../../components/account/Avatar";
 
+/* build Customer Columns */
 export function buildCustomerColumns({ format, dateFmt }) {
   return [
     {

@@ -24,9 +24,12 @@ import { cn } from "../../utils/cn";
 
 import ProductGallery from "./sections/ProductGallery";
 
+/* Product Page */
 export default function ProductPage() {
   const { slug } = useParams();
+
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const { data: product, loading, error } = useAsyncData(() => getProduct(slug), [slug]);
@@ -48,11 +51,16 @@ export default function ProductPage() {
 
   const suggestions = (related ?? []).filter((p) => p.id !== product?.id).slice(0, 4);
 
+/* came From Within Site */
   const cameFromWithinSite = location.key !== "default";
+
+/* collection Path */
   const collectionPath = product?.collectionId ? `/${product.collectionId}` : "/shop";
 
   const handleShare = async () => {
+
     const url = window.location.href;
+
     const payload = { title: product.name, text: product.description, url };
 
     if (navigator.share && navigator.canShare?.(payload) !== false) {
@@ -98,6 +106,7 @@ export default function ProductPage() {
   }
 
   const onSale = product.originalPrice && product.originalPrice > product.price;
+
   const lowStock = product.stock > 0 && product.stock <= 5;
 
   return (
@@ -194,6 +203,7 @@ export default function ProductPage() {
   );
 }
 
+/* Buy Panel */
 function BuyPanel({ product }) {
   const { addItem } = useCart();
   const { has, toggle } = useWishlist();
@@ -207,7 +217,9 @@ function BuyPanel({ product }) {
   const [added, setAdded] = useState(false);
 
   const saved = has(product.id);
+
   const soldOut = product.stock === 0;
+
   const needsSize = product.sizes?.length > 1;
   // Which reference table this piece needs — garment, footwear or hair.
   // null means there is nothing useful to show, so no trigger is rendered.

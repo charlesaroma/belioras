@@ -9,6 +9,8 @@ import { getState, setState } from "./contentStore";
  * deep clone of the JSON fixture, which meant the settings page could not
  * change anything even in principle.
  */
+
+/* get Settings */
 export function getSettings() {
   return mockApi(() => structuredClone(getState("settings")), 0);
 }
@@ -20,9 +22,13 @@ export function getSettings() {
  * different panels do not overwrite each other's work, and so a patch that
  * omits a section leaves it intact.
  */
+
+/* update Settings */
 export function updateSettings(patch) {
   return mockApi(() => {
+
     const next = setState("settings", (state) => {
+
       const merged = { ...state };
       for (const [key, value] of Object.entries(patch)) {
         merged[key] =

@@ -20,13 +20,16 @@ import { emptyState, statusTabs, toRows } from "./sections/productsTable/product
 import BulkActionsBar from "./sections/productsTable/ProductsTableBulkActions";
 import DeleteProductDialog from "./sections/productsTable/ProductsDeleteDialog";
 
+/* Dash Products */
 export default function DashProducts() {
+
   const navigate = useNavigate();
   const { toast } = useToast();
   const { format } = useCurrency();
 
   // Bumped after every write so useAsyncData re-runs against the store.
   const [revision, setRevision] = useState(0);
+
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
 
   const { data: products, loading } = useAsyncData(getProducts, [revision]);
@@ -49,10 +52,13 @@ export default function DashProducts() {
 
   const tabs = useMemo(() => statusTabs(rows), [rows]);
 
+/* confirm Delete */
   const confirmDelete = async () => {
+
     const product = pendingDelete;
     setPendingDelete(null);
     try {
+
       const removed = await deleteProduct(product.id);
       refresh();
       // Undo rather than a second confirmation: the dialog already asked, and
@@ -73,7 +79,9 @@ export default function DashProducts() {
     }
   };
 
+/* bulk Set Status */
   const bulkSetStatus = async (status) => {
+
     const ids = [...selectedIds];
     setSelectedIds([]);
     try {

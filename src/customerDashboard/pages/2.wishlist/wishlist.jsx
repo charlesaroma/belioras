@@ -22,9 +22,12 @@ export default function Wishlist() {
 
   const { items, missing } = useMemo(() => {
     if (!products) return { items: [], missing: [] };
+
     const found = [];
+
     const gone = [];
     for (const id of ids) {
+
       const product = products.find((p) => p.id === id);
       if (product) found.push(product);
       else gone.push(id);

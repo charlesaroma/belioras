@@ -1,6 +1,7 @@
 /* Admin Dashboard Page: Orders - OrdersTableToolbar */
 import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
 
+/* Orders Toolbar */
 export default function OrdersToolbar({ query, onQueryChange, tabs, status, onStatusChange }) {
   return (
     <DashToolbar

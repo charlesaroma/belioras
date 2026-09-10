@@ -36,7 +36,10 @@ export function tokenFor(dimension, value) {
  * AND, so Satin + Party narrows rather than widens. This asymmetry is standard
  * in faceted search and getting it backwards makes filters feel broken.
  */
+
+/* matches Selection */
 export function matchesSelection(product, dimensions, { ignore = null } = {}) {
+
   const tags = new Set(product.tags ?? []);
 
   for (const [dimension, values] of Object.entries(dimensions)) {
@@ -60,6 +63,7 @@ export function applyFilters(products, { dimensions, price, onSale, query }) {
     if (onSale && !(product.originalPrice && product.originalPrice > product.price)) return false;
 
     if (query) {
+
       const haystack = `${product.name} ${product.description ?? ""}`.toLowerCase();
       if (!haystack.includes(query.toLowerCase())) return false;
     }
@@ -76,11 +80,15 @@ export function applyFilters(products, { dimensions, price, onSale, query }) {
  * read 0 and the dimension would appear exhausted — when in fact those options
  * are alternatives, not additions.
  */
+
+/* compute Facets */
 export function computeFacets(products, taxonomy, activeFilters) {
   const { dimensions, price, onSale, query } = activeFilters;
+
   const facets = {};
 
   for (const dimension of DIMENSION_ORDER) {
+
     const definition = taxonomy?.[dimension];
     if (!definition?.values?.length) continue;
 
@@ -124,6 +132,7 @@ export function computeFacets(products, taxonomy, activeFilters) {
 }
 
 function labelFor(dimension, definition) {
+
   const label = definition.label;
   if (typeof label === "string") return label;
   if (label?.en) return label.en;
@@ -133,11 +142,14 @@ function labelFor(dimension, definition) {
 /** Price bounds across a product set, rounded outward to whole currency units. */
 export function priceBounds(products) {
   if (!products.length) return [0, 500];
+
   const prices = products.map((p) => p.price);
   return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
 }
 
+/* sort Products */
 export function sortProducts(products, sort) {
+
   const list = [...products];
   if (sort === "price-low") list.sort((a, b) => a.price - b.price);
   else if (sort === "price-high") list.sort((a, b) => b.price - a.price);

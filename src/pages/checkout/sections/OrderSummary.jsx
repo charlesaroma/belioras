@@ -17,6 +17,7 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
     setChecking(true);
     setError("");
     try {
+
       const valid = await validateCoupon(code, totals.subtotal);
       onCoupon(valid);
       setCode("");

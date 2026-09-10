@@ -9,6 +9,7 @@ import { useProductDraft } from "../../context/ProductDraftContext";
 export default function DraftDock() {
   const { drafts, clearDraft } = useProductDraft();
   const { isAdmin } = useAuth();
+
   const reduceMotion = useReducedMotion();
 
   // Only staff have anywhere to restore a product draft to.
@@ -18,7 +19,9 @@ export default function DraftDock() {
     <div className="pointer-events-none fixed bottom-0 right-0 z-[65] flex flex-col items-end gap-2 p-4 sm:p-6">
       <AnimatePresence initial={false}>
         {drafts.map((draft) => {
+
           const progress = draft.progress;
+
           const working = progress && progress.done < progress.total;
 
           return (

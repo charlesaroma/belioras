@@ -12,7 +12,9 @@ export function filterProducts(products, filters = {}) {
   });
 }
 
+/* sort Products */
 export function sortProducts(products, key = "featured") {
+
   const sorted = [...products];
   switch (key) {
     case "price-asc":

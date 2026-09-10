@@ -1,6 +1,7 @@
 /* Customer Dashboard Page: Orders - OrderDetailLines */
 import { Link } from "react-router-dom";
 
+/* Order Lines */
 export default function OrderLines({ order, thumbnails, format, discount }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-umber-50 bg-white">
@@ -72,6 +73,7 @@ export default function OrderLines({ order, thumbnails, format, discount }) {
   );
 }
 
+/* Total Row */
 function TotalRow({ label, amount }) {
   return (
     <div className="flex items-center justify-between text-sm text-espresso-soft">

@@ -10,6 +10,7 @@ export default function SizeChartUnitToggle({ unit, onChange }) {
       className="inline-flex border border-espresso"
     >
       {UNITS.map((option) => {
+
         const selected = option === unit;
         return (
           <button

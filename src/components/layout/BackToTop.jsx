@@ -4,19 +4,24 @@ import { ArrowUp } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
+/* REVEAL AT */
 const REVEAL_AT = 600;
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
+  /* Scroll Handler */
   useEffect(() => {
+
     const onScroll = () => setVisible(window.scrollY > REVEAL_AT);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+/* scroll To Top */
   const scrollToTop = () => {
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   };

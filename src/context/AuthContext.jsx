@@ -12,8 +12,10 @@ import {
   verifyPassword as verifyPasswordApi,
 } from "../services/authApi";
 
+/* Auth Context */
 const AuthContext = createContext(null);
 
+/* Auth Provider */
 export function AuthProvider({ children }) {
   const [session, setSession] = useLocalStorage("belioras:auth", null);
   const [loading, setLoading] = useState(false);
@@ -22,6 +24,7 @@ export function AuthProvider({ children }) {
     async (credentials) => {
       setLoading(true);
       try {
+
         const result = await loginApi(credentials);
         setSession(result);
         return result;
@@ -36,6 +39,7 @@ export function AuthProvider({ children }) {
     async (user) => {
       setLoading(true);
       try {
+
         const result = await registerApi(user);
         setSession(result);
         return result;
@@ -56,6 +60,7 @@ export function AuthProvider({ children }) {
   const updateProfile = useCallback(
     async (patch) => {
       if (!userId) throw new Error("Not signed in.");
+
       const updated = await updateProfileApi(userId, patch);
       setSession((prev) => (prev ? { ...prev, user: updated } : prev));
       return updated;
@@ -104,6 +109,7 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
+
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;

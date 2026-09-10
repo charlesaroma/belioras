@@ -13,6 +13,7 @@ import { buildCustomerColumns } from "./sections/customersTable/customersTableCo
 import CustomerModal from "./sections/customersTable/CustomersDetailModal";
 import CustomersToolbar from "./sections/customersTable/CustomersTableToolbar";
 
+/* Dash Customers */
 export default function DashCustomers() {
   const { format } = useCurrency();
   const { locale } = useLanguage();
@@ -29,6 +30,7 @@ export default function DashCustomers() {
   );
 
   const rows = useMemo(() => toRows(users, orders), [users, orders]);
+
   const tabs = useMemo(() => activityTabs(rows), [rows]);
 
   const visible = useMemo(

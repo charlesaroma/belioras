@@ -5,6 +5,7 @@ import { cn } from "../../../utils/cn";
 /* Shared thumb styling. Both vendor pseudo-elements need it spelled out; they
    cannot be combined into one selector, since an unknown pseudo-element
    invalidates the whole rule. */
+
 const THUMB = cn(
   "[&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none",
   "[&::-webkit-slider-thumb]:size-5 [&::-webkit-slider-thumb]:rounded-full",
@@ -37,7 +38,9 @@ function PriceRangeSlider({ min, max, value, onChange, showLabels = true }) {
   const { format } = useCurrency();
 
   const span = Math.max(max - min, 1);
+
   const loPct = ((lo - min) / span) * 100;
+
   const hiPct = ((hi - min) / span) * 100;
 
   return (

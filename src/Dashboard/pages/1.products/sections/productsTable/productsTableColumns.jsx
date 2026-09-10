@@ -5,8 +5,10 @@ import StatusChip from "../../../../../components/ui/StatusChip";
 import { cn } from "../../../../../utils/cn";
 import IconAction from "../../../../components/IconAction";
 
+/* LOW STOCK */
 const LOW_STOCK = 5;
 
+/* build Product Columns */
 export function buildProductColumns({ format, onView, onEdit, onDelete }) {
   return [
     {
@@ -45,6 +47,7 @@ export function buildProductColumns({ format, onView, onEdit, onDelete }) {
       header: "Stock",
       meta: { align: "right" },
       cell: ({ getValue }) => {
+
         const stock = getValue();
         return (
           <span

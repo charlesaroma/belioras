@@ -20,6 +20,7 @@ import { discountOn, reorder } from "./sections/orderDetailActions";
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });
 
+/* Order Detail */
 export default function OrderDetail() {
   const { id } = useParams();
   const { format } = useCurrency();

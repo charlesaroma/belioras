@@ -80,6 +80,7 @@ const GROUPS = [
   },
 ];
 
+/* FAQ Page */
 export default function FAQPage() {
   return (
     <PageShell

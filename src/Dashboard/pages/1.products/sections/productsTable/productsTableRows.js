@@ -4,6 +4,7 @@
  * Status is derived rather than stored so it can never disagree with the
  * stock count sitting next to it in the same row.
  */
+
 export function toRows(products) {
   return (products ?? []).map((p) => ({
     ...p,
@@ -14,6 +15,7 @@ export function toRows(products) {
 
 /** Counts for the status tabs, which need the whole set, not the filtered one. */
 export function statusTabs(rows) {
+
   const by = (s) => rows.filter((p) => p.status === s).length;
   return [
     { value: "all", label: "All", count: rows.length },
@@ -30,6 +32,7 @@ export function statusTabs(rows) {
  * yet, and a filter that happens to match nothing. Only the first should offer
  * "Add product" — the second wants the filter cleared, not a new piece.
  */
+
 export function emptyState(filtering) {
   return filtering
     ? {

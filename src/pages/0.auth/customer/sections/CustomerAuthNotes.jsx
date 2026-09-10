@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
+/* Signup Terms */
 export function SignupTerms() {
   return (
     <motion.p
@@ -22,6 +23,7 @@ export function SignupTerms() {
   );
 }
 
+/* Demo Account Note */
 export function DemoAccountNote() {
   if (!import.meta.env.DEV) return null;
 

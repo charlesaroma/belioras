@@ -8,6 +8,8 @@
  * Phones default to two columns, but the choice between one and two is the
  * shopper's: GridViewSwitcher renders a mobile-only group below `md` for it.
  */
+
+/* COLUMN CLASSES */
 export const COLUMN_CLASSES = {
   2: "grid-cols-2",
   3: "grid-cols-2 sm:grid-cols-3",
@@ -24,10 +26,17 @@ export const COLUMN_CLASSES = {
  * Mobile only offers row (one per row) and 2 — three or more on a 375px screen
  * makes a card too narrow to read the price without zooming.
  */
+
+/* MOBILE COLUMN OPTIONS */
 export const MOBILE_COLUMN_OPTIONS = ["row", 2];
+
+/* TABLET COLUMN OPTIONS */
 export const TABLET_COLUMN_OPTIONS = ["row", 2, 3];
+
+/* DESKTOP COLUMN OPTIONS */
 export const DESKTOP_COLUMN_OPTIONS = [2, 4, 6];
 
+/* DEFAULT COLUMNS */
 export const DEFAULT_COLUMNS = 4;
 
 /** Denser grids need tighter gutters or the cards lose their alignment. */
@@ -39,6 +48,7 @@ export const COLUMN_GAP_CLASSES = {
   row: "gap-y-10",
 };
 
+/* is Valid Columns */
 export function isValidColumns(value) {
   return value === "row" || [2, 3, 4, 6].includes(value);
 }

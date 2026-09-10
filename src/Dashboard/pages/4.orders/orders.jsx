@@ -13,12 +13,14 @@ import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 
+/* Dash Orders */
 export default function DashOrders() {
   const { format } = useCurrency();
   const { locale } = useLanguage();
   const { toast } = useToast();
 
   const [revision, setRevision] = useState(0);
+
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
   const { data: orders, loading } = useAsyncData(getAllOrders, [revision]);
   const [viewing, setViewing] = useState(null);
@@ -45,6 +47,7 @@ export default function DashOrders() {
 
   // The tabs need counts from the whole set, not the filtered one.
   const tabs = useMemo(() => {
+
     const by = (status) => rows.filter((o) => o.status === status).length;
     return [
       { value: "all", label: "All", count: rows.length },
@@ -56,6 +59,7 @@ export default function DashOrders() {
 
   const advance = async (order, status) => {
     try {
+
       const updated = await updateOrderStatus(order.id, status);
       refresh();
       setViewing((v) => (v && v.id === order.id ? { ...v, status: updated.status } : v));

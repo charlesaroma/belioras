@@ -6,6 +6,7 @@
  * the stored unit everywhere; inches are derived, so the two can never drift.
  */
 
+/* CM PER INCH */
 const CM_PER_INCH = 2.54;
 
 export const UNITS = ["cm", "in"];
@@ -23,6 +24,8 @@ export function cmToIn(cm) {
  * centimetre there is the difference between two shoe sizes: rounding 22.5 to
  * 23 quietly moved EU 36 onto EU 37's length.
  */
+
+/* format Measurement */
 export function formatMeasurement(cm, unit, { decimals = 0 } = {}) {
   if (cm == null) return "—";
   if (unit === "in") return `${round(cmToIn(cm), 1)}"`;
@@ -36,6 +39,7 @@ export function formatMeasurement(cm, unit, { decimals = 0 } = {}) {
  * the column header rather than on every cell, so this returns bare values —
  * except inches, where the mark disambiguates a column of small numbers.
  */
+
 export function formatRange(value, unit) {
   if (Array.isArray(value)) {
     const [min, max] = value;
@@ -58,6 +62,7 @@ export function unitLabel(unit) {
 
 /** Trims float noise without dragging in a formatting library. */
 function round(value, places) {
+
   const factor = 10 ** places;
   return Math.round(value * factor) / factor;
 }

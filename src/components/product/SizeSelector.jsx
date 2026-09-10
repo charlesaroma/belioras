@@ -7,6 +7,7 @@ export default function SizeSelector({ options = [], value, onChange = () => {} 
   return (
     <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Size">
       {options.map((size) => {
+
         const selected = size === value;
         return (
           <button

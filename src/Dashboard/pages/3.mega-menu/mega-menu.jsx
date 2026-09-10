@@ -13,8 +13,10 @@ import IconAction from "../../components/IconAction";
 import MenuRoot from "./sections/MegaMenuRoot";
 import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
 
+/* Dash Mega Menu */
 export default function DashMegaMenu() {
   const { toast } = useToast();
+
   const version = useContentVersion();
 
   const { data: navigation, loading } = useAsyncData(getNavigation, [version]);
@@ -24,6 +26,7 @@ export default function DashMegaMenu() {
   // rather than copied in an effect, which would render the old tree for a
   // frame and re-render immediately.
   const [edits, setEdits] = useState(null);
+
   const draft = edits ?? navigation ?? [];
 
   const [saving, setSaving] = useState(false);
@@ -33,7 +36,9 @@ export default function DashMegaMenu() {
   const dirty = Boolean(edits) && JSON.stringify(edits) !== JSON.stringify(navigation);
 
   const countFor = (item) => countForItem(item, products);
+
   const patchRoot = (rootId, patch) => setEdits(patchRootIn(draft, rootId, patch));
+
   const moveRoot = (index, delta) => setEdits(moveRootIn(draft, index, delta));
 
   const save = async () => {

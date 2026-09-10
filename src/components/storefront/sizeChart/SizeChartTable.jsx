@@ -1,4 +1,5 @@
 
+/* Size Chart Table */
 export default function SizeChartTable({ columns, rows, caption }) {
   return (
     <div className="-mx-1 overflow-x-auto">

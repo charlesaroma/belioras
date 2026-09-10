@@ -12,6 +12,7 @@ import CatalogView from "./sections/CatalogView";
 
 export default function CatalogPage() {
   const { pathname } = useLocation();
+
   const version = useContentVersion();
 
   const fetchCatalog = useCallback(() => getCatalog(pathname), [pathname]);

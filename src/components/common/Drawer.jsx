@@ -13,10 +13,14 @@ export default function Drawer({
   footer,
   children,
 }) {
+
   const panelRef = useRef(null);
+
   const restoreFocusRef = useRef(null);
+
   const titleId = useId();
 
+  /* Focus Management */
   useEffect(() => {
     if (!open) return undefined;
 

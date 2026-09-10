@@ -3,7 +3,10 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Package, DollarSign, Box, CheckCircle, Clock, XCircle } from "lucide-react";
 import { PRODUCT_STATUS } from "../../../../lib/constants";
 
+/* View Product Modal */
 export default function ViewProductModal({ open, onClose, product }) {
+
+/* get Status Icon */
   const getStatusIcon = (status) => {
     switch (status) {
       case "active":

@@ -24,6 +24,8 @@ const THROTTLE = 30_000;
  * `warning` is set by the timer or cleared by a real interaction, both of
  * which are outside render.
  */
+
+/* use Idle Timeout */
 export function useIdleTimeout({
   timeout = 30 * 60 * 1000,
   warnBefore = 2 * 60 * 1000,
@@ -32,11 +34,14 @@ export function useIdleTimeout({
   const [warning, setWarning] = useState(false);
 
   const timers = useRef({ idle: null, warn: null });
+
+/* last Activity */
   const lastActivity = useRef(0);
 
   // Held in a ref so a caller passing an inline arrow does not rebuild the
   // listeners and restart the countdown on every render.
   const onIdleRef = useRef(onIdle);
+  /* Idle Detection */
   useEffect(() => {
     onIdleRef.current = onIdle;
   }, [onIdle]);
@@ -63,11 +68,14 @@ export function useIdleTimeout({
     schedule();
   }, [schedule]);
 
+  /* Side Effect */
   useEffect(() => {
     lastActivity.current = Date.now();
     schedule();
 
+/* on Activity */
     const onActivity = () => {
+
       const now = Date.now();
       // Throttled, so a scroll does not rebuild the timers on every frame.
       if (now - lastActivity.current < THROTTLE) return;

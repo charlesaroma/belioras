@@ -15,6 +15,7 @@ import LatestOrder from "./sections/ProfileLatestOrder";
 import DeliversTo from "./sections/ProfileDeliversTo";
 import SavedPieces from "./sections/ProfileSavedPieces";
 
+/* PREVIEW COUNT */
 const PREVIEW_COUNT = 4;
 
 export default function Profile() {
@@ -33,6 +34,7 @@ export default function Profile() {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   )[0];
 
+/* default Address */
   const defaultAddress = addresses.find((a) => a.isDefault) ?? addresses[0] ?? null;
 
   const saved = (wishlistIds ?? [])

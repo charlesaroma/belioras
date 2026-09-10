@@ -10,6 +10,7 @@ export default function Forbidden({
   standalone = true,
   actions,
 }) {
+  /* Fallback Action Links */
   const fallback = (
     <>
       <Link to="/account" className="btn btn-primary btn-lg">
@@ -28,11 +29,14 @@ export default function Forbidden({
         standalone ? "min-h-dvh bg-ivory-50" : "border border-umber-50 bg-ivory-50 py-20",
       )}
     >
+      {/* Error Icon */}
       <span className="flex size-12 items-center justify-center border border-umber-50 text-gold-700">
         <Lock className="size-5" strokeWidth={1.5} aria-hidden="true" />
       </span>
 
       <p className="eyebrow mt-6">Error 403</p>
+      
+      {/* Error Message */}
       <h1
         className={cn(
           "mt-3 font-display text-espresso",
@@ -45,6 +49,7 @@ export default function Forbidden({
         {message}
       </p>
 
+      {/* Action Buttons */}
       <div className="mt-8 flex flex-wrap justify-center gap-3">{actions ?? fallback}</div>
     </div>
   );

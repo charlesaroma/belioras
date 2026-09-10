@@ -5,6 +5,7 @@ export const COLLECTIONS = [
   { id: "accessories", label: "Accessories" },
 ];
 
+/* EMPTY PRODUCT */
 export const EMPTY_PRODUCT = {
   name: "",
   collectionId: "dresses",

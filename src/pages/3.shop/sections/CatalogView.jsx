@@ -18,6 +18,7 @@ import ShopHeader from "./ShopHeader";
 import { SORT_OPTIONS } from "./constants";
 
 export default function CatalogView({ products, loading, error, header = {}, emptyState = null }) {
+
   const list = useMemo(() => products ?? [], [products]);
 
   const version = useContentVersion();
@@ -27,9 +28,11 @@ export default function CatalogView({ products, loading, error, header = {}, emp
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [storedCols, setCols] = useLocalStorage("belioras:gridColumns", DEFAULT_COLUMNS);
+
   const cols = isValidColumns(storedCols) ? storedCols : DEFAULT_COLUMNS;
 
   const bounds = useMemo(() => priceBounds(list), [list]);
+
   const facets = useMemo(
     () => (taxonomy ? computeFacets(list, taxonomy, filters) : {}),
     [list, taxonomy, filters],

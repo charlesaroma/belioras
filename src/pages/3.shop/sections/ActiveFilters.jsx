@@ -9,8 +9,10 @@ export default function ActiveFilters({ facets, filters, onToggle, onClearPrice,
   const chips = [];
 
   for (const [dimension, values] of Object.entries(filters.dimensions)) {
+
     const facet = facets?.[dimension];
     for (const value of values) {
+
       const match = facet?.values.find((v) => v.id === value);
       chips.push({
         key: `${dimension}:${value}`,
@@ -22,7 +24,9 @@ export default function ActiveFilters({ facets, filters, onToggle, onClearPrice,
   }
 
   if (filters.price.min !== null || filters.price.max !== null) {
+
     const from = filters.price.min !== null ? format(filters.price.min) : null;
+
     const to = filters.price.max !== null ? format(filters.price.max) : null;
     chips.push({
       key: "price",

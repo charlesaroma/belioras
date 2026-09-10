@@ -5,6 +5,7 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getFeaturedProducts } from "../../../services/productsApi";
 
+/* FALLBACK IMAGES */
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=900&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1566206091558-7f218b696731?q=80&w=900&auto=format&fit=crop",

@@ -5,8 +5,10 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { DEFAULT_LANGUAGE, isSupportedLanguage, locales, t as translate } from "../utils/i18n";
 import { localeForLanguage } from "../utils/formatCurrency";
 
+/* Language Context */
 const LanguageContext = createContext(null);
 
+/* Language Provider */
 export function LanguageProvider({ children }) {
   const [stored, setLanguage] = useLocalStorage("belioras:language", DEFAULT_LANGUAGE);
 
@@ -16,6 +18,7 @@ export function LanguageProvider({ children }) {
 
   const locale = localeForLanguage(language);
 
+  /* Side Effect */
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
@@ -35,6 +38,7 @@ export function LanguageProvider({ children }) {
 }
 
 export function useLanguage() {
+
   const ctx = useContext(LanguageContext);
   if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
   return ctx;

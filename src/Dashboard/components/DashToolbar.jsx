@@ -45,6 +45,7 @@ export default function DashToolbar({
   );
 }
 
+/* Filter Tabs */
 export function FilterTabs({ options, value, onChange, ariaLabel = "Filter" }) {
   return (
     // flex-wrap because four tabs at ~360px exceeded the 335px available on a
@@ -52,6 +53,7 @@ export function FilterTabs({ options, value, onChange, ariaLabel = "Filter" }) {
     // The border moves to each button so a wrapped row still reads as a group.
     <div role="group" aria-label={ariaLabel} className="flex flex-wrap gap-px bg-umber-50">
       {options.map((option) => {
+
         const active = value === option.value;
         return (
           <button

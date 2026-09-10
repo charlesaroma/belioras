@@ -13,12 +13,14 @@ import { buildTeamColumns } from "./sections/teamTable/teamTableColumns";
 import { AddMemberDialog, RoleChangeDialog } from "./sections/teamTable/TeamTableDialogs";
 import TeamToolbar from "./sections/teamTable/TeamTableToolbar";
 
+/* Dash Team */
 export default function DashTeam() {
   const { locale } = useLanguage();
   const { toast } = useToast();
   const { user: signedIn } = useAuth();
 
   const [revision, setRevision] = useState(0);
+
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
   const { data: users, loading } = useAsyncData(getUsers, [revision]);
 
@@ -55,6 +57,7 @@ export default function DashTeam() {
   };
 
   const promote = async () => {
+
     const match = (users ?? []).find(
       (u) => u.email.toLowerCase() === promoteEmail.trim().toLowerCase(),
     );

@@ -1,3 +1,4 @@
+/* MIN PASSWORD LENGTH */
 export const MIN_PASSWORD_LENGTH = 6;
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -9,10 +10,13 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * a second copy drifting from the first. `requireName` and `enforceLength`
  * only apply to registration, which exists on the customer door alone.
  */
+
+/* validate Credentials */
 export function validateCredentials(
   { name, email, password },
   { requireName = false, enforceLength = false } = {},
 ) {
+
   const errors = {};
 
   if (requireName && !name?.trim()) errors.name = "Full name is required.";

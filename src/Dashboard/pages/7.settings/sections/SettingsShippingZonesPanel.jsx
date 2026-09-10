@@ -3,6 +3,7 @@ import Field from "../../../../components/ui/Field";
 import Panel from "./SettingsPanel";
 
 export default function ShippingZonesPanel({ zones, onChange }) {
+
   const patch = (index, changes) =>
     onChange((prev) => prev.map((z, i) => (i === index ? { ...z, ...changes } : z)));
 

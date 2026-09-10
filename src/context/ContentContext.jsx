@@ -3,9 +3,12 @@ import { createContext, useCallback, useContext, useMemo, useSyncExternalStore }
 
 import * as contentStore from "../services/contentStore";
 
+/* Content Context */
 const ContentContext = createContext(null);
 
+/* Content Provider */
 export function ContentProvider({ children }) {
+
   const version = useSyncExternalStore(
     contentStore.subscribe,
     contentStore.getVersion,
@@ -13,7 +16,9 @@ export function ContentProvider({ children }) {
   );
 
   const update = useCallback((domain, updater) => contentStore.setState(domain, updater), []);
+
   const reset = useCallback((domain) => contentStore.resetDomain(domain), []);
+
   const read = useCallback((domain) => contentStore.getState(domain), []);
 
   const value = useMemo(() => ({ version, update, reset, read }), [version, update, reset, read]);
@@ -22,11 +27,13 @@ export function ContentProvider({ children }) {
 }
 
 export function useContent() {
+
   const ctx = useContext(ContentContext);
   if (!ctx) throw new Error("useContent must be used within ContentProvider");
   return ctx;
 }
 
+/* use Content Version */
 export function useContentVersion() {
   return useSyncExternalStore(
     contentStore.subscribe,

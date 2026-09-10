@@ -14,7 +14,9 @@ import PasswordToggle from "./PasswordToggle";
 export default function CustomerSignupForm() {
   const { register, loading: submitting } = useAuth();
   const { toast } = useToast();
+
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const [name, setName] = useState("");
@@ -31,6 +33,7 @@ export default function CustomerSignupForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const errs = validateCredentials(
       { name, email, password },
       { requireName: true, enforceLength: true },
@@ -41,6 +44,7 @@ export default function CustomerSignupForm() {
     }
     setError(null);
     try {
+
       const result = await register({ name: name.trim(), email: email.trim(), password });
       toast("Welcome to Belioras", "success");
       navigate(resolveLanding(result?.user, location.state?.from), { replace: true });

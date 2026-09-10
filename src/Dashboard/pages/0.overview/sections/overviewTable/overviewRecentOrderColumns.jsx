@@ -1,6 +1,7 @@
 /* Admin Dashboard Page: Overview - overviewRecentOrderColumns */
 import StatusChip from "../../../../../components/ui/StatusChip";
 
+/* build Recent Order Columns */
 export function buildRecentOrderColumns({ format, dateFmt }) {
   return [
     {

@@ -4,6 +4,7 @@ import { LayoutGrid, Tags } from "lucide-react";
 import { cn } from "../../../../../utils/cn";
 
 export default function ViewTabs({ tab, onChange, leafCount, attributeCount }) {
+
   const options = [
     { id: "menu", label: "Menu leaves", icon: LayoutGrid, count: leafCount },
     { id: "attributes", label: "Attributes", icon: Tags, count: attributeCount },

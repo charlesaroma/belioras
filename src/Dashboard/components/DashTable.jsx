@@ -36,6 +36,7 @@ export default function DashTable({
     state: { sorting, globalFilter, rowSelection },
     onSortingChange: setSorting,
     onRowSelectionChange: (updater) => {
+
       const next = typeof updater === "function" ? updater(rowSelection) : updater;
       setRowSelection(next);
       onSelectionChange?.(Object.keys(next).filter((id) => next[id]));
@@ -51,6 +52,7 @@ export default function DashTable({
   });
 
   const total = table.getFilteredRowModel().rows.length;
+
   const pageCount = table.getPageCount();
 
   if (!loading && total === 0 && empty) {

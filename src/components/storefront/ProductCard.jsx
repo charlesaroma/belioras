@@ -13,8 +13,11 @@ export default function ProductCard({ product }) {
   const { id, slug, name, price, originalPrice, images = [], isNew, stock = 0 } = product;
 
   const saved = has(id);
+
   const onSale = originalPrice && originalPrice > price;
+
   const soldOut = stock === 0;
+
   const secondImage = images[1];
 
   return (

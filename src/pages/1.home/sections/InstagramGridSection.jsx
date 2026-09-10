@@ -7,11 +7,13 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { getInstagramPosts } from "../../../services/contentApi";
 
 export default function InstagramGridSection() {
+
   const version = useContentVersion();
   const { data, loading } = useAsyncData(getInstagramPosts, [version]);
   const { t } = useLanguage();
 
   const posts = (data?.posts ?? []).slice(0, 9);
+
   const handle = data?.handle ?? "@belioras";
 
   return (

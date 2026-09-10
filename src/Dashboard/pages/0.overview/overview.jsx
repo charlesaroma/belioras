@@ -10,8 +10,10 @@ import KeyFigures from "./sections/OverviewKeyFigures";
 import RevenuePanel from "./sections/OverviewRevenuePanel";
 import RecentOrders from "./sections/overviewTable/OverviewRecentOrders";
 
+/* RECENT ORDER COUNT */
 const RECENT_ORDER_COUNT = 6;
 
+/* Dash Overview */
 export default function DashOverview() {
   const { data: stats, loading } = useAsyncData(getDashboardStats, []);
   const { data: orders } = useAsyncData(() => getRecentOrders(RECENT_ORDER_COUNT), []);
@@ -20,6 +22,7 @@ export default function DashOverview() {
 
   // Compact so a five-figure month does not wrap the chart's axis labels.
   const formatCompact = useMemo(() => {
+
     const fmt = new Intl.NumberFormat(locale, {
       style: "currency",
       currency,

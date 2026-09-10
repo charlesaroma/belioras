@@ -5,9 +5,11 @@ import { Check } from "lucide-react";
 import Button from "../../components/ui/Button";
 import PageShell from "../../components/layout/PageShell";
 
+/* Checkout Confirmation */
 export default function CheckoutConfirmation() {
   const { id } = useParams();
   const { state } = useLocation();
+
   const email = state?.email;
 
   return (

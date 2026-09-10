@@ -8,6 +8,7 @@ export default function OrderTimeline({
   bordered = true,
   className,
 }) {
+
   const index = stageOf(status);
   if (isOffTimeline(status) || index === null) return null;
 
@@ -22,8 +23,11 @@ export default function OrderTimeline({
       )}
     >
       {ORDER_STAGES.map((stage, i) => {
+
         const done = i < index;
+
         const current = i === index;
+
         const last = i === ORDER_STAGES.length - 1;
 
         if (vertical) {

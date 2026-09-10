@@ -28,6 +28,7 @@ const UK = new Set(["united kingdom", "uk", "great britain", "england", "scotlan
 
 /** Which shipping zone a delivery country falls into. */
 export function zoneIdFor(country) {
+
   const name = String(country ?? "").trim().toLowerCase();
   if (EU.has(name)) return "eu";
   if (UK.has(name)) return "uk";
@@ -41,9 +42,15 @@ export function zoneIdFor(country) {
  * to the goods only — never to shipping, which is a real cost — and is capped
  * by the coupon's own maxDiscount.
  */
+
+/* compute Totals */
 export function computeTotals({ items = [], country, coupon = null, settings }) {
+
   const zones = settings?.shipping?.zones ?? [];
+
+/* zone Id */
   const zoneId = zoneIdFor(country);
+
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0] ?? { flat: 0 };
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
@@ -60,12 +67,14 @@ export function computeTotals({ items = [], country, coupon = null, settings }) 
   // The threshold is checked against what the customer actually pays for the
   // goods, so a discount can legitimately drop an order below free shipping.
   const qualifiesFree = zone.freeThreshold != null && goods >= zone.freeThreshold;
+
   const shipping = qualifiesFree ? 0 : (zone.flat ?? 0);
 
   const total = goods + shipping;
 
   // Extracted, not added: the prices already contain it.
   const rate = settings?.tax?.rate ?? 0;
+
   const tax = rate > 0 ? total - total / (1 + rate) : 0;
 
   return {
@@ -95,6 +104,8 @@ function round(n) {
  * holds if the customer was told *before* buying, so this belongs on the
  * checkout page rather than only in the returns policy.
  */
+
+/* non Returnable Items */
 export function nonReturnableItems(items = [], catalog = []) {
   return items.filter((i) => catalog.find((p) => p.id === i.id)?.isNonReturnable);
 }

@@ -4,6 +4,7 @@ import { CAPABILITIES } from "../../../../../utils/roles";
 import { cn } from "../../../../../utils/cn";
 import { ROLE_TONE, STAFF_ROLES, roleLabel } from "./teamTableRoles";
 
+/* build Team Columns */
 export function buildTeamColumns({ dateFmt, signedInId, onStageRoleChange }) {
   return [
     {
@@ -23,6 +24,7 @@ export function buildTeamColumns({ dateFmt, signedInId, onStageRoleChange }) {
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => {
+
         const member = row.original;
         // Changing your own role would revoke access to the page you are
         // standing on, so your row is read-only.

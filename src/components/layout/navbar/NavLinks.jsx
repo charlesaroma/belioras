@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { useLanguage } from "../../../context/LanguageContext";
 import { NAV_LINKS } from "../../../utils/constants";
 
+/* MEGA IDS */
 const MEGA_IDS = ["new-arrivals", "shop", "dresses", "hair", "accessories"];
 
 export default function NavLinks({
@@ -17,11 +18,14 @@ export default function NavLinks({
   onAnchorChange,
 }) {
   const { t } = useLanguage();
+
   const itemRefs = useRef({});
 
   useLayoutEffect(() => {
     if (!menuId || !onAnchorChange) return;
+
     const el = itemRefs.current[menuId];
+
     const header = el?.closest("header");
     if (!el || !header) return;
     onAnchorChange(el.getBoundingClientRect().left - header.getBoundingClientRect().left);
@@ -33,9 +37,13 @@ export default function NavLinks({
     <nav aria-label="Main">
       <ul className="flex items-center justify-start gap-6">
         {NAV_LINKS.map((link) => {
+
           const label = t(link.key, link.label);
+
           const category = links?.find((c) => c.id === link.id);
+
           const hasMenu = MEGA_IDS.includes(link.id);
+
           const open = menuId === link.id;
 
           return (

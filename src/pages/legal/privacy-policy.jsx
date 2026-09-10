@@ -1,6 +1,7 @@
 /* Page: Legal - privacy-policy */
 import PageShell, { DraftNotice, Section } from "../../components/layout/PageShell";
 
+/* Privacy Policy Page */
 export default function PrivacyPolicyPage() {
   return (
     <PageShell

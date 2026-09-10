@@ -11,8 +11,13 @@ export default function Field({
   className,
   children,
 }) {
+
   const id = useId();
+
+/* helper Id */
   const helperId = `${id}-helper`;
+
+/* error Id */
   const errorId = `${id}-error`;
 
   // Only the error is announced when both are present — a stale hint read

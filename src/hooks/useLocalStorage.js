@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
+/* use Local Storage */
 export function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
     try {
+
       const stored = window.localStorage.getItem(key);
       return stored ? JSON.parse(stored) : initialValue;
     } catch {
@@ -10,6 +12,7 @@ export function useLocalStorage(key, initialValue) {
     }
   });
 
+  /* Keyboard Event Handler */
   useEffect(() => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));

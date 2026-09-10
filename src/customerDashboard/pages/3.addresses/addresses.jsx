@@ -25,6 +25,7 @@ export default function Addresses() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const nextErrors = validateAddress(form);
     if (Object.keys(nextErrors).length) {
       setErrors(nextErrors);

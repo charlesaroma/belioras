@@ -6,6 +6,7 @@ import Avatar from "../../../components/account/Avatar";
 import { cn } from "../../../utils/cn";
 
 export default function SidebarFooter({ user, logout, collapsed, onToggleCollapsed }) {
+
   const navigate = useNavigate();
 
   const signOut = async () => {

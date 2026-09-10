@@ -9,10 +9,13 @@ import { useToast } from "../../../context/ToastContext";
 import { isAdminRole, resolveLanding } from "../../../utils/roles";
 import { validateCredentials } from "../../../utils/validateCredentials";
 
+/* Atelier Login */
 export default function AtelierLogin() {
   const { login, loading, isAuthenticated, user } = useAuth();
   const { toast } = useToast();
+
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const [email, setEmail] = useState("");
@@ -28,6 +31,7 @@ export default function AtelierLogin() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const errs = validateCredentials({ email, password });
     if (Object.keys(errs).length) {
       setFieldErrors(errs);
@@ -41,6 +45,8 @@ export default function AtelierLogin() {
       // realm "staff": a shopper's account cannot be signed in here either.
       // Same generic rejection, for the same reason.
       const result = await login({ email: email.trim(), password, realm: "staff" });
+
+/* signed In */
       const signedIn = result?.user;
 
       if (isAdminRole(signedIn?.role)) {

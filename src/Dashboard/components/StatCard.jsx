@@ -2,7 +2,10 @@
 import { cn } from "../../utils/cn";
 
 export default function StatCard({ label, value, change, hint, icon: Icon }) {
+
   const hasChange = typeof change === "number" && Number.isFinite(change);
+
+/* is Positive */
   const isPositive = hasChange && change >= 0;
 
   return (

@@ -1,4 +1,5 @@
 
+/* Table Pagination */
 export default function TablePagination({ table, pageCount, total, unit }) {
   if (pageCount <= 1) {
     return (

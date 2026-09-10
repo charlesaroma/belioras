@@ -12,9 +12,11 @@ export default function TagInput({
   className,
 }) {
   const [draft, setDraft] = useState("");
+
   const id = useId();
 
   const add = (raw) => {
+
     const value = raw.trim();
     if (!value) return;
     // Case-insensitive dedupe: "Black" and "black" are one colour.
@@ -26,6 +28,7 @@ export default function TagInput({
     setDraft("");
   };
 
+/* remove At */
   const removeAt = (i) => onChange(values.filter((_, idx) => idx !== i));
 
   const onKeyDown = (e) => {

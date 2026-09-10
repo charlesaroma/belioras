@@ -6,6 +6,7 @@ import BrandMark from "../../../../components/shared/BrandMark";
 import { CUSTOMER_AUTH_COPY } from "./customerAuthCopy";
 
 export default function CustomerAuthShell({ mode, children, footer }) {
+
   const copy = CUSTOMER_AUTH_COPY[mode];
 
   return (

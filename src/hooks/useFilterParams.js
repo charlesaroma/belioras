@@ -18,17 +18,24 @@ import { useSearchParams } from "react-router-dom";
 
 /** Reserved keys are everything that is not a taxonomy dimension. */
 const PRICE_MIN = "min";
+
+/* PRICE MAX */
 const PRICE_MAX = "max";
+
 const SALE = "sale";
+
 const SORT = "sort";
+
 const QUERY = "q";
 
 const RESERVED = new Set([PRICE_MIN, PRICE_MAX, SALE, SORT, QUERY]);
 
+/* use Filter Params */
 export function useFilterParams() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const filters = useMemo(() => {
+
     const dimensions = {};
     for (const [key, value] of searchParams.entries()) {
       if (RESERVED.has(key) || !value) continue;
@@ -36,6 +43,7 @@ export function useFilterParams() {
     }
 
     const min = searchParams.get(PRICE_MIN);
+
     const max = searchParams.get(PRICE_MAX);
 
     return {
@@ -57,10 +65,12 @@ export function useFilterParams() {
    * `replace` is used for continuous controls like the price slider, so
    * dragging it does not stack fifty entries into the back button.
    */
+
   const commit = useCallback(
     (mutate, { replace = false } = {}) => {
       setSearchParams(
         (prev) => {
+
           const next = new URLSearchParams(prev);
           mutate(next);
           for (const [key, value] of [...next.entries()]) {
@@ -77,7 +87,9 @@ export function useFilterParams() {
   const toggleValue = useCallback(
     (dimension, value) => {
       commit((params) => {
+
         const current = (params.get(dimension) ?? "").split(",").filter(Boolean);
+
         const next = current.includes(value)
           ? current.filter((v) => v !== value)
           : [...current, value];
@@ -87,6 +99,7 @@ export function useFilterParams() {
     [commit],
   );
 
+/* clear Dimension */
   const clearDimension = useCallback(
     (dimension) => commit((params) => params.delete(dimension)),
     [commit],

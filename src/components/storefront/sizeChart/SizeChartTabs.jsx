@@ -4,15 +4,18 @@ import { useRef } from "react";
 import { cn } from "../../../utils/cn";
 
 export default function SizeChartTabs({ tabs, active, onChange, idBase }) {
+
   const refs = useRef([]);
 
   const move = (fromIndex, delta) => {
+
     const next = (fromIndex + delta + tabs.length) % tabs.length;
     onChange(tabs[next].id);
     refs.current[next]?.focus();
   };
 
   const onKeyDown = (e, index) => {
+
     const key = e.key;
     if (key === "ArrowRight" || key === "ArrowDown") {
       e.preventDefault();
@@ -36,6 +39,7 @@ export default function SizeChartTabs({ tabs, active, onChange, idBase }) {
       className="flex gap-6 border-b border-umber-50"
     >
       {tabs.map((tab, i) => {
+
         const selected = tab.id === active;
         return (
           <button

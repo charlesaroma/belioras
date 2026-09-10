@@ -10,6 +10,7 @@ import { getSettings } from "../../services/settingsApi";
 import { getNavigation } from "../../services/navigationApi";
 import PaymentMarks from "../shared/PaymentMarks";
 
+/* CUSTOMER SUPPORT LINKS */
 const CUSTOMER_SUPPORT_LINKS = [
   { label: "FAQ", to: "/faq" },
   { label: "Contact", to: "/contact-us" },
@@ -18,20 +19,24 @@ const CUSTOMER_SUPPORT_LINKS = [
   { label: "Shipping Policy", to: "/shipping-policy" },
 ];
 
+/* COMPANY LINKS */
 const COMPANY_LINKS = [
   { label: "About Us", to: "/about-us" },
   { label: "Hair Length Guide", to: "/hair-length-guide" },
   { label: "Shoe Size Guide", to: "/shoe-size-guide" },
 ];
 
+/* LEGAL LINKS */
 const LEGAL_LINKS = [
   { label: "Privacy Policy", to: "/privacy-policy" },
   { label: "Terms of Service", to: "/terms-of-service" },
   { label: "Cookie Policy", to: "/cookie-policy" },
 ];
 
+/* EMAIL RE */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+/* Instagram Icon */
 function InstagramIcon({ className }) {
   return (
     <svg
@@ -51,6 +56,7 @@ function InstagramIcon({ className }) {
   );
 }
 
+/* Column Title */
 function ColumnTitle({ children }) {
   return (
     <h3 className="font-display text-sm font-medium uppercase tracking-[0.14em] text-espresso">
@@ -59,6 +65,7 @@ function ColumnTitle({ children }) {
   );
 }
 
+/* Collapsible Section */
 function CollapsibleSection({ title, children, defaultOpen = false }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -177,11 +184,13 @@ function Newsletter({ showTitle = true, band = false }) {
 }
 
 export default function Footer() {
+
   const version = useContentVersion();
   const { data: settings } = useAsyncData(getSettings, [version]);
   const { data: categories } = useAsyncData(getNavigation, [version]);
 
   const social = settings?.social ?? {};
+
   const gpsr = settings?.gpsr;
 
   return (

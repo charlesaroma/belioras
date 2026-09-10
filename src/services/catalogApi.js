@@ -12,8 +12,11 @@ import { matchesResolved, resolveNavPath, splitPath } from "../utils/navTokens";
  * always resolves, and an invented path always 404s.
  */
 
+/* find Nav Match */
 function findNavMatch(pathname) {
+
   const path = pathname.replace(/\/+$/, "");
+
   const slug = path.replace(/^\//, "");
   const { items } = getState("navigation");
 
@@ -24,6 +27,7 @@ function findNavMatch(pathname) {
 
   for (const leaf of flattenLeaves(items)) {
     if (leaf.slug !== slug) continue;
+
     const parent = items.find((item) => item.id === leaf.rootId);
     return {
       label: leaf.label,
@@ -45,9 +49,12 @@ function findNavMatch(pathname) {
  * `valid: false` means the caller should render a 404 — the path is not in the
  * navigation tree, whatever shape it happens to have.
  */
+
 export function getCatalog(pathname) {
   return mockApi(async () => {
+
     const navMatch = findNavMatch(pathname);
+
     const resolved = resolveNavPath(pathname);
 
     if (!navMatch || !resolved) {
@@ -55,6 +62,7 @@ export function getCatalog(pathname) {
     }
 
     const all = await getProducts();
+
     const products = all.filter((product) => matchesResolved(product.tags, resolved));
 
     return {
@@ -77,6 +85,7 @@ export function getCatalog(pathname) {
 /** Sibling leaves under the same section — the chips shown above the grid. */
 export function getSiblingLeaves(pathname) {
   return mockApi(() => {
+
     const slug = pathname.replace(/^\//, "").replace(/\/+$/, "");
     const { items } = getState("navigation");
 

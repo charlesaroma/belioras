@@ -5,7 +5,10 @@
  * under `accessories` — so the size ids are the only reliable signal, which is
  * why this sniffs them rather than reading a category.
  */
+
+/* size Chart Kind For */
 export function sizeChartKindFor(product) {
+
   const sizes = product?.sizes ?? [];
   if (sizes.some((s) => /^eu\d+$/i.test(s))) return "footwear";
   if (product?.collectionId === "hair" || product?.hairType) return "hair";

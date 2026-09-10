@@ -7,8 +7,10 @@ import { useContentVersion } from "../../../context/ContentContext";
 import { getSettings } from "../../../services/settingsApi";
 
 export default function BrandStorySection() {
+
   const version = useContentVersion();
   const { data: settings } = useAsyncData(getSettings, [version]);
+
   const story = settings?.brandStory;
 
   if (!story) return null;

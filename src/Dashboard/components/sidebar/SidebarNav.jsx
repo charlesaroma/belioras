@@ -30,8 +30,11 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
 
           <ul className="space-y-0.5">
             {group.items.map((item) => {
+
               const Icon = iconMap[item.icon];
+
               const to = item.id === "overview" ? "/dashboard" : `/dashboard/${item.id}`;
+
               const isActive =
                 item.id === "overview" ? pathname === "/dashboard" : pathname.startsWith(to);
 

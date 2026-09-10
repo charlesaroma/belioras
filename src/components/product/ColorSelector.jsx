@@ -11,6 +11,7 @@ export default function ColorSelector({ options = [], value, onChange = () => {}
     // makes most often on the page.
     <div className="-mx-2.5 flex flex-wrap items-center" role="radiogroup" aria-label="Colour">
       {options.map((name) => {
+
         const selected = name === value;
         return (
           <button

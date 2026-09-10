@@ -27,6 +27,7 @@ import catalogSeed from "../data/catalogSeed";
 import ordersSeed from "../data/ordersSeed";
 import usersSeed from "../data/usersSeed";
 
+/* KEY PREFIX */
 const KEY_PREFIX = "belioras:content:";
 
 /**
@@ -37,6 +38,7 @@ const KEY_PREFIX = "belioras:content:";
  * `collection` names the array that carries `id`-bearing items to merge. A
  * domain without one (settings) is merged shallowly instead.
  */
+
 const DOMAINS = {
   navigation: { seed: navigationSeed, collection: "items" },
   taxonomy: { seed: taxonomySeed, collection: null },
@@ -56,12 +58,14 @@ const DOMAINS = {
   users: { seed: usersSeed, collection: "items" },
 };
 
+/* storage Key */
 function storageKey(domain) {
   return `${KEY_PREFIX}${domain}`;
 }
 
 function readStored(domain) {
   try {
+
     const raw = window.localStorage.getItem(storageKey(domain));
     return raw ? JSON.parse(raw) : null;
   } catch {
@@ -86,10 +90,15 @@ function writeStored(domain, state) {
  * Stored fields win per item, so an admin's edits survive. Items the admin
  * added (not present in the seed) are appended.
  */
+
+/* hydrate Collection */
 export function hydrateCollection(seedItems = [], storedItems = [], key = "id") {
+
+/* stored By Id */
   const storedById = new Map(storedItems.map((item) => [item[key], item]));
 
   const merged = seedItems.map((seedItem) => {
+
     const stored = storedById.get(seedItem[key]);
     storedById.delete(seedItem[key]);
     return stored ? { ...seedItem, ...stored } : seedItem;
@@ -100,6 +109,7 @@ export function hydrateCollection(seedItems = [], storedItems = [], key = "id") 
 
 function hydrate(domain) {
   const { seed, collection } = DOMAINS[domain];
+
   const stored = readStored(domain);
 
   if (!stored || stored.rev !== seed.rev) return seed;
@@ -116,6 +126,7 @@ function hydrate(domain) {
 
 const state = {};
 let version = 0;
+
 const listeners = new Set();
 
 function ensure(domain) {
@@ -131,6 +142,7 @@ export function getState(domain) {
 
 /** Applies `updater` to a domain, persists the result, and notifies subscribers. */
 export function setState(domain, updater) {
+
   const next = typeof updater === "function" ? updater(getState(domain)) : updater;
   state[domain] = next;
   writeStored(domain, next);
@@ -162,8 +174,10 @@ export function subscribe(listener) {
  * useAsyncData's deps so a dashboard edit re-runs their service call — which
  * keeps the coupling between storefront and content layer to a single number.
  */
+
 export function getVersion() {
   return version;
 }
 
+/* CONTENT DOMAINS */
 export const CONTENT_DOMAINS = Object.keys(DOMAINS);

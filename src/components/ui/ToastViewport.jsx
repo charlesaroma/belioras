@@ -23,6 +23,7 @@ const TONES = {
 
 export default function ToastViewport() {
   const { toasts, dismiss, pause, resume } = useToast();
+
   const reduceMotion = useReducedMotion();
 
   return (
@@ -34,7 +35,9 @@ export default function ToastViewport() {
     >
       <AnimatePresence initial={false}>
         {toasts.map((t) => {
+
           const Icon = ICONS[t.type] ?? Info;
+
           const isError = t.type === "error";
 
           return (

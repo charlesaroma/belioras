@@ -5,6 +5,7 @@
  * order: a piece may have been withdrawn or sold out since, and saying so is
  * more useful than silently adding four of six things.
  */
+
 export function reorder({ order, catalog, addItem, toast }) {
   if (!catalog) return;
 
@@ -12,6 +13,7 @@ export function reorder({ order, catalog, addItem, toast }) {
   let added = 0;
 
   for (const item of order.items ?? []) {
+
     const product = catalog.find((p) => p.id === item.productId);
     if (!product || product.stock <= 0) {
       missing.push(item.name);
@@ -42,6 +44,8 @@ export function reorder({ order, catalog, addItem, toast }) {
  *
  * The fixtures record a coupon code but no discount amount, so it is derived.
  */
+
+/* discount On */
 export function discountOn(order) {
   if (!order) return 0;
   return Math.max(

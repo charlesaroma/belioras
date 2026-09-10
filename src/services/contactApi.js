@@ -14,10 +14,13 @@ import { ApiError, mockApi } from "./apiClient";
  * mailbox to write to directly. Messages are kept in localStorage so nothing
  * a shopper typed is silently thrown away.
  */
+
+/* STORAGE KEY */
 const STORAGE_KEY = "belioras:contact:outbox";
 
 function readOutbox() {
   try {
+
     const raw = window.localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch {

@@ -21,6 +21,7 @@ import { useCart } from "../../../context/CartContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import LanguageSelector from "../../common/LanguageSelector";
 
+/* LIGHT BG PATHS */
 const LIGHT_BG_PATHS = [
   "/product",
   "/shop",
@@ -39,6 +40,7 @@ const LIGHT_BG_PATHS = [
 ];
 
 export default function Navbar() {
+
   const version = useContentVersion();
   const { data: categories } = useAsyncData(getNavigation, [version]);
   const { data: products } = useAsyncData(getProducts, []);
@@ -51,14 +53,19 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   // Where the open mega-menu trigger sits, so a compact panel opens under it.
   const [menuAnchor, setMenuAnchor] = useState(0);
+
   const closeTimer = useRef(null);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+/* is Light Bg Page */
   const isLightBgPage = LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
 
   const headerRef = useRef(null);
 
   useLayoutEffect(() => {
+
     const el = headerRef.current;
     if (!el) return undefined;
 
@@ -66,12 +73,15 @@ export default function Navbar() {
       document.documentElement.style.setProperty("--header-height", `${el.offsetHeight}px`);
 
     publish();
+
     const observer = new ResizeObserver(publish);
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  /* Scroll Handler */
   useEffect(() => {
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -84,16 +94,20 @@ export default function Navbar() {
     setMenuId((prev) => (toggle && prev === id ? null : id));
   };
 
+/* schedule Close Menu */
   const scheduleCloseMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setMenuId(null), 160);
   };
 
+/* cancel Close Menu */
   const cancelCloseMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   };
 
+  /* Keyboard Event Handler */
   useEffect(() => {
+
     const onKeyDown = (e) => {
       if (e.key !== "Escape") return;
       setMenuId(null);
@@ -108,6 +122,7 @@ export default function Navbar() {
     };
   }, []);
 
+  /* Body Scroll Lock */
   useEffect(() => {
     document.body.style.overflow = cartOpen || mobileOpen ? "hidden" : "";
     return () => {
@@ -115,6 +130,7 @@ export default function Navbar() {
     };
   }, [cartOpen, mobileOpen]);
 
+/* active Category */
   const activeCategory = categories?.find((c) => c.id === menuId);
 
   return (
@@ -155,6 +171,8 @@ export default function Navbar() {
               }}
               onFocus={() => setSearchOpen(true)}
               onSubmit={() => {
+
+/* q */
                 const q = searchQuery.trim();
                 if (!q) return;
                 setSearchOpen(false);

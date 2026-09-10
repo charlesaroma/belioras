@@ -13,6 +13,7 @@ import { can, isAdminRole } from "../utils/roles";
  * is still there after a reload, where previously all three lived in a
  * module-level array and vanished with the next refresh.
  */
+
 function userItems() {
   return getState("users").items;
 }
@@ -24,6 +25,7 @@ function userItems() {
  * stripped too, which is why the account page hardcoded "Member since 2026"
  * rather than showing the real date.
  */
+
 function publicUser(user) {
   if (!user) return null;
   const { password, ...rest } = user;
@@ -35,7 +37,9 @@ function createToken(user) {
   return `tok_${user.id}_${Date.now().toString(36)}`;
 }
 
+/* find By Email */
 function findByEmail(email) {
+
   const normalized = String(email ?? "").trim().toLowerCase();
   return userItems().find((u) => u.email.toLowerCase() === normalized);
 }
@@ -54,15 +58,19 @@ function findByEmail(email) {
  * matter most. A staff member who mistypes the door gets no hint — they are
  * expected to know their own entrance, and it costs an attacker nothing less.
  */
+
 export function login({ email, password, realm } = {}) {
   return mockApi(() => {
+
     const user = findByEmail(email);
     if (!user || user.password !== password) {
       throw new ApiError("Invalid email or password.", 401);
     }
 
     if (realm) {
+
       const isStaff = isAdminRole(user.role);
+
       const wrongDoor = realm === "staff" ? !isStaff : isStaff;
       if (wrongDoor) throw new ApiError("Invalid email or password.", 401);
     }
@@ -78,7 +86,10 @@ export function register({ name, email, password } = {}) {
     }
 
     const items = userItems();
+
     const highest = items.reduce((max, u) => {
+
+/* n */
       const n = Number(String(u.id).replace(/\D/g, "")) || 0;
       return n > max ? n : max;
     }, 0);
@@ -117,12 +128,15 @@ export function getUsers() {
  * profile must not be able to promote themselves. Role changes go through
  * updateUserRole, which is an admin action.
  */
+
 export function updateProfile(id, patch) {
   return mockApi(() => {
+
     const user = userItems().find((u) => u.id === id);
     if (!user) throw new ApiError("Account not found.", 404);
 
     if (patch.email) {
+
       const taken = findByEmail(patch.email);
       if (taken && taken.id !== id) {
         throw new ApiError("That email is already in use.", 409);
@@ -155,8 +169,10 @@ export function updateProfile(id, patch) {
  * password to itself just to check it — that performed a pointless write and
  * read as a trick rather than an intention.
  */
+
 export function verifyPassword(id, password) {
   return mockApi(() => {
+
     const user = userItems().find((u) => u.id === id);
     if (!user || user.password !== password) {
       throw new ApiError("That is not your current password.", 401);
@@ -167,6 +183,7 @@ export function verifyPassword(id, password) {
 
 export function changePassword(id, { currentPassword, newPassword } = {}) {
   return mockApi(() => {
+
     const user = userItems().find((u) => u.id === id);
     if (!user) throw new ApiError("Account not found.", 404);
     // Requires the current password, so a borrowed unlocked browser cannot be
@@ -197,6 +214,8 @@ export function changePassword(id, { currentPassword, newPassword } = {}) {
  * explicit and the backend enforces the same rule for real. While auth is
  * client-side this is a statement of intent, not a wall.
  */
+
+/* update User Role */
 export function updateUserRole(id, role, actor) {
   return mockApi(() => {
     if (!can(actor?.role, "team")) {
@@ -217,6 +236,7 @@ export function updateUserRole(id, role, actor) {
     // Refuse to remove the last administrator — an unadministrable store is
     // not a state the UI should be able to reach.
     if (user.role === "super-admin" && role !== "super-admin") {
+
       const admins = userItems().filter((u) => u.role === "super-admin");
       if (admins.length <= 1) {
         throw new ApiError("This is the only administrator; promote another first.", 409);

@@ -1,5 +1,6 @@
 import languagesData from "../data/languages.json";
 
+/* DEFAULT LANGUAGE */
 export const DEFAULT_LANGUAGE = "en";
 
 /** Walks a dot-path ("home.hero.title") without throwing on a missing branch. */
@@ -21,6 +22,7 @@ const warned = new Set();
 
 function warnOnce(key, lang) {
   if (!import.meta.env.DEV) return;
+
   const id = `${lang}:${key}`;
   if (warned.has(id)) return;
   warned.add(id);
@@ -38,7 +40,9 @@ function warnOnce(key, lang) {
  * Resolution order: requested language → English → defaultText → the key.
  */
 export function t(key, defaultText, lang = DEFAULT_LANGUAGE, values) {
+
   const strings = languagesData.strings;
+
   const localized = resolvePath(strings[lang], key);
 
   if (typeof localized === "string") return interpolate(localized, values);
@@ -58,6 +62,7 @@ export function locales() {
   return languagesData.locales;
 }
 
+/* is Supported Language */
 export function isSupportedLanguage(code) {
   return languagesData.locales.some((locale) => locale.code === code);
 }
