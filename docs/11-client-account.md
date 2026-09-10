@@ -2,7 +2,17 @@
 
 **Rule:** `src/customerDashboard/` is the signed-in customer's app. It renders inside the storefront `Layout`, not a shell of its own — a customer checking an order has not left the shop. Everything a signed-in customer can do is here; everything an admin can do is in [07](07-dashboard.md).
 
-Shoppers sign in at `/login`; staff use `/atelier`, which is linked from nowhere public. Both call the same `login()` and land the person by role — refusing the "wrong" door would tell anyone probing which addresses belong to staff.
+Shoppers sign in at `/login`; staff use `/atelier`, which is linked from
+nowhere public. **Neither door will sign in the other realm's account** —
+`authApi.login({ realm })` refuses a staff account at `/login` and a customer
+account at `/atelier`.
+
+The refusal returns the same 401 with the same wording as a wrong password.
+Saying "this is a staff account, use the other door" would turn the public
+form into a way of discovering which addresses belong to staff, which is the
+first step of a targeted attack on the accounts that matter most. Enforcement
+lives in the service, not the two forms, so the rule holds whichever UI calls
+it — and the real backend has one place to reimplement.
 
 ## Two Dashboards, One Rule Each
 

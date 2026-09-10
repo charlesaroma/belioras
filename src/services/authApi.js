@@ -1,6 +1,6 @@
 import { ApiError, mockApi } from "./apiClient";
 import { getState, setState } from "./contentStore";
-import { can } from "../utils/roles";
+import { can, isAdminRole } from "../utils/roles";
 
 /**
  * Accounts.
@@ -40,12 +40,33 @@ function findByEmail(email) {
   return userItems().find((u) => u.email.toLowerCase() === normalized);
 }
 
-export function login({ email, password } = {}) {
+/**
+ * Sign in, optionally restricted to one realm.
+ *
+ * `realm` is "customer" or "staff". A door that passes it will not sign in an
+ * account belonging to the other side: staff cannot use /login and shoppers
+ * cannot use /atelier. The two realms stay separate at all times.
+ *
+ * The rejection is deliberately the same 401 with the same wording as a wrong
+ * password. Saying "this is a staff account, use the other door" would turn
+ * the public login form into a way of discovering which addresses belong to
+ * staff, which is the first step of a targeted attack on the accounts that
+ * matter most. A staff member who mistypes the door gets no hint — they are
+ * expected to know their own entrance, and it costs an attacker nothing less.
+ */
+export function login({ email, password, realm } = {}) {
   return mockApi(() => {
     const user = findByEmail(email);
     if (!user || user.password !== password) {
       throw new ApiError("Invalid email or password.", 401);
     }
+
+    if (realm) {
+      const isStaff = isAdminRole(user.role);
+      const wrongDoor = realm === "staff" ? !isStaff : isStaff;
+      if (wrongDoor) throw new ApiError("Invalid email or password.", 401);
+    }
+
     return { token: createToken(user), user: publicUser(user) };
   });
 }

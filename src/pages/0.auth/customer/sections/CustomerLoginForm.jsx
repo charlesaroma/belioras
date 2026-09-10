@@ -37,7 +37,10 @@ export default function CustomerLoginForm() {
     }
     setError(null);
     try {
-      const result = await login({ email: email.trim(), password });
+      // realm "customer": a staff account cannot be signed in here. The
+      // rejection is identical to a wrong password, so this door cannot be
+      // used to discover which addresses belong to staff.
+      const result = await login({ email: email.trim(), password, realm: "customer" });
       toast("Welcome back to Belioras", "success");
       // resolveLanding honours the page they were trying to reach before being
       // asked to sign in. RequireAuth has always recorded it and nothing ever

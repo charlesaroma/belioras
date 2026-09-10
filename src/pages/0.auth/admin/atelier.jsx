@@ -58,7 +58,9 @@ export default function AtelierLogin() {
     setError(null);
 
     try {
-      const result = await login({ email: email.trim(), password });
+      // realm "staff": a shopper's account cannot be signed in here either.
+      // Same generic rejection, for the same reason.
+      const result = await login({ email: email.trim(), password, realm: "staff" });
       const signedIn = result?.user;
 
       if (isAdminRole(signedIn?.role)) {
