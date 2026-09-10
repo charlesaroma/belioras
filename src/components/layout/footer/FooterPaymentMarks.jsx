@@ -159,7 +159,7 @@ function Klarna() {
 
 const MARKS = [Visa, Mastercard, Amex, PayPal, ApplePay, Klarna];
 
-export default function PaymentMarks({ className = "" }) {
+export default function FooterPaymentMarks({ className = "" }) {
   return (
     <ul
       className={`flex flex-wrap items-center gap-2.5 ${className}`}
