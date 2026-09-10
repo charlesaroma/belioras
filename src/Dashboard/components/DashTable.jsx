@@ -1,16 +1,16 @@
 import { useState } from "react";
 import {
-  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 
 import EmptyState from "../../components/ui/EmptyState";
-import { cn } from "../../utils/cn";
+import TableHead from "./table/TableHead";
+import TableBody from "./table/TableBody";
+import TablePagination from "./table/TablePagination";
 
 /**
  * The admin table, on TanStack Table.
@@ -66,7 +66,6 @@ export default function DashTable({
     autoResetPageIndex: true,
   });
 
-  const rows = table.getRowModel().rows;
   const total = table.getFilteredRowModel().rows.length;
   const pageCount = table.getPageCount();
 
@@ -78,147 +77,19 @@ export default function DashTable({
     <div>
       <div className="overflow-x-auto border border-umber-50 bg-ivory-50">
         <table className="w-full">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-umber-50">
-                {enableSelection && (
-                  <th scope="col" className="w-10 px-4 py-3">
-                    <input
-                      type="checkbox"
-                      checked={table.getIsAllPageRowsSelected()}
-                      // Indeterminate is a DOM property, not an attribute, so
-                      // it has to be set on the node itself.
-                      ref={(el) => {
-                        if (el) el.indeterminate = table.getIsSomePageRowsSelected();
-                      }}
-                      onChange={table.getToggleAllPageRowsSelectedHandler()}
-                      aria-label="Select all rows on this page"
-                      className="size-3.5 accent-espresso"
-                    />
-                  </th>
-                )}
-
-                {headerGroup.headers.map((header) => {
-                  const canSort = header.column.getCanSort();
-                  const direction = header.column.getIsSorted();
-                  const Icon = !direction ? ChevronsUpDown : direction === "asc" ? ArrowUp : ArrowDown;
-                  const align = header.column.columnDef.meta?.align;
-
-                  return (
-                    <th
-                      key={header.id}
-                      scope="col"
-                      className={cn(
-                        "whitespace-nowrap px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.18em] text-espresso-soft",
-                        align === "right" && "text-right",
-                      )}
-                    >
-                      {header.isPlaceholder ? null : canSort ? (
-                        <button
-                          type="button"
-                          onClick={header.column.getToggleSortingHandler()}
-                          aria-label={`Sort by ${header.column.columnDef.header}`}
-                          className={cn(
-                            "inline-flex items-center gap-1.5 transition-colors hover:text-espresso",
-                            direction && "text-espresso",
-                          )}
-                        >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          <Icon className="size-3" aria-hidden="true" />
-                        </button>
-                      ) : (
-                        flexRender(header.column.columnDef.header, header.getContext())
-                      )}
-                    </th>
-                  );
-                })}
-              </tr>
-            ))}
-          </thead>
-
-          <tbody>
-            {loading
-              ? Array.from({ length: skeletonRows }).map((_, i) => (
-                  <tr key={i} className="border-b border-umber-50/60" aria-hidden="true">
-                    {enableSelection && <td className="px-4 py-4" />}
-                    {columns.map((column, c) => (
-                      <td key={column.id ?? column.accessorKey ?? c} className="px-6 py-4">
-                        <div className="skeleton h-3 w-24" />
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              : rows.map((row) => (
-                  <tr
-                    key={row.id}
-                    onClick={() => onRowClick?.(row.original)}
-                    className={cn(
-                      "border-b border-umber-50/60 transition-colors last:border-b-0 hover:bg-brown-50/40",
-                      onRowClick && "cursor-pointer",
-                      row.getIsSelected() && "bg-gold-500/[0.06]",
-                    )}
-                  >
-                    {enableSelection && (
-                      <td className="px-4 py-4" onClick={(e) => e.stopPropagation()}>
-                        <input
-                          type="checkbox"
-                          checked={row.getIsSelected()}
-                          disabled={!row.getCanSelect()}
-                          onChange={row.getToggleSelectedHandler()}
-                          aria-label={`Select ${row.original.name ?? row.id}`}
-                          className="size-3.5 accent-espresso"
-                        />
-                      </td>
-                    )}
-
-                    {row.getVisibleCells().map((cell) => (
-                      <td
-                        key={cell.id}
-                        className={cn(
-                          "px-6 py-4 text-[13px] text-espresso",
-                          cell.column.columnDef.meta?.align === "right" && "text-right",
-                        )}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-          </tbody>
+          <TableHead table={table} enableSelection={enableSelection} />
+          <TableBody
+            table={table}
+            columns={columns}
+            loading={loading}
+            skeletonRows={skeletonRows}
+            enableSelection={enableSelection}
+            onRowClick={onRowClick}
+          />
         </table>
       </div>
 
-      {/* Pagination is part of the table rather than a sibling the page has to
-          remember to render and keep in step. */}
-      {pageCount > 1 ? (
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-[11px] uppercase tracking-[0.14em] text-espresso-soft">
-            Page {table.getState().pagination.pageIndex + 1} of {pageCount} · {total} {unit}
-          </p>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-              className="btn btn-sm btn-secondary"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-              className="btn btn-sm btn-secondary"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      ) : (
-        <p className="mt-4 text-[11px] uppercase tracking-[0.14em] text-espresso-soft">
-          {total} {unit}
-        </p>
-      )}
+      <TablePagination table={table} pageCount={pageCount} total={total} unit={unit} />
     </div>
   );
 }
