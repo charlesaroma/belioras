@@ -14,35 +14,14 @@ import SizeSelector from "../../components/product/SizeSelector";
 import QuantitySelector from "../../components/shared/QuantitySelector";
 import ProductCard from "../../components/storefront/ProductCard";
 import Modal from "../../components/common/Modal";
+import SizeChart from "../../components/storefront/sizeChart/SizeChart";
+import {
+  sizeChartKindFor,
+  sizeChartLabelFor,
+} from "../../components/storefront/sizeChart/sizeChartKind";
 import { cn } from "../../utils/cn";
 
 import ProductGallery from "./sections/ProductGallery";
-
-/** Body measurements in centimetres. */
-/** Body measurements, in centimetres. Garments only. */
-const SIZE_TABLE = [
-  { size: "XS", bust: 80, waist: 62, hips: 88 },
-  { size: "S", bust: 84, waist: 66, hips: 92 },
-  { size: "M", bust: 88, waist: 70, hips: 96 },
-  { size: "L", bust: 94, waist: 76, hips: 102 },
-  { size: "XL", bust: 100, waist: 82, hips: 108 },
-];
-
-/**
- * Footwear conversions, matching /shoe-size-guide. EU is the reference scale.
- *
- * Shoes previously opened the garment table above, so someone choosing EU 38
- * pumps was shown bust, waist and hip measurements — a chart with no bearing
- * on the decision they were making.
- */
-const SHOE_TABLE = [
-  { eu: 36, uk: 3, us: 5, cm: 22.5 },
-  { eu: 37, uk: 4, us: 6, cm: 23.5 },
-  { eu: 38, uk: 5, us: 7, cm: 24.1 },
-  { eu: 39, uk: 6, us: 8, cm: 25.1 },
-  { eu: 40, uk: 6.5, us: 9, cm: 25.9 },
-  { eu: 41, uk: 7.5, us: 10, cm: 26.7 },
-];
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -241,9 +220,9 @@ function BuyPanel({ product }) {
   const saved = has(product.id);
   const soldOut = product.stock === 0;
   const needsSize = product.sizes?.length > 1;
-  // EU-scaled sizes mean footwear, which needs the conversion chart instead
-  // of body measurements.
-  const isFootwear = product.sizes?.some((s) => /^eu\d+$/i.test(s));
+  // Which reference table this piece needs — garment, footwear or hair.
+  // null means there is nothing useful to show, so no trigger is rendered.
+  const chartKind = sizeChartKindFor(product);
 
   const handleAdd = () => {
     if (needsSize && !size) {
@@ -273,13 +252,15 @@ function BuyPanel({ product }) {
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">
               {t("pdp.selectSize", "Select size")}
             </p>
-            <button
-              type="button"
-              onClick={() => setSizeGuideOpen(true)}
-              className="text-[11px] uppercase tracking-widest text-gold-600 underline underline-offset-4 transition-colors hover:text-gold-700"
-            >
-              {t("pdp.sizeGuide", "Size guide")}
-            </button>
+            {chartKind && (
+              <button
+                type="button"
+                onClick={() => setSizeGuideOpen(true)}
+                className="text-[11px] uppercase tracking-widest text-gold-600 underline underline-offset-4 transition-colors hover:text-gold-700"
+              >
+                {t("pdp.sizeGuide", sizeChartLabelFor(chartKind))}
+              </button>
+            )}
           </div>
           <SizeSelector
             options={product.sizes}
@@ -295,6 +276,19 @@ function BuyPanel({ product }) {
             </p>
           )}
         </div>
+      )}
+
+      {/* One-size pieces never render the block above, so their guide would
+          be unreachable — which is how every hair product ended up with no
+          route to the length and texture guide at all. */}
+      {!needsSize && chartKind && (
+        <button
+          type="button"
+          onClick={() => setSizeGuideOpen(true)}
+          className="mt-7 text-[11px] uppercase tracking-widest text-gold-600 underline underline-offset-4 transition-colors hover:text-gold-700"
+        >
+          {sizeChartLabelFor(chartKind)}
+        </button>
       )}
 
       {/* At 390px the quantity stepper, the button and the heart left the
@@ -364,60 +358,12 @@ function BuyPanel({ product }) {
       <Modal
         open={sizeGuideOpen}
         onClose={() => setSizeGuideOpen(false)}
-        title={t("pdp.sizeGuide", "Size guide")}
+        title={sizeChartLabelFor(chartKind)}
+        // The default max-w-lg cuts the international table off; this holds
+        // six columns and the measuring figure without scrolling sideways.
+        width="max-w-2xl"
       >
-        {/* Shoes are sized on a different scale entirely, so they get the
-            conversion table rather than body measurements. */}
-        <div className="-mx-1 overflow-x-auto">
-          {isFootwear ? (
-            <table className="w-full min-w-[320px] text-sm">
-              <thead>
-                <tr className="border-b border-umber-50 text-left text-[10px] uppercase tracking-widest text-espresso-soft">
-                  <th className="pb-2 pr-4">EU</th>
-                  <th className="pb-2 pr-4">UK</th>
-                  <th className="pb-2 pr-4">US</th>
-                  <th className="pb-2">Foot length</th>
-                </tr>
-              </thead>
-              <tbody className="text-espresso-soft">
-                {SHOE_TABLE.map((row) => (
-                  <tr key={row.eu} className="border-b border-umber-50/60 last:border-0">
-                    <td className="py-2.5 pr-4 font-medium text-espresso">{row.eu}</td>
-                    <td className="py-2.5 pr-4">{row.uk}</td>
-                    <td className="py-2.5 pr-4">{row.us}</td>
-                    <td className="py-2.5">{row.cm} cm</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <table className="w-full min-w-[320px] text-sm">
-              <thead>
-                <tr className="border-b border-umber-50 text-left text-[10px] uppercase tracking-widest text-espresso-soft">
-                  <th className="pb-2 pr-4">Size</th>
-                  <th className="pb-2 pr-4">Bust</th>
-                  <th className="pb-2 pr-4">Waist</th>
-                  <th className="pb-2">Hips</th>
-                </tr>
-              </thead>
-              <tbody className="text-espresso-soft">
-                {SIZE_TABLE.map((row) => (
-                  <tr key={row.size} className="border-b border-umber-50/60 last:border-0">
-                    <td className="py-2.5 pr-4 font-medium text-espresso">{row.size}</td>
-                    <td className="py-2.5 pr-4">{row.bust} cm</td>
-                    <td className="py-2.5 pr-4">{row.waist} cm</td>
-                    <td className="py-2.5">{row.hips} cm</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-        <p className="mt-4 text-xs text-espresso/40">
-          {isFootwear
-            ? "Our shoes are made on European lasts and run true to size. Between sizes, we suggest the larger."
-            : "Measurements are of the body, not the garment. Between sizes, we suggest the larger."}
-        </p>
+        <SizeChart kind={chartKind ?? "garment"} />
       </Modal>
     </>
   );
