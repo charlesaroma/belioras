@@ -1,11 +1,9 @@
 /* Page: Shop - FilterPanel */
-import { useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
 
-import Drawer from "../../../components/common/Drawer";
-import { useCurrency } from "../../../context/CurrencyContext";
-import { cn } from "../../../utils/cn";
-import PriceRangeSlider from "./PriceRangeSlider";
+import ShopFilterDrawer from "./shopFilters/ShopFilterDrawer";
+import ShopFilterSection from "./shopFilters/ShopFilterSection";
+import ShopFilterPrice from "./shopFilters/ShopFilterPrice";
+import { ShopFilterCheckbox } from "./shopFilters/ShopFilterCheckbox";
 
 export default function FilterPanel({
   open,
@@ -24,7 +22,7 @@ export default function FilterPanel({
   const dimensions = Object.values(facets ?? {});
 
   return (
-    <Drawer
+    <ShopFilterDrawer
       open={open}
       onClose={onClose}
       title="Filter"
@@ -55,7 +53,7 @@ export default function FilterPanel({
         </div>
 
         {dimensions.map((facet, i) => (
-          <FilterSection
+          <ShopFilterSection
             key={facet.id}
             title={facet.label}
             defaultOpen={i === 0}
@@ -76,7 +74,7 @@ export default function FilterPanel({
                 const selected = (filters.dimensions[facet.id] ?? []).includes(value.id);
 
                 return (
-                  <FilterCheckbox
+                  <ShopFilterCheckbox
                     key={value.id}
                     checked={selected}
                     onChange={() => onToggle(facet.id, value.id)}
@@ -98,168 +96,16 @@ export default function FilterPanel({
                 );
               })}
             </div>
-          </FilterSection>
+          </ShopFilterSection>
         ))}
 
-        <PriceSection
+        <ShopFilterPrice
           bounds={priceBounds}
           filters={filters}
           onPriceChange={onPriceChange}
           onSaleChange={onSaleChange}
         />
       </div>
-    </Drawer>
-  );
-}
-
-function FilterSection({ title, defaultOpen = false, selectedCount = 0, children }) {
-  const [open, setOpen] = useState(defaultOpen);
-
-  const isActive = selectedCount > 0;
-
-  return (
-    <div className="border-b border-umber-50 py-4">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="flex w-full items-center justify-between text-left"
-      >
-        <span
-          className={cn(
-            "text-[11px] font-semibold uppercase tracking-[0.22em] transition-colors",
-            isActive ? "text-gold-700" : "text-espresso",
-          )}
-        >
-          {title}
-          {isActive && <span className="ml-1.5 tabular-nums">({selectedCount})</span>}
-        </span>
-        <ChevronDown
-          className={cn(
-            "size-4 shrink-0 text-espresso/40 transition-transform duration-300",
-            !open && "-rotate-90",
-          )}
-          aria-hidden="true"
-        />
-      </button>
-
-      <div
-        className={cn(
-          "grid transition-all duration-300 ease-in-out",
-          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-        )}
-      >
-        <div className="min-h-0 overflow-hidden">
-          <div className="pt-4">{children}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PriceSection({ bounds, filters, onPriceChange, onSaleChange }) {
-  const { symbol } = useCurrency();
-
-  const lo = filters.price.min ?? bounds[0];
-
-  const hi = filters.price.max ?? bounds[1];
-
-  return (
-    <div className="py-5">
-      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">
-        Price
-      </p>
-
-      {/* Number inputs alongside the slider: typing an exact bound is faster
-          than dragging to it, and it is the only precise option on touch. */}
-      <div className="mb-5 flex items-center gap-3">
-        <PriceInput
-          label="Minimum price"
-          value={lo}
-          min={bounds[0]}
-          max={hi}
-          symbol={symbol}
-          onCommit={(v) => onPriceChange([Math.min(v, hi), hi])}
-        />
-        <span className="text-espresso/30">—</span>
-        <PriceInput
-          label="Maximum price"
-          value={hi}
-          min={lo}
-          max={bounds[1]}
-          symbol={symbol}
-          onCommit={(v) => onPriceChange([lo, Math.max(v, lo)])}
-        />
-      </div>
-
-      <PriceRangeSlider
-        min={bounds[0]}
-        max={bounds[1]}
-        value={[lo, hi]}
-        onChange={onPriceChange}
-        showLabels={false}
-      />
-
-      <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft lg:min-h-0">
-        <NativeCheckbox checked={filters.onSale} onChange={() => onSaleChange(!filters.onSale)} />
-        On sale only
-      </label>
-    </div>
-  );
-}
-
-function PriceInput({ label, value, min, max, symbol, onCommit }) {
-  const [draft, setDraft] = useState(null);
-
-  return (
-    <span className="inline-flex min-h-11 items-center gap-1 border border-umber-100 px-2 focus-within:border-espresso lg:min-h-0 lg:py-1.5">
-      <span aria-hidden="true" className="text-xs text-espresso/40">
-        {symbol}
-      </span>
-      <input
-        type="number"
-        inputMode="numeric"
-        aria-label={label}
-        min={min}
-        max={max}
-        // Held as a draft while typing: committing on every keystroke would
-        // re-filter on an intermediate value like "1" on the way to "150".
-        value={draft ?? value}
-        onChange={(e) => setDraft(e.target.value)}
-        onBlur={() => {
-          if (draft !== null && draft !== "") onCommit(Number(draft));
-          setDraft(null);
-        }}
-        onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
-        className="w-16 bg-transparent font-mono text-sm text-espresso outline-none"
-      />
-    </span>
-  );
-}
-
-function FilterCheckbox({ checked, label, onChange }) {
-  return (
-    <label className="flex min-h-11 min-w-0 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft transition-colors hover:text-espresso lg:min-h-0">
-      <NativeCheckbox checked={checked} onChange={onChange} />
-      <span className="truncate">{label}</span>
-    </label>
-  );
-}
-
-function NativeCheckbox({ checked, disabled, onChange }) {
-  return (
-    <span className="relative flex size-4 shrink-0 items-center justify-center">
-      <input
-        type="checkbox"
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-        className="peer absolute inset-0 appearance-none rounded-sm border border-umber-100 transition-colors checked:border-espresso checked:bg-espresso disabled:cursor-not-allowed"
-      />
-      <Check
-        className="pointer-events-none relative size-3 text-ivory-50 opacity-0 transition-opacity peer-checked:opacity-100"
-        aria-hidden="true"
-      />
-    </span>
+    </ShopFilterDrawer>
   );
 }

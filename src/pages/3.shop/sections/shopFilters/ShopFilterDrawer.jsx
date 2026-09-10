@@ -1,10 +1,10 @@
-/* Common Component: Drawer */
+/* Filter Drawer */
 import { useEffect, useId, useRef } from "react";
 import { X } from "lucide-react";
 
-import { cn } from "../../utils/cn";
+import { cn } from "../../../../utils/cn";
 
-export default function Drawer({
+export default function ShopFilterDrawer({
   open,
   onClose,
   title,
