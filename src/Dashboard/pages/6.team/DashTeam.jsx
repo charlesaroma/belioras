@@ -1,27 +1,16 @@
 import { useCallback, useMemo, useState } from "react";
 import { ShieldCheck, UserCog } from "lucide-react";
 
-import Avatar from "../../../components/account/Avatar";
-import ConfirmDialog from "../../../components/ui/ConfirmDialog";
 import { useAuth } from "../../../context/AuthContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getUsers, updateUserRole } from "../../../services/authApi";
-import { CAPABILITIES } from "../../../utils/roles";
-import { cn } from "../../../utils/cn";
 import DashTable from "../../components/DashTable";
 import DashToolbar from "../../components/DashToolbar";
-
-const STAFF_ROLES = [
-  { value: "staff", label: "Staff" },
-  { value: "super-admin", label: "Administrator" },
-];
-
-const ROLE_TONE = {
-  "super-admin": "bg-gold-500/15 text-gold-800",
-  staff: "bg-brown-50 text-brown-700",
-};
+import { roleLabel } from "./sections/constants";
+import { buildTeamColumns } from "./sections/teamColumns";
+import { AddMemberDialog, RoleChangeDialog } from "./sections/TeamDialogs";
 
 /**
  * The team.
@@ -37,8 +26,8 @@ const ROLE_TONE = {
  * past them: it happens through "Add an existing account", where you name the
  * person you mean.
  *
- * There is no create-account action. An administrator making an account for
- * someone means choosing their password for them.
+ * This file keeps the data and the decisions; the table's columns and the two
+ * confirmation dialogs live in sections/.
  */
 export default function DashTeam() {
   const { locale } = useLanguage();
@@ -49,6 +38,7 @@ export default function DashTeam() {
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
   const { data: users, loading } = useAsyncData(getUsers, [revision]);
 
+  const [query, setQuery] = useState("");
   const [pendingRole, setPendingRole] = useState(null);
   const [promoting, setPromoting] = useState(false);
   const [promoteEmail, setPromoteEmail] = useState("");
@@ -57,8 +47,6 @@ export default function DashTeam() {
     () => (users ?? []).filter((u) => u.role === "super-admin" || u.role === "staff"),
     [users],
   );
-
-  const [query, setQuery] = useState("");
 
   const dateFmt = useMemo(
     () => new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric" }),
@@ -74,7 +62,7 @@ export default function DashTeam() {
       toast(
         role === "customer"
           ? `${user.name} no longer has atelier access.`
-          : `${user.name} is now ${STAFF_ROLES.find((r) => r.value === role)?.label}.`,
+          : `${user.name} is now ${roleLabel(role)}.`,
         "success",
       );
     } catch (err) {
@@ -106,109 +94,18 @@ export default function DashTeam() {
   };
 
   const columns = useMemo(
-    () => [
-      {
-        accessorKey: "name",
-        header: "Member",
-        cell: ({ row }) => (
-          <div className="flex items-center gap-3">
-            <Avatar user={row.original} size="sm" />
-            <div className="min-w-0">
-              <p className="truncate font-medium text-espresso">{row.original.name}</p>
-              <p className="truncate text-[11px] text-espresso-soft">{row.original.email}</p>
-            </div>
-          </div>
-        ),
-      },
-      {
-        accessorKey: "role",
-        header: "Role",
-        cell: ({ row }) => {
-          const member = row.original;
-          // Changing your own role would revoke access to the page you are
-          // standing on, so your row is read-only.
-          const isSelf = member.id === signedIn?.id;
-
-          if (isSelf) {
-            return (
-              <span
-                className={cn(
-                  "inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]",
-                  ROLE_TONE[member.role],
-                )}
-                title="You cannot change your own role"
-              >
-                {STAFF_ROLES.find((option) => option.value === member.role)?.label} · you
-              </span>
-            );
-          }
-
-          return (
-            <select
-              value={member.role}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => setPendingRole({ user: member, role: e.target.value })}
-              aria-label={`Role for ${member.name}`}
-              className="input py-1.5 text-[12px]"
-            >
-              {STAFF_ROLES.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          );
-        },
-      },
-      {
-        id: "access",
-        header: "Can manage",
-        enableSorting: false,
-        cell: ({ row }) => (
-          <span className="text-[12px] text-espresso-soft">
-            {[...(CAPABILITIES[row.original.role] ?? [])].join(", ") || "—"}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "createdAt",
-        header: "Joined",
-        cell: ({ row }) => (
-          <span className="whitespace-nowrap text-espresso-soft">
-            {row.original.createdAt ? dateFmt.format(new Date(row.original.createdAt)) : "—"}
-          </span>
-        ),
-      },
-      {
-        id: "actions",
-        header: "",
-        enableSorting: false,
-        meta: { align: "right" },
-        cell: ({ row }) =>
-          row.original.id === signedIn?.id ? null : (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setPendingRole({ user: row.original, role: "customer" });
-              }}
-              className="text-[11px] uppercase tracking-[0.14em] text-espresso/45 transition-colors hover:text-error"
-            >
-              Remove access
-            </button>
-          ),
-      },
-    ],
+    () =>
+      buildTeamColumns({
+        dateFmt,
+        signedInId: signedIn?.id,
+        onStageRoleChange: setPendingRole,
+      }),
     [dateFmt, signedIn?.id],
   );
 
   return (
     <div className="space-y-5">
-      <DashToolbar
-        query={query}
-        onQueryChange={setQuery}
-        placeholder="Search the team"
-      >
+      <DashToolbar query={query} onQueryChange={setQuery} placeholder="Search the team">
         <button type="button" onClick={() => setPromoting(true)} className="btn btn-md btn-primary">
           <UserCog className="size-4" aria-hidden="true" />
           Add an existing account
@@ -231,51 +128,21 @@ export default function DashTeam() {
         first and is then given access.
       </p>
 
-      <ConfirmDialog
-        open={Boolean(pendingRole)}
+      <RoleChangeDialog
+        pending={pendingRole}
         onClose={() => setPendingRole(null)}
         onConfirm={applyRole}
-        destructive={pendingRole?.role === "customer"}
-        title={pendingRole?.role === "customer" ? "Remove atelier access?" : "Change this role?"}
-        description={
-          pendingRole?.role === "customer"
-            ? "They keep their account and order history, but lose the dashboard entirely."
-            : "Administrators can see and edit every order, customer and piece, and can change who else has access."
-        }
-        summary={
-          pendingRole && (
-            <span>
-              <strong className="font-medium">{pendingRole.user.name}</strong>
-              {pendingRole.role === "customer"
-                ? " becomes a customer again"
-                : ` becomes ${STAFF_ROLES.find((r) => r.value === pendingRole.role)?.label}`}
-            </span>
-          )
-        }
-        confirmLabel={pendingRole?.role === "customer" ? "Remove access" : "Change role"}
       />
 
-      <ConfirmDialog
+      <AddMemberDialog
         open={promoting}
+        email={promoteEmail}
+        onEmailChange={setPromoteEmail}
         onClose={() => {
           setPromoting(false);
           setPromoteEmail("");
         }}
         onConfirm={promote}
-        destructive={false}
-        title="Add someone to the team"
-        description="They must already have a Belioras account. Enter the email they registered with; they join as Staff and can be promoted afterwards."
-        summary={
-          <input
-            type="email"
-            value={promoteEmail}
-            onChange={(e) => setPromoteEmail(e.target.value)}
-            placeholder="name@example.com"
-            aria-label="Email of the account to add"
-            className="input w-full"
-          />
-        }
-        confirmLabel="Add as staff"
       />
     </div>
   );

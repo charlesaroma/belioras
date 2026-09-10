@@ -2,9 +2,17 @@
 
 Binding rules for every file in this project.
 
-## 1. Split Rule (JSX)
+## 1. Split Rule
 
-- **Max ~250 lines per JSX file.** If a file exceeds it, split.
+- **Max 150 lines per file.** If a file exceeds it, split. Applies to `.js`
+  as well as `.jsx` — a 300-line service is as hard to navigate as a 300-line
+  component.
+- The number is a prompt to find the seam, not a licence to chop anywhere.
+  Split where the file already changes subject: a table's columns, a modal, a
+  form step, one panel of a settings page. If a split would leave two halves
+  that only make sense read together, the file needed rethinking rather than
+  cutting — say so instead of forcing it.
+- A page keeps the data and the decisions; `sections/` takes the rendering.
 - Page-level splits **must** go in the page's own `sections/` folder.
   Example: `src/pages/1.home/` keeps `home.jsx` only; every block becomes `src/pages/1.home/sections/Hero.jsx`, `FeaturedCategories.jsx`, ...
 - Shared/layout splits go in `src/components/layout/` or `src/components/storefront/`.

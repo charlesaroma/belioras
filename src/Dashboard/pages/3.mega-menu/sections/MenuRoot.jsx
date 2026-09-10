@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 
 import { cn } from "../../../../utils/cn";
-import IconButton from "./IconButton";
+import IconAction from "../../../components/IconAction";
 
 /**
  * One top-level menu — Shop, Dresses, Hair — with its sections and links.
@@ -150,19 +150,19 @@ export default function MenuRoot({ root, open, onToggle, onPatch, countFor, cont
                         {count === null ? "—" : `${count} pcs`}
                       </span>
 
-                      <IconButton
+                      <IconAction
                         label="Move up"
                         icon={ChevronUp}
                         disabled={i === 0}
                         onClick={() => moveItem(section.id, i, -1)}
                       />
-                      <IconButton
+                      <IconAction
                         label="Move down"
                         icon={ChevronDown}
                         disabled={i === section.items.length - 1}
                         onClick={() => moveItem(section.id, i, 1)}
                       />
-                      <IconButton
+                      <IconAction
                         label={`Remove ${item.label}`}
                         icon={Trash2}
                         destructive

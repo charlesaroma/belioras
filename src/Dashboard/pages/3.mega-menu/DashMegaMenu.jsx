@@ -8,7 +8,7 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getNavigation, resetNavigation, updateNavigation } from "../../../services/navigationApi";
 import { getProducts } from "../../../services/productsApi";
-import IconButton from "./sections/IconButton";
+import IconAction from "../../components/IconAction";
 import MenuRoot from "./sections/MenuRoot";
 
 /**
@@ -127,13 +127,13 @@ export default function DashMegaMenu() {
               countFor={countFor}
               controls={
                 <>
-                  <IconButton
+                  <IconAction
                     label={`Move ${root.label} earlier`}
                     icon={ChevronUp}
                     disabled={i === 0}
                     onClick={() => moveRoot(i, -1)}
                   />
-                  <IconButton
+                  <IconAction
                     label={`Move ${root.label} later`}
                     icon={ChevronDown}
                     disabled={i === draft.length - 1}

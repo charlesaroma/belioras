@@ -4,7 +4,6 @@ import { Eye, Package, Pencil, Plus, Trash2 } from "lucide-react";
 
 import Button from "../../../components/ui/Button";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog";
-import StatusChip from "../../../components/ui/StatusChip";
 import { cn } from "../../../utils/cn";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
@@ -18,6 +17,7 @@ import {
 import DashTable from "../../components/DashTable";
 import DashToolbar, { FilterTabs } from "../../components/DashToolbar";
 import ViewProductModal from "./sections/ViewProductModal";
+import { buildProductColumns } from "./sections/productColumns";
 
 /**
  * Product management.
@@ -118,88 +118,13 @@ export default function DashProducts() {
   };
 
   const columns = useMemo(
-    () => [
-      {
-        accessorKey: "name",
-        header: "Product",
-        cell: ({ row }) => (
-          <div className="flex items-center gap-3">
-            {row.original.images?.[0] ? (
-              <img
-                src={row.original.images[0]}
-                alt=""
-                loading="lazy"
-                className="size-10 shrink-0 border border-umber-50 object-cover"
-              />
-            ) : (
-              <span className="flex size-10 shrink-0 items-center justify-center border border-umber-50 text-espresso/30">
-                <Package className="size-4" aria-hidden="true" />
-              </span>
-            )}
-            <div className="min-w-0">
-              <p className="truncate font-medium text-espresso">{row.original.name}</p>
-              <p className="truncate text-[11px] text-espresso-soft">{row.original.slug}</p>
-            </div>
-          </div>
-        ),
-      },
-      { accessorKey: "category", header: "Category" },
-      {
-        accessorKey: "price",
-        header: "Price",
-        meta: { align: "right" },
-        cell: ({ getValue }) => <span className="tabular-nums">{format(getValue())}</span>,
-      },
-      {
-        accessorKey: "stock",
-        header: "Stock",
-        meta: { align: "right" },
-        cell: ({ getValue }) => {
-          const stock = getValue();
-          return (
-            <span
-              className={cn(
-                "tabular-nums",
-                stock === 0 ? "text-error" : stock <= 5 ? "text-warning" : "",
-              )}
-            >
-              {stock}
-            </span>
-          );
-        },
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ getValue }) => <StatusChip status={getValue()} kind="product" />,
-      },
-      {
-        id: "actions",
-        header: "",
-        enableSorting: false,
-        meta: { align: "right" },
-        cell: ({ row }) => (
-          <div className="flex justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-            <IconAction
-              label={`View ${row.original.name}`}
-              icon={Eye}
-              onClick={() => setViewing(row.original)}
-            />
-            <IconAction
-              label={`Edit ${row.original.name}`}
-              icon={Pencil}
-              onClick={() => navigate(`/dashboard/products/${row.original.id}/edit`)}
-            />
-            <IconAction
-              label={`Delete ${row.original.name}`}
-              icon={Trash2}
-              destructive
-              onClick={() => setPendingDelete(row.original)}
-            />
-          </div>
-        ),
-      },
-    ],
+    () =>
+      buildProductColumns({
+        format,
+        onView: setViewing,
+        onEdit: (p) => navigate(`/dashboard/products/${p.id}/edit`),
+        onDelete: setPendingDelete,
+      }),
     [format, navigate],
   );
 
@@ -292,21 +217,5 @@ export default function DashProducts() {
         confirmLabel="Delete"
       />
     </div>
-  );
-}
-
-function IconAction({ label, icon: Icon, onClick, destructive = false }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      title={label}
-      className={`p-2 text-espresso/45 transition-colors ${
-        destructive ? "hover:text-error" : "hover:text-espresso"
-      }`}
-    >
-      <Icon className="size-4" strokeWidth={1.5} aria-hidden="true" />
-    </button>
   );
 }
