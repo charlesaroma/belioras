@@ -1,3 +1,4 @@
+/* Page: Shop - FilterPanel */
 import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 
@@ -6,20 +7,6 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { cn } from "../../../utils/cn";
 import PriceRangeSlider from "./PriceRangeSlider";
 
-/**
- * Faceted filter drawer.
- *
- * Follows the drawer pattern from the design prototype — a slide-over at every
- * breakpoint rather than a rail, opening from the left, which is where
- * filtering conventionally lives and where the eye goes first — with two
- * things the prototype lacked: selections live in the URL (see useFilterParams)
- * so a filtered view is shareable, and result counts are computed for every
- * value so a filter can never lead to an empty grid. The counts are not
- * displayed; see FilterCheckbox.
- *
- * Generated from the taxonomy rather than hardcoded, so an attribute Belioras
- * adds in the dashboard appears here with no code change.
- */
 export default function FilterPanel({
   open,
   onClose,
@@ -123,11 +110,6 @@ export default function FilterPanel({
   );
 }
 
-/**
- * Collapsed sections turn gold when they hold a selection — otherwise a
- * shopper who has scrolled past a closed accordion has no way to tell which
- * ones are narrowing the results.
- */
 function FilterSection({ title, defaultOpen = false, selectedCount = 0, children }) {
   const [open, setOpen] = useState(defaultOpen);
   const isActive = selectedCount > 0;
@@ -250,17 +232,6 @@ function PriceInput({ label, value, min, max, symbol, onCommit }) {
   );
 }
 
-/**
- * Deliberately shows no result count.
- *
- * Counts are still computed — they decide which values are offered at all, so
- * a shopper can never pick a filter and land on an empty grid — but the number
- * is not rendered. On a curated catalogue the figures are small enough
- * ("Prom 1", "Red 1") that displaying them advertises how thin the stock is,
- * which works against the brand rather than helping the shopper. Worth
- * revisiting once facets routinely hold dozens of pieces, where the number
- * starts carrying real information.
- */
 function FilterCheckbox({ checked, label, onChange }) {
   return (
     <label className="flex min-h-11 min-w-0 cursor-pointer items-center gap-2.5 text-[13px] text-espresso-soft transition-colors hover:text-espresso lg:min-h-0">

@@ -1,3 +1,4 @@
+/* Page: Legal - terms-of-service */
 import PageShell, { DraftNotice, Section } from "../../components/layout/PageShell";
 
 export default function TermsOfServicePage() {

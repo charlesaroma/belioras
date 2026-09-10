@@ -1,9 +1,9 @@
+/* Admin Dashboard Page: Products - ProductsTableToolbar */
 import { Plus } from "lucide-react";
 
 import Button from "../../../../../components/ui/Button";
 import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
 
-/** Search, the status tabs, and the way to add a piece. */
 export default function ProductsToolbar({ query, onQueryChange, tabs, status, onStatusChange }) {
   return (
     <DashToolbar

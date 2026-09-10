@@ -1,15 +1,8 @@
+/* Page: Shop - ActiveFilters */
 import { X } from "lucide-react";
 
 import { useCurrency } from "../../../context/CurrencyContext";
 
-/**
- * The filters currently applied, each individually removable.
- *
- * Without this, a shopper who scrolled past the panel has no idea why the grid
- * is short — the state is visible only where they set it. Chips wrap onto as
- * many rows as they need rather than clipping into one: a hidden filter is
- * worse than no filter, because it is invisible *and* still narrowing results.
- */
 export default function ActiveFilters({ facets, filters, onToggle, onClearPrice, onSaleChange, onClearQuery, onClearAll }) {
   const { format } = useCurrency();
 

@@ -1,17 +1,6 @@
+/* Shared Component: GridDensityIcon */
 import { cn } from "../../utils/cn";
 
-/**
- * Grid-density glyph, rendered from the supplied artwork in /public/icons.
- *
- * Each option has a default and an active file, so the selected state is a
- * different image rather than a colour change — which is why `active` has to
- * reach this component instead of being handled by the parent's text colour.
- *
- * Assets are 26px tall with widths that grow by column count (26 / 36 / 46 /
- * 66), so a six-column icon reads as denser than a two-column one. Rendered at
- * their intrinsic height, matching the prototype — a raster is sharpest at 1:1
- * and should never be scaled up.
- */
 const INTRINSIC_HEIGHT = 26;
 
 const WIDTHS = { 2: 26, 3: 36, 4: 46, 6: 66, row: 26 };

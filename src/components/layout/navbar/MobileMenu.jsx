@@ -1,3 +1,4 @@
+/* Layout Component: MobileMenu */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -14,24 +15,6 @@ import { useWishlist } from "../../../context/WishlistContext";
 import { cn } from "../../../utils/cn";
 import MegaMenuPanel from "./MegaMenuPanel";
 
-/**
- * Mobile navigation drawer.
- *
- * Categories carry the page in the brand's display serif, dividers are
- * hairlines, corners are square, and a plus mark rotates to a cross on open —
- * the same motif as the product page accordions.
- *
- * Every destination appears in exactly one place. Language, currency and the
- * cart now live in the persistent header, so their duplicate rows are gone
- * from this drawer's footer; search lives here, so the header no longer
- * carries its own icon for it. Three separate controls for currency
- * (dropdown in the header, three text toggles here) had also drifted into
- * two different visual languages for one setting.
- *
- * The remaining hierarchy is deliberate: search reads as a control rather
- * than a label, categories are the loudest thing on the panel, and account
- * links sit quietly beneath them in a smaller, softer weight.
- */
 export default function MobileMenu({ open, onClose, categories, onSearchOpen }) {
   const { user, isAdmin, logout } = useAuth();
   const { t } = useLanguage();
@@ -291,7 +274,6 @@ function CategoryAccordion({ category, onClose }) {
   );
 }
 
-/** Nav labels are stored uppercase; the serif wants sentence case. */
 function titleCase(label) {
   return label
     .toLowerCase()

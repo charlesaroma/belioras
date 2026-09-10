@@ -1,7 +1,7 @@
+/* Page: Auth - CustomerAuthNotes */
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
-/** Terms and privacy, shown under the signup form only. */
 export function SignupTerms() {
   return (
     <motion.p
@@ -22,17 +22,6 @@ export function SignupTerms() {
   );
 }
 
-/**
- * Development only.
- *
- * This block printed a working administrator password on a page that is
- * publicly reachable in production, which defeated the RequireAuth guard on
- * /dashboard entirely — anyone who found the login page could sign in as an
- * admin. import.meta.env.DEV is false in any `vite build`, so this is stripped
- * from the deployed bundle rather than merely hidden. The customer address
- * also used to read mariana@belioras.com, which does not exist; the seed in
- * users.json is example.com.
- */
 export function DemoAccountNote() {
   if (!import.meta.env.DEV) return null;
 

@@ -1,6 +1,6 @@
+/* Customer Dashboard Page: Addresses - AddressList */
 import { Check, MapPin, Plus, Trash2 } from "lucide-react";
 
-/** The saved addresses, or a prompt to add the first one. */
 export default function AddressList({ addresses, onSetDefault, onRemove, onAddFirst }) {
   if (!addresses.length) {
     return (

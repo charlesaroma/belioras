@@ -1,18 +1,8 @@
+/* Shared Component: BrandMark */
 import { Link } from "react-router-dom";
 
 import { cn } from "../../utils/cn";
 
-/**
- * The Belioras mark.
- *
- * One definition. The asset path was hardcoded in four separate files — the
- * navbar logo, the mobile drawer, the atelier door and the dashboard sidebar —
- * so a change of artwork meant finding all four.
- *
- * Sized by HEIGHT, never width. The mark is a stacked lockup at roughly 1.36:1;
- * constraining its width lets the artwork dictate the header's height, which is
- * what once made the navbar 182px tall.
- */
 const LOGO_SRC = "/belioras-boutique-primary-logo-rgb-belioras-original.svg";
 
 const SIZES = {

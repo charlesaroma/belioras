@@ -1,3 +1,4 @@
+/* Admin Dashboard: SidebarNav */
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Menu, Package, Settings, ShieldCheck, ShoppingCart, Tags, Users,
@@ -7,7 +8,6 @@ import { cn } from "../../../utils/cn";
 
 const iconMap = { LayoutDashboard, Package, Tags, Menu, ShoppingCart, Users, ShieldCheck, Settings };
 
-/** The grouped destination list, filtered to what this role may open. */
 export default function SidebarNav({ groups, collapsed, onNavigate }) {
   const { pathname } = useLocation();
 

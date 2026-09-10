@@ -1,3 +1,4 @@
+/* Page: Legal - shipping-policy */
 import PageShell, { Section } from "../../components/layout/PageShell";
 
 const ZONES = [

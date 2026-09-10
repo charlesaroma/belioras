@@ -1,3 +1,4 @@
+/* Customer Dashboard: AccountLayout */
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
 
@@ -12,19 +13,6 @@ const NAV = [
   { to: "/account/settings", label: "Settings", icon: Settings },
 ];
 
-/**
- * The signed-in account.
- *
- * Renders inside the storefront Layout now, rather than replacing it with its
- * own bare header and a "Belioras" wordmark. A customer checking an order has
- * not left the shop, and taking the navigation and the bag away from them said
- * otherwise. It also means one navbar, one footer and one set of measurements
- * instead of two.
- *
- * Offset from the measured --header-height for the same reason PageShell is:
- * the navbar is fixed, and every page that invented its own number eventually
- * ended up underneath it.
- */
 export default function AccountLayout() {
   const { user, isAdmin, logout } = useAuth();
   const navigate = useNavigate();

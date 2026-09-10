@@ -1,15 +1,9 @@
+/* Admin Dashboard Page: Team - teamTableColumns */
 import Avatar from "../../../../../components/account/Avatar";
 import { CAPABILITIES } from "../../../../../utils/roles";
 import { cn } from "../../../../../utils/cn";
 import { ROLE_TONE, STAFF_ROLES, roleLabel } from "./teamTableRoles";
 
-/**
- * Table columns for the team list.
- *
- * A factory rather than a constant because three cells close over page state —
- * the signed-in id, the locale-bound date formatter, and the handler that
- * stages a role change for confirmation.
- */
 export function buildTeamColumns({ dateFmt, signedInId, onStageRoleChange }) {
   return [
     {

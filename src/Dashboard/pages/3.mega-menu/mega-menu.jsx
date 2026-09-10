@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Mega-menu - mega-menu */
 import { useState } from "react";
 import { ChevronDown, ChevronUp, RotateCcw, Save } from "lucide-react";
 
@@ -12,21 +13,6 @@ import IconAction from "../../components/IconAction";
 import MenuRoot from "./sections/MegaMenuRoot";
 import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
 
-/**
- * The mega menu.
- *
- * Its own section because the navigation tree is its own thing. It was a
- * read-only list buried under Categories, which conflated two jobs: the
- * attribute vocabulary a piece is tagged with, and the structure shoppers
- * navigate. Categories keeps the first; this owns the second.
- *
- * Every link carries a live product count, so one returning nothing is visible
- * here rather than discovered by a shopper landing on an empty grid.
- *
- * Edits are held locally and saved in one action. The tree is a single ordered
- * document — reordering one item shifts its siblings — so saving per keystroke
- * would rewrite the whole thing on every character.
- */
 export default function DashMegaMenu() {
   const { toast } = useToast();
   const version = useContentVersion();

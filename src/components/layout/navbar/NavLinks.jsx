@@ -1,3 +1,4 @@
+/* Layout Component: NavLinks */
 import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
@@ -18,15 +19,6 @@ export default function NavLinks({
   const { t } = useLanguage();
   const itemRefs = useRef({});
 
-  /**
-   * Report where the open trigger sits, so a compact mega menu can open
-   * underneath it instead of at the page edge.
-   *
-   * Measured rather than guessed, the same way the navbar publishes
-   * --header-height: the offset is a function of the label text, the locale
-   * and the breakpoint, so any hardcoded value is wrong as soon as one of
-   * those changes.
-   */
   useLayoutEffect(() => {
     if (!menuId || !onAnchorChange) return;
     const el = itemRefs.current[menuId];

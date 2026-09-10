@@ -1,14 +1,8 @@
+/* Page: Product - ProductGallery */
 import { useState } from "react";
 
 import { cn } from "../../../utils/cn";
 
-/**
- * Product gallery — thumbnail rail beside the main image.
- *
- * `md:flex-row-reverse` puts the thumbnails on the left at desktop while
- * keeping the main image first in the DOM, so screen readers and keyboard
- * users meet the product before its alternates.
- */
 export default function ProductGallery({ images = [], name = "" }) {
   const [active, setActive] = useState(0);
 

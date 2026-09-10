@@ -1,6 +1,6 @@
+/* Product Component: SizeSelector */
 import { cn } from "../../utils/cn";
 
-/** Size chips. Sizes are stored lowercase and shown uppercase. */
 export default function SizeSelector({ options = [], value, onChange = () => {} }) {
   if (!options.length) return null;
 

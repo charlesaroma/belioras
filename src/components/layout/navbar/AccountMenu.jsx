@@ -1,3 +1,4 @@
+/* Layout Component: AccountMenu */
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
@@ -8,18 +9,6 @@ import { useAuth } from "../../../context/AuthContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { cn } from "../../../utils/cn";
 
-/**
- * The signed-in account menu.
- *
- * The previous version was CSS hover-only — `group-hover:visible`, with
- * `aria-haspopup="menu"` sitting on a button that did nothing. It could not be
- * opened by keyboard at all, and on a touch screen there is no hover, so the
- * only way in was to guess that tapping and holding might work. Its one link
- * also pointed at /account, which was a 404.
- *
- * Click to open, Escape to close, click-away scrim, arrow keys through the
- * items, focus returned to the trigger on close.
- */
 export default function AccountMenu() {
   const { user, isAdmin, logout } = useAuth();
   const { t } = useLanguage();

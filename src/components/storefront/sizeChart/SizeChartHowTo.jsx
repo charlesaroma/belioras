@@ -1,12 +1,6 @@
+/* Storefront Component: SizeChartHowTo */
 import SizeChartFigure from "./SizeChartFigure";
 
-/**
- * How to take each measurement.
- *
- * The figure and the list say the same thing twice on purpose: the drawing is
- * faster to read, the list is the one that works with a screen reader and
- * survives being printed.
- */
 export default function SizeChartHowTo({ steps, showFigure = true }) {
   return (
     <div className="grid gap-8 sm:grid-cols-[auto_1fr] sm:items-start">

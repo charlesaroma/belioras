@@ -1,3 +1,4 @@
+/* Admin Dashboard: DashTable */
 import { useState } from "react";
 import {
   getCoreRowModel,
@@ -12,23 +13,6 @@ import TableHead from "./table/TableHead";
 import TableBody from "./table/TableBody";
 import TablePagination from "./table/TablePagination";
 
-/**
- * The admin table, on TanStack Table.
- *
- * Headless, so the markup below is still ours — square corners, hairlines, the
- * brand type scale. What TanStack takes over is the part that was hand-rolled
- * and duplicated: sorting, filtering, pagination and row selection, which lived
- * in a bespoke useDashList hook that every list page imported separately.
- *
- * Sorting and filtering run over the whole set before the page is sliced, so
- * "sort by price" means the cheapest piece in the catalogue, not the cheapest
- * on the page you happen to be looking at. That was true of the old hook and
- * is worth stating because it is the easy thing to get wrong.
- *
- * `getRowId` keys selection on the record's own id rather than its index, so a
- * selection survives a sort or a filter change instead of silently jumping to
- * whichever rows now occupy those positions.
- */
 export default function DashTable({
   columns,
   data,

@@ -1,3 +1,4 @@
+/* Admin Dashboard: DashboardLayout */
 import { useCallback, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -11,22 +12,9 @@ import DashSidebar from "./components/DashSidebar";
 import DashHeader from "./components/DashHeader";
 import { DASHBOARD_NAV_ITEMS } from "./lib/constants";
 
-/** Thirty minutes idle ends an atelier session; two minutes' warning first. */
 const IDLE_TIMEOUT = 30 * 60 * 1000;
 const IDLE_WARNING = 2 * 60 * 1000;
 
-/**
- * Admin shell.
- *
- * The title was previously derived from `params.pageId`, a param that does not
- * exist anywhere in the route configuration — so every page in the dashboard
- * displayed "Overview". It now comes from the pathname, matched against the
- * same nav list the sidebar renders, so the two can't disagree.
- *
- * This is also where the atelier session expires. Mounted here rather than
- * app-wide on purpose: shoppers keep their long-lived session, because logging
- * someone out mid-browse costs a sale and protects nothing.
- */
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed] = useLocalStorage("belioras:dash:collapsed", false);

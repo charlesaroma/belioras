@@ -1,11 +1,8 @@
+/* Admin Dashboard Page: Categories - CategoriesTableViewTabs */
 import { LayoutGrid, Tags } from "lucide-react";
 
 import { cn } from "../../../../../utils/cn";
 
-/**
- * Two different things live on this page and the tabs say so: menu leaves are
- * the navigation structure, attributes are the filter vocabulary.
- */
 export default function ViewTabs({ tab, onChange, leafCount, attributeCount }) {
   const options = [
     { id: "menu", label: "Menu leaves", icon: LayoutGrid, count: leafCount },

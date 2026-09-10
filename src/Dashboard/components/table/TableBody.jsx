@@ -1,8 +1,8 @@
+/* Admin Dashboard: TableBody */
 import { flexRender } from "@tanstack/react-table";
 
 import { cn } from "../../../utils/cn";
 
-/** Rows, or a skeleton of the same shape while the data loads. */
 export default function TableBody({ table, columns, loading, skeletonRows, enableSelection, onRowClick }) {
   if (loading) {
     return (

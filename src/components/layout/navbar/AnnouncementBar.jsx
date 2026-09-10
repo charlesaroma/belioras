@@ -1,21 +1,9 @@
+/* Layout Component: AnnouncementBar */
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getTopBanner } from "../../../services/promotionsApi";
 import CurrencySelector from "../../common/CurrencySelector";
 
-/**
- * The promo marquee, and on mobile the header's utility row.
- *
- * Language and currency sit here rather than beside the bag. In the main row
- * they were a 168px cluster against a 44px burger, and because the centre
- * column is 1fr it absorbed the whole difference — the wordmark rendered 62px
- * left of true centre at every width, and at 360px it was squeezed into a
- * 100px column. Moving them up leaves burger | wordmark | bag at 44px a side,
- * so the mark is centred for free and the bag is the only action on the row.
- *
- * They are also settings changed once a session at most, which did not earn
- * standing space next to the one control that takes money.
- */
 export default function AnnouncementBar() {
   const { data: banner } = useAsyncData(getTopBanner, []);
   const { t } = useLanguage();
@@ -69,11 +57,6 @@ export default function AnnouncementBar() {
   );
 }
 
-/**
- * Currency only. Language moved down beside the bag — a shopper reaches for
- * it far more often — and only one of the two fits there while the wordmark
- * stays centred. See navbar/index.jsx.
- */
 function Utilities() {
   return (
     <div className="flex items-center">

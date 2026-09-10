@@ -1,13 +1,7 @@
+/* Storefront Component: SizeChartUnitToggle */
 import { cn } from "../../../utils/cn";
 import { UNITS } from "../../../utils/measurements";
 
-/**
- * Centimetres or inches.
- *
- * A two-state switch rather than a dropdown: there are exactly two options and
- * both fit, so making someone open a menu to reach the second is a step for
- * nothing. Rendered as a radiogroup, since it is one choice from a set.
- */
 export default function SizeChartUnitToggle({ unit, onChange }) {
   return (
     <div

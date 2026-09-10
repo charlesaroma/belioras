@@ -1,6 +1,6 @@
+/* Admin Dashboard Page: Categories - categoriesTableColumns */
 import { cn } from "../../../../../utils/cn";
 
-/** Zero pieces reads red on both tables: it means a dead end. */
 const pieceCount = ({ getValue }) => (
   <span className={cn("tabular-nums", getValue() === 0 && "text-error")}>{getValue()}</span>
 );

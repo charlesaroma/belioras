@@ -1,19 +1,9 @@
+/* Ui Component: TagInput */
 import { useId, useState } from "react";
 import { Plus, X } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
-/**
- * Free-text chip entry, for colours and sizes on the product form.
- *
- * Replaces four near-identical helper pairs (addColor/removeColor,
- * addSize/removeSize) duplicated across the add and edit product modals, which
- * also used onKeyPress — removed from React — to catch Enter.
- *
- * Enter and comma both commit, because people type lists both ways.
- * Backspace on an empty input removes the last chip, which is the convention
- * everywhere else this pattern appears.
- */
 export default function TagInput({
   values = [],
   onChange,

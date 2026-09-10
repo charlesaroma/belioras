@@ -1,13 +1,8 @@
+/* Admin Dashboard Page: Products - ProductFormAttributes */
 import { DIMENSION_ORDER, DIMENSION_PREFIX } from "../../../../../utils/faceting";
 import { cn } from "../../../../../utils/cn";
 import FormSection from "./ProductFormSection";
 
-/**
- * The taxonomy chips.
- *
- * These drive the filters and the mega menu, so a piece is only findable by
- * what is ticked here — which is why the hint says so out loud.
- */
 export default function FormAttributes({ dimensions, tags, onToggle }) {
   return (
     <FormSection

@@ -1,12 +1,6 @@
+/* Customer Dashboard Page: Settings - SettingsProfileFields */
 import Field from "../../../../components/ui/Field";
 
-/**
- * Name, email and telephone.
- *
- * Changing the email address asks for the current password: that address
- * receives every password reset, so taking it over must not be a one-step act.
- * A name or phone edit stays one step.
- */
 export default function ProfileFields({ form, emailChanged }) {
   const { register, formState } = form;
 

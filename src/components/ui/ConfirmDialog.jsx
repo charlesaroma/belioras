@@ -1,21 +1,10 @@
+/* Ui Component: ConfirmDialog */
 import { AlertTriangle } from "lucide-react";
 
 import Modal from "../common/Modal";
 
 import Button from "./Button";
 
-/**
- * One destructive confirmation, replacing the two hand-built delete modals.
- *
- * Built on common/Modal, which already handles Escape, focus restore, scroll
- * lock, aria-modal and inert-while-hidden — none of which the dashboard's own
- * modals had. Reusing it is the whole point: a dialog that traps focus
- * correctly is not something to reimplement per feature.
- *
- * `summary` names the specific thing being destroyed. "Delete this product?"
- * asks the user to trust that the right row was clicked; showing the name
- * lets them verify it.
- */
 export default function ConfirmDialog({
   open,
   onClose,

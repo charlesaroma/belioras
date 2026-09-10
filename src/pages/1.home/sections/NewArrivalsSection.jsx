@@ -1,3 +1,4 @@
+/* Page: Home - NewArrivalsSection */
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getNewArrivals } from "../../../services/productsApi";

@@ -1,6 +1,6 @@
+/* Page: Auth - PasswordToggle */
 import { Eye, EyeOff } from "lucide-react";
 
-/** Reveal control that sits inside the password field. */
 export default function PasswordToggle({ shown, onToggle }) {
   return (
     <button

@@ -1,14 +1,7 @@
+/* Page: Customer-support - shoe-size-guide */
 import PageShell, { Section } from "../../components/layout/PageShell";
 import SizeChart from "../../components/storefront/sizeChart/SizeChart";
 
-/**
- * Footwear sizing.
- *
- * The conversion table is no longer written here: it was byte-identical to the
- * one inside product.jsx, so the two could drift and a shopper could be shown
- * different numbers depending on where they looked. Both now render the same
- * SizeChart, and the advice below is what this page adds on top of it.
- */
 export default function ShoeSizeGuidePage() {
   return (
     <PageShell

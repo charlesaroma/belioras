@@ -1,6 +1,6 @@
+/* Page: Auth - CustomerAuthSubmit */
 import { Loader2 } from "lucide-react";
 
-/** The one primary action on a door. */
 export default function CustomerAuthSubmit({ submitting, label, busyLabel }) {
   return (
     <button

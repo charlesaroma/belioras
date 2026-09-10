@@ -1,3 +1,4 @@
+/* Layout Component: Footer */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
@@ -28,7 +29,6 @@ const LEGAL_LINKS = [
   { label: "Terms of Service", to: "/terms-of-service" },
   { label: "Cookie Policy", to: "/cookie-policy" },
 ];
-
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -83,13 +83,6 @@ function CollapsibleSection({ title, children, defaultOpen = false }) {
   );
 }
 
-/**
- * Newsletter signup.
- *
- * A dedicated section rather than a popup — the review ruled out interruptions
- * entirely. `band` renders it as the full-width espresso strip that opens the
- * footer; the plain form is still available for narrower contexts.
- */
 function Newsletter({ showTitle = true, band = false }) {
   const { toast } = useToast();
   const [email, setEmail] = useState("");

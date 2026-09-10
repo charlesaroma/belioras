@@ -1,12 +1,6 @@
+/* Customer Dashboard Page: Settings - SettingsPanel */
 import Button from "../../../../components/ui/Button";
 
-/**
- * A titled block of settings with its own save button.
- *
- * Each panel is its own form, so saving the profile does not also submit the
- * password fields — and a validation error in one does not block the other.
- * Lifted out of Settings.jsx to keep that file under the 250-line convention.
- */
 export default function SettingsPanel({
   title,
   hint,

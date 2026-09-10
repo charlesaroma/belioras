@@ -1,8 +1,8 @@
+/* Customer Dashboard Page: Settings - SettingsSecurityFields */
 import Field from "../../../../components/ui/Field";
 
 const MIN_LENGTH = 6;
 
-/** Current password, the new one, and a confirmation that must match it. */
 export default function SecurityFields({ form }) {
   const { register, formState, getValues } = form;
 

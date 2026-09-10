@@ -1,13 +1,7 @@
+/* Admin Dashboard: DashHeader */
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Menu } from "lucide-react";
 
-/**
- * Admin page header.
- *
- * Sticky, with the page name set in the display serif and a hairline rule —
- * the same typographic voice as the storefront, rather than the bold sans a
- * generic admin template would use.
- */
 export default function DashHeader({ title, onMenuToggle, showMenuButton = true }) {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-umber-50 bg-ivory-50/95 px-5 py-5 backdrop-blur sm:px-8 lg:px-10">

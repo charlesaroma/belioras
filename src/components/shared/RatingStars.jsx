@@ -1,3 +1,4 @@
+/* Shared Component: RatingStars */
 import { Star } from "lucide-react";
 
 export default function RatingStars({ rating = 0, count, className = "" }) {

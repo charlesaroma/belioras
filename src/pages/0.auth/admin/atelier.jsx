@@ -1,3 +1,4 @@
+/* Page: Auth - atelier */
 import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
@@ -8,27 +9,6 @@ import { useToast } from "../../../context/ToastContext";
 import { isAdminRole, resolveLanding } from "../../../utils/roles";
 import { validateCredentials } from "../../../utils/validateCredentials";
 
-/**
- * The atelier door.
- *
- * Staff and shoppers were signing in through the same form. They want
- * different things: a shopper wants to register, recover a password and be
- * welcomed; a member of staff wants to get to work. This entrance is
- * deliberately spare — no sign-up, no marketing, no imagery — and is linked
- * from nowhere on the storefront.
- *
- * On espresso rather than the storefront's ivory, so it is visibly a different
- * place and nobody mistakes it for the shopper sign-in.
- *
- * It accepts any valid credentials rather than refusing non-staff. Refusing
- * would answer the question "is this address a staff account?" for anyone
- * probing, which is precisely what someone hunting for admin accounts wants to
- * know. A shopper who ends up here is signed in and sent to their account.
- *
- * This is a signpost, not a security control. The controls that matter —
- * mandatory 2FA, tighter rate limiting, short server-side sessions — attach
- * here once the backend identity module is wired up.
- */
 export default function AtelierLogin() {
   const { login, loading, isAuthenticated, user } = useAuth();
   const { toast } = useToast();

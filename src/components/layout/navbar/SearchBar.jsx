@@ -1,3 +1,4 @@
+/* Layout Component: SearchBar */
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 
@@ -8,14 +9,6 @@ const PHRASES = [
   "Try searching for... Two-Piece Sets",
 ];
 
-/**
- * Navbar search field, with the typed placeholder.
- *
- * It no longer navigates away on submit. Focusing or typing opens the results
- * panel beneath the header, and this stays the only input — so the effect is
- * kept without ending up with two search boxes on screen at once. The panel
- * renders its own field below lg, where there is no room for this one.
- */
 export default function SearchBar({ value, onChange, onFocus, onSubmit }) {
   const [placeholder, setPlaceholder] = useState("");
   const [phraseIndex, setPhraseIndex] = useState(0);

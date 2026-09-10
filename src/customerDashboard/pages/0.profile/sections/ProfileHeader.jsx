@@ -1,6 +1,6 @@
+/* Customer Dashboard Page: Profile - ProfileHeader */
 import Avatar from "../../../../components/account/Avatar";
 
-/** Who you are, and three numbers that describe the account at a glance. */
 export default function ProfileHeader({ user, orderCount, wishlistCount, loading }) {
   return (
     <section className="flex flex-wrap items-center gap-4 border-b border-umber-50 pb-6">

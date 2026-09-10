@@ -1,11 +1,4 @@
-/**
- * The one table shell every chart uses.
- *
- * Each chart previously wrote its own thead/tbody with slightly different
- * padding and border weights, so four tables that should have looked alike
- * did not. `scroll` wraps narrow viewports rather than letting the page
- * scroll sideways.
- */
+
 export default function SizeChartTable({ columns, rows, caption }) {
   return (
     <div className="-mx-1 overflow-x-auto">

@@ -1,3 +1,4 @@
+/* Page: Auth - CustomerLoginForm */
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -10,7 +11,6 @@ import CustomerAuthError from "./CustomerAuthError";
 import CustomerAuthSubmit from "./CustomerAuthSubmit";
 import PasswordToggle from "./PasswordToggle";
 
-/** Email and password, for a returning shopper. */
 export default function CustomerLoginForm() {
   const { login, loading: submitting } = useAuth();
   const { toast } = useToast();

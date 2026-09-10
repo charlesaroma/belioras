@@ -1,3 +1,4 @@
+/* Storefront Component: SizeChart */
 import { useId, useState } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -11,15 +12,6 @@ import SizeChartShoeTable from "./SizeChartShoeTable";
 import { SizeChartHairLengths, SizeChartHairTextures } from "./SizeChartHairTable";
 import SizeChartHowTo from "./SizeChartHowTo";
 
-/**
- * The size reference, in whichever form the product needs.
- *
- * One implementation renders in three places — the product page's modal and
- * both standalone guides — so a measurement cannot say one thing on a product
- * and another on /shoe-size-guide, which is exactly what it used to do.
- *
- * `kind` is "garment", "footwear" or "hair"; see sizeChartKind.js.
- */
 export default function SizeChart({ kind = "garment" }) {
   const { data: charts, loading } = useAsyncData(getSizeCharts, []);
   const tabs = sizeChartTabsFor(kind);

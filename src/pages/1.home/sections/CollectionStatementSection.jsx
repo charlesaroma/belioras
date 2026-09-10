@@ -1,22 +1,9 @@
+/* Page: Home - CollectionStatementSection */
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 import { useLanguage } from "../../../context/LanguageContext";
 
-/**
- * Editorial statement that opens the page body.
- *
- * Ported from the design prototype, in the slot it holds there: directly under
- * the hero, ahead of the category grid. It gives the page a moment of quiet
- * between the full-bleed slider and the first wall of product — the pause is
- * the point, which is why it is centred on an empty ground rather than
- * competing with imagery.
- *
- * Copy is fully translated: heroKicker / heroTitle / heroSub / heroCta already
- * exist in all six locales. The title carries a literal newline and is split on
- * it, so each locale controls its own line break — German and French run
- * noticeably longer than English here.
- */
 export default function CollectionStatementSection() {
   const { t } = useLanguage();
 

@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Products - product-form */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,21 +17,6 @@ import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
 import { EMPTY_PRODUCT, toPayload } from "./sections/productForm/productFormPayload";
 
-/**
- * Create and edit a product.
- *
- * Replaces AddProductModal and EditProductModal — two 299-line files that were
- * about 95% identical, differing only in their title, submit label and which
- * callback they invoked. Roughly 600 lines for one form.
- *
- * It is a page rather than a modal because the form is long: images, five
- * attribute dimensions, pricing and visibility do not belong in a 90vh box
- * that scrolls internally. Being a route also means an edit is linkable and
- * survives a refresh.
- *
- * This file owns the form state and the save; the two columns and the draft
- * synchronisation live in sections/.
- */
 export default function ProductForm() {
   const { id } = useParams();
   const navigate = useNavigate();

@@ -1,3 +1,4 @@
+/* Account Component: Avatar */
 import { cn } from "../../utils/cn";
 
 const SIZES = {
@@ -6,18 +7,6 @@ const SIZES = {
   lg: "size-14 text-lg",
 };
 
-/**
- * The customer's mark: their photograph, or their initial on gold.
- *
- * One component because there were two. The navbar rendered `user.avatar` with
- * an initial fallback; the account overview drew its own circle that ignored
- * `user.avatar` entirely — so a customer with a photograph would have seen it
- * in the header and a letter on their own account page.
- *
- * `user.avatar` is read but never written today. The data path is open —
- * publicUser and updateProfile in authApi both carry it — so an upload has
- * somewhere to land once the backend media module exists.
- */
 export default function Avatar({ user, size = "md", className }) {
   const initial = (user?.name ?? user?.email ?? "U").slice(0, 1).toUpperCase();
 

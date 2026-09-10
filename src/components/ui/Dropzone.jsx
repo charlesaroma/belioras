@@ -1,3 +1,4 @@
+/* Ui Component: Dropzone */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ImagePlus, Star, X } from "lucide-react";
 
@@ -7,14 +8,6 @@ const ACCEPT = "image/jpeg,image/png,image/webp,image/avif";
 const MAX_BYTES = 10 * 1024 * 1024;
 const MAX_EDGE = 1600;
 
-/**
- * Reduce an image before it is held in memory or sent anywhere.
- *
- * A phone photo is routinely 4000px and several megabytes; a product image is
- * never displayed above about 1600. Downscaling here means the draft that gets
- * mirrored to localStorage stays small, and the eventual upload is a fraction
- * of the original. Returns a JPEG blob plus a preview URL.
- */
 async function processImage(file) {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
@@ -31,21 +24,6 @@ async function processImage(file) {
   return { blob, width, height, url: URL.createObjectURL(blob) };
 }
 
-/**
- * Image picker with drag-and-drop.
- *
- * The dashboard previously rendered a dashed border reading "Drag & drop
- * images here — PNG, JPG up to 10MB each" that had no file input, no drop
- * handler and no state: purely decorative, and the submitted product carried
- * no images at all. This is the working version.
- *
- * Progress reported here is real work — decoding and downscaling each file,
- * which is genuinely async — not a simulated network bar. When the backend
- * media module lands, upload progress replaces it without changing this API.
- *
- * The first image is the primary one; that is a real merchandising decision,
- * so it is shown and reorderable rather than implied by array position alone.
- */
 export default function Dropzone({
   images = [],
   onChange,

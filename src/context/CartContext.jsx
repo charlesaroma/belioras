@@ -1,3 +1,4 @@
+/* Context Provider: CartContext */
 import { createContext, useCallback, useContext, useMemo } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";

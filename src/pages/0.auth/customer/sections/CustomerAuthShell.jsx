@@ -1,18 +1,10 @@
+/* Page: Auth - CustomerAuthShell */
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
 import BrandMark from "../../../../components/shared/BrandMark";
 import { CUSTOMER_AUTH_COPY } from "./customerAuthCopy";
 
-/**
- * The two-column frame both customer doors sit in.
- *
- * The switch between signing in and joining is a Link to the other route, not
- * a state toggle. It used to be local state, so clicking "Create an account"
- * on /login swapped the form while the URL still read /login — a reload threw
- * you back to sign-in and lost whatever had been typed, and the page could not
- * be linked to or bookmarked in the state you were looking at.
- */
 export default function CustomerAuthShell({ mode, children, footer }) {
   const copy = CUSTOMER_AUTH_COPY[mode];
 

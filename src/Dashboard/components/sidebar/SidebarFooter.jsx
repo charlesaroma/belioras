@@ -1,10 +1,10 @@
+/* Admin Dashboard: SidebarFooter */
 import { useNavigate } from "react-router-dom";
 import { LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 
 import Avatar from "../../../components/account/Avatar";
 import { cn } from "../../../utils/cn";
 
-/** Collapse toggle, who is signed in, and the way out. */
 export default function SidebarFooter({ user, logout, collapsed, onToggleCollapsed }) {
   const navigate = useNavigate();
 

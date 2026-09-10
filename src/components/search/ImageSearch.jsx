@@ -1,3 +1,4 @@
+/* Search Component: ImageSearch */
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, ImageUp, Loader2, X } from "lucide-react";
@@ -10,14 +11,6 @@ import { cn } from "../../utils/cn";
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/heic";
 const MAX_EDGE = 512;
 
-/**
- * Downscale before anything is sent.
- *
- * A phone photo is several megabytes and 4000px wide; a similarity model works
- * from a few hundred pixels. Shrinking here keeps the eventual upload small
- * and keeps the full-resolution original — which may show a face, a home, a
- * street — on the shopper's device rather than on a server.
- */
 async function prepare(file, crop) {
   const bitmap = await createImageBitmap(file);
 
@@ -37,13 +30,6 @@ async function prepare(file, crop) {
   return { blob, url: URL.createObjectURL(blob) };
 }
 
-/**
- * Search by photograph.
- *
- * The whole experience — camera on mobile, drop or browse on desktop, preview,
- * downscale, submit — against a service that currently answers "not yet". It
- * says so rather than showing invented matches; see visualSearchApi.
- */
 export default function ImageSearch({ open, onClose }) {
   const navigate = useNavigate();
   const fileRef = useRef(null);

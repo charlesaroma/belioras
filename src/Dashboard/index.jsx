@@ -1,10 +1,4 @@
-/**
- * Dashboard barrel.
- *
- * Page folders are numbered in sidebar order (see lib/constants.jsx), the same
- * convention src/pages uses for the storefront. Each page owns a folder; its
- * private parts live in that folder's sections/.
- */
+
 export { default as DashboardLayout } from "./DashboardLayout";
 
 // Pages, in sidebar order

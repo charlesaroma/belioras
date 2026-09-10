@@ -5,14 +5,6 @@ import * as contentStore from "../services/contentStore";
 
 const ContentContext = createContext(null);
 
-/**
- * Thin React binding over the content store.
- *
- * The Dashboard uses `update` / `reset` to mutate content. The storefront only
- * ever reads `version` — a number it passes into useAsyncData's deps so its
- * service call re-runs after an edit. Storefront components never read content
- * through this context; they go through src/services as usual.
- */
 export function ContentProvider({ children }) {
   const version = useSyncExternalStore(
     contentStore.subscribe,
@@ -35,14 +27,6 @@ export function useContent() {
   return ctx;
 }
 
-/**
- * Content revision counter for useAsyncData deps:
- *   const version = useContentVersion();
- *   const { data } = useAsyncData(getHeroSlides, [version]);
- *
- * This is the only coupling between the storefront and the content layer, and
- * it carries no content — just a number that changes when something was edited.
- */
 export function useContentVersion() {
   return useSyncExternalStore(
     contentStore.subscribe,

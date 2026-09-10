@@ -1,12 +1,4 @@
-/**
- * Where each measurement is taken.
- *
- * Drawn here as inline SVG rather than shipped as an image: it scales to any
- * width without a second asset, needs no network request, and takes its
- * colours from the Belioras palette instead of arriving in someone else's
- * brand colours. Decorative — every label it carries is repeated as text in
- * SizeChartHowTo, so a screen reader loses nothing by skipping it.
- */
+
 export default function SizeChartFigure({ className = "" }) {
   return (
     <svg
@@ -65,7 +57,6 @@ export default function SizeChartFigure({ className = "" }) {
   );
 }
 
-/** A label on its own ground, so it stays legible where it crosses the figure. */
 function Callout({ x, y, label, width }) {
   return (
     <g>

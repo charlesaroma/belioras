@@ -1,9 +1,4 @@
-/**
- * Page controls, or just the count when everything fits on one page.
- *
- * Part of the table rather than a sibling the page has to remember to render
- * and keep in step.
- */
+
 export default function TablePagination({ table, pageCount, total, unit }) {
   if (pageCount <= 1) {
     return (

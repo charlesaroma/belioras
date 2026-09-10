@@ -1,3 +1,4 @@
+/* Layout Component: NavActions */
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { Heart, ShoppingBag, User } from "lucide-react";

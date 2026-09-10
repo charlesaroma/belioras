@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Settings - settings */
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Check } from "lucide-react";
@@ -12,22 +13,6 @@ import ShippingZonesPanel from "./sections/SettingsShippingZonesPanel";
 import CompliancePanels from "./sections/SettingsCompliancePanels";
 import { toFormValues, toSettingsPayload } from "./sections/settingsForm";
 
-/**
- * Store settings.
- *
- * Was entirely inert: three uncontrolled defaultValue inputs, three toggles
- * that were <button>s with hardcoded knob positions and no onClick — they
- * physically could not be switched — and a Save Changes button with no
- * handler. Its currency select also defaulted to USD in a Lisbon euro store.
- *
- * Everything here is bound to settings.json through the content store, so a
- * change reaches the storefront: the announcement bar, the cookie notice, the
- * shipping thresholds shown at checkout, and the contact addresses used across
- * the legal and client-care pages.
- *
- * This file owns the form and the save; each group of fields is a panel in
- * sections/, and the mapping to and from settings.json is in settingsForm.js.
- */
 export default function DashSettings() {
   const { toast } = useToast();
   const { data: settings, loading } = useAsyncData(getSettings, []);
@@ -43,13 +28,6 @@ export default function DashSettings() {
     if (settings) reset(toFormValues(settings));
   }, [settings, reset]);
 
-  /**
-   * Zones are edited as local state, not through react-hook-form.
-   *
-   * Derived during render rather than copied in an effect: null means "not
-   * edited yet, show what loaded", which avoids a setState-in-effect and the
-   * frame of empty rows it would cause before the copy landed.
-   */
   const [zoneEdits, setZones] = useState(null);
   const zones = zoneEdits ?? settings?.shipping?.zones ?? [];
 

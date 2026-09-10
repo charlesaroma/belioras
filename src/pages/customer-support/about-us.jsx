@@ -1,3 +1,4 @@
+/* Page: Customer-support - about-us */
 import { motion } from "motion/react";
 
 export default function AboutUsPage() {

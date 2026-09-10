@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Wishlist - wishlist */
 import { useMemo, useState } from "react";
 import { Heart, PackageX } from "lucide-react";
 
@@ -14,19 +15,6 @@ import {
 } from "../../../utils/gridColumns";
 import { cn } from "../../../utils/cn";
 
-/**
- * Saved pieces.
- *
- * Three things were wrong here. The page hand-rolled its own padding with no
- * header offset, so its <h1> rendered at y=48 while the fixed header ended at
- * 133 — the title was entirely behind the navbar, which is why the page read
- * as having none. It had no density control, unlike every other grid in the
- * shop. And ids for pieces that no longer exist were dropped silently by a
- * .filter(Boolean), so a wishlist could quietly shrink with no explanation.
- *
- * It now renders inside AccountLayout, which owns the offset, matches the
- * catalogue's toolbar and grid, and says so when something has gone.
- */
 export default function Wishlist() {
   const { ids, remove } = useWishlist();
   const { data: products, loading } = useAsyncData(getProducts, []);

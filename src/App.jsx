@@ -68,13 +68,13 @@ import {
 } from "./customerDashboard";
 import { cn } from "./utils/cn";
 
-/** Forwards /search?q=… to the real results surface, preserving the term. */
 function SearchRedirect() {
   const [params] = useSearchParams();
   const q = params.get("q");
   return <Navigate to={q ? `/shop?q=${encodeURIComponent(q)}` : "/shop"} replace />;
 }
 
+/* Application Providers: Wraps the application in necessary global contexts */
 function AppProviders({ children }) {
   return (
     <ContentProvider>
@@ -104,6 +104,7 @@ function AppProviders({ children }) {
   );
 }
 
+/* Storefront Layout: Defines the persistent storefront shell */
 function Layout() {
   return (
     <div className={cn('flex', 'min-h-dvh', 'flex-col', 'bg-ivory-50', 'text-espresso')}>
@@ -118,6 +119,7 @@ function Layout() {
   );
 }
 
+/* Root Application: Configures routing for all dashboard and storefront areas */
 function App() {
   return (
     <AppProviders>

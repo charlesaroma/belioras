@@ -1,16 +1,8 @@
+/* Storefront Component: SizeChartTabs */
 import { useRef } from "react";
 
 import { cn } from "../../../utils/cn";
 
-/**
- * Tab strip for the size chart.
- *
- * The dashboard has a similar-looking strip in CategoriesTableViewTabs, but it
- * is hardcoded to its page and sits across the Dashboard boundary, so this is
- * its own. It also adds what that one lacks and the WAI-ARIA tabs pattern
- * requires: one tab stop for the whole strip, arrow keys to move between tabs,
- * Home/End to jump, and aria-controls pointing at the panel.
- */
 export default function SizeChartTabs({ tabs, active, onChange, idBase }) {
   const refs = useRef([]);
 

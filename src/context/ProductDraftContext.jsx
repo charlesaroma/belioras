@@ -1,3 +1,4 @@
+/* Context Provider: ProductDraftContext */
 import { createContext, useCallback, useContext, useMemo } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -6,7 +7,6 @@ const ProductDraftContext = createContext(null);
 
 const STORAGE_KEY = "belioras:draft:product";
 
-/** updatedAt changes by definition, so it is excluded from the comparison. */
 function sameExceptTimestamp(a, b) {
   const strip = (draft) => {
     const rest = { ...draft };
@@ -16,20 +16,6 @@ function sameExceptTimestamp(a, b) {
   return strip(a) === strip(b);
 }
 
-/**
- * In-progress product uploads, held above the router.
- *
- * The requirement: open the upload modal, close it or navigate away, and the
- * work keeps going in a corner rather than being thrown out.
- *
- * That means the state cannot live in the form, or in the dashboard layout —
- * leaving /dashboard for the storefront would unmount either one. It sits in
- * AppProviders, outside BrowserRouter, so no navigation can touch it, and is
- * mirrored to localStorage so a reload does not lose it either.
- *
- * Keyed rather than a single slot, so an admin can have more than one draft
- * going and the dock can stack them.
- */
 export function ProductDraftProvider({ children }) {
   const [drafts, setDrafts] = useLocalStorage(STORAGE_KEY, {});
 

@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Team - team */
 import { useCallback, useMemo, useState } from "react";
 import { ShieldCheck } from "lucide-react";
 
@@ -12,23 +13,6 @@ import { buildTeamColumns } from "./sections/teamTable/teamTableColumns";
 import { AddMemberDialog, RoleChangeDialog } from "./sections/teamTable/TeamTableDialogs";
 import TeamToolbar from "./sections/teamTable/TeamTableToolbar";
 
-/**
- * The team.
- *
- * Split from the old combined Users page, which listed shoppers and staff
- * together with a role dropdown on every row — so the control that grants
- * administrator access sat beside a customer's delivery history. Access
- * management is its own job and now has its own page, open to administrators
- * only.
- *
- * Customers are deliberately absent, and the role selector offers only Staff
- * and Administrator. Promoting a shopper is not something to do by scrolling
- * past them: it happens through "Add an existing account", where you name the
- * person you mean.
- *
- * This file keeps the data and the decisions; the table's columns and the two
- * confirmation dialogs live in sections/.
- */
 export default function DashTeam() {
   const { locale } = useLanguage();
   const { toast } = useToast();

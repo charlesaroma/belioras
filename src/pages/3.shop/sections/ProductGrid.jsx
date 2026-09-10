@@ -1,3 +1,4 @@
+/* Page: Shop - ProductGrid */
 import { motion, AnimatePresence } from "motion/react";
 import ProductCard from "../../../components/storefront/ProductCard";
 import { COLUMN_CLASSES, COLUMN_GAP_CLASSES } from "../../../utils/gridColumns";

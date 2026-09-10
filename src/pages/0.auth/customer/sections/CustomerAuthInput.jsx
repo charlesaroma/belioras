@@ -1,9 +1,9 @@
+/* Page: Auth - CustomerAuthInput */
 import { motion } from "motion/react";
 
 const inputBase =
   "w-full border-b border-umber-50 bg-transparent px-0 py-3 text-sm text-espresso placeholder:text-espresso/40 focus:border-espresso focus:outline-none transition-colors";
 
-/** Underlined field whose label rises out of the way once something is typed. */
 export default function CustomerAuthInput({
   id,
   label,

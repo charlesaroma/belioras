@@ -1,16 +1,10 @@
+/* Page: Home - TrustBadgesSection */
 import { Lock, RotateCcw, ShieldCheck, Truck } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { getSettings } from "../../../services/settingsApi";
 
-/**
- * Shipping, returns and security badges — confirmed for the homepage in the
- * design review.
- *
- * Copy comes from settings rather than being hardcoded here, which both removes
- * a duplicate of the same four items and makes them dashboard-editable.
- */
 const ICONS = {
   truck: Truck,
   refresh: RotateCcw,

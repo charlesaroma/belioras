@@ -1,6 +1,6 @@
+/* Customer Dashboard Page: Orders - OrderDetailLines */
 import { Link } from "react-router-dom";
 
-/** The pieces on the order, and what they came to. */
 export default function OrderLines({ order, thumbnails, format, discount }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-umber-50 bg-white">

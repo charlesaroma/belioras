@@ -1,9 +1,9 @@
+/* Admin Dashboard Page: Mega-menu - MegaMenuLinkRow */
 import { ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 
 import { cn } from "../../../../utils/cn";
 import IconAction from "../../../components/IconAction";
 
-/** One link: its label, its path, how many pieces it returns, and its controls. */
 export default function MenuLinkRow({ item, index, lastIndex, count, editor, sectionId }) {
   return (
     <li className="flex flex-wrap items-center gap-2 border-b border-umber-50/60 pb-2 last:border-b-0 sm:border-b-0 sm:pb-0">

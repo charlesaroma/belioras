@@ -1,22 +1,6 @@
+/* Page: Shop - PriceRangeSlider */
 import { useCurrency } from "../../../context/CurrencyContext";
 import { cn } from "../../../utils/cn";
-
-/**
- * Dual-handle price range.
- *
- * The previous version set both inputs to opacity-0 and drew only the filled
- * track, so there were no visible handles at all — and because both inputs
- * spanned the full width, the upper one swallowed every pointer event and the
- * lower handle could not be grabbed on the right-hand side.
- *
- * Fixed by styling the *native* thumbs rather than hiding them: the input keeps
- * its keyboard and screen-reader behaviour for free, while the thumb becomes
- * the visible knob. `pointer-events` is disabled on the track and re-enabled on
- * the thumb, so both handles stay independently draggable.
- *
- * The knob follows the iOS convention — a white circle with a hairline border
- * and a soft shadow over a thin track, growing slightly while dragged.
- */
 
 /* Shared thumb styling. Both vendor pseudo-elements need it spelled out; they
    cannot be combined into one selector, since an unknown pseudo-element

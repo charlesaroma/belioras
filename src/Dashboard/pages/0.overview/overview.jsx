@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Overview - overview */
 import { useMemo } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -11,15 +12,6 @@ import RecentOrders from "./sections/overviewTable/OverviewRecentOrders";
 
 const RECENT_ORDER_COUNT = 6;
 
-/**
- * Overview — the dashboard's index page.
- *
- * Every figure is derived from the same order and product data the storefront
- * reads; previously they were hardcoded, showing dollar amounts in a euro
- * store and dates from 2024. A test order placed on the site now appears here.
- *
- * This file fetches and formats; each band of the page is a section beside it.
- */
 export default function DashOverview() {
   const { data: stats, loading } = useAsyncData(getDashboardStats, []);
   const { data: orders } = useAsyncData(() => getRecentOrders(RECENT_ORDER_COUNT), []);

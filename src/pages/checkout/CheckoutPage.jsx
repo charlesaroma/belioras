@@ -1,3 +1,4 @@
+/* Page: Checkout - CheckoutPage */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -19,20 +20,6 @@ import { computeTotals, nonReturnableItems } from "../../utils/checkout";
 import DeliveryForm from "./sections/DeliveryForm";
 import OrderSummary from "./sections/OrderSummary";
 
-/**
- * Checkout.
- *
- * This was a twelve-line stub reading "Shipping, payment and order summary are
- * being built", and `createOrder` had no callers anywhere — so no customer
- * could place an order, and every figure in the dashboard was pinned to the
- * twelve seeded ones.
- *
- * Payment is deliberately not simulated. Stripe and PayPal are backend work;
- * pretending to take a card would be the one failure here that costs real
- * money and real trust. The order is placed as "To pay" and says so plainly,
- * which is a real state in the lifecycle rather than an invented one — an
- * admin sees it in the dashboard and can move it on once payment is arranged.
- */
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { toast } = useToast();

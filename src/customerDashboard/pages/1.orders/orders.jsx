@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Orders - orders */
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, PackageOpen } from "lucide-react";
 

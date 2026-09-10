@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Addresses - addresses */
 import { useState } from "react";
 import { Plus } from "lucide-react";
 
@@ -8,15 +9,6 @@ import AddressForm from "./sections/AddressForm";
 import AddressList from "./sections/AddressList";
 import { EMPTY_FORM, NO_ADDRESSES, validateAddress } from "./sections/addressesRules";
 
-/**
- * The address book.
- *
- * Scoped per account. This was one device-global key seeded with a sample
- * address, so signing out and in as someone else showed them a stranger's home
- * address as their own. Not merged from the anonymous store on sign-in: a
- * delivery address is not something to silently move between accounts the way
- * a wishlist is.
- */
 export default function Addresses() {
   const { user } = useAuth();
   const { toast } = useToast();

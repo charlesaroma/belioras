@@ -1,21 +1,7 @@
+/* Page: Shop - ShopHeader */
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
-/**
- * Catalog page header — /shop and every category route.
- *
- * No image. The previous version was a 420-480px full-bleed banner reusing
- * the same stock photograph on every category — Dresses, Hair, Accessories
- * and every faceted URL beneath them all showed the identical image, which
- * reads as filler rather than as anything specific to what's being browsed,
- * and pushes the actual product a full screen down before a shopper sees any.
- *
- * Replaced with the typographic language already used everywhere else on the
- * site — New Arrivals, Best Sellers and Featured Collection all render a
- * centred serif heading over a short gold rule. Using it here too means the
- * catalog page finally looks like part of the same site instead of a
- * different template, and it collapses roughly 450px of banner into about 90.
- */
 function ShopHeader({ title = "All Collections", breadcrumb = [] }) {
   return (
     <header

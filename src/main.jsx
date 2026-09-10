@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
+/* Application Entry Point: Renders the root App component into the DOM */
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />

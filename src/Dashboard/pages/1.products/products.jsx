@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Products - products */
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Package } from "lucide-react";
@@ -19,18 +20,6 @@ import { emptyState, statusTabs, toRows } from "./sections/productsTable/product
 import BulkActionsBar from "./sections/productsTable/ProductsTableBulkActions";
 import DeleteProductDialog from "./sections/productsTable/ProductsDeleteDialog";
 
-/**
- * Product management.
- *
- * This page previously rendered a hardcoded six-row array declared at the top
- * of the file — "Cashmere Blazer", "Wool Coat", prices as "$245.00" strings —
- * while the real catalogue held 39 products priced in euros. Its search input
- * had no value and no handler, its Filter button had no onClick, and its
- * create/edit/delete wrote to component state and reverted on reload.
- *
- * Everything here reads the catalogue through productsApi and writes through
- * it, so a change reaches the storefront and survives a restart.
- */
 export default function DashProducts() {
   const navigate = useNavigate();
   const { toast } = useToast();

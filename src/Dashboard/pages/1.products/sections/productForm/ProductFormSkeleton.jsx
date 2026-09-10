@@ -1,4 +1,4 @@
-/** Placeholder while an existing product loads for editing. */
+
 export default function FormSkeleton() {
   return (
     <div className="space-y-4" aria-hidden="true">

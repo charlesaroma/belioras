@@ -1,3 +1,4 @@
+/* Page: Shop - constants */
 export const COLOR_MAP = {
   Blush: "#f4bfb2", Burgundy: "#6b2d35", Caramel: "#c07f40", Champagne: "#f2d680",
   Chestnut: "#954535", "Dark Brown": "#3b1f0f", Ebony: "#2d2a26", Forest: "#2d4a35",

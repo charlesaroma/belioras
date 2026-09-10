@@ -1,3 +1,4 @@
+/* Page: Checkout - OrderSummary */
 import { useState } from "react";
 import { Loader2, Tag, X } from "lucide-react";
 
@@ -5,20 +6,6 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { validateCoupon } from "../../../services/couponsApi";
 import { cn } from "../../../utils/cn";
 
-/**
- * What is in the bag and what it costs.
- *
- * The coupon field lives here rather than beside the address, because a
- * discount is a fact about the total and belongs where the total is read.
- *
- * VAT is shown as a component of the total, not a line added to it — the
- * prices already include it. See utils/checkout.js.
- *
- * The coupon control is a div, not a form. This renders inside the checkout
- * form, and a nested form is invalid HTML: the browser drops the inner one, so
- * its submit button silently becomes a submit button for the outer form. That
- * made "Apply" place the order and made the coupon never apply at all.
- */
 export default function OrderSummary({ items, totals, coupon, onCoupon, disabled }) {
   const { format } = useCurrency();
   const [code, setCode] = useState("");

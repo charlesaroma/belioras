@@ -1,7 +1,7 @@
+/* Customer Dashboard Page: Orders - OrderDetailStates */
 import { Link } from "react-router-dom";
 import { ArrowLeft, PackageX } from "lucide-react";
 
-/** Placeholder of the same shape as the loaded order. */
 export function OrderSkeleton() {
   return (
     <div className="space-y-6" aria-hidden="true">
@@ -21,12 +21,6 @@ export function OrderSkeleton() {
   );
 }
 
-/**
- * Shown when the order is missing, or belongs to someone else.
- *
- * The wording does not distinguish the two: telling a stranger that an id
- * exists but is not theirs is more than they need to know.
- */
 export function OrderNotFound() {
   return (
     <div className="rounded-2xl border border-umber-50 bg-white px-6 py-16 text-center">

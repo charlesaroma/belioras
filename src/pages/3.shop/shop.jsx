@@ -1,3 +1,4 @@
+/* Page: Shop - shop */
 import { useSearchParams } from "react-router-dom";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
@@ -5,7 +6,6 @@ import { getProducts } from "../../services/productsApi";
 
 import CatalogView from "./sections/CatalogView";
 
-/** /shop — the unfiltered catalog, and the surface search results land on. */
 export default function ShopPage() {
   const { data: products, loading, error } = useAsyncData(getProducts, []);
   const [params] = useSearchParams();

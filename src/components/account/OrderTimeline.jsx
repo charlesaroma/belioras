@@ -1,23 +1,7 @@
+/* Account Component: OrderTimeline */
 import { ORDER_STAGES, isOffTimeline, stageOf } from "../../utils/orderStatus";
 import { cn } from "../../utils/cn";
 
-/**
- * Where an order has reached, across the four agreed stages.
- *
- * Shared because three surfaces show it: the account order detail, the public
- * order tracker and the account overview. The stage vocabulary already lived in
- * utils/orderStatus, but each surface drew its own markup — which is how the
- * tracker ended up with a `refunded` case the account pages never had.
- *
- * Two orientations because the two contexts genuinely differ. Horizontal reads
- * as a summary band above an order's detail; vertical, with a rule connecting
- * the marks, reads as a progress report and is what the standalone tracker
- * wants. Same stages, same source of truth, one component.
- *
- * Returns nothing for an order that has left the timeline. A cancelled or
- * refunded order needs its own sentence, not a timeline with the first dot lit;
- * the caller supplies that.
- */
 export default function OrderTimeline({
   status,
   orientation = "horizontal",

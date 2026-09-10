@@ -1,18 +1,10 @@
+/* Page: Checkout - Confirmation */
 import { useLocation, useParams } from "react-router-dom";
 import { Check } from "lucide-react";
 
 import Button from "../../components/ui/Button";
 import PageShell from "../../components/layout/PageShell";
 
-/**
- * Order placed — for a guest.
- *
- * A signed-in customer goes straight to the order in their account. A guest
- * has no account to go to, so the reference shown here is the only way they
- * will find this order again on the public tracker. That makes writing it
- * down the single most important thing on the page, which is why it is the
- * largest element and why the tracker needs both it and the email.
- */
 export default function CheckoutConfirmation() {
   const { id } = useParams();
   const { state } = useLocation();

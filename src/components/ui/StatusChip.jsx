@@ -1,23 +1,10 @@
+/* Ui Component: StatusChip */
 import { PRODUCT_STATUS, STATUS_TONES } from "../../Dashboard/lib/constants";
 import { ORDER_STATUS, normalizeStatus } from "../../utils/orderStatus";
 import { cn } from "../../utils/cn";
 
 const SETS = { order: ORDER_STATUS, product: PRODUCT_STATUS };
 
-/**
- * The single status chip.
- *
- * Five different chip renderers existed across the dashboard and the account
- * pages, four of which reached past STATUS_TONES for stock Tailwind palette
- * colours — bg-green-100, bg-blue-100, bg-purple-100, bg-yellow-100 — that
- * belong to no part of the brand. STATUS_TONES was written to fix exactly
- * this and was wired into one of the five.
- *
- * An unknown status renders its raw key in the neutral tone rather than
- * disappearing, so a vocabulary mismatch is visible instead of silent. That
- * matters here: `paid` is absent from two of the three status maps in this
- * codebase, and under the old renderers those orders showed a blank chip.
- */
 export default function StatusChip({ status, kind = "order", className }) {
   if (!status) return null;
 

@@ -1,3 +1,4 @@
+/* Admin Dashboard: SalesChart */
 import {
   Area,
   AreaChart,
@@ -8,14 +9,6 @@ import {
   YAxis,
 } from "recharts";
 
-/**
- * Revenue over time.
- *
- * A thin gold line over a soft wash, rather than the solid gold bars this used
- * to draw. Six chunky bars in the brand's accent colour dominated the page and
- * made gold read as "chart", not "accent"; a line also shows the shape of the
- * trend, which is the actual question being asked of it.
- */
 export default function SalesChart({ data, formatValue }) {
   return (
     <div className="h-72 w-full">

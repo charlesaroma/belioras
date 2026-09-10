@@ -1,11 +1,6 @@
+/* Admin Dashboard Page: Products - ProductsDeleteDialog */
 import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
 
-/**
- * Delete confirmation.
- *
- * The summary names the piece and its price and stock, so an admin can see
- * they staged the row they meant before committing.
- */
 export default function DeleteProductDialog({ product, format, onClose, onConfirm }) {
   return (
     <ConfirmDialog

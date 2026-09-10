@@ -1,16 +1,6 @@
+/* Admin Dashboard: StatCard */
 import { cn } from "../../utils/cn";
 
-/**
- * A single headline figure.
- *
- * Deliberately quiet: a hairline border and no drop shadow, with the number
- * set in the display serif at a size that lets it carry the card on its own.
- * The previous version wrapped every figure in a tinted icon chip with a
- * shadow, which is the visual language of a generic admin template — the
- * restraint is what makes it read as the same brand as the storefront.
- *
- * Gold appears only on the rule beneath the label, not as a fill.
- */
 export default function StatCard({ label, value, change, hint, icon: Icon }) {
   const hasChange = typeof change === "number" && Number.isFinite(change);
   const isPositive = hasChange && change >= 0;

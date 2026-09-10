@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Categories - categories */
 import { useMemo, useState } from "react";
 import { LayoutGrid, Tags } from "lucide-react";
 
@@ -10,19 +11,6 @@ import CategoriesToolbar from "./sections/categoriesTable/CategoriesTableToolbar
 import { toAttributeRows, toLeafRows } from "./sections/categoriesTable/categoriesTableRows";
 import { ATTRIBUTE_COLUMNS, MENU_COLUMNS } from "./sections/categoriesTable/categoriesTableColumns";
 
-/**
- * Categories and attributes.
- *
- * Previously six invented rows — "Mini Dresses", "Prom & Gala", "Jumpsuits" —
- * that had nothing to do with the navigation tree the storefront actually
- * renders or the taxonomy its filters are built from.
- *
- * Two different things live here and the page now says so. Menu leaves are the
- * navigation structure: the paths shoppers reach from the mega menu. Attributes
- * are the filter vocabulary. Both drive what a piece can be found by, so both
- * show a live product count — a leaf reading 0 is a dead end in the menu, and
- * that is the single most useful thing this page can tell an admin.
- */
 export default function DashCategories() {
   const [tab, setTab] = useState("menu");
   const [query, setQuery] = useState("");

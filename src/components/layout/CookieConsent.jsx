@@ -1,3 +1,4 @@
+/* Layout Component: CookieConsent */
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
@@ -11,23 +12,6 @@ import { getSettings } from "../../services/settingsApi";
 const ACCEPTED = "accepted";
 const REJECTED = "rejected";
 
-/**
- * Cookie notice.
- *
- * The only uninvited element left on the site — everything else the review
- * classed as a popup has been removed. It stays because Belioras Maison Lda
- * trades from Lisbon, so GDPR and ePrivacy apply and consent has to be
- * collected before non-essential cookies are set.
- *
- * Consequently it is a bar, not a modal: role="region" rather than "dialog",
- * no focus trap, and the page stays fully usable behind it.
- *
- * Two deliberate compliance choices:
- *  - Escape no longer records a rejection. Consent captured from a stray
- *    keypress is not consent, and silently storing one is worse than asking again.
- *  - Reject carries the same visual weight as Accept. Nudging toward Accept
- *    with a low-contrast decline link is the pattern EDPB guidance calls out.
- */
 export default function CookieConsent() {
   const version = useContentVersion();
   const { data: settings } = useAsyncData(getSettings, [version]);
@@ -47,11 +31,6 @@ export default function CookieConsent() {
   const isVisible = needsChoice && !!settings;
   const barRef = useRef(null);
 
-  /**
-   * Publishes the bar's height so anything else anchored to the bottom of the
-   * viewport can sit above it instead of underneath. Measured rather than
-   * hardcoded because the copy wraps to a different number of lines on a phone.
-   */
   useEffect(() => {
     const root = document.documentElement;
 

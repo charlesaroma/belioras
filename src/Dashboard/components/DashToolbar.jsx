@@ -1,15 +1,8 @@
+/* Admin Dashboard: DashToolbar */
 import { Search, X } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
-/**
- * Search, filters and page actions above a table.
- *
- * Every list page hand-rolled this row, and on three of them the search input
- * had no value and no onChange and the Filter button had no onClick — controls
- * that looked operable and were not. This is the working version, and it is
- * controlled, so the page owns the query.
- */
 export default function DashToolbar({
   query,
   onQueryChange,
@@ -52,12 +45,6 @@ export default function DashToolbar({
   );
 }
 
-/**
- * Segmented status filter.
- *
- * A row of options beats a dropdown here: there are never more than five, and
- * showing the counts inline answers "how many are drafts?" without a click.
- */
 export function FilterTabs({ options, value, onChange, ariaLabel = "Filter" }) {
   return (
     // flex-wrap because four tabs at ~360px exceeded the 335px available on a

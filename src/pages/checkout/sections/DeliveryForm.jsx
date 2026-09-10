@@ -1,16 +1,6 @@
+/* Page: Checkout - DeliveryForm */
 import Field from "../../../components/ui/Field";
 
-/**
- * Who is buying and where it goes.
- *
- * Guest checkout by design — requiring registration before a first purchase
- * is a well-known way to lose the purchase. A signed-in shopper has these
- * prefilled from their account and can still change them for this order.
- *
- * The email field carries the weight: it is where the confirmation and the
- * tracking reference go, and for a guest it is the only way they will ever
- * find this order again on the public tracker.
- */
 export default function DeliveryForm({ register, errors, savedAddresses, onUseSaved, signedIn }) {
   return (
     <div className="space-y-6">

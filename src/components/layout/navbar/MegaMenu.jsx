@@ -1,20 +1,9 @@
+/* Layout Component: MegaMenu */
 import { AnimatePresence, motion } from "motion/react";
 
 import MegaMenuPanel from "./MegaMenuPanel";
 import { megaMenuColumns, megaMenuLayoutFor } from "./megaMenuLayout";
 
-/**
- * Desktop chrome around MegaMenuPanel.
- *
- * `hidden lg:block` deliberately matches the navbar container's breakpoint.
- * When this was `md` the panel existed in the DOM between 768 and 1024px with
- * no visible trigger, leaving keyboard users able to tab into an invisible menu.
- *
- * Two shapes now. A category with a lot in it keeps the full-bleed band; one
- * with a handful of links gets a dropdown that hugs its content, anchored
- * under the trigger that opened it. Previously every root rendered the band,
- * so two links and forty-four were given the same space.
- */
 export default function MegaMenu({ category, anchorLeft, onMouseEnter, onMouseLeave }) {
   const layout = category ? megaMenuLayoutFor(category) : "compact";
   const columns = megaMenuColumns(category, layout);

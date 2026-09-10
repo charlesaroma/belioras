@@ -1,3 +1,4 @@
+/* Layout Component: SearchPanel */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Camera, Search, X } from "lucide-react";
@@ -15,18 +16,6 @@ import { cn } from "../../../utils/cn";
 
 const DEFAULT_RESULTS = 6;
 
-/**
- * Full-width search panel, in the pattern from the design prototype: the
- * header opens a band beneath itself rather than routing to a results page,
- * so a shopper can look something up and carry on without losing their place.
- *
- * Facets are derived from the catalog actually loaded, not from the taxonomy
- * wholesale — offering a colour nothing in stock carries is a dead end.
- *
- * Where the prototype tracked the header's position with a scroll listener and
- * getBoundingClientRect, this reads the --header-height the navbar already
- * publishes: one measurement, no listener, and it cannot drift out of sync.
- */
 export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   const navigate = useNavigate();
   const { format } = useCurrency();
@@ -89,7 +78,6 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     };
   }, [open, close]);
 
-  /** Swatches for colours the catalog actually stocks, in taxonomy order. */
   const colourSwatches = useMemo(() => {
     const stocked = new Set(
       catalog.flatMap((p) => (p.colors ?? []).map((c) => COLOR_NAME_TO_TAXONOMY[c]).filter(Boolean)),

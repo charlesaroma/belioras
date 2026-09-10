@@ -1,19 +1,8 @@
+/* Ui Component: EmptyState */
 import { cn } from "../../utils/cn";
 
 import Button from "./Button";
 
-/**
- * What a surface says when it holds nothing.
- *
- * No empty state existed anywhere in the repo, so a table with no rows drew
- * its header over blank space and a filtered grid returned silence. An empty
- * result is a normal outcome and deserves an explanation and a way onward,
- * not an absence.
- *
- * Deliberately quiet: a hairline, a small mark, one sentence. A large
- * illustrated placeholder would be the loudest thing on an otherwise
- * restrained page, which inverts the emphasis.
- */
 export default function EmptyState({
   icon: Icon,
   title,

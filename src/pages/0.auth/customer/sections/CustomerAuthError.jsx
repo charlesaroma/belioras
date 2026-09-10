@@ -1,6 +1,6 @@
+/* Page: Auth - CustomerAuthError */
 import { motion } from "motion/react";
 
-/** Whatever the server said went wrong, above the submit button. */
 export default function CustomerAuthError({ message }) {
   if (!message) return null;
 

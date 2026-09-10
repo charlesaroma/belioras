@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Orders - orders */
 import { useCallback, useMemo, useState } from "react";
 import { Receipt } from "lucide-react";
 
@@ -12,14 +13,6 @@ import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 
-/**
- * Order management.
- *
- * Previously a hardcoded array with 2024 dates and dollar totals in a Lisbon
- * euro store, whose row click was `console.log("View order:", row.id)`. There
- * was no detail view and no way to advance an order — the one thing an admin
- * actually needs to do here.
- */
 export default function DashOrders() {
   const { format } = useCurrency();
   const { locale } = useLanguage();

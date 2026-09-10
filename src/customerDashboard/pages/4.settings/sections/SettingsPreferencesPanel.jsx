@@ -1,12 +1,6 @@
+/* Customer Dashboard Page: Settings - SettingsPreferencesPanel */
 import Field from "../../../../components/ui/Field";
 
-/**
- * Language and currency.
- *
- * Saved to the account rather than the device, so they follow the customer to
- * another browser — and applied locally at the same time, so the change is
- * visible before the save round-trips.
- */
 export default function PreferencesPanel({
   language,
   locales,

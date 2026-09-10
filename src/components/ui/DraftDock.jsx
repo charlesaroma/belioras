@@ -1,3 +1,4 @@
+/* Ui Component: DraftDock */
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ImagePlus, X } from "lucide-react";
@@ -5,22 +6,6 @@ import { ImagePlus, X } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useProductDraft } from "../../context/ProductDraftContext";
 
-/**
- * The minimised upload, docked bottom-right.
- *
- * Closing the product form or navigating away collapses the work to here
- * rather than discarding it — including a walk out to the storefront, which is
- * why this renders app-wide rather than inside the dashboard layout. Restore
- * returns to the form with everything intact.
- *
- * Progress, when shown, is the real per-file decode-and-downscale pass from
- * Dropzone. There is deliberately no simulated network bar: nothing is being
- * uploaded anywhere yet, and a moving bar that means nothing is worse than no
- * bar. When the backend media module lands, real upload progress takes the
- * same slot.
- *
- * Sits above the toasts so an Undo never covers an in-flight draft.
- */
 export default function DraftDock() {
   const { drafts, clearDraft } = useProductDraft();
   const { isAdmin } = useAuth();

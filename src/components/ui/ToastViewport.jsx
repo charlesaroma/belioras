@@ -1,3 +1,4 @@
+/* Ui Component: ToastViewport */
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AlertTriangle, Check, Info, X, XCircle } from "lucide-react";
 
@@ -20,17 +21,6 @@ const TONES = {
   info: "text-gold-700",
 };
 
-/**
- * Renders the toast stack. Mount exactly one, in App.jsx.
- *
- * Bottom-right, above the cookie bar but below modals, on the same ivory
- * surface as the header so feedback reads as part of the site rather than a
- * browser notification. Square corners and a hairline border, matching the
- * catalogue rather than the rounded language the dashboard used to use.
- *
- * Errors announce assertively; everything else waits its turn so a routine
- * "Saved" never interrupts what a screen reader is already reading.
- */
 export default function ToastViewport() {
   const { toasts, dismiss, pause, resume } = useToast();
   const reduceMotion = useReducedMotion();

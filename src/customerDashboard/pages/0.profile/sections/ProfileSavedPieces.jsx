@@ -1,9 +1,9 @@
+/* Customer Dashboard Page: Profile - ProfileSavedPieces */
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 
 import EmptyState from "../../../../components/ui/EmptyState";
 
-/** "What did I save" — a strip of thumbnails through to the full wishlist. */
 export default function SavedPieces({ pieces, total }) {
   return (
     <section>

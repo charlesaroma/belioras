@@ -1,12 +1,6 @@
+/* Storefront Component: SizeChartInternational */
 import SizeChartTable from "./SizeChartTable";
 
-/**
- * What a Belioras size is called elsewhere.
- *
- * Belioras ships across the EU and beyond, so a shopper who knows they are a
- * UK 12 needs to get to L without guessing. Sizing is not standardised between
- * markets, which is why the note says these are a guide rather than a promise.
- */
 export default function SizeChartInternational({ international }) {
   const columns = ["Size", ...international.columns];
   const rows = international.rows.map((r) => [r.size, r.us, r.uk, r.eu, r.aus, r.tr]);

@@ -1,12 +1,7 @@
+/* Admin Dashboard Page: Team - TeamTableDialogs */
 import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
 import { roleLabel } from "./teamTableRoles";
 
-/**
- * Confirms a role change, or the removal of atelier access.
- *
- * `pending` is `{ user, role }` or null; role "customer" means removal, which
- * is the destructive branch.
- */
 export function RoleChangeDialog({ pending, onClose, onConfirm }) {
   const removing = pending?.role === "customer";
 
@@ -35,12 +30,6 @@ export function RoleChangeDialog({ pending, onClose, onConfirm }) {
   );
 }
 
-/**
- * Adds an existing account to the team by email.
- *
- * There is no create-account action anywhere on this page: an administrator
- * making an account for someone means choosing their password for them.
- */
 export function AddMemberDialog({ open, email, onEmailChange, onClose, onConfirm }) {
   return (
     <ConfirmDialog

@@ -1,11 +1,7 @@
+/* Admin Dashboard Page: Settings - SettingsContactPanel */
 import Field from "../../../../components/ui/Field";
 import Panel from "./SettingsPanel";
 
-/**
- * The two mailboxes Belioras actually operates, plus the boutique details.
- * These feed the legal pages, the client-care pages and the contact form, so
- * one edit here changes every one of them.
- */
 export default function ContactPanel({ register, errors }) {
   return (
     <Panel

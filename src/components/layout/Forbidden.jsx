@@ -1,21 +1,9 @@
+/* Layout Component: Forbidden */
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
-/**
- * 403.
- *
- * A signed-in customer who typed /dashboard used to be silently teleported to
- * their account overview — no message, nothing to explain why the page they
- * asked for became a different page. Silence reads as a bug.
- *
- * Two contexts, because the guard fails in two places. Refusing the whole
- * dashboard replaces the shell, so it fills the screen and offers the
- * storefront. Refusing one section inside the dashboard renders in the
- * content column with the sidebar still there, so it stays compact and offers
- * the sections that person can actually use.
- */
 export default function Forbidden({
   title = "Not your door",
   message = "This part of Belioras is for the atelier team. Your account does not have access to it.",

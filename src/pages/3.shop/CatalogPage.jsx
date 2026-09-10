@@ -1,3 +1,4 @@
+/* Page: Shop - CatalogPage */
 import { useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -9,15 +10,6 @@ import NotFound from "../../components/layout/NotFound";
 
 import CatalogView from "./sections/CatalogView";
 
-/**
- * Every category route — /shop/occasion/party, /hair/wigs/straight,
- * /accessories/bags/clutch, and the bare roots.
- *
- * Mounted behind splat routes so it handles all three URL depths present in the
- * navigation data without the router enumerating dimensions. Validity comes
- * from the navigation tree itself (see catalogApi), so a path the mega menu
- * links to can never 404, and an invented one always does.
- */
 export default function CatalogPage() {
   const { pathname } = useLocation();
   const version = useContentVersion();

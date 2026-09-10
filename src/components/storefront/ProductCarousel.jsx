@@ -1,3 +1,4 @@
+/* Storefront Component: ProductCarousel */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -5,16 +6,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { cn } from "../../utils/cn";
 
-/**
- * Horizontally scrolling product rail — the presentation agreed for both New
- * Arrivals and Best Sellers.
- *
- * Chrome matches the design prototype: centred serif heading over a short gold
- * rule, circular arrows sitting just outside the track at its vertical centre,
- * and a bordered "View more" beneath. The track uses native scroll-snap rather
- * than a carousel library, which keeps touch and trackpad momentum, stays
- * navigable as a plain scroll container, and costs no bundle weight.
- */
 export default function ProductCarousel({ title, products, loading, ctaLabel, ctaTo, limit = 8 }) {
   const trackRef = useRef(null);
   const [overflows, setOverflows] = useState(false);
@@ -34,7 +25,6 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
     return () => observer.disconnect();
   }, [items.length]);
 
-  /** Steps by one card plus its gutter, so the track lands on a snap point. */
   const scroll = useCallback((direction) => {
     const track = trackRef.current;
     if (!track) return;

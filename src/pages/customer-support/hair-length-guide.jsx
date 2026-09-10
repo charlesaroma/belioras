@@ -1,13 +1,7 @@
+/* Page: Customer-support - hair-length-guide */
 import PageShell, { Section } from "../../components/layout/PageShell";
 import SizeChart from "../../components/storefront/sizeChart/SizeChart";
 
-/**
- * Hair lengths and textures.
- *
- * The length and texture tables moved into the shared size chart, so a hair
- * product page and this page cannot disagree about how a 20-inch curly wig
- * wears. What stays here is the advice around them.
- */
 export default function HairLengthGuidePage() {
   return (
     <PageShell

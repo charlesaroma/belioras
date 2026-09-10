@@ -1,6 +1,6 @@
+/* Admin Dashboard Page: Overview - OverviewRevenuePanel */
 import SalesChart from "../../../components/SalesChart";
 
-/** Revenue over time. Compact currency so the axis does not wrap. */
 export default function RevenuePanel({ series, formatCompact }) {
   return (
     <section className="border border-umber-50 bg-ivory-50 p-6" aria-labelledby="revenue-heading">

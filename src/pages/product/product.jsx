@@ -1,3 +1,4 @@
+/* Page: Product - product */
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Heart, Loader2, Share2 } from "lucide-react";
@@ -47,20 +48,9 @@ export default function ProductPage() {
 
   const suggestions = (related ?? []).filter((p) => p.id !== product?.id).slice(0, 4);
 
-  /**
-   * A product page is frequently the entry point — a shared link, an ad, a
-   * search result — and navigate(-1) from there either does nothing or throws
-   * the visitor off the site. React Router marks the first entry in a session
-   * with key "default", so fall back to the product's collection instead.
-   */
   const cameFromWithinSite = location.key !== "default";
   const collectionPath = product?.collectionId ? `/${product.collectionId}` : "/shop";
 
-  /**
-   * Native share sheet where the browser offers one — it exposes the platforms
-   * the visitor actually uses rather than a fixed row of icons that goes stale
-   * — falling back to copying the link, which works everywhere.
-   */
   const handleShare = async () => {
     const url = window.location.href;
     const payload = { title: product.name, text: product.description, url };
@@ -204,7 +194,6 @@ export default function ProductPage() {
   );
 }
 
-/** Variant selection and everything downstream of it. */
 function BuyPanel({ product }) {
   const { addItem } = useCart();
   const { has, toggle } = useWishlist();
@@ -369,10 +358,6 @@ function BuyPanel({ product }) {
   );
 }
 
-/**
- * Built on <details> so it works before hydration and is reachable by the
- * browser's find-in-page, which a div-based accordion is not.
- */
 function Accordion({ title, children }) {
   return (
     <details className="group py-4">

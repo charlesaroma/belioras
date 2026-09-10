@@ -1,3 +1,4 @@
+/* Layout Component: MegaMenuPanel */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown } from "lucide-react";
@@ -5,43 +6,11 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { cn } from "../../../utils/cn";
 
-/**
- * Expand/collapse timing for the drawer's nested sections.
- *
- * A long ease-out tail is what makes the panel feel like it settles rather
- * than snaps — the height carries most of the duration while the contents
- * fade in over roughly the first two thirds, so the list is readable before
- * the box has finished growing.
- */
 const EASE_OUT_SOFT = [0.22, 1, 0.36, 1];
 const SECTION_DURATION = 0.38;
 
-/**
- * The contents of one navigation root — link columns beside editorial imagery.
- *
- * One renderer serves both chromes: the desktop flyout lays sections out in
- * columns, the mobile drawer collapses them into accordions. Keeping it in a
- * single component is what stops the two presentations drifting apart.
- *
- * The category structure is the one the client signed off on, unchanged. What
- * changed is the treatment: the previous version read as a sitemap — flat text
- * in columns with two small thumbnails stranded at the right and a large field
- * of dead space beneath them. Here the imagery is full-height and carries its
- * own captions, links get a gold underline that sweeps on hover, and a footer
- * strip closes the panel instead of letting it trail off.
- */
-
-/** Small enough that a long list still resolves quickly — see note on stagger. */
 const STAGGER = 0.035;
 
-/**
- * Sections are capped rather than dumped in full.
- *
- * Shop carries 67 leaves; rendering every one made the panel taller than the
- * viewport and turned a navigation aid into a sitemap. Showing the first few
- * and linking onward is both the shorter panel and the better read — nobody
- * scans thirteen colour names, they scan for the two they came for.
- */
 const ITEMS_PER_SECTION = 6;
 
 export default function MegaMenuPanel({
@@ -276,13 +245,6 @@ export default function MegaMenuPanel({
   );
 }
 
-/**
- * Editorial imagery.
- *
- * Full-height on desktop rather than the previous pair of small squares, which
- * left the right third of the panel empty. The first tile is given the taller
- * share so the block has a focal point instead of reading as a uniform grid.
- */
 function TileGrid({ tiles, onNavigate }) {
 
   return (

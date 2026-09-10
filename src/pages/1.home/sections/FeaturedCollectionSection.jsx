@@ -1,26 +1,10 @@
+/* Page: Home - FeaturedCollectionSection */
 import { Link } from "react-router-dom";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getFeaturedProducts } from "../../../services/productsApi";
 
-/**
- * Featured Collection — confirmed in the design review to take the slot New
- * Arrivals previously held.
- *
- * Layout and dimensions match the design prototype exactly: a 2×2 grid of
- * square tiles with a 1px gutter, no rounded corners, and a centred label
- * card floating over the seam.
- *
- * The label is deliberately `pointer-events-none` with no button — the tiles
- * themselves are the links. A CTA sitting on top of four clickable images
- * would compete with them rather than add anything.
- *
- * Data comes from the services layer rather than the prototype's admin context,
- * and the copy is translated where the prototype hardcoded English.
- */
-
-/** Keeps the grid whole when fewer than four products are featured. */
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=900&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1566206091558-7f218b696731?q=80&w=900&auto=format&fit=crop",

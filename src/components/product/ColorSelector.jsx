@@ -1,7 +1,7 @@
+/* Product Component: ColorSelector */
 import { COLOR_HEX } from "../../utils/constants";
 import { cn } from "../../utils/cn";
 
-/** Colour swatches. `radiogroup` because this is one choice from a set. */
 export default function ColorSelector({ options = [], value, onChange = () => {} }) {
   if (!options.length) return null;
 

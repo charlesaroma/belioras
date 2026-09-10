@@ -1,7 +1,7 @@
+/* Admin Dashboard Page: Settings - SettingsCompliancePanels */
 import Field from "../../../../components/ui/Field";
 import Panel from "./SettingsPanel";
 
-/** GPSR responsible person, and the social accounts the footer links to. */
 export default function CompliancePanels({ register, errors }) {
   return (
     <div className="space-y-5">

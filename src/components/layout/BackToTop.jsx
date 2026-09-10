@@ -1,20 +1,11 @@
+/* Layout Component: BackToTop */
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
-/** Roughly one screen down — far enough that returning by scroll is a chore. */
 const REVEAL_AT = 600;
 
-/**
- * Floating scroll-to-top control.
- *
- * Distinct from ScrollToTop, which resets scroll position on navigation; this
- * is the button a shopper presses after working down a long product grid.
- *
- * It sits above the cookie bar rather than on top of it, using the height that
- * bar publishes as a CSS variable — see CookieConsent.
- */
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 

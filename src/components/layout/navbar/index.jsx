@@ -1,3 +1,4 @@
+/* Layout Component: index */
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -20,18 +21,6 @@ import { useCart } from "../../../context/CartContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import LanguageSelector from "../../common/LanguageSelector";
 
-/**
- * Paths whose page opens on a plain light background rather than a full-bleed
- * photo, so the navbar should render solid from the first frame instead of
- * transparent-over-dark.
- *
- * /dresses, /hair, /accessories and /new-arrivals were missing here — they
- * went through the splat-route rework after this list was written, so the
- * navbar still treated them as hero pages. It went unnoticed while
- * ShopHeader had its own dark banner image to sit over; once that banner was
- * replaced with a plain header (see ShopHeader.jsx), the gap became a visible
- * dark-to-transparent gradient smudge over blank ivory.
- */
 const LIGHT_BG_PATHS = [
   "/product",
   "/shop",
@@ -69,16 +58,6 @@ export default function Navbar() {
 
   const headerRef = useRef(null);
 
-  /**
-   * Publishes the header's measured height as --header-height, so pages that
-   * start below it can offset by the real value instead of guessing.
-   *
-   * It was guessed before (pt-32 = 128px against an actual 138px), which is
-   * exactly the failure mode: the number is a function of the announcement
-   * bar, the logo size and the breakpoint, so any hardcoded value is wrong as
-   * soon as one of those changes. useLayoutEffect so it is set before paint
-   * and the content never starts too high and jumps.
-   */
   useLayoutEffect(() => {
     const el = headerRef.current;
     if (!el) return undefined;
@@ -232,7 +211,6 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
 
         {/* ── Mega Menu (responsive, flush against navbar) ── */}
         <MegaMenu

@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Profile - ProfileLatestOrder */
 import { Link } from "react-router-dom";
 import { Package } from "lucide-react";
 
@@ -6,7 +7,6 @@ import StatusChip from "../../../../components/ui/StatusChip";
 import EmptyState from "../../../../components/ui/EmptyState";
 import { isOffTimeline } from "../../../../utils/orderStatus";
 
-/** "Where is my order" — the first question a customer arrives with. */
 export default function LatestOrder({ order, loading, totalOrders, format }) {
   return (
     <section>

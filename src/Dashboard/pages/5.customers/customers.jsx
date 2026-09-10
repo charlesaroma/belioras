@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Customers - customers */
 import { useMemo, useState } from "react";
 import { Users } from "lucide-react";
 
@@ -12,23 +13,6 @@ import { buildCustomerColumns } from "./sections/customersTable/customersTableCo
 import CustomerModal from "./sections/customersTable/CustomersDetailModal";
 import CustomersToolbar from "./sections/customersTable/CustomersTableToolbar";
 
-/**
- * Customers.
- *
- * Split from the old combined Users page, which listed shoppers and staff in
- * one table with a role dropdown on every row. Two different jobs sharing a
- * grid: looking up who placed an order, and deciding who can administer the
- * store. Sitting a "make this person an administrator" control beside a
- * customer's delivery history invites exactly the mistake it looks like.
- *
- * There is no role control here at all. A customer's role is not something
- * this page edits — promoting someone is a deliberate act performed on the
- * Team page, which only administrators can open.
- *
- * Staff can see this page. They handle orders, and an order without the person
- * behind it is half a record; the combined page was administrator-only, which
- * locked staff out of the customers they were being asked to serve.
- */
 export default function DashCustomers() {
   const { format } = useCurrency();
   const { locale } = useLanguage();

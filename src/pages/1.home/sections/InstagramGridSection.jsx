@@ -1,3 +1,4 @@
+/* Page: Home - InstagramGridSection */
 import { Heart } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -5,13 +6,6 @@ import { useContentVersion } from "../../../context/ContentContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getInstagramPosts } from "../../../services/contentApi";
 
-/**
- * Social wall — a static 3×3 grid, not a slider. The review was explicit that
- * everything should stay visible at once rather than rotating out of view.
- *
- * One of the page's dark bands: with the newsletter moved to the footer, this
- * and the brand story carry the "white must not dominate" balance.
- */
 export default function InstagramGridSection() {
   const version = useContentVersion();
   const { data, loading } = useAsyncData(getInstagramPosts, [version]);

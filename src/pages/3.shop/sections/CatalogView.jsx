@@ -1,3 +1,4 @@
+/* Page: Shop - CatalogView */
 import { useMemo, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 
@@ -16,15 +17,6 @@ import ProductGrid from "./ProductGrid";
 import ShopHeader from "./ShopHeader";
 import { SORT_OPTIONS } from "./constants";
 
-/**
- * Catalog shell shared by /shop and every category route.
- *
- * Products arrive already scoped to the route — /shop supplies the whole
- * catalog, a category page supplies what the URL resolved to. Refinement below
- * that is identical either way and lives in the query string (see
- * useFilterParams), so a filtered view is shareable and the back button steps
- * through refinements instead of leaving the page.
- */
 export default function CatalogView({ products, loading, error, header = {}, emptyState = null }) {
   const list = useMemo(() => products ?? [], [products]);
 

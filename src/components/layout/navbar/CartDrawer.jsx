@@ -1,3 +1,4 @@
+/* Layout Component: CartDrawer */
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";

@@ -1,3 +1,4 @@
+/* Storefront Component: ProductCard */
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -5,26 +6,6 @@ import { useCurrency } from "../../context/CurrencyContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../utils/cn";
 
-/**
- * Product card.
- *
- * Name and price, nothing else. No colour dots, no rating stars, no quick-add
- * button — the restraint is the point. On a luxury catalogue the photograph is
- * the argument; chrome stacked underneath it competes with the thing being
- * sold and makes an edit of considered pieces read like a marketplace listing.
- *
- * Hover behaviour, following the interaction guidance:
- *  - Only transform and opacity animate. Nothing that triggers layout, so a
- *    grid of forty cards stays smooth.
- *  - The image swap is slow (700ms) because it is a large surface and reads as
- *    considered; the text and chrome move at 200-300ms, which is where
- *    feedback stops feeling sluggish.
- *  - Every transition is a plain CSS transition, so it reverses on its own if
- *    the pointer leaves mid-animation rather than sticking.
- *  - The wishlist control is always visible below `md`. Hover is not available
- *    on touch, so hiding a real action behind it would remove it entirely on
- *    phones.
- */
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
   const { has, toggle } = useWishlist();

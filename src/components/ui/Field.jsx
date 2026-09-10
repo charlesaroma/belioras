@@ -1,20 +1,8 @@
+/* Ui Component: Field */
 import { cloneElement, isValidElement, useId } from "react";
 
 import { cn } from "../../utils/cn";
 
-/**
- * A labelled form control.
- *
- * Every form in this repo hand-rolled its own label markup, and the contact
- * page went further and made every label sr-only, leaving placeholders as the
- * only visible labels. That reads fine until someone types: the label is then
- * gone, and so is any way to check what a half-filled field was asking for.
- * Visible labels are the default here and there is no prop to hide them.
- *
- * The label, helper text and error are wired to the control by id, so a screen
- * reader announces the requirement and the failure along with the field rather
- * than leaving the user to hunt for them.
- */
 export default function Field({
   label,
   error,

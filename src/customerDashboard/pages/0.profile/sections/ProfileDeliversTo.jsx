@@ -1,9 +1,9 @@
+/* Customer Dashboard Page: Profile - ProfileDeliversTo */
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 
 import EmptyState from "../../../../components/ui/EmptyState";
 
-/** "Where is it going" — the default delivery address, or a prompt to add one. */
 export default function DeliversTo({ address }) {
   return (
     <section>

@@ -1,3 +1,4 @@
+/* Shared Component: QuantitySelector */
 import { Minus, Plus } from "lucide-react";
 
 export default function QuantitySelector({ value, onChange, min = 1, max = 99, disabled = false }) {

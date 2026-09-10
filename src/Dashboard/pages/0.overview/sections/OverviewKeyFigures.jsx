@@ -1,14 +1,9 @@
+/* Admin Dashboard Page: Overview - OverviewKeyFigures */
 import { Link } from "react-router-dom";
 import { ArrowRight, Package, Receipt, Users, Wallet } from "lucide-react";
 
 import StatCard from "../../../components/StatCard";
 
-/**
- * The four headline numbers, plus the one thing worth chasing.
- *
- * A single hairline grid rather than four floating cards — it reads as one
- * instrument panel instead of scattered widgets.
- */
 export default function KeyFigures({ stats, loading, format, locale }) {
   return (
     <section aria-label="Key figures">

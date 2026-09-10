@@ -1,22 +1,4 @@
-/**
- * Accepted-payment indicators for the footer.
- *
- * Displaying a card network's mark to show it's accepted is the standard,
- * sanctioned use of these logos — Visa, Mastercard and Amex all publish
- * merchant acceptance marks for exactly this purpose. These are hand-drawn
- * vector reproductions rather than the official asset files (which are
- * distributed as licensed downloads, not something to fetch from a guessed
- * URL), matched to each brand's real colours and proportions.
- *
- * Each sits on its own white chip: several of these marks (Visa's blue,
- * Klarna's pink, PayPal's two-tone) are designed against white and read as
- * the wrong brand entirely on a dark ground.
- *
- * Rendered as plain <svg> inside <li> with no anchor or button — the design
- * review was explicit these are visual compatibility indicators, not links.
- * `role="img"` plus `aria-label` keeps them announced; non-interactive is not
- * the same as invisible to a screen reader.
- */
+
 
 function Chip({ label, bg = "#FFFFFF", children }) {
   return (

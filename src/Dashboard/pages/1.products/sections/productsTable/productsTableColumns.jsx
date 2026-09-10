@@ -1,18 +1,12 @@
+/* Admin Dashboard Page: Products - productsTableColumns */
 import { Eye, Package, Pencil, Trash2 } from "lucide-react";
 
 import StatusChip from "../../../../../components/ui/StatusChip";
 import { cn } from "../../../../../utils/cn";
 import IconAction from "../../../../components/IconAction";
 
-/** Low stock reads amber, none reads red — the two states worth acting on. */
 const LOW_STOCK = 5;
 
-/**
- * Table columns for the catalogue list.
- *
- * A factory: the price cell closes over the currency formatter and the three
- * row actions close over the page's handlers.
- */
 export function buildProductColumns({ format, onView, onEdit, onDelete }) {
   return [
     {

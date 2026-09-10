@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Orders - order-detail */
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Printer, RotateCcw } from "lucide-react";
 
@@ -19,12 +20,6 @@ import { discountOn, reorder } from "./sections/orderDetailActions";
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });
 
-/**
- * One order: where it is, what was in it, and what it cost.
- *
- * Scoped to the signed-in customer — getOrder refuses an order that is not
- * theirs rather than trusting the id in the URL.
- */
 export default function OrderDetail() {
   const { id } = useParams();
   const { format } = useCurrency();

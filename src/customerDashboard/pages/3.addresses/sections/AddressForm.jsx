@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Addresses - AddressForm */
 import Field from "../../../../components/ui/Field";
 
 const FIELDS = [
@@ -8,7 +9,6 @@ const FIELDS = [
   { name: "postcode", label: "Postcode", placeholder: "e.g. 1100-053" },
 ];
 
-/** Add a delivery address. Street spans both columns; the rest pair up. */
 export default function AddressForm({ form, errors, onChange, onSubmit }) {
   return (
     <form

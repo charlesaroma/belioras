@@ -1,3 +1,4 @@
+/* Admin Dashboard: DashSidebar */
 import { X } from "lucide-react";
 
 import BrandMark from "../../components/shared/BrandMark";
@@ -8,14 +9,6 @@ import { DASHBOARD_NAV_GROUPS } from "../lib/constants";
 import SidebarNav from "./sidebar/SidebarNav";
 import SidebarFooter from "./sidebar/SidebarFooter";
 
-/**
- * The dashboard's left rail.
- *
- * One component for two chromes: a fixed rail on desktop that can collapse to
- * icons, and an overlay drawer below lg. The collapse preference is per-device
- * and persisted, but the drawer always opens full width — a 72px drawer on a
- * phone would be a worse version of the thing it is replacing.
- */
 export default function DashSidebar({ isOpen, onClose }) {
   const { user, logout, can } = useAuth();
   const [collapsed, setCollapsed] = useLocalStorage("belioras:dash:collapsed", false);

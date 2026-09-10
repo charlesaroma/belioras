@@ -1,21 +1,9 @@
+/* Common Component: Drawer */
 import { useEffect, useId, useRef } from "react";
 import { X } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
-/**
- * Reusable slide-over panel.
- *
- * Ported from the design prototype, which had the right shape: always mounted
- * and translated rather than mounted/unmounted, so the transition runs in both
- * directions and the browser does no layout work on open. Escape closes it and
- * body scroll is locked while it is up.
- *
- * Added here: focus is moved into the panel on open and restored to whatever
- * opened it on close, and the panel is inert while hidden. Without that, a
- * closed drawer is still in the tab order — the keyboard walks into an
- * invisible dialog, which is the same defect the mega menu had.
- */
 export default function Drawer({
   open,
   onClose,

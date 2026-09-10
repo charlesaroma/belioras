@@ -1,12 +1,7 @@
+/* Admin Dashboard Page: Settings - SettingsShippingZonesPanel */
 import Field from "../../../../components/ui/Field";
 import Panel from "./SettingsPanel";
 
-/**
- * Shipping zones.
- *
- * An array of objects, which react-hook-form handles awkwardly, so the page
- * holds these in local state and passes the setter down.
- */
 export default function ShippingZonesPanel({ zones, onChange }) {
   const patch = (index, changes) =>
     onChange((prev) => prev.map((z, i) => (i === index ? { ...z, ...changes } : z)));

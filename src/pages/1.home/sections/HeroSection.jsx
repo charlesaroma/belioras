@@ -1,3 +1,4 @@
+/* Page: Home - HeroSection */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -9,22 +10,6 @@ import { cn } from "../../../utils/cn";
 
 const AUTOPLAY_MS = 6000;
 
-/**
- * Homepage hero — the restrained slider.
- *
- * The slider itself was never the problem. What weakened it was everything
- * layered on top: a membership promo card, two filled buttons, circular
- * prev/next arrows and dot indicators, all competing inside one frame. Those
- * are gone. What remains is the photograph, a kicker, the headline and a
- * single underlined CTA, with a hairline progress rule marking the sequence —
- * which reads as composed rather than as a widget.
- *
- * The rotation stays because the design review agreed it: seasonal slides,
- * editable from the dashboard.
- *
- * Deliberately unchanged: the section is still full-bleed, full-height and
- * dark, so the transparent navbar that sits over it behaves exactly as before.
- */
 export default function HeroSection() {
   const version = useContentVersion();
   const { data } = useAsyncData(getHeroSlides, [version]);

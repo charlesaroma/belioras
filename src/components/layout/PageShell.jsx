@@ -1,18 +1,6 @@
+/* Layout Component: PageShell */
 import { cn } from "../../utils/cn";
 
-/**
- * Standard shell for content pages.
- *
- * Exists mainly to stop one bug recurring: the navbar is fixed, so every page
- * has to clear it, and each page was inventing its own number. The product
- * page used pt-32 (128px against a real 138px); the contact page used
- * pt-20 md:pt-0, so above 768px it had no offset at all and opened underneath
- * the header. Offsetting here, from the height the navbar measures and
- * publishes, means a new page cannot get it wrong by default.
- *
- * `width` narrows to a reading measure for prose, which most of these pages
- * are — legal text set across a 1400px container is unreadable.
- */
 export default function PageShell({
   eyebrow,
   title,
@@ -46,7 +34,6 @@ export default function PageShell({
   );
 }
 
-/** A titled block of prose. Legal and guide pages are almost entirely these. */
 export function Section({ title, children }) {
   return (
     <section className="border-b border-umber-50/70 py-7 first:pt-0 last:border-b-0">
@@ -62,14 +49,6 @@ export function Section({ title, children }) {
   );
 }
 
-/**
- * Marks a page as an unreviewed draft.
- *
- * These policies were written from the store's own settings and are specific
- * and honest, but Belioras Maison Lda trades from Portugal, so GDPR, ePrivacy
- * and EU consumer law apply. Publishing generated policy text as though a
- * lawyer had signed it off would be the actual risk here.
- */
 export function DraftNotice({ children }) {
   return (
     <div className="mb-8 border-l-2 border-gold-500 py-3 pl-5">

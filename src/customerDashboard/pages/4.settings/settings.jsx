@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Settings - settings */
 import { useForm } from "react-hook-form";
 
 import SettingsPanel from "./sections/SettingsPanel";
@@ -9,18 +10,6 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 
-/**
- * Profile, security and preferences.
- *
- * New: there was no way to change a name, an email or a password anywhere in
- * the application — a grep for updateProfile or changePassword across the repo
- * returned nothing.
- *
- * Preferences write to the account as well as to the device. Language and
- * currency previously lived only in device-global localStorage keys, so
- * signing in on a phone meant setting them again, and the account record had
- * no idea what the shopper preferred.
- */
 export default function AccountSettings() {
   const { user, updateProfile, changePassword, verifyPassword } = useAuth();
   const { language, setLanguage, locales } = useLanguage();
@@ -36,12 +25,6 @@ export default function AccountSettings() {
     },
   });
 
-  /**
-   * Changing the email address is the sensitive one: it is the address every
-   * password reset and order confirmation goes to, so taking it over is how
-   * an account gets taken over. Ask for the password only when it has actually
-   * changed — a name or phone edit stays a single step.
-   */
   const emailChanged = profile.watch("email")?.trim().toLowerCase() !== user?.email?.toLowerCase();
 
   const security = useForm({
@@ -76,13 +59,6 @@ export default function AccountSettings() {
     }
   };
 
-  /**
-   * Preferences save immediately rather than behind a Save button.
-   *
-   * They take effect the moment they change — the whole page is already in the
-   * new language — so a button that appears to confirm something already done
-   * would be theatre.
-   */
   const savePreference = async (patch, applyLocally) => {
     applyLocally();
     try {

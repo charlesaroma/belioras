@@ -1,21 +1,9 @@
+/* Page: Home - FeaturedCategoriesSection */
 import { Link } from "react-router-dom";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getCollections } from "../../../services/collectionsApi";
 
-/**
- * Category tiles, in the prototype's treatment: a portrait image with its
- * caption set beneath it rather than overlaid on a gradient.
- *
- * The captions read as gallery labels this way — the photograph is left
- * uncovered, which is the point of shooting it. The previous version laid the
- * name and tagline over the bottom of each image behind a scrim, competing
- * with the garment.
- *
- * The prototype hardcodes three placeholder tiles ("Category 1", "Collection
- * 2026" repeated on each); this takes its layout and uses the real
- * collections, whose taglines already differ per category.
- */
 export default function FeaturedCategoriesSection() {
   const { data: collections, loading } = useAsyncData(getCollections, []);
 

@@ -1,3 +1,4 @@
+/* Page: Auth - CustomerSignupForm */
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -10,7 +11,6 @@ import CustomerAuthError from "./CustomerAuthError";
 import CustomerAuthSubmit from "./CustomerAuthSubmit";
 import PasswordToggle from "./PasswordToggle";
 
-/** Name, email and password, for a new account. */
 export default function CustomerSignupForm() {
   const { register, loading: submitting } = useAuth();
   const { toast } = useToast();

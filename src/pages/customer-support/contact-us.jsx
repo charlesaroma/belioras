@@ -1,3 +1,4 @@
+/* Page: Customer-support - contact-us */
 import { useForm } from "react-hook-form";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
@@ -20,20 +21,6 @@ const SUBJECTS = [
   { value: "other", label: "Something else", to: "general" },
 ];
 
-/**
- * Client services.
- *
- * Two things were wrong beyond the invented email address. Every label was
- * sr-only, leaving placeholders as the only visible labels — which reads fine
- * until someone types and the description of the field they are filling in
- * disappears. And the form pretended to send: it set a success state after a
- * one-second timer while nothing went anywhere, so someone with a real problem
- * would wait for a reply that was never coming.
- *
- * Labels are visible now and submission goes through a service seam that says
- * honestly what happens next, with both mailboxes shown so a shopper can route
- * themselves.
- */
 export default function ContactUsPage() {
   const { toast } = useToast();
   const version = useContentVersion();

@@ -1,10 +1,6 @@
+/* Page: FAQ - faq */
 import PageShell from "../../components/layout/PageShell";
 
-/**
- * Answers drawn from the store's real settings — shipping zones, the €150
- * threshold, the 14-day window, the hair exception — so nothing here can
- * contradict the policy pages it links to.
- */
 const GROUPS = [
   {
     title: "Orders & shipping",

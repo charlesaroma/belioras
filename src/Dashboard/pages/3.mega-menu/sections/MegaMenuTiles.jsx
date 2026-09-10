@@ -1,4 +1,4 @@
-/** The editorial images that sit beside the link columns on desktop. */
+
 export default function MenuTiles({ tiles, editor }) {
   if (!tiles?.length) return null;
 

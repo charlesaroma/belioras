@@ -1,6 +1,6 @@
+/* Admin Dashboard Page: Products - ProductsTableBulkActions */
 import Button from "../../../../../components/ui/Button";
 
-/** Appears only once rows are ticked; publishing or drafting many at once. */
 export default function BulkActionsBar({ count, onSetStatus, onClear }) {
   if (count === 0) return null;
 

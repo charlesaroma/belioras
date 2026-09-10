@@ -1,19 +1,9 @@
+/* Common Component: Modal */
 import { useEffect, useId, useRef } from "react";
 import { X } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
-/**
- * Centred dialog.
- *
- * Companion to Drawer, sharing its behaviour: Escape closes, body scroll is
- * locked while open, focus moves into the panel and returns to whatever opened
- * it, and the whole thing is inert while hidden so the keyboard cannot walk
- * into an invisible dialog.
- *
- * Unlike Drawer it is genuinely modal — a size guide is a detour from the task,
- * not a parallel surface — so it dims the page and traps attention.
- */
 export default function Modal({ open, onClose, title, width = "max-w-lg", children }) {
   const panelRef = useRef(null);
   const restoreFocusRef = useRef(null);

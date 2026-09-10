@@ -1,15 +1,8 @@
+/* Storefront Component: SizeChartBodyTable */
 import { formatRange, unitLabel } from "../../../utils/measurements";
 import SizeChartTable from "./SizeChartTable";
 import SizeChartUnitToggle from "./SizeChartUnitToggle";
 
-/**
- * Body measurements, not garment dimensions.
- *
- * The distinction is the whole point of the table and shoppers get it wrong
- * constantly, so it is stated above the numbers rather than in a footnote
- * nobody reads. The inch column is computed from the stored centimetres, so
- * the two units cannot disagree.
- */
 export default function SizeChartBodyTable({ garment, unit, onUnitChange }) {
   const u = unitLabel(unit);
   const columns = ["Size", `Bust (${u})`, `Waist (${u})`, `Hip (${u})`];

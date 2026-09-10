@@ -1,3 +1,4 @@
+/* Admin Dashboard Page: Mega-menu - MegaMenuRoot */
 import { ChevronDown, Plus } from "lucide-react";
 
 import { cn } from "../../../../utils/cn";
@@ -5,13 +6,6 @@ import { makeRootEditor } from "./megaMenuEdits";
 import MenuLinkRow from "./MegaMenuLinkRow";
 import MenuTiles from "./MegaMenuTiles";
 
-/**
- * One top-level menu — Shop, Dresses, Hair — with its sections and links.
- *
- * Collapsed by default. Shop alone carries five sections and forty links;
- * showing every root expanded would be a wall of inputs rather than a menu you
- * can reason about.
- */
 export default function MenuRoot({ root, open, onToggle, onPatch, countFor, controls }) {
   const sections = root.sections ?? [];
   const editor = makeRootEditor(root, onPatch);

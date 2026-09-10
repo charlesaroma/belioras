@@ -1,3 +1,4 @@
+/* Context Provider: AuthContext */
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -50,12 +51,6 @@ export function AuthProvider({ children }) {
     setSession(null);
   }, [setSession]);
 
-  /**
-   * Save profile changes and reflect them in the live session.
-   *
-   * Without the second half the name in the header would stay stale until the
-   * next sign-in, which reads as the save having failed.
-   */
   const userId = session?.user?.id ?? null;
 
   const updateProfile = useCallback(

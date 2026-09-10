@@ -1,3 +1,4 @@
+/* Customer Dashboard Page: Profile - profile */
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -14,24 +15,8 @@ import LatestOrder from "./sections/ProfileLatestOrder";
 import DeliversTo from "./sections/ProfileDeliversTo";
 import SavedPieces from "./sections/ProfileSavedPieces";
 
-/** How many saved pieces the overview previews before linking onward. */
 const PREVIEW_COUNT = 4;
 
-/**
- * The account overview.
- *
- * This used to repeat three links the left rail already showed two inches
- * away, and offer nothing else — a landing page whose entire content was
- * navigation the reader had just walked past.
- *
- * It answers the three questions a customer actually arrives with: where is my
- * order, where is it going, and what did I save. Everything shown is already
- * available from the services the other pages use; nothing new is fetched.
- *
- * Headings here are h2. AccountLayout owns the page's only h1 — it previously
- * rendered the customer's first name as an h1 and this page rendered "Welcome
- * back, <name>" as a second one directly beneath it.
- */
 export default function Profile() {
   const { user } = useAuth();
   const { format } = useCurrency();

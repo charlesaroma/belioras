@@ -1,3 +1,4 @@
+/* Common Component: DropdownPill */
 import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -17,12 +18,6 @@ const ICON_TRIGGER =
 const CODE_TRIGGER =
   "inline-flex min-h-11 items-center gap-1 px-2 text-[11px] uppercase tracking-[0.14em] text-current transition-opacity hover:opacity-70";
 
-/**
- * Accessible listbox used for the header's language and currency selectors.
- *
- * Three trigger shapes: `variant="code"` for the header, `iconOnly` for tight
- * contexts, and the bordered pill everywhere else (the mobile drawer).
- */
 export default function DropdownPill({
   ariaLabel,
   icon,

@@ -1,9 +1,9 @@
+/* Admin Dashboard: TableHead */
 import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 import { flexRender } from "@tanstack/react-table";
 
 import { cn } from "../../../utils/cn";
 
-/** Header row: the select-all box, and a sort control on every sortable column. */
 export default function TableHead({ table, enableSelection }) {
   return (
     <thead>

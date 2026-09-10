@@ -1,9 +1,9 @@
+/* Admin Dashboard Page: Products - ProductFormHeader */
 import { Link } from "react-router-dom";
 import { ArrowLeft, Check } from "lucide-react";
 
 import Button from "../../../../../components/ui/Button";
 
-/** Back link, the discard-draft escape hatch, and the submit. */
 export default function FormHeader({ isEdit, hasDraft, onDiscardDraft, submitting }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">

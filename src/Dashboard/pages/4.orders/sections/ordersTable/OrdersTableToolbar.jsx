@@ -1,11 +1,6 @@
+/* Admin Dashboard Page: Orders - OrdersTableToolbar */
 import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
 
-/**
- * Search and the status filter for the order list.
- *
- * The tabs carry counts from the whole set, not the filtered one, so the page
- * computes them and hands them down.
- */
 export default function OrdersToolbar({ query, onQueryChange, tabs, status, onStatusChange }) {
   return (
     <DashToolbar

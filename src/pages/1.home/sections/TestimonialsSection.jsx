@@ -1,3 +1,4 @@
+/* Page: Home - TestimonialsSection */
 import { BadgeCheck, Quote } from "lucide-react";
 
 import RatingStars from "../../../components/shared/RatingStars";

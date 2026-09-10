@@ -1,3 +1,4 @@
+/* Page: Legal - cookie-policy */
 import PageShell, { DraftNotice, Section } from "../../components/layout/PageShell";
 
 export default function CookiePolicyPage() {
