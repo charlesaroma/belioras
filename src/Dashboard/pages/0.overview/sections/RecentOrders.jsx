@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Receipt } from "lucide-react";
 
 import DashTable from "../../../components/DashTable";
-import { buildOrderColumns } from "../../../lib/orderColumns";
+import { buildRecentOrderColumns } from "./recentOrderColumns";
 
 /**
  * The last handful of orders, with a way through to the full list.
  *
  * Renders through DashTable like every other data table in the dashboard —
  * it used to be a hand-rolled <table>, so it had its own header markup, its
- * own row styling and no empty state. `compact` drops the item count, which
- * this panel has no room for.
+ * own row styling and no empty state. Its columns live beside it in this
+ * page's own sections/, not shared with the Orders page.
  */
 export default function RecentOrders({ orders, format, dateFmt }) {
   const columns = useMemo(
-    () => buildOrderColumns({ format, dateFmt, compact: true }),
+    () => buildRecentOrderColumns({ format, dateFmt }),
     [format, dateFmt],
   );
 
