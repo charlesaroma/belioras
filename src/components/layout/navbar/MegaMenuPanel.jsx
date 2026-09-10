@@ -1,9 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { cn } from "../../../utils/cn";
+
+/**
+ * Expand/collapse timing for the drawer's nested sections.
+ *
+ * A long ease-out tail is what makes the panel feel like it settles rather
+ * than snaps — the height carries most of the duration while the contents
+ * fade in over roughly the first two thirds, so the list is readable before
+ * the box has finished growing.
+ */
+const EASE_OUT_SOFT = [0.22, 1, 0.36, 1];
+const SECTION_DURATION = 0.38;
 
 /**
  * The contents of one navigation root — link columns beside editorial imagery.
@@ -35,6 +46,7 @@ const ITEMS_PER_SECTION = 6;
 
 export default function MegaMenuPanel({ item, variant = "desktop", onNavigate }) {
   const [openSection, setOpenSection] = useState(null);
+  const reduceMotion = useReducedMotion();
 
   if (!item) return null;
 
@@ -82,36 +94,70 @@ export default function MegaMenuPanel({ item, variant = "desktop", onNavigate })
                   <span className="eyebrow">{section.title}</span>
                   <ChevronDown
                     className={cn(
-                      "size-4 shrink-0 text-espresso-300 transition-transform duration-300",
+                      "size-4 shrink-0 text-espresso-300 transition-transform duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
                       isOpen && "rotate-180",
                     )}
                     aria-hidden="true"
                   />
                 </button>
 
-                {/* grid-rows 1fr→0fr animates height with no JS measuring. */}
-                <div
-                  className={cn(
-                    "grid transition-all duration-300 ease-in-out",
-                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                {/* Was a grid-rows 1fr→0fr trick. It needs no measuring, but
+                    browsers interpolate grid tracks coarsely, so it stepped
+                    rather than glided — and it left the drawer running two
+                    different animation systems, since the category accordion
+                    above it is already on motion. Both are on motion now.
+
+                    Unmounting on collapse also removes the links from the tab
+                    order for free, which the old version had to do by hand
+                    with tabIndex. */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        height: { duration: reduceMotion ? 0 : SECTION_DURATION, ease: EASE_OUT_SOFT },
+                        opacity: { duration: reduceMotion ? 0 : SECTION_DURATION * 0.6, ease: "easeOut" },
+                      }}
+                      className="overflow-hidden"
+                    >
+                      <motion.ul
+                        className="space-y-3 pb-4"
+                        initial="closed"
+                        animate="open"
+                        exit="closed"
+                        variants={{
+                          // Stagger only on the way in. Cascading them out
+                          // again reads as hesitation when you are collapsing
+                          // a section to get it out of the way.
+                          open: { transition: { staggerChildren: 0.028, delayChildren: 0.05 } },
+                          closed: {},
+                        }}
+                      >
+                        {section.items.map((leaf) => (
+                          <motion.li
+                            key={leaf.id}
+                            variants={
+                              reduceMotion
+                                ? {}
+                                : { open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: -6 } }
+                            }
+                            transition={{ duration: 0.24, ease: "easeOut" }}
+                          >
+                            <Link
+                              to={leaf.url}
+                              onClick={onNavigate}
+                              className="block text-sm text-espresso-soft transition-colors hover:text-gold-700"
+                            >
+                              {leaf.label}
+                            </Link>
+                          </motion.li>
+                        ))}
+                      </motion.ul>
+                    </motion.div>
                   )}
-                >
-                  <ul className="min-h-0 space-y-3 overflow-hidden pb-4">
-                    {section.items.map((leaf) => (
-                      <li key={leaf.id}>
-                        <Link
-                          to={leaf.url}
-                          onClick={onNavigate}
-                          // Collapsed links must not be reachable by keyboard.
-                          tabIndex={isOpen ? 0 : -1}
-                          className="block text-sm text-espresso-soft transition-colors hover:text-gold-700"
-                        >
-                          {leaf.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                </AnimatePresence>
               </div>
             );
           })}

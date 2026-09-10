@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../account/Avatar";
 import { accountMenuItems } from "../../account/accountMenuItems";
 import BrandMark from "../../shared/BrandMark";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Heart, LogOut, Mail, Package, Plus, Search, X } from "lucide-react";
 
 import { NAV_LINKS } from "../../../utils/constants";
@@ -237,6 +237,7 @@ function QuietRow({ to, onClose, icon: Icon, label, meta }) {
 
 function CategoryAccordion({ category, onClose }) {
   const [open, setOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className="border-b border-umber-50">
@@ -258,7 +259,7 @@ function CategoryAccordion({ category, onClose }) {
             product page accordions, rather than a third chevron style. */}
         <Plus
           className={cn(
-            "size-4 shrink-0 text-espresso/35 transition-transform duration-300",
+            "size-4 shrink-0 text-espresso/35 transition-transform duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
             open && "rotate-45",
           )}
           aria-hidden="true"
@@ -271,7 +272,13 @@ function CategoryAccordion({ category, onClose }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: "easeOut" }}
+            // Same curve and timing as the sections nested inside this panel
+            // (see MegaMenuPanel), so opening a category and opening one of
+            // its sections feel like one mechanism rather than two.
+            transition={{
+              height: { duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: reduceMotion ? 0 : 0.24, ease: "easeOut" },
+            }}
             className="overflow-hidden"
           >
             <div className="pb-5">
