@@ -1,20 +1,19 @@
 /* Customer Dashboard: AccountLayout */
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Heart, LayoutDashboard, LogOut, MapPin, Package, Settings, UserRound } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
+import { accountMenuItems } from "../components/account/accountMenuItems";
 import { cn } from "../utils/cn";
-
-const NAV = [
-  { to: "/account", end: true, label: "Overview", icon: UserRound },
-  { to: "/account/orders", label: "Orders", icon: Package },
-  { to: "/account/wishlist", label: "Saved pieces", icon: Heart },
-  { to: "/account/addresses", label: "Addresses", icon: MapPin },
-  { to: "/account/settings", label: "Settings", icon: Settings },
-];
 
 export default function AccountLayout() {
   const { user, isAdmin, logout } = useAuth();
+  const { t } = useLanguage();
+
+  // The same list the header dropdown and the mobile drawer render. This rail
+  // kept its own copy, so adding Wardrobe reached both of those and not this.
+  const nav = accountMenuItems({ t, isAdmin });
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -35,11 +34,12 @@ export default function AccountLayout() {
         <div className="grid gap-10 pt-8 lg:grid-cols-[220px_1fr]">
           <aside>
             <nav aria-label="Account" className="flex flex-col">
-              {NAV.map(({ to, end, label, icon: Icon }) => (
+              {nav.map(({ to, label, icon: Icon }) => (
                 <NavLink
                   key={to}
                   to={to}
-                  end={end}
+                  // Overview would otherwise match every nested account route.
+                  end={to === "/account"}
                   className={({ isActive }) =>
                     cn(
                       "flex items-center gap-3 border-b border-umber-50 py-3 text-[13px] tracking-[0.02em] transition-colors",
