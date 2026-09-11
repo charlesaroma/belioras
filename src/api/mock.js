@@ -10,7 +10,7 @@
  * after its service moves onto HTTP.
  */
 
-export { ApiError } from "./http/apiError";
+export { ApiError } from "./error";
 
 export function mockDelay(ms = 250) {
   return new Promise((resolve) => setTimeout(resolve, ms));

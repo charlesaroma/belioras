@@ -1,4 +1,4 @@
-import { mockApi } from "./apiClient";
+import { mockApi } from "@/api/mock";
 
 /**
  * Search by photograph.

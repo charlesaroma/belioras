@@ -1,6 +1,6 @@
 import couponsSeed from "../data/coupons.json";
 
-import { ApiError, mockApi } from "./apiClient";
+import { ApiError, mockApi } from "@/api/mock";
 
 export function getCoupons() {
   return mockApi(() => couponsSeed.map((c) => ({ ...c })));

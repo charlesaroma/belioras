@@ -1,4 +1,4 @@
-import { ApiError, mockApi } from "./apiClient";
+import { ApiError, mockApi } from "@/api/mock";
 
 /**
  * Contact form submission.

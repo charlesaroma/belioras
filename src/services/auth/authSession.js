@@ -1,5 +1,5 @@
 /* Sign In Register Sign Out */
-import { ApiError, mockApi } from "../apiClient";
+import { ApiError, mockApi } from "@/api/mock";
 import { setState } from "../contentStore";
 import { isAdminRole } from "../../utils/roles";
 import { createToken, findByEmail, publicUser, userItems } from "./authStore";

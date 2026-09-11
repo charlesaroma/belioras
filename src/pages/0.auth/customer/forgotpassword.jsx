@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, KeyRound, Loader2, MailCheck } from "lucide-react";
 
 import BrandMark from "../../../components/shared/BrandMark";
-import { mockDelay } from "../../../services/apiClient";
+import { mockDelay } from "@/api/mock";
 
 /* HERO IMAGE */
 const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";

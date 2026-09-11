@@ -1,7 +1,7 @@
 /* Catalogue Reads */
 import newArrivalsSeed from "../../data/newArrivals.json";
 
-import { ApiError, mockApi } from "../apiClient";
+import { ApiError, mockApi } from "@/api/mock";
 import { getBestSellerProductIds } from "../ordersApi";
 import { catalogItems, normalize } from "./productStore";
 

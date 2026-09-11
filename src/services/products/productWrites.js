@@ -1,5 +1,5 @@
 /* Catalogue Writes */
-import { ApiError, mockApi } from "../apiClient";
+import { ApiError, mockApi } from "@/api/mock";
 import { setState } from "../contentStore";
 import { slugify } from "./productSlug";
 import { catalogItems, normalize } from "./productStore";

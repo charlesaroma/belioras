@@ -1,6 +1,6 @@
 import promotionsSeed from "../data/promotions.json";
 
-import { mockApi } from "./apiClient";
+import { mockApi } from "@/api/mock";
 
 function isActive({ start, end } = {}) {
 

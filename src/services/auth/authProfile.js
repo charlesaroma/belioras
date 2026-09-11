@@ -1,5 +1,5 @@
 /* Profile And Credentials */
-import { ApiError, mockApi } from "../apiClient";
+import { ApiError, mockApi } from "@/api/mock";
 import { setState } from "../contentStore";
 import { findByEmail, publicUser, userItems } from "./authStore";
 

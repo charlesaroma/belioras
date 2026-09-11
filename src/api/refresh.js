@@ -1,8 +1,8 @@
 /* Access Token Refresh */
-import { apiUrl } from "./apiConfig";
-import { ApiError, apiErrorFromBody } from "./apiError";
-import { clearTokens, readTokens, writeTokens } from "./apiTokens";
-import { routes } from "./apiRoutes";
+import { apiUrl } from "./config";
+import { ApiError, apiErrorFromBody } from "./error";
+import { clearTokens, readTokens, writeTokens } from "./tokens";
+import { routes } from "./routes";
 
 /**
  * One refresh per realm at a time.

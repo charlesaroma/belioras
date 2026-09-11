@@ -1,6 +1,6 @@
 import reviewsSeed from "../data/reviews.json";
 
-import { mockApi } from "./apiClient";
+import { mockApi } from "@/api/mock";
 
 export function getReviews(productId) {
   return mockApi(() =>

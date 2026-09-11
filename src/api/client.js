@@ -1,8 +1,8 @@
 /* Http Client */
-import { apiTimeout, apiUrl } from "./apiConfig";
-import { apiErrorFromBody, networkError } from "./apiError";
-import { accessToken, refreshToken } from "./apiTokens";
-import { refreshSession } from "./apiRefresh";
+import { apiTimeout, apiUrl } from "./config";
+import { apiErrorFromBody, networkError } from "./error";
+import { accessToken, refreshToken } from "./tokens";
+import { refreshSession } from "./refresh";
 
 /**
  * Every call names its realm. There is no ambient "current user" here, because
