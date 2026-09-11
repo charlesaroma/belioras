@@ -25,3 +25,8 @@ dist-ssr
 
 .DS_Store
 *.code-workspace
+
+# Env
+.env
+.env.local
+.env.*.local
