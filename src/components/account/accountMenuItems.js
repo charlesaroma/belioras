@@ -1,4 +1,4 @@
-import { Heart, LayoutDashboard, MapPin, Package, Settings, UserRound } from "lucide-react";
+import { Heart, LayoutDashboard, MapPin, Package, Settings, Shirt, UserRound } from "lucide-react";
 
 /**
  * The signed-in destinations, defined once.
@@ -20,6 +20,7 @@ export function accountMenuItems({ t, isAdmin }) {
   return [
     { to: "/account", label: label("nav.myAccount", "My account"), icon: UserRound },
     { to: "/account/orders", label: label("nav.orders", "Orders"), icon: Package },
+    { to: "/account/wardrobe", label: label("nav.wardrobe", "Wardrobe"), icon: Shirt },
     { to: "/account/wishlist", label: label("nav.savedPieces", "Saved pieces"), icon: Heart },
     { to: "/account/addresses", label: label("nav.addresses", "Addresses"), icon: MapPin },
     { to: "/account/settings", label: label("nav.settings", "Settings"), icon: Settings },
