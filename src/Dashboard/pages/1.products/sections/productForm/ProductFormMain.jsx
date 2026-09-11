@@ -1,7 +1,7 @@
 /* Admin Dashboard Page: Products - ProductFormMain */
-import Dropzone from "../../../../../components/ui/Dropzone";
+import ProductFormDropzone from "./ProductFormDropzone";
 import Field from "../../../../../components/ui/Field";
-import TagInput from "../../../../../components/ui/TagInput";
+import ProductFormTagInput from "./ProductFormTagInput";
 import FormSection from "./ProductFormSection";
 import FormAttributes from "./ProductFormAttributes";
 
@@ -40,14 +40,14 @@ export default function FormMain({
       </FormSection>
 
       <FormSection title="Media" hint="The first image is the one shoppers see in the grid.">
-        <Dropzone images={images} onChange={setImages} onProgress={onImageProgress} />
+        <ProductFormDropzone images={images} onChange={setImages} onProgress={onImageProgress} />
       </FormSection>
 
       <FormAttributes dimensions={dimensions} tags={tags} onToggle={onToggleTag} />
 
       <FormSection title="Variants">
-        <TagInput label="Colours" values={colors} onChange={setColors} placeholder="Champagne" />
-        <TagInput label="Sizes" values={sizes} onChange={setSizes} placeholder="M" />
+        <ProductFormTagInput label="Colours" values={colors} onChange={setColors} placeholder="Champagne" />
+        <ProductFormTagInput label="Sizes" values={sizes} onChange={setSizes} placeholder="M" />
       </FormSection>
     </div>
   );

@@ -49,7 +49,8 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
             aria-modal="true"
             aria-label="Menu"
           >
-            <div className="flex shrink-0 items-center justify-between border-b border-umber-50 px-6 py-5">
+            {/* Header */}
+      <div className="flex shrink-0 items-center justify-between border-b border-umber-50 px-6 py-5">
               <Link to="/" onClick={onClose} aria-label="Belioras — home">
                 <BrandMark to={null} size="sm" className="h-12" />
               </Link>
@@ -63,11 +64,13 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto overscroll-contain">
+            {/* Menu list */}
+        <div className="flex-1 overflow-y-auto overscroll-contain">
               {/* Reads as a field, not a menu row — this is the only search
                   surface on a phone, and it hands off to SearchPanel rather
                   than carrying a second input. */}
-              <div className="px-6 pb-6 pt-5">
+              {/* Search */}
+            <div className="px-6 pb-6 pt-5">
                 <button
                   type="button"
                   onClick={onSearchOpen}

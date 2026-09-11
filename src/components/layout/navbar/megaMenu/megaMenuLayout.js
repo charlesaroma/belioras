@@ -1,3 +1,4 @@
+/* Mega Menu Layout */
 /**
  * How much room a category's menu deserves.
  *

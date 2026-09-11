@@ -1,10 +1,10 @@
-/* Ui Component: TagInput */
+/* Tag Input */
 import { useId, useState } from "react";
 import { Plus, X } from "lucide-react";
 
-import { cn } from "../../utils/cn";
+import { cn } from "../../../../../utils/cn";
 
-export default function TagInput({
+export default function ProductFormTagInput({
   values = [],
   onChange,
   placeholder = "Type and press Enter",

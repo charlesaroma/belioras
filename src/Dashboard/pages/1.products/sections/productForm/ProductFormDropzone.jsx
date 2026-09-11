@@ -1,38 +1,12 @@
-/* Ui Component: Dropzone */
+/* Image Dropzone */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ImagePlus, Star, X } from "lucide-react";
 
-import { cn } from "../../utils/cn";
+import { cn } from "../../../../../utils/cn";
+import { ACCEPT, MAX_BYTES, processImage } from "./productFormImage";
+import ProductFormDropzoneThumbs from "./ProductFormDropzoneThumbs";
 
-const ACCEPT = "image/jpeg,image/png,image/webp,image/avif";
-
-/* MAX BYTES */
-const MAX_BYTES = 10 * 1024 * 1024;
-
-/* MAX EDGE */
-const MAX_EDGE = 1600;
-
-async function processImage(file) {
-
-  const bitmap = await createImageBitmap(file);
-
-  const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
-
-  const width = Math.round(bitmap.width * scale);
-
-  const height = Math.round(bitmap.height * scale);
-
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  canvas.getContext("2d").drawImage(bitmap, 0, 0, width, height);
-  bitmap.close?.();
-
-  const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.86));
-  return { blob, width, height, url: URL.createObjectURL(blob) };
-}
-
-export default function Dropzone({
+export default function ProductFormDropzone({
   images = [],
   onChange,
   onProgress,
@@ -196,46 +170,12 @@ export default function Dropzone({
         </p>
       )}
 
-      {images.length > 0 && (
-        <ul className="mt-3 grid grid-cols-4 gap-2">
-          {images.map((image, i) => (
-            <li key={image.id ?? image.url} className="group relative border border-umber-50">
-              <img
-                src={image.url}
-                alt={image.name ? `Preview of ${image.name}` : "Product image"}
-                className="aspect-square w-full object-cover"
-              />
-
-              {i === 0 && (
-                <span className="absolute left-0 top-0 bg-espresso px-1.5 py-0.5 text-[9px] uppercase tracking-[0.14em] text-ivory-50">
-                  Primary
-                </span>
-              )}
-
-              <div className="absolute inset-x-0 bottom-0 flex justify-end gap-1 p-1 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
-                {i !== 0 && (
-                  <button
-                    type="button"
-                    onClick={() => makePrimary(i)}
-                    aria-label={`Make image ${i + 1} the primary image`}
-                    className="flex size-6 items-center justify-center bg-espresso/85 text-ivory-50 transition-colors hover:bg-espresso"
-                  >
-                    <Star className="size-3" aria-hidden="true" />
-                  </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => removeAt(i)}
-                  aria-label={`Remove image ${i + 1}`}
-                  className="flex size-6 items-center justify-center bg-espresso/85 text-ivory-50 transition-colors hover:bg-error"
-                >
-                  <X className="size-3" aria-hidden="true" />
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ProductFormDropzoneThumbs
+        images={images}
+        onRemove={removeAt}
+        onMakePrimary={makePrimary}
+        disabled={disabled}
+      />
     </div>
   );
 }
