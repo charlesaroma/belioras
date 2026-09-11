@@ -5,7 +5,14 @@
     "email": "mariana@example.com",
     "name": "Mariana Ribeiro",
     "items": [
-      { "productId": "p1", "name": "Aurora Satin Midi Dress", "quantity": 1, "price": 129, "size": "4", "color": "Champagne" }
+      {
+        "productId": "p1",
+        "name": "Aurora Satin Midi Dress",
+        "quantity": 1,
+        "price": 129,
+        "size": "s",
+        "color": "Champagne"
+      }
     ],
     "subtotal": 129,
     "shipping": 5.9,
@@ -21,7 +28,14 @@
     "email": "clarisse@example.com",
     "name": "Clarisse Dumas",
     "items": [
-      { "productId": "h1", "name": "Brazilian Remy Straight 20\"", "quantity": 1, "price": 159, "size": "default", "color": "Chestnut" }
+      {
+        "productId": "h1",
+        "name": "Brazilian Remy Straight 20\"",
+        "quantity": 1,
+        "price": 159,
+        "size": "one-size",
+        "color": "Chestnut"
+      }
     ],
     "subtotal": 159,
     "shipping": 5.9,
@@ -37,8 +51,22 @@
     "email": "amaia@example.com",
     "name": "Amaia Salazar",
     "items": [
-      { "productId": "p2", "name": "Isabelle Linen Wrap Dress", "quantity": 1, "price": 98, "size": "6", "color": "Sand" },
-      { "productId": "a1", "name": "The Belo Leather Shopper", "quantity": 1, "price": 189, "size": "default", "color": "Chestnut" }
+      {
+        "productId": "p2",
+        "name": "Isabelle Linen Wrap Dress",
+        "quantity": 1,
+        "price": 98,
+        "size": "m",
+        "color": "Sand"
+      },
+      {
+        "productId": "a1",
+        "name": "The Belo Leather Shopper",
+        "quantity": 1,
+        "price": 189,
+        "size": "one-size",
+        "color": "Chestnut"
+      }
     ],
     "subtotal": 287,
     "shipping": 0,
@@ -54,7 +82,14 @@
     "email": "mariana@example.com",
     "name": "Mariana Ribeiro",
     "items": [
-      { "productId": "h3", "name": "Brazilian Remy Deep Wave 22\"", "quantity": 1, "price": 179, "size": "default", "color": "Chestnut" }
+      {
+        "productId": "h3",
+        "name": "Brazilian Remy Deep Wave 22\"",
+        "quantity": 1,
+        "price": 179,
+        "size": "one-size",
+        "color": "Chestnut"
+      }
     ],
     "subtotal": 179,
     "shipping": 5.9,
@@ -70,8 +105,22 @@
     "email": "guest@example.com",
     "name": "Guest Customer",
     "items": [
-      { "productId": "p1", "name": "Aurora Satin Midi Dress", "quantity": 1, "price": 129, "size": "8", "color": "Ebony" },
-      { "productId": "a4", "name": "Ormolu Gold Hoops", "quantity": 1, "price": 59, "size": "default", "color": "Gold" }
+      {
+        "productId": "p1",
+        "name": "Aurora Satin Midi Dress",
+        "quantity": 1,
+        "price": 129,
+        "size": "l",
+        "color": "Ebony"
+      },
+      {
+        "productId": "a4",
+        "name": "Ormolu Gold Hoops",
+        "quantity": 1,
+        "price": 59,
+        "size": "one-size",
+        "color": "Gold"
+      }
     ],
     "subtotal": 188,
     "shipping": 0,
@@ -87,7 +136,14 @@
     "email": "guest2@example.com",
     "name": "Guest Customer",
     "items": [
-      { "productId": "p3", "name": "Serafina Velvet Slip Dress", "quantity": 1, "price": 149, "size": "2", "color": "Burgundy" }
+      {
+        "productId": "p3",
+        "name": "Serafina Velvet Slip Dress",
+        "quantity": 1,
+        "price": 149,
+        "size": "xs",
+        "color": "Burgundy"
+      }
     ],
     "subtotal": 149,
     "shipping": 5.9,
@@ -103,7 +159,14 @@
     "email": "clarisse@example.com",
     "name": "Clarisse Dumas",
     "items": [
-      { "productId": "a3", "name": "Ormolu Gold Chain Belt", "quantity": 1, "price": 79, "size": "default", "color": "Gold" }
+      {
+        "productId": "a3",
+        "name": "Ormolu Gold Chain Belt",
+        "quantity": 1,
+        "price": 79,
+        "size": "one-size",
+        "color": "Gold"
+      }
     ],
     "subtotal": 79,
     "shipping": 5.9,
@@ -119,7 +182,14 @@
     "email": "amaia@example.com",
     "name": "Amaia Salazar",
     "items": [
-      { "productId": "h2", "name": "Indian Remy Body Wave 18\"", "quantity": 1, "price": 139, "size": "default", "color": "Honey Blonde" }
+      {
+        "productId": "h2",
+        "name": "Indian Remy Body Wave 18\"",
+        "quantity": 1,
+        "price": 139,
+        "size": "one-size",
+        "color": "Honey Blonde"
+      }
     ],
     "subtotal": 139,
     "shipping": 5.9,
@@ -135,7 +205,14 @@
     "email": "mariana@example.com",
     "name": "Mariana Ribeiro",
     "items": [
-      { "productId": "p4", "name": "Camille Pleated Maxi Dress", "quantity": 2, "price": 118, "size": "10", "color": "Blush" }
+      {
+        "productId": "p4",
+        "name": "Camille Pleated Maxi Dress",
+        "quantity": 2,
+        "price": 118,
+        "size": "xl",
+        "color": "Blush"
+      }
     ],
     "subtotal": 236,
     "shipping": 0,
@@ -151,8 +228,22 @@
     "email": "guest3@example.com",
     "name": "Guest Customer",
     "items": [
-      { "productId": "h1", "name": "Brazilian Remy Straight 20\"", "quantity": 1, "price": 159, "size": "default", "color": "Caramel" },
-      { "productId": "a2", "name": "Heirloom Silk Scarf", "quantity": 1, "price": 69, "size": "default", "color": "Champagne" }
+      {
+        "productId": "h1",
+        "name": "Brazilian Remy Straight 20\"",
+        "quantity": 1,
+        "price": 159,
+        "size": "one-size",
+        "color": "Caramel"
+      },
+      {
+        "productId": "a2",
+        "name": "Heirloom Silk Scarf",
+        "quantity": 1,
+        "price": 69,
+        "size": "one-size",
+        "color": "Champagne"
+      }
     ],
     "subtotal": 228,
     "shipping": 0,
@@ -168,7 +259,14 @@
     "email": "clarisse@example.com",
     "name": "Clarisse Dumas",
     "items": [
-      { "productId": "p2", "name": "Isabelle Linen Wrap Dress", "quantity": 1, "price": 98, "size": "4", "color": "Rosewood" }
+      {
+        "productId": "p2",
+        "name": "Isabelle Linen Wrap Dress",
+        "quantity": 1,
+        "price": 98,
+        "size": "s",
+        "color": "Rosewood"
+      }
     ],
     "subtotal": 98,
     "shipping": 5.9,
@@ -184,7 +282,14 @@
     "email": "guest4@example.com",
     "name": "Guest Customer",
     "items": [
-      { "productId": "a4", "name": "Ormolu Gold Hoops", "quantity": 1, "price": 59, "size": "default", "color": "Gold" }
+      {
+        "productId": "a4",
+        "name": "Ormolu Gold Hoops",
+        "quantity": 1,
+        "price": 59,
+        "size": "one-size",
+        "color": "Gold"
+      }
     ],
     "subtotal": 59,
     "shipping": 5.9,

@@ -29,6 +29,7 @@ import {
   AccountOrders,
   AccountOrderDetail,
   AccountWishlist,
+  AccountWardrobe,
   AccountAddresses,
   AccountSettings,
 } from "../customerDashboard";
@@ -92,6 +93,7 @@ export default function storefrontRoutes() {
         <Route path="orders/:id" element={<AccountOrderDetail />} />
         <Route path="addresses" element={<AccountAddresses />} />
         <Route path="wishlist" element={<AccountWishlist />} />
+        <Route path="wardrobe" element={<AccountWardrobe />} />
         <Route path="settings" element={<AccountSettings />} />
       </Route>
 

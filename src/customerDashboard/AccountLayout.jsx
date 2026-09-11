@@ -1,5 +1,5 @@
 /* Customer Dashboard: AccountLayout */
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
@@ -78,15 +78,6 @@ export default function AccountLayout() {
               </button>
             </nav>
 
-            {isAdmin && (
-              <Link
-                to="/dashboard"
-                className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-espresso-soft underline underline-offset-4 transition-colors hover:text-gold-700"
-              >
-                <LayoutDashboard className="size-3.5" aria-hidden="true" />
-                Atelier dashboard
-              </Link>
-            )}
           </aside>
 
           {/* Keyed on the path so each page mounts fresh, rather than carrying

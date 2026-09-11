@@ -3,6 +3,7 @@ import { useLanguage } from "../../../../context/LanguageContext";
 import { sizeChartLabelFor } from "../../../../components/storefront/sizeChart/sizeChartKind";
 import ProductBuyPanelColors from "./ProductBuyPanelColors";
 import ProductBuyPanelSizes from "./ProductBuyPanelSizes";
+import { useUsualSize } from "./useUsualSize";
 
 export default function ProductBuyPanelVariants({
   product,
@@ -16,6 +17,7 @@ export default function ProductBuyPanelVariants({
   onOpenChart,
 }) {
   const { t } = useLanguage();
+  const usualSize = useUsualSize(product);
 
   return (
     <>
@@ -45,6 +47,20 @@ export default function ProductBuyPanelVariants({
             )}
           </div>
           <ProductBuyPanelSizes options={product.sizes} value={size} onChange={onSizeChange} />
+
+          {/* What they took last time, from their own orders. Only shown when
+              this piece is actually offered in that size. */}
+          {usualSize && !size && (
+            <button
+              type="button"
+              onClick={() => onSizeChange(usualSize)}
+              className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[11px] text-espresso-soft transition-colors hover:text-espresso lg:min-h-0"
+            >
+              You usually take
+              <span className="font-semibold uppercase text-espresso">{usualSize}</span>
+              <span className="text-gold-700 underline underline-offset-4">select</span>
+            </button>
+          )}
           {sizeError && (
             <p className="mt-2 text-xs text-error" role="alert">
               {sizeError}
