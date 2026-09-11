@@ -97,6 +97,10 @@ export default function Navbar() {
         <MegaMenu
           category={activeCategory}
           anchorLeft={menuAnchor}
+          // Following a link inside the panel has to dismiss it. Without this
+          // the menu stayed open over the page it had just navigated to, and
+          // only a click elsewhere or a hover-out would clear it.
+          onNavigate={() => setMenuId(null)}
           onMouseEnter={cancelClose}
           onMouseLeave={scheduleClose}
         />

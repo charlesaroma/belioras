@@ -1,6 +1,6 @@
 /* Image Dropzone */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ImagePlus, Star, X } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 
 import { cn } from "../../../../../utils/cn";
 import { ACCEPT, MAX_BYTES, processImage } from "./productFormImage";

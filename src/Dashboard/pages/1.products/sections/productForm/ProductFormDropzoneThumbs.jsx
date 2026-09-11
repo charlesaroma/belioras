@@ -1,11 +1,9 @@
 /* Uploaded Image Thumbnails */
 import { Star, X } from "lucide-react";
 
-import { cn } from "../../../../../utils/cn";
-
 // The first image is the one shoppers see in the grid, so promoting one is a
 // first-class action rather than a reorder drag.
-export default function ProductFormDropzoneThumbs({ images, onRemove, onMakePrimary, disabled }) {
+export default function ProductFormDropzoneThumbs({ images, onRemove, onMakePrimary }) {
   if (!images.length) return null;
 
   return (

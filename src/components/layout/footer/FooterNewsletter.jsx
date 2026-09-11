@@ -1,13 +1,14 @@
 /* Newsletter Band */
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 import { useToast } from "../../../context/ToastContext";
 import { EMAIL_RE } from "./footerLinks";
 
-// A dedicated section rather than a popup — the review ruled out
-// interruptions entirely. The component previously carried a second,
-// light-background variant that nothing ever rendered.
+// A dedicated band rather than a popup — the review ruled out interruptions
+// entirely. Proportioned so the espresso reads as a deliberate rule across
+// the page rather than a large empty panel.
 export default function FooterNewsletter() {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
@@ -25,53 +26,64 @@ export default function FooterNewsletter() {
   };
 
   return (
-    <section className="bg-espresso py-14 md:py-16" aria-labelledby="newsletter-heading">
-      <div className="container-main">
-        <div className="mx-auto max-w-xl text-center">
-          <p className="eyebrow !text-gold-400">The Belioras Letter</p>
-          <h2 id="newsletter-heading" className="mt-2 font-display text-3xl text-ivory-50">
-            Collection previews, atelier stories and private sales
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-ivory-50/60">Once a month, never more.</p>
+    <section className="bg-espresso text-ivory-50" aria-labelledby="newsletter-heading">
+      <div className="container-main py-14 md:py-20">
+        <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end md:gap-16">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-gold-400">
+              The Belioras Letter
+            </p>
+            <h2
+              id="newsletter-heading"
+              className="mt-4 max-w-[18ch] font-display text-[30px] leading-[1.15] tracking-[-0.01em] text-ivory-50 md:text-[38px]"
+            >
+              Collection previews and private sales
+            </h2>
+            <p className="mt-4 text-[13px] leading-relaxed text-ivory-50/45">
+              Once a month, never more.
+            </p>
+          </div>
 
-          <form className="mt-6 flex gap-2" onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit} noValidate className="w-full md:w-[380px]">
             <label className="sr-only" htmlFor="footer-newsletter-email">
               Email address
             </label>
-            <input
-              id="footer-newsletter-email"
-              type="email"
-              autoComplete="email"
-              className="min-h-11 min-w-0 flex-1 border-b border-ivory-50/25 bg-transparent px-2 text-sm text-ivory-50 transition-colors placeholder:text-ivory-50/40 focus:border-gold-400 focus:outline-none"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="inline-flex min-h-11 shrink-0 items-center gap-2 border-b border-ivory-50/25 px-2 text-xs font-semibold uppercase tracking-[0.2em] text-ivory-50/90 transition-colors hover:border-gold-400 hover:text-gold-400"
-              aria-label="Subscribe to newsletter"
-            >
-              Subscribe
-            </button>
-          </form>
-
-          {error ? (
-            <p className="mt-2 text-xs text-error" role="alert">
-              {error}
-            </p>
-          ) : (
-            <p className="mt-3 text-xs leading-relaxed text-ivory-50/50">
-              By subscribing you agree to our{" "}
-              <Link
-                to="/privacy-policy"
-                className="underline decoration-gold-500 underline-offset-2"
+            <div className="flex items-center gap-3 border-b border-ivory-50/25 transition-colors focus-within:border-gold-400">
+              <input
+                id="footer-newsletter-email"
+                type="email"
+                autoComplete="email"
+                className="min-h-12 min-w-0 flex-1 bg-transparent text-sm text-ivory-50 outline-none placeholder:text-ivory-50/35"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button
+                type="submit"
+                aria-label="Subscribe to the Belioras Letter"
+                className="group/sub flex size-11 shrink-0 items-center justify-center text-ivory-50/70 transition-colors hover:text-gold-400"
               >
-                privacy policy
-              </Link>
-              . Unsubscribe anytime.
-            </p>
-          )}
+                <ArrowRight
+                  className="size-4 transition-transform duration-300 group-hover/sub:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+
+            {error ? (
+              <p className="mt-3 text-xs text-gold-300" role="alert">
+                {error}
+              </p>
+            ) : (
+              <p className="mt-3 text-[11px] leading-relaxed text-ivory-50/35">
+                By subscribing you agree to our{" "}
+                <Link to="/privacy-policy" className="underline underline-offset-2 hover:text-ivory-50/70">
+                  privacy policy
+                </Link>
+                .
+              </p>
+            )}
+          </form>
         </div>
       </div>
     </section>

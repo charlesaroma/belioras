@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import MegaMenuPanel from "./MegaMenuPanel";
 import { megaMenuColumns, megaMenuLayoutFor } from "./megaMenu/megaMenuLayout";
 
-export default function MegaMenu({ category, anchorLeft, onMouseEnter, onMouseLeave }) {
+export default function MegaMenu({ category, anchorLeft, onNavigate, onMouseEnter, onMouseLeave }) {
 
   const layout = category ? megaMenuLayoutFor(category) : "compact";
 
@@ -44,6 +44,7 @@ export default function MegaMenu({ category, anchorLeft, onMouseEnter, onMouseLe
             <MegaMenuPanel
               item={category}
               variant="desktop"
+              onNavigate={onNavigate}
               columns={columns}
               // Imagery fills the band. In a dropdown it is the thing that
               // would create the emptiness rather than fill it.
