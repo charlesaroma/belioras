@@ -16,7 +16,7 @@ export default function FooterLinkColumn({ title, links, defaultOpen = false }) 
   return (
     <div
       className={cn(
-        "-mx-5 border-b border-espresso/10 px-5 transition-colors duration-300 md:mx-0 md:border-none md:px-0",
+        "-mx-5 border-b border-espresso/10 px-5 transition-colors duration-300 last:border-b-0 md:mx-0 md:border-none md:px-0",
         // The open section gets a ground of its own, the same language the
         // mobile nav drawer uses, so which one you opened is never in doubt.
         open ? "bg-brown-50/40 md:bg-transparent" : "bg-transparent",
@@ -43,10 +43,12 @@ export default function FooterLinkColumn({ title, links, defaultOpen = false }) 
       </button>
 
       {/* Desktop keeps the list mounted; mobile animates it. */}
-      <ul className="hidden md:block md:space-y-3.5">
+      <ul className="hidden md:block lg:space-y-3.5">
         {links.map((link) => (
           <li key={link.to}>
-            <FooterLink to={link.to}>{link.label}</FooterLink>
+            <FooterLink to={link.to} className="min-h-11 lg:min-h-0">
+              {link.label}
+            </FooterLink>
           </li>
         ))}
       </ul>

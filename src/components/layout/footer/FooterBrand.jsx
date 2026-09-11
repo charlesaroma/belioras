@@ -30,7 +30,7 @@ export default function FooterBrand({ social }) {
           href={social?.instagram ?? "https://instagram.com"}
           target="_blank"
           rel="noopener noreferrer"
-          className="-ml-2.5 flex size-11 items-center justify-center text-espresso/50 transition-colors hover:text-gold-700 md:ml-0 md:size-auto"
+          className="-ml-2.5 flex size-11 items-center justify-center text-espresso/50 transition-colors hover:text-gold-700 lg:ml-0 lg:size-auto"
           aria-label="Belioras on Instagram"
         >
           <InstagramIcon className="size-[18px]" />
@@ -41,7 +41,7 @@ export default function FooterBrand({ social }) {
             href={net.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-11 items-center text-[10px] uppercase tracking-[0.2em] text-espresso/50 transition-colors hover:text-gold-700 md:min-h-0"
+            className="flex min-h-11 items-center text-[10px] uppercase tracking-[0.2em] text-espresso/50 transition-colors hover:text-gold-700 lg:min-h-0"
           >
             {net.label}
           </a>
