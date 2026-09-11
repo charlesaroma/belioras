@@ -9,7 +9,7 @@ import { getHeroSlides } from "../../../services/contentApi";
 import { cn } from "../../../utils/cn";
 
 /* AUTOPLAY MS */
-const AUTOPLAY_MS = 6000;
+const AUTOPLAY_MS = 4000;
 
 export default function HeroSection() {
 
@@ -45,11 +45,11 @@ export default function HeroSection() {
 
   const slide = slides[safeIndex];
 
-  if (!slide) return <section className="h-[100svh] min-h-[600px] w-full bg-espresso" />;
+  if (!slide) return <section className={cn('h-[100svh]', 'min-h-[600px]', 'w-full', 'bg-espresso')} />;
 
   return (
     <section
-      className="relative h-[100svh] min-h-[600px] w-full overflow-hidden bg-espresso"
+      className={cn('relative', 'h-[100svh]', 'min-h-[600px]', 'w-full', 'overflow-hidden', 'bg-espresso')}
       aria-labelledby="hero-title"
       aria-roledescription="carousel"
       onMouseEnter={() => setPaused(true)}
@@ -64,13 +64,13 @@ export default function HeroSection() {
           // Slower than a UI transition on purpose: at this size the change
           // should register as a dissolve, not a swap.
           transition={{ duration: 1.4, ease: "easeInOut" }}
-          className="absolute inset-0"
+          className={cn('absolute', 'inset-0')}
         >
           <img
             src={slide.image}
             alt=""
             fetchPriority="high"
-            className="h-full w-full object-cover"
+            className={cn('h-full', 'w-full', 'object-cover')}
             style={{ objectPosition: slide.objectPosition }}
           />
           {/*
@@ -80,12 +80,12 @@ export default function HeroSection() {
           */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-espresso/45 via-espresso/10 to-espresso/75"
+            className={cn('absolute', 'inset-0', 'bg-gradient-to-b', 'from-espresso/45', 'via-espresso/10', 'to-espresso/75')}
           />
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative flex h-full flex-col items-center justify-end px-6 pb-24 text-center sm:pb-28">
+      <div className={cn('relative', 'flex', 'h-full', 'flex-col', 'items-center', 'justify-end', 'px-6', 'pb-24', 'text-center', 'sm:pb-28')}>
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}
@@ -93,17 +93,17 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="max-w-3xl text-ivory-50"
+            className={cn('max-w-3xl', 'text-ivory-50')}
           >
             {slide.seasonLabel && (
-              <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-champagne-400">
+              <p className={cn('mb-5', 'text-[10px]', 'font-semibold', 'uppercase', 'tracking-[0.28em]', 'text-champagne-400')}>
                 {slide.seasonLabel}
               </p>
             )}
 
             <h1
               id="hero-title"
-              className="font-display text-[38px] leading-[1.06] tracking-[0.01em] sm:text-[48px] md:text-[58px] lg:text-[66px]"
+              className={cn('font-display', 'text-[38px]', 'leading-[1.06]', 'tracking-[0.01em]', 'sm:text-[48px]', 'md:text-[58px]', 'lg:text-[66px]')}
             >
               {slide.title.map((line) => (
                 <span key={line} className="block">
@@ -113,7 +113,7 @@ export default function HeroSection() {
             </h1>
 
             {slide.subtitle && (
-              <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ivory-50/70">
+              <p className={cn('mx-auto', 'mt-5', 'max-w-md', 'text-sm', 'leading-relaxed', 'text-ivory-50/70')}>
                 {slide.subtitle}
               </p>
             )}
@@ -123,7 +123,7 @@ export default function HeroSection() {
             {slide.primaryCta && (
               <Link
                 to={slide.primaryCta.to}
-                className="mt-8 inline-block border-b border-gold-500 pb-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory-50 transition-colors hover:text-champagne-300"
+                className={cn('mt-8', 'inline-block', 'border-b', 'border-gold-500', 'pb-1.5', 'text-[11px]', 'font-medium', 'uppercase', 'tracking-[0.22em]', 'text-ivory-50', 'transition-colors', 'hover:text-champagne-300')}
               >
                 {slide.primaryCta.label}
               </Link>
@@ -134,7 +134,7 @@ export default function HeroSection() {
 
       {count > 1 && (
         <div
-          className="absolute inset-x-0 bottom-9 z-10 flex items-center justify-center gap-2"
+          className={cn('absolute', 'inset-x-0', 'bottom-9', 'z-10', 'flex', 'items-center', 'justify-center', 'gap-2')}
           role="tablist"
           aria-label="Hero slides"
         >
@@ -152,7 +152,7 @@ export default function HeroSection() {
               onClick={() => goTo(i)}
               // Generous hit area around a hairline mark: the rule is 1.5px
               // tall but the target is a comfortable 44px wide and 24 tall.
-              className="group flex h-6 w-11 items-center"
+              className={cn('group', 'flex', 'h-6', 'w-11', 'items-center')}
             >
               <span
                 className={cn(
