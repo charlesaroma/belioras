@@ -2,7 +2,7 @@
 import { X } from "lucide-react";
 
 import BrandMark from "../../components/shared/BrandMark";
-import { useAuth } from "../../context/AuthContext";
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { cn } from "../../utils/cn";
 import { DASHBOARD_NAV_GROUPS } from "../lib/constants";
@@ -10,7 +10,7 @@ import SidebarNav from "./sidebar/SidebarNav";
 import SidebarFooter from "./sidebar/SidebarFooter";
 
 export default function DashSidebar({ isOpen, onClose }) {
-  const { user, logout, can } = useAuth();
+  const { user, logout, can } = useStaffAuth();
   const [collapsed, setCollapsed] = useLocalStorage("belioras:dash:collapsed", false);
 
   // A group whose every item is out of reach for this role disappears with it.

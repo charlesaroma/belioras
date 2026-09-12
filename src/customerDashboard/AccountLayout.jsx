@@ -2,13 +2,13 @@
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
-import { useAuth } from "../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../context/LanguageContext";
 import { accountMenuItems } from "../components/account/accountMenuItems";
 import { cn } from "../utils/cn";
 
 export default function AccountLayout() {
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, logout } = useCustomerAuth();
   const { t } = useLanguage();
 
   // The same list the header dropdown and the mobile drawer render. This rail

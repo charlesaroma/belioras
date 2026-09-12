@@ -1,11 +1,17 @@
 /* Auth Component: RequireAuth */
 import { Link, Navigate, useLocation } from "react-router-dom";
 
-import { useAuth } from "../../context/AuthContext";
+import { useCustomerAuth, useStaffAuth } from "@/context/auth/useAuthRealm";
 import Forbidden from "../layout/Forbidden";
 
 export default function RequireAuth({ children, adminOnly = false, capability = null }) {
-  const { isAuthenticated, isAdmin, can } = useAuth();
+  const customer = useCustomerAuth();
+  const staff = useStaffAuth();
+
+  // Which session guards a route is the route's own question: a dashboard path
+  // is answered by the staff session, a storefront path by the shopper's. Both
+  // hooks run because hooks must; the choice happens after.
+  const { isAuthenticated, isAdmin, can } = adminOnly || capability ? staff : customer;
 
   const location = useLocation();
 

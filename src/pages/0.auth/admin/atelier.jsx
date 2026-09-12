@@ -4,13 +4,13 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import BrandMark from "../../../components/shared/BrandMark";
-import { useAuth } from "../../../context/AuthContext";
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useToast } from "../../../context/ToastContext";
 import { isAdminRole, resolveLanding } from "../../../utils/roles";
 import { validateCredentials } from "../../../utils/validateCredentials";
 
 export default function AtelierLogin() {
-  const { login, loading, isAuthenticated, user } = useAuth();
+  const { login, loading, isAuthenticated, user } = useStaffAuth();
   const { toast } = useToast();
 
   const navigate = useNavigate();

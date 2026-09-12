@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useToast } from "../../../../context/ToastContext";
 import { resolveLanding } from "../../../../utils/roles";
 import { validateCredentials } from "../../../../utils/validateCredentials";
@@ -12,7 +12,7 @@ import CustomerAuthSubmit from "./CustomerAuthSubmit";
 import PasswordToggle from "./PasswordToggle";
 
 export default function CustomerLoginForm() {
-  const { login, loading: submitting } = useAuth();
+  const { login, loading: submitting } = useCustomerAuth();
   const { toast } = useToast();
 
   const navigate = useNavigate();

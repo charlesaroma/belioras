@@ -1,49 +1,38 @@
-/* Access And Refresh Token Storage */
+/* Access Tokens, Per Realm */
 
 /**
- * Two realms, two keys, no shared slot.
+ * Memory, not localStorage.
  *
- * A staff session and a customer session can exist in the same browser at the
- * same time, and neither may stand in for the other. Storing both under one
- * key is what lets an admin's token travel with a storefront request — so the
- * realm is part of the key, and every read is scoped to one.
+ * A token in localStorage is readable by any injected script and outlives the
+ * tab that earned it. Held here it dies with the page, which is why each realm
+ * re-establishes itself from its refresh cookie on boot rather than reading a
+ * session back off disk.
+ *
+ * Two realms, never one slot: a staff session and a customer session can exist
+ * in the same browser at once, and neither may stand in for the other. The
+ * refresh token itself carries the realm, so a staff cookie cannot mint a
+ * customer session even if it reaches the wrong call.
  */
 
 export const REALMS = ["customer", "staff"];
 
-const KEY = { customer: "belioras:session:customer", staff: "belioras:session:staff" };
-
+const tokens = new Map();
 const listeners = new Set();
 
-export function readTokens(realm) {
-  try {
-    const raw = window.localStorage.getItem(keyFor(realm));
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-export function writeTokens(realm, tokens) {
-  try {
-    if (tokens) window.localStorage.setItem(keyFor(realm), JSON.stringify(tokens));
-    else window.localStorage.removeItem(keyFor(realm));
-  } catch {
-    /* Private browsing refuses the write; the session stays in memory */
-  }
-  listeners.forEach((fn) => fn(realm, tokens));
-}
-
-export function clearTokens(realm) {
-  writeTokens(realm, null);
-}
-
 export function accessToken(realm) {
-  return readTokens(realm)?.accessToken ?? null;
+  return tokens.get(assertRealm(realm)) ?? null;
 }
 
-export function refreshToken(realm) {
-  return readTokens(realm)?.refreshToken ?? null;
+export function setAccessToken(realm, token) {
+  assertRealm(realm);
+  if (token) tokens.set(realm, token);
+  else tokens.delete(realm);
+
+  listeners.forEach((fn) => fn(realm, token ?? null));
+}
+
+export function clearAccessToken(realm) {
+  setAccessToken(realm, null);
 }
 
 /** Lets an auth context drop its user when a refresh fails mid-flight. */
@@ -52,8 +41,7 @@ export function onTokenChange(fn) {
   return () => listeners.delete(fn);
 }
 
-function keyFor(realm) {
-  const key = KEY[realm];
-  if (!key) throw new Error(`Unknown auth realm: ${realm}`);
-  return key;
+function assertRealm(realm) {
+  if (!REALMS.includes(realm)) throw new Error(`Unknown auth realm: ${realm}`);
+  return realm;
 }

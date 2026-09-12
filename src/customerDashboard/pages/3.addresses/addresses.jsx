@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useScopedStorage } from "../../../hooks/useScopedStorage";
 import { useToast } from "../../../context/ToastContext";
 import AddressForm from "./sections/AddressForm";
@@ -10,7 +10,7 @@ import AddressList from "./sections/AddressList";
 import { EMPTY_FORM, NO_ADDRESSES, validateAddress } from "./sections/addressesRules";
 
 export default function Addresses() {
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { toast } = useToast();
 
   const [addresses, setAddresses] = useScopedStorage("belioras:addresses", NO_ADDRESSES, user?.id);

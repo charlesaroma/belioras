@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import ConfirmDialog from "../components/ui/ConfirmDialog";
-import { useAuth } from "../context/AuthContext";
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useToast } from "../context/ToastContext";
 import { useIdleTimeout } from "../hooks/useIdleTimeout";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -24,7 +24,7 @@ export default function DashboardLayout() {
   const { pathname } = useLocation();
 
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout } = useStaffAuth();
   const { toast } = useToast();
 
   const segment = pathname.replace(/^\/dashboard\/?/, "").split("/")[0] || "overview";

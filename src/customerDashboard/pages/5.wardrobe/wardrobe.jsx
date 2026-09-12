@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Shirt } from "lucide-react";
 
 import EmptyState from "../../../components/ui/EmptyState";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCart } from "../../../context/CartContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
@@ -25,7 +25,7 @@ import WardrobeGrid from "./sections/WardrobeGrid";
  * orders already fetched; nothing new is stored.
  */
 export default function AccountWardrobe() {
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { addItem } = useCart();
   const { toast } = useToast();
   const { locale } = useLanguage();

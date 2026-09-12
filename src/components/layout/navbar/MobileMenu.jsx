@@ -5,7 +5,7 @@ import { Search, X } from "lucide-react";
 
 import BrandMark from "../../shared/BrandMark";
 import { NAV_LINKS } from "../../../utils/constants";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth, useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useWishlist } from "../../../context/WishlistContext";
 
@@ -18,7 +18,12 @@ import { titleCase } from "./mobileMenu/mobileMenuText";
 // cart live in the header; search lives here, so the header carries no icon
 // for it.
 export default function MobileMenu({ open, onClose, categories, onSearchOpen }) {
-  const { user, isAdmin, logout } = useAuth();
+  // The menu belongs to the shopper and renders only for one. The staff realm
+  // answers a separate question — whether to add the dashboard row — so it is
+  // read separately, and someone signed into both gets the shortcut without
+  // either session standing in for the other.
+  const { user, logout } = useCustomerAuth();
+  const { isAdmin } = useStaffAuth();
   const { t } = useLanguage();
   const { count: wishlistCount } = useWishlist();
 

@@ -5,7 +5,7 @@ import { Heart, ShoppingBag, User } from "lucide-react";
 
 import { useCart } from "../../../context/CartContext";
 import { useWishlist } from "../../../context/WishlistContext";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import AccountMenu from "./AccountMenu";
 import { useLanguage } from "../../../context/LanguageContext";
 import CurrencySelector from "../../common/CurrencySelector";
@@ -22,7 +22,7 @@ const BADGE =
 export default function NavActions({ onCartOpen }) {
   const { count } = useCart();
   const { count: wishlistCount } = useWishlist();
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { t } = useLanguage();
 
   return (

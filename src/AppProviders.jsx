@@ -2,7 +2,8 @@
 import { ContentProvider } from "@/context/ContentContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
-import { AuthProvider } from "@/context/AuthContext";
+import CustomerAuthProvider from "@/context/CustomerAuthProvider";
+import StaffAuthProvider from "@/context/StaffAuthProvider";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { ProductDraftProvider } from "@/context/ProductDraftContext";
@@ -16,7 +17,8 @@ export default function AppProviders({ children }) {
     <ContentProvider>
       <LanguageProvider>
         <CurrencyProvider>
-          <AuthProvider>
+          <CustomerAuthProvider>
+            <StaffAuthProvider>
             <CartProvider>
               <WishlistProvider>
                 <ProductDraftProvider>
@@ -31,7 +33,8 @@ export default function AppProviders({ children }) {
                 </ProductDraftProvider>
               </WishlistProvider>
             </CartProvider>
-          </AuthProvider>
+            </StaffAuthProvider>
+          </CustomerAuthProvider>
         </CurrencyProvider>
       </LanguageProvider>
     </ContentProvider>

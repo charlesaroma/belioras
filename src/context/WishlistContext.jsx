@@ -1,7 +1,7 @@
 /* Context Provider: WishlistContext */
 import { createContext, useCallback, useContext, useMemo } from "react";
 
-import { useAuth } from "./AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useScopedStorage } from "../hooks/useScopedStorage";
 
 const WishlistContext = createContext(null);
@@ -11,7 +11,7 @@ function mergeIds(accountIds = [], anonymousIds = []) {
 }
 
 export function WishlistProvider({ children }) {
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const [ids, setIds] = useScopedStorage("belioras:wishlist", [], user?.id, {
     merge: mergeIds,
   });

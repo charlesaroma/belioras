@@ -1,16 +1,18 @@
 /* Access Token Refresh */
 import { apiUrl } from "./config";
-import { ApiError, apiErrorFromBody } from "./error";
-import { clearTokens, readTokens, writeTokens } from "./tokens";
+import { apiErrorFromBody } from "./error";
+import { clearAccessToken, setAccessToken } from "./tokens";
 import { routes } from "./routes";
 
 /**
  * One refresh per realm at a time.
  *
  * A page that fires four requests on mount would otherwise send four refreshes
- * against the same expired token. The backend rotates refresh tokens, so the
- * three that lose the race present a token that has already been spent and the
- * session is logged out for no reason.
+ * against the same cookie. The server rotates refresh tokens, so the three
+ * that lose the race present a token that has already been spent — and a spent
+ * token is indistinguishable from a stolen one, which revokes every session
+ * the user has. Deduping here is what keeps a normal page load from looking
+ * like an attack.
  */
 
 const pending = new Map();
@@ -26,23 +28,23 @@ export function refreshSession(realm) {
 }
 
 async function run(realm) {
-  const token = readTokens(realm)?.refreshToken;
-  if (!token) throw new ApiError("Your session has expired.", 401);
-
+  // The refresh token is an httpOnly cookie, so it is never read here — it
+  // rides along because of `credentials`. The header is what tells the server
+  // which realm's cookie to honour when a browser holds both.
   const response = await fetch(apiUrl(routes.auth.refresh), {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ refreshToken: token }),
+    credentials: "include",
+    headers: { Accept: "application/json", "X-Auth-Realm": realm },
   });
 
   const body = await response.json().catch(() => null);
 
   if (!response.ok) {
-    clearTokens(realm);
+    clearAccessToken(realm);
     throw apiErrorFromBody(response.status, body);
   }
 
-  const tokens = body?.data ?? body;
-  writeTokens(realm, tokens);
-  return tokens;
+  const session = body?.data ?? body;
+  setAccessToken(realm, session?.accessToken ?? null);
+  return session;
 }

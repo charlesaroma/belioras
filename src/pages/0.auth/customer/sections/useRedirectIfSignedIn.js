@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-import { useAuth } from "../../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { resolveLanding } from "../../../../utils/roles";
 
 /**
@@ -12,7 +12,7 @@ import { resolveLanding } from "../../../../utils/roles";
  */
 
 export function useRedirectIfSignedIn() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user } = useCustomerAuth();
 
   const location = useLocation();
   return isAuthenticated ? resolveLanding(user, location.state?.from) : null;

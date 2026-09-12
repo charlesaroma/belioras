@@ -7,7 +7,7 @@ import { Lock, ShoppingBag } from "lucide-react";
 import Button from "../../components/ui/Button";
 import EmptyState from "../../components/ui/EmptyState";
 import PageShell from "../../components/layout/PageShell";
-import { useAuth } from "../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCart } from "../../context/CartContext";
 import { useContentVersion } from "../../context/ContentContext";
 import { useToast } from "../../context/ToastContext";
@@ -24,7 +24,7 @@ export default function CheckoutPage() {
 
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { items, clear } = useCart();
 
   const version = useContentVersion();

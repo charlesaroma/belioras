@@ -1,5 +1,5 @@
 /* Usual Size From Past Orders */
-import { useAuth } from "../../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useAsyncData } from "../../../../hooks/useAsyncData";
 import { getOrders } from "../../../../services/ordersApi";
 import { getProducts } from "../../../../services/productsApi";
@@ -19,7 +19,7 @@ import { ownedPieces, usualSizeFor } from "../../../../utils/purchaseHistory";
  * reference on every render anyway.
  */
 export function useUsualSize(product) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useCustomerAuth();
 
   const { data: orders } = useAsyncData(
     () => (isAuthenticated ? getOrders(user?.id) : Promise.resolve([])),

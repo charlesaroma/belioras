@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Package, PackageOpen } from "lucide-react";
 
 import StatusChip from "../../../components/ui/StatusChip";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getOrders } from "../../../services/ordersApi";
@@ -13,7 +13,7 @@ function formatDate(iso) {
 }
 
 export default function Orders() {
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { format } = useCurrency();
   const { data: orders, loading } = useAsyncData(() => getOrders(user?.id), [user?.id]);
 

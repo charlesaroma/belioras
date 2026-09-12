@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -19,7 +19,7 @@ import SavedPieces from "./sections/ProfileSavedPieces";
 const PREVIEW_COUNT = 4;
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { format } = useCurrency();
   const { ids: wishlistIds, count: wishlistCount } = useWishlist();
 

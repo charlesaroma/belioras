@@ -5,7 +5,7 @@ import { ArrowLeft, Printer, RotateCcw } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import OrderTimeline from "../../../components/account/OrderTimeline";
 import StatusChip from "../../../components/ui/StatusChip";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useCart } from "../../../context/CartContext";
 import { useToast } from "../../../context/ToastContext";
@@ -23,7 +23,7 @@ const formatDate = (iso) =>
 export default function OrderDetail() {
   const { id } = useParams();
   const { format } = useCurrency();
-  const { user } = useAuth();
+  const { user } = useCustomerAuth();
   const { addItem } = useCart();
   const { toast } = useToast();
 

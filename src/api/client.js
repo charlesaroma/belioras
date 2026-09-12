@@ -1,7 +1,7 @@
 /* Http Client */
 import { apiTimeout, apiUrl } from "./config";
 import { apiErrorFromBody, networkError } from "./error";
-import { accessToken, refreshToken } from "./tokens";
+import { accessToken } from "./tokens";
 import { refreshSession } from "./refresh";
 
 /**
@@ -12,6 +12,7 @@ import { refreshSession } from "./refresh";
 
 async function request(method, path, options = {}) {
   const { body, params, realm = "customer", headers, signal, retry = true } = options;
+  const hadToken = Boolean(accessToken(realm));
   const control = abortAfter(apiTimeout, signal);
   let response;
 
@@ -19,6 +20,9 @@ async function request(method, path, options = {}) {
     response = await fetch(apiUrl(path, params), {
       method,
       signal: control.signal,
+      // Sends the httpOnly refresh cookie. Same-origin through the proxy, so
+      // this costs no preflight.
+      credentials: "include",
       headers: buildHeaders({ body, headers, realm }),
       body: serialize(body),
     });
@@ -28,7 +32,11 @@ async function request(method, path, options = {}) {
     control.done();
   }
 
-  if (response.status === 401 && retry && refreshToken(realm)) {
+  // Only refresh when a token was actually presented and rejected. A 401 with
+  // no token means the caller is signed out, and refreshing on that would fire
+  // a pointless round-trip on every anonymous request that touches a guarded
+  // route. Restoring a session on boot is the auth context's job, not a 401's.
+  if (response.status === 401 && retry && hadToken) {
     await refreshSession(realm);
     return request(method, path, { ...options, retry: false });
   }
@@ -52,13 +60,22 @@ function serialize(body) {
   return body instanceof FormData ? body : JSON.stringify(body);
 }
 
-/** The API answers `{ data }` on success and `{ error }` on failure. */
+/**
+ * The API answers `{ data }` on success, with `{ meta }` alongside it on a
+ * paged collection, and `{ error }` on failure. Both halves are returned so
+ * `list` can hand back the page count; collapsing to `data` here is what threw
+ * pagination away.
+ */
 async function unwrap(response) {
-  if (response.status === 204) return null;
+  if (response.status === 204) return { data: null, meta: null };
 
   const body = await response.json().catch(() => null);
   if (!response.ok) throw apiErrorFromBody(response.status, body);
-  return body?.data ?? body;
+
+  if (body && typeof body === "object" && "data" in body) {
+    return { data: body.data, meta: body.meta ?? null };
+  }
+  return { data: body, meta: null };
 }
 
 function abortAfter(ms, signal) {
@@ -70,9 +87,15 @@ function abortAfter(ms, signal) {
 }
 
 export const http = {
-  get: (path, options) => request("GET", path, options),
-  post: (path, body, options) => request("POST", path, { ...options, body }),
-  patch: (path, body, options) => request("PATCH", path, { ...options, body }),
-  put: (path, body, options) => request("PUT", path, { ...options, body }),
-  del: (path, options) => request("DELETE", path, options),
+  get: async (path, options) => (await request("GET", path, options)).data,
+  post: async (path, body, options) => (await request("POST", path, { ...options, body })).data,
+  patch: async (path, body, options) => (await request("PATCH", path, { ...options, body })).data,
+  put: async (path, body, options) => (await request("PUT", path, { ...options, body })).data,
+  del: async (path, options) => (await request("DELETE", path, options)).data,
+
+  /** A paged collection: `{ items, meta }` rather than a bare array. */
+  list: async (path, options) => {
+    const { data, meta } = await request("GET", path, options);
+    return { items: data ?? [], meta };
+  },
 };

@@ -5,13 +5,13 @@ import SettingsPanel from "./sections/SettingsPanel";
 import ProfileFields from "./sections/SettingsProfileFields";
 import SecurityFields from "./sections/SettingsSecurityFields";
 import PreferencesPanel from "./sections/SettingsPreferencesPanel";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 
 export default function AccountSettings() {
-  const { user, updateProfile, changePassword, verifyPassword } = useAuth();
+  const { user, updateProfile, changePassword, verifyPassword } = useCustomerAuth();
   const { language, setLanguage, locales } = useLanguage();
   const { currency, setCurrency, currencies } = useCurrency();
   const { toast } = useToast();

@@ -5,12 +5,17 @@ import { LogOut } from "lucide-react";
 
 import Avatar from "../../account/Avatar";
 import { accountMenuItems } from "../../account/accountMenuItems";
-import { useAuth } from "../../../context/AuthContext";
+import { useCustomerAuth, useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { cn } from "../../../utils/cn";
 
 export default function AccountMenu() {
-  const { user, isAdmin, logout } = useAuth();
+  // The menu belongs to the shopper and renders only for one. The staff realm
+  // answers a separate question — whether to add the dashboard row — so it is
+  // read separately, and someone signed into both gets the shortcut without
+  // either session standing in for the other.
+  const { user, logout } = useCustomerAuth();
+  const { isAdmin } = useStaffAuth();
   const { t } = useLanguage();
   const { pathname } = useLocation();
 

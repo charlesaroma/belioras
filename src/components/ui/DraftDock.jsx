@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ImagePlus, X } from "lucide-react";
 
-import { useAuth } from "../../context/AuthContext";
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useProductDraft } from "../../context/ProductDraftContext";
 
 export default function DraftDock() {
   const { drafts, clearDraft } = useProductDraft();
-  const { isAdmin } = useAuth();
+  const { isAdmin } = useStaffAuth();
 
   const reduceMotion = useReducedMotion();
 

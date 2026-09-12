@@ -2,7 +2,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { ShieldCheck } from "lucide-react";
 
-import { useAuth } from "../../../context/AuthContext";
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
@@ -16,7 +16,7 @@ import TeamToolbar from "./sections/teamTable/TeamTableToolbar";
 export default function DashTeam() {
   const { locale } = useLanguage();
   const { toast } = useToast();
-  const { user: signedIn } = useAuth();
+  const { user: signedIn } = useStaffAuth();
 
   const [revision, setRevision] = useState(0);
 
