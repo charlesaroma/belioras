@@ -1,6 +1,6 @@
 /* Page: Shop - CatalogView */
 import { useMemo, useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
@@ -85,29 +85,39 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                 <div className="flex w-full items-center gap-2 sm:w-auto sm:gap-4">
                   <label
                     htmlFor="catalog-sort"
-                    className="flex items-center gap-2 text-xs text-espresso-soft"
+                    className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso-soft"
                   >
-                    <span className="hidden uppercase tracking-widest sm:inline">Sort by</span>
+                    <span className="hidden sm:inline">Sort by</span>
                   </label>
-                  <select
-                    id="catalog-sort"
-                    value={filters.sort}
-                    onChange={(e) => setSort(e.target.value)}
-                    className="min-w-0 flex-1 min-h-11 border border-umber-100 bg-transparent px-2 text-xs text-espresso outline-none transition-colors hover:border-espresso sm:-ml-2 sm:flex-none"
-                  >
-                    {SORT_OPTIONS.map((option) => (
-                      <option key={option.value ?? option} value={option.value ?? option}>
-                        {option.label ?? option}
-                      </option>
-                    ))}
-                  </select>
+                  {/* appearance-none is the whole fix: without it macOS drew
+                      its own rounded, tinted control with a native stepper, so
+                      none of the border or radius below applied and the sort
+                      control looked nothing like the Filter button. */}
+                  <div className="relative min-w-0 flex-1 sm:-ml-2 sm:flex-none">
+                    <select
+                      id="catalog-sort"
+                      value={filters.sort}
+                      onChange={(e) => setSort(e.target.value)}
+                      className="peer min-h-11 w-full cursor-pointer appearance-none border border-espresso bg-transparent pl-3 pr-9 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso outline-none transition-colors hover:bg-espresso hover:text-ivory-50 focus-visible:bg-espresso focus-visible:text-ivory-50 lg:min-h-9 [&>option]:bg-ivory-50 [&>option]:normal-case [&>option]:tracking-normal [&>option]:text-espresso"
+                    >
+                      {SORT_OPTIONS.map((option) => (
+                        <option key={option.value ?? option} value={option.value ?? option}>
+                          {option.label ?? option}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="pointer-events-none absolute right-3 top-1/2 size-3.5 -translate-y-1/2 text-espresso transition-colors peer-hover:text-ivory-50 peer-focus-visible:text-ivory-50"
+                    />
+                  </div>
 
                   <button
                     type="button"
                     onClick={() => setDrawerOpen(true)}
                     aria-haspopup="dialog"
                     aria-expanded={drawerOpen}
-                    className="relative inline-flex min-h-11 shrink-0 items-center gap-2 border border-espresso px-3 sm:px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
+                    className="relative inline-flex min-h-11 shrink-0 items-center gap-2 border border-espresso px-3 sm:px-4 lg:min-h-9 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-espresso hover:text-ivory-50"
                   >
                     <SlidersHorizontal className="size-3.5" aria-hidden="true" />
                     Filter
