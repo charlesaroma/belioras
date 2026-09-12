@@ -1,7 +1,7 @@
 /* Storefront Routes */
 import { Navigate, Route } from "react-router-dom";
 
-import StorefrontLayout from "../app/StorefrontLayout";
+import StorefrontLayout from "./StorefrontLayout";
 import RequireAuth from "../components/auth/RequireAuth";
 import NotFound from "../components/layout/NotFound";
 import SearchRedirect from "./SearchRedirect";

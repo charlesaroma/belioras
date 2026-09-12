@@ -55,3 +55,12 @@ export function register({ name, email, password } = {}) {
 export function logout() {
   return mockApi(() => null, 120);
 }
+
+/**
+ * Always resolves, whether or not the address has an account. Reporting "no
+ * such user" here would turn the reset form into the customer-list oracle the
+ * signup form is already careful not to be.
+ */
+export function requestPasswordReset() {
+  return mockApi(() => null, 600);
+}

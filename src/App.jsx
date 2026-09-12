@@ -1,7 +1,7 @@
 /* Root Application */
 import { BrowserRouter, Routes } from "react-router-dom";
 
-import AppProviders from "./app/AppProviders";
+import AppProviders from "./AppProviders";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import DraftDock from "./components/ui/DraftDock";
 import authRoutes from "./routes/AuthRoutes";

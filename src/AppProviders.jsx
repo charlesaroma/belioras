@@ -1,13 +1,13 @@
 /* Application Providers */
-import { ContentProvider } from "../context/ContentContext";
-import { LanguageProvider } from "../context/LanguageContext";
-import { CurrencyProvider } from "../context/CurrencyContext";
-import { AuthProvider } from "../context/AuthContext";
-import { CartProvider } from "../context/CartContext";
-import { WishlistProvider } from "../context/WishlistContext";
-import { ProductDraftProvider } from "../context/ProductDraftContext";
-import { ToastProvider } from "../context/ToastContext";
-import ToastViewport from "../components/ui/ToastViewport";
+import { ContentProvider } from "@/context/ContentContext";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
+import { ProductDraftProvider } from "@/context/ProductDraftContext";
+import { ToastProvider } from "@/context/ToastContext";
+import ToastViewport from "@/components/ui/ToastViewport";
 
 // These sit above BrowserRouter on purpose, so navigating away cannot unmount
 // an in-progress product draft.

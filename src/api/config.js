@@ -7,8 +7,15 @@
  * hardcoding the full prefix.
  */
 
+/**
+ * The base URL is empty by default, making every call relative: Netlify
+ * proxies /api to the API in production and Vite's dev proxy does the same
+ * locally. One origin means no preflight, and a refresh cookie that stays
+ * first-party — Safari drops it otherwise. Set the variable only to address an
+ * API directly.
+ */
 const DEFAULTS = {
-  VITE_API_BASE_URL: "http://localhost:5002",
+  VITE_API_BASE_URL: "",
   VITE_API_VERSION: "v1",
   VITE_API_TIMEOUT: "15000",
 };

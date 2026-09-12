@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, KeyRound, Loader2, MailCheck } from "lucide-react";
 
 import BrandMark from "../../../components/shared/BrandMark";
-import { mockDelay } from "@/api/mock";
+import { requestPasswordReset } from "@/services/authApi";
 
 /* HERO IMAGE */
 const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await mockDelay(600);
+      await requestPasswordReset(email);
       setSent(true);
     } finally {
       setSubmitting(false);

@@ -1,10 +1,10 @@
 /* Storefront Shell */
 import { Outlet } from "react-router-dom";
 
-import Navbar from "../components/layout/navbar";
-import Footer from "../components/layout/Footer";
-import BackToTop from "../components/layout/BackToTop";
-import CookieConsent from "../components/layout/CookieConsent";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/Footer";
+import BackToTop from "@/components/layout/BackToTop";
+import CookieConsent from "@/components/layout/CookieConsent";
 
 export default function StorefrontLayout() {
   return (

@@ -18,4 +18,42 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+
+  /**
+   * Layering, enforced rather than described.
+   *
+   * component → hook → service → api. Each layer knows the one below it and
+   * nothing above. Written down in docs alone this lasts until the first
+   * afternoon someone needs a value in a hurry, which is how a page came to
+   * import mockDelay and fake a password reset without a service existing.
+   */
+  {
+    files: ['src/pages/**/*.{js,jsx}', 'src/components/**/*.{js,jsx}',
+            'src/Dashboard/**/*.{js,jsx}', 'src/customerDashboard/**/*.{js,jsx}'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          group: ['@/api/*', '**/api/client', '**/api/mock', '**/api/tokens', '**/api/refresh'],
+          message:
+            'UI talks to a service, never to the transport. Add or reuse a function in src/services/ and call that.',
+        }],
+      }],
+    },
+  },
+
+  // The transport must stay ignorant of the domain and of React, so it can be
+  // reasoned about — and swapped — without reading a single component.
+  {
+    files: ['src/api/**/*.js'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          group: ['react', 'react-*', '@/services/*', '@/pages/*', '@/components/*',
+                  '../services/*', '../pages/*', '../components/*'],
+          message:
+            'src/api is the bottom layer. Importing a service, a component or React inverts the dependency.',
+        }],
+      }],
+    },
+  },
 ])
