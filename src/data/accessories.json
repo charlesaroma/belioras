@@ -39,7 +39,8 @@
     "images": [
       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop"
     ],
-    "isNonReturnable": false
+    "isNonReturnable": false,
+    "createdAt": "2026-07-30"
   },
   {
     "id": "a2",
@@ -80,7 +81,8 @@
     "images": [
       "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?q=80&w=1000&auto=format&fit=crop"
     ],
-    "isNonReturnable": true
+    "isNonReturnable": true,
+    "createdAt": "2026-05-01"
   },
   {
     "id": "a3",
@@ -119,7 +121,8 @@
     "images": [
       "https://images.unsplash.com/photo-1627483262268-9c2b5b2834b5?q=80&w=1000&auto=format&fit=crop"
     ],
-    "isNonReturnable": false
+    "isNonReturnable": false,
+    "createdAt": "2026-08-02"
   },
   {
     "id": "a4",
@@ -159,6 +162,7 @@
     "images": [
       "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=1000&auto=format&fit=crop"
     ],
-    "isNonReturnable": true
+    "isNonReturnable": true,
+    "createdAt": "2026-05-15"
   }
 ]

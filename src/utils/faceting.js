@@ -144,20 +144,3 @@ export function priceBounds(products) {
   const prices = products.map((p) => p.price);
   return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
 }
-
-export function sortProducts(products, sort) {
-
-  const list = [...products];
-  if (sort === "price-low") list.sort((a, b) => a.price - b.price);
-  else if (sort === "price-high") list.sort((a, b) => b.price - a.price);
-  else if (sort === "rating") list.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
-  else if (sort === "sale") {
-    list.sort((a, b) => discount(b) - discount(a));
-  }
-  return list;
-}
-
-function discount(product) {
-  if (!product.originalPrice || product.originalPrice <= product.price) return 0;
-  return 1 - product.price / product.originalPrice;
-}

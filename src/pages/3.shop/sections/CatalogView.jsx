@@ -7,7 +7,8 @@ import { useContentVersion } from "../../../context/ContentContext";
 import { useFilterParams } from "../../../hooks/useFilterParams";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { getTaxonomy } from "../../../services/navigationApi";
-import { applyFilters, computeFacets, priceBounds, sortProducts } from "../../../utils/faceting";
+import { applyFilters, computeFacets, priceBounds } from "../../../utils/faceting";
+import { sortProducts } from "../../../utils/catalogSort";
 import { DEFAULT_COLUMNS, isValidColumns } from "../../../utils/gridColumns";
 import GridViewSwitcher from "../../../components/storefront/GridViewSwitcher";
 

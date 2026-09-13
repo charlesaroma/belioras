@@ -13,6 +13,7 @@ export const STYLES = ["All", "Evening", "Everyday", "Midi", "Maxi", "Bags", "Je
 /* SORT OPTIONS */
 export const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
+  { value: "oldest", label: "Oldest" },
   { value: "price-low", label: "Price: Low to High" },
   { value: "price-high", label: "Price: High to Low" },
   { value: "rating", label: "Top Rated" },

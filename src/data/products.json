@@ -56,7 +56,8 @@
       "Burgundy": [
         "https://images.unsplash.com/photo-1671437538187-be7eb01a322c?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "createdAt": "2026-07-18"
   },
   {
     "id": "p2",
@@ -113,7 +114,8 @@
       "Rosewood": [
         "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "createdAt": "2026-03-06"
   },
   {
     "id": "p3",
@@ -170,7 +172,8 @@
       "Forest": [
         "https://images.unsplash.com/photo-1742038107091-9a7e1f01b42c?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "createdAt": "2026-03-20"
   },
   {
     "id": "p4",
@@ -226,6 +229,7 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "createdAt": "2026-07-22"
   }
 ]
