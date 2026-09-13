@@ -1,26 +1,3 @@
-/* COLOR HEX */
-export const COLOR_HEX = {
-  Ebony: "#120700",
-  "Jet Black": "#120700",
-  "Natural Black": "#1C1917",
-  "Dark Brown": "#3F290E",
-  Chestnut: "#734B1A",
-  Caramel: "#9A7E48",
-  "Honey Blonde": "#D9B166",
-  Platinum: "#E6CB98",
-  Champagne: "#E8D3B0",
-  Sand: "#E6CB98",
-  Ivory: "#FBF7F0",
-  Blush: "#F3D7CF",
-  Rosewood: "#A0706E",
-  Burgundy: "#6D1F2C",
-  Forest: "#166534",
-  Slate: "#5B6472",
-  Silver: "#C0C0C0",
-  White: "#FFFFFF",
-  Gold: "#D9B166",
-};
-
 /* NAV LINKS */
 export const NAV_LINKS = [
   // `label` is the English fallback; `key` is what t() looks up, so the
@@ -60,29 +37,6 @@ export const LEGACY_CATEGORY_TOKENS = {
  * Catalog colours are display names ("Ebony", "Champagne"); the taxonomy keys
  * on swatch ids. This maps one to the other so `/shop/color/black` matches.
  */
-
-/* COLOR NAME TO TAXONOMY */
-export const COLOR_NAME_TO_TAXONOMY = {
-  Ebony: "black",
-  "Jet Black": "black",
-  "Natural Black": "black",
-  "Dark Brown": "brown",
-  Chestnut: "brown",
-  Caramel: "brown",
-  Rosewood: "brown",
-  "Honey Blonde": "metallic",
-  Platinum: "metallic",
-  Silver: "metallic",
-  Gold: "metallic",
-  Champagne: "metallic",
-  Sand: "white",
-  Ivory: "white",
-  White: "white",
-  Blush: "pink",
-  Burgundy: "burgundy",
-  Forest: "green",
-  Slate: "blue",
-};
 
 /* SALE BADGE */
 export const SALE_BADGE = {

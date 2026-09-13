@@ -9,7 +9,8 @@
 | `apiClient.js` | `mockDelay(ms=250)`, `mockApi(getter, ms)` wrapper, `ApiError` | — |
 | `productsApi.js` | `getProducts()`, `getProduct(id)`, `getByCollection(catId)`, `getNewArrivals()`, `search(query)` | product objects |
 | `collectionsApi.js` | `getCollections()` | dress/hair/accessory collections |
-| `categoriesApi.js` | `getCategories()` | category tree for mega menu |
+| `categoriesApi.js` | `getCategories()`, `categoryUsage()`, `createCategory()`, `updateCategory()`, `deleteCategory()` | categories: name, sizes offered, details asked for |
+| `colorsApi.js` | `getColors()`, `colorUsage()`, `createColor()`, `updateColor()`, `deleteColor()` | colours: name, swatch hex, shop-filter family |
 | `authApi.js` | `login({email,password})`, `register(user)`, `logout()` | `{token, user}` from `users.json`; validate; throws `ApiError` on bad creds |
 | `ordersApi.js` | `createOrder(payload)`, `getOrders(userId)`, `getOrder(id)`, `updateOrderStatus(id, status)` | order with generated id + dates |
 | `couponsApi.js` | `validateCoupon(code)`, `getCoupons()` | coupon or null |
@@ -27,8 +28,9 @@ All JSON arrays/objects, ~5-10 items each (enough to demo filters/DS):
 - `dresses.json` — dress catalogs + `hairVariants[]` merged in `products.json`? No: dresses stay in products.json via `collectionId`; `dresses.json` holds size-chart + styling copy used by Dress PDP.
 - `hair.json` — hair extensions/units: fields + `isNonReturnable: true`, `hairType` (brazilian/indian/remy), `lengthInInches`, `weight` (g), `color` names.
 - `accessories.json` — bags, belts, scarves, jewelry + `nonReturnable` flags where applicable.
-- `newArrivals.json` — date-stamped subset for `/whats-new`.
-- `categories.json` — mega menu tree: 3 columns (Dresses / Hair / Accessories) each with children; `featured` entries point at product ids.
+- `colors.json` — the managed colour list (`id`, `name`, `hex`, `family`). Products reference colours by id.
+- `categories.json` — what a piece is (`id`, `name`, `sizes[]`, `details[]`). The id is a product's `collectionId`. The mega menu tree lives in `navigation.json`.
+- New Arrivals are the products with `isNew`, newest `createdAt` first; there is no separate list.
 - `testimonials.json` — name, city, quote, rating, productUrl.
 - `users.json` — customers + `admin@belioras.com` (password `demo123`, role super-admin (see `07-dashboard.md`)) + staff role examples.
 - `orders.json` — seed orders covering all statuses (pending/paid/shipped/delivered/cancelled/refunded) for dashboard.

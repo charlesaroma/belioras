@@ -1,106 +1,81 @@
 import { useEffect, useRef } from "react";
 
-import { toFormValues } from "./productFormPayload";
+import { detailTags, offeredSizes, toFormModel, toFormValues } from "./productFormPayload";
 
 /**
- * Keeps the minimisable draft dock and this form in step, for new products.
- *
- * Two halves: restore whatever was in progress on mount, then mirror every
- * later change back out. Editing an existing product never touches the draft —
- * there is nothing to recover that is not already saved.
+ * Keeps the form in step with the stored product when editing, and with the
+ * minimisable draft dock when adding a new piece.
  */
-
 export function useProductDraftSync({
   isEdit,
   existing,
   draft,
   reset,
-  setImages,
-  setColors,
+  setPhotos,
+  setColorIds,
+  setStock,
   setSizes,
   setTags,
+  setSpread,
   snapshot,
   toast,
 }) {
   const { startDraft, draftFor } = draft;
 
-  /**
-   * Prefill from the stored product when editing.
-   *
-   * The old edit modal did this with a bare setState in the render body,
-   * guarded by comparing formData.name to product.name — which silently
-   * stopped working the moment you cleared the name field.
-   */
   /* Side Effect */
   useEffect(() => {
     if (!existing) return;
     reset(toFormValues(existing));
-    setImages((existing.images ?? []).map((url) => ({ id: url, url })));
-    setColors(existing.colors ?? []);
-    setSizes(existing.sizes ?? []);
-    setTags(existing.tags ?? []);
-  }, [existing, reset, setImages, setColors, setSizes, setTags]);
+    const model = toFormModel(existing);
+    setPhotos(model.photos);
+    setColorIds(model.colorIds);
+    setStock(model.stock);
+    setSizes(offeredSizes(existing.sizes));
+    setTags(detailTags(existing.tags));
+    setSpread(model.spread);
+  }, [existing, reset, setPhotos, setColorIds, setStock, setSizes, setTags, setSpread]);
 
-  /**
-   * Restore an in-progress draft on mount.
-   *
-   * The dock is only honest if Resume actually resumes: it named the piece
-   * while the form came back empty, which is worse than not offering it.
-   *
-   * Blob URLs from Dropzone stay valid across SPA navigation, since the
-   * document never reloads — but a hard refresh invalidates them, so any that
-   * no longer resolve are dropped and the admin is told rather than being
-   * shown broken thumbnails.
-   */
-  // A ref, not state: this only guards the one-time restore, and setting
-  // state inside the effect that reads it triggers a cascading render.
-  // Effects run in declaration order, so the mirror effect below already
-  // sees this as true on mount.
+  // A ref, not state: it only guards the one-time restore, and effects run in
+  // declaration order, so the mirror below already sees it as true on mount.
   const restored = useRef(false);
+
   /* Side Effect */
   useEffect(() => {
     if (isEdit || restored.current) return;
-
     const saved = draftFor("new-product");
     restored.current = true;
     if (!saved?.values) return;
 
     reset(saved.values);
-    setColors(saved.colors ?? []);
+    // Blob URLs do not survive a hard refresh: those photos are dropped and
+    // the admin told, rather than shown as broken thumbnails.
+    const all = saved.photos ?? [];
+    const usable = all.filter((p) => p.url && !p.url.startsWith("blob:"));
+    setPhotos(usable);
+    setColorIds(saved.colorIds ?? []);
+    setStock(saved.stock ?? {});
     setSizes(saved.sizes ?? []);
     setTags(saved.tags ?? []);
 
-    const usable = (saved.images ?? []).filter((img) => img.url && !img.url.startsWith("blob:"));
-    setImages(usable);
-
-    const lost = (saved.images ?? []).length - usable.length;
+    const lost = all.length - usable.length;
     if (lost > 0) {
       toast(
-        `Draft restored. ${lost} ${lost === 1 ? "image needs" : "images need"} adding again after the reload.`,
+        `Draft restored. ${lost} ${lost === 1 ? "photo needs" : "photos need"} adding again after the reload.`,
         "warning",
       );
     }
-  }, [isEdit, draftFor, reset, setImages, setColors, setSizes, setTags, toast]);
+  }, [isEdit, draftFor, reset, setPhotos, setColorIds, setStock, setSizes, setTags, toast]);
 
-  /**
-   * Mirror the whole in-progress product out, not just its title.
-   *
-   * Keyed on a stable serialisation because watch() returns a new object every
-   * render — otherwise this would write on every render rather than on every
-   * actual change.
-   */
   /* Side Effect */
   useEffect(() => {
     if (isEdit || !restored.current) return;
-
     const parsed = JSON.parse(snapshot);
-    if (!parsed.values.name?.trim() && parsed.images.length === 0) return;
+    if (!parsed.values.name?.trim() && parsed.photos.length === 0) return;
     startDraft("new-product", {
       title: parsed.values.name?.trim() || "Untitled piece",
-      imageCount: parsed.images.length,
+      imageCount: parsed.photos.length,
       href: "/dashboard/products/new",
       ...parsed,
     });
   }, [isEdit, snapshot, startDraft]);
-
 }

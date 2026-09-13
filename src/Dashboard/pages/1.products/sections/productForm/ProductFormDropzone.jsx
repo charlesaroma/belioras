@@ -1,5 +1,5 @@
 /* Image Dropzone */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
 
 import { cn } from "../../../../../utils/cn";
@@ -12,6 +12,9 @@ export default function ProductFormDropzone({
   onProgress,
   max = 8,
   disabled = false,
+  swatches,
+  onTag,
+  defaultColorId = null,
 }) {
   const [dragging, setDragging] = useState(false);
   const [busy, setBusy] = useState(null); // {done, total}
@@ -19,15 +22,11 @@ export default function ProductFormDropzone({
 
   const inputRef = useRef(null);
 
-  // Object URLs are a manual resource. Revoke on unmount, and only those this
-  // component minted — remote URLs on an existing product must survive.
+  // Object URLs minted here are revoked only when a photo is removed, never on
+  // unmount. They are what a saved product points at until uploads go to
+  // ImageKit; revoking on unmount broke every photo of a piece the moment it
+  // was published and the form closed. They still do not survive a reload.
   const mintedRef = useRef(new Set());
-  /* Side Effect */
-  useEffect(() => {
-
-    const minted = mintedRef.current;
-    return () => minted.forEach((url) => URL.revokeObjectURL(url));
-  }, []);
 
   const ingest = useCallback(
     async (fileList) => {
@@ -37,7 +36,7 @@ export default function ProductFormDropzone({
 
       const room = max - images.length;
       if (room <= 0) {
-        setError(`Up to ${max} images.`);
+        setError(`Up to ${max} photos.`);
         return;
       }
 
@@ -67,7 +66,15 @@ export default function ProductFormDropzone({
         try {
           const { blob, width, height, url } = await processImage(file);
           mintedRef.current.add(url);
-          added.push({ id: `img_${Date.now()}_${i}`, url, blob, width, height, name: file.name });
+          added.push({
+            id: `img_${Date.now()}_${i}`,
+            url,
+            blob,
+            width,
+            height,
+            name: file.name,
+            colorId: defaultColorId,
+          });
         } catch {
           setError(`${file.name} could not be read.`);
         }
@@ -78,7 +85,7 @@ export default function ProductFormDropzone({
       onProgress?.(finished);
       if (added.length) onChange([...images, ...added]);
     },
-    [images, max, onChange, onProgress],
+    [images, max, onChange, onProgress, defaultColorId],
   );
 
   const removeAt = (i) => {
@@ -136,7 +143,7 @@ export default function ProductFormDropzone({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={disabled || busy !== null}
-          className="flex w-full flex-col items-center px-6 py-10 text-center"
+          className={cn("flex w-full flex-col items-center px-6 text-center", images.length ? "py-5" : "py-10")}
         >
           <ImagePlus className="size-6 text-gold-700" strokeWidth={1.5} aria-hidden="true" />
           {busy ? (
@@ -154,7 +161,7 @@ export default function ProductFormDropzone({
           ) : (
             <>
               <span className="mt-3 text-[13px] text-espresso">
-                Drop images here, or click to browse
+                Drop photos here, or click to browse
               </span>
               <span className="mt-1 text-[11px] text-espresso-soft">
                 JPEG, PNG, WebP or AVIF · up to 10MB · {images.length} of {max} added
@@ -174,7 +181,8 @@ export default function ProductFormDropzone({
         images={images}
         onRemove={removeAt}
         onMakePrimary={makePrimary}
-        disabled={disabled}
+        swatches={swatches}
+        onTag={onTag}
       />
     </div>
   );

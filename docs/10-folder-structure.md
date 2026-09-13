@@ -107,8 +107,8 @@ and for the same reason: the number is the order the sidebar shows them
 ```
 pages/
 ├── 0.overview/    DashOverview.jsx
-├── 1.products/    DashProducts.jsx  + sections/ (ProductForm, 4 modals)
-├── 2.categories/  DashCategories.jsx + sections/ (4 modals)
+├── 1.products/    DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
+├── 2.categories/  DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
 ├── 3.mega-menu/   DashMegaMenu.jsx  + sections/ (MenuRoot, IconButton)
 ├── 4.orders/        DashOrders.jsx
 ├── 5.transactions/  DashTransactions.jsx  (super-admin only)

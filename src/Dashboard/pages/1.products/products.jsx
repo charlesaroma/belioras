@@ -6,6 +6,7 @@ import { Package } from "lucide-react";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getCategories } from "../../../services/categoriesApi";
 import {
   deleteProduct,
   getProducts,
@@ -32,11 +33,12 @@ export default function DashProducts() {
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
 
   const { data: products, loading } = useAsyncData(getProducts, [revision]);
+  const { data: categories } = useAsyncData(getCategories, []);
   const [viewing, setViewing] = useState(null);
   const [pendingDelete, setPendingDelete] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
 
-  const rows = useMemo(() => toRows(products), [products]);
+  const rows = useMemo(() => toRows(products, categories), [products, categories]);
 
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");

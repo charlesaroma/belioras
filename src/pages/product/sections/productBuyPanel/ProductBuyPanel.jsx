@@ -10,6 +10,7 @@ import {
 import { useCart } from "../../../../context/CartContext";
 import { useLanguage } from "../../../../context/LanguageContext";
 import { useWishlist } from "../../../../context/WishlistContext";
+import { stockFor } from "../../../../utils/productColors";
 import ProductBuyPanelVariants from "./ProductBuyPanelVariants";
 import ProductBuyPanelActions from "./ProductBuyPanelActions";
 import ProductPageAccordions from "../ProductPageAccordions";
@@ -28,12 +29,26 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
   const [added, setAdded] = useState(false);
 
   const saved = has(product.id);
-  const soldOut = product.stock === 0;
   const needsSize = product.sizes?.length > 1;
 
   // Which reference table this piece needs. null means there is nothing
   // useful to show, so no trigger is rendered.
   const chartKind = sizeChartKindFor(product);
+
+  // A piece with a single size has no choice to make; that size stands in.
+  const sizeKey = needsSize ? size : (product.sizes?.[0] ?? null);
+  const available = stockFor(product, color, sizeKey);
+  const soldOut = available === 0;
+
+  // Sizes sold out in this colour, which may still be in stock in another.
+  const unavailable = new Set(
+    needsSize ? product.sizes.filter((s) => stockFor(product, color, s) === 0) : [],
+  );
+
+  const changeColor = (next) => {
+    onColorChange(next);
+    if (size && stockFor(product, next, size) === 0) setSize(null);
+  };
 
   const handleAdd = () => {
     if (needsSize && !size) {
@@ -47,6 +62,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
       quantity: qty,
       // The bag shows the colourway that was bought, not the default photo.
       image: images?.[0],
+      stock: available,
     });
     setAdded(true);
     setTimeout(() => setAdded(false), ADDED_FEEDBACK_MS);
@@ -57,7 +73,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
       <ProductBuyPanelVariants
         product={product}
         color={color}
-        onColorChange={onColorChange}
+        onColorChange={changeColor}
         size={size}
         onSizeChange={(s) => {
           setSize(s);
@@ -65,6 +81,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
         }}
         sizeError={sizeError}
         needsSize={needsSize}
+        unavailable={unavailable}
         chartKind={chartKind}
         onOpenChart={() => setSizeGuideOpen(true)}
       />
@@ -73,6 +90,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
         product={product}
         qty={qty}
         onQtyChange={setQty}
+        maxQty={available}
         onAdd={handleAdd}
         added={added}
         soldOut={soldOut}

@@ -9,6 +9,7 @@ export default function ProductBuyPanelActions({
   product,
   qty,
   onQtyChange,
+  maxQty,
   onAdd,
   added,
   soldOut,
@@ -22,7 +23,7 @@ export default function ProductBuyPanelActions({
     // 100px, so "Add to bag" broke across three lines. Below sm the primary
     // action takes its own full-width row.
     <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-5">
-      <QuantitySelector value={qty} onChange={onQtyChange} max={Math.max(product.stock, 1)} />
+      <QuantitySelector value={qty} onChange={onQtyChange} max={Math.max(maxQty ?? product.stock, 1)} />
 
       <button
         type="button"

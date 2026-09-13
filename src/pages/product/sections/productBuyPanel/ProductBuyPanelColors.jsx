@@ -1,8 +1,12 @@
 /* Colour Swatches */
-import { COLOR_HEX } from "../../../../utils/constants";
 import { cn } from "../../../../utils/cn";
 
-export default function ProductBuyPanelColors({ options = [], value, onChange = () => {} }) {
+export default function ProductBuyPanelColors({
+  options = [],
+  swatches = {},
+  value,
+  onChange = () => {},
+}) {
   if (!options.length) return null;
 
   return (
@@ -32,7 +36,7 @@ export default function ProductBuyPanelColors({ options = [], value, onChange = 
                   ? "border-transparent ring-2 ring-espresso ring-offset-2 ring-offset-ivory-50"
                   : "border-umber-100 hover:scale-110",
               )}
-              style={{ backgroundColor: COLOR_HEX[name] ?? "#ccc" }}
+              style={{ backgroundColor: swatches[name] ?? "#ccc" }}
             />
           </button>
         );

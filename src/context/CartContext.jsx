@@ -13,10 +13,13 @@ export function CartProvider({ children }) {
   const [items, setItems] = useLocalStorage("belioras:cart", []);
 
   const addItem = useCallback(
-    (product, { size, color, quantity = 1, image } = {}) => {
-      if (!product || product.stock <= 0) return false;
+    (product, { size, color, quantity = 1, image, stock } = {}) => {
+      // The limit is this colour and size when the caller knows it, since the
+      // piece as a whole can be in stock while that variant is not.
+      const limit = stock ?? product?.stock ?? 0;
+      if (!product || limit <= 0) return false;
 
-      const qty = clampQty(quantity, product.stock);
+      const qty = clampQty(quantity, limit);
       setItems((prev) => {
 
         const existing = prev.find(
@@ -24,7 +27,7 @@ export function CartProvider({ children }) {
         );
         if (existing) {
 
-          const merged = clampQty(existing.quantity + qty, product.stock);
+          const merged = clampQty(existing.quantity + qty, limit);
           return prev.map((i) => (i === existing ? { ...i, quantity: merged } : i));
         }
         return [

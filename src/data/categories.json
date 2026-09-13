@@ -1,0 +1,5 @@
+[
+  { "id": "dresses", "name": "Dresses", "sizes": ["xs", "s", "m", "l", "xl"], "details": ["occasion", "fabric", "style", "length"] },
+  { "id": "hair", "name": "Hair", "sizes": [], "details": ["hair"] },
+  { "id": "accessories", "name": "Accessories", "sizes": ["eu36", "eu37", "eu38", "eu39", "eu40", "eu41"], "details": ["occasion", "fabric"] }
+]

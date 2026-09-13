@@ -1,141 +1,147 @@
 /* Admin Dashboard Page: Products - product-form */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
-import { useToast } from "../../../context/ToastContext";
-import { useProductDraft } from "../../../context/ProductDraftContext";
-import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getTaxonomy } from "../../../services/navigationApi";
-import { createProduct, getProduct, updateProduct } from "../../../services/productsApi";
-import { DIMENSION_PREFIX } from "../../../utils/faceting";
+import { useProductDraft } from "@/context/ProductDraftContext";
+import { useToast } from "@/context/ToastContext";
+import { useAsyncData } from "@/hooks/useAsyncData";
+import { getCategories } from "@/services/categoriesApi";
+import { getColors } from "@/services/colorsApi";
+import { getTaxonomy } from "@/services/navigationApi";
+import { createProduct, getProduct, updateProduct } from "@/services/productsApi";
 
-import FormHeader from "./sections/productForm/ProductFormHeader";
-import FormMain from "./sections/productForm/ProductFormMain";
-import FormSidebar from "./sections/productForm/ProductFormSidebar";
+import ProductFormCategory from "./sections/productForm/ProductFormCategory";
+import ProductFormDetails from "./sections/productForm/ProductFormDetails";
+import ProductFormEssentials from "./sections/productForm/ProductFormEssentials";
+import ProductFormLabels from "./sections/productForm/ProductFormLabels";
+import ProductFormPhotos from "./sections/productForm/ProductFormPhotos";
+import ProductFormPricing from "./sections/productForm/ProductFormPricing";
+import ProductFormPublish from "./sections/productForm/ProductFormPublish";
+import SaveBar from "./sections/productForm/ProductFormSaveBar";
 import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
+import ProductFormVariants from "./sections/productForm/ProductFormVariants";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
-import { EMPTY_PRODUCT, toPayload } from "./sections/productForm/productFormPayload";
+import { EMPTY_VALUES, toPayload, validateProduct } from "./sections/productForm/productFormPayload";
 
 export default function ProductForm() {
   const { id } = useParams();
-
+  const isEdit = Boolean(id);
   const navigate = useNavigate();
   const { toast } = useToast();
-
   const draft = useProductDraft();
 
-  const isEdit = Boolean(id);
-
-  const { data: existing, loading: loadingProduct } = useAsyncData(
-    () => (isEdit ? getProduct(id) : Promise.resolve(null)),
-    [id],
-  );
-  // getTaxonomy resolves to the dimensions map itself, not the whole document.
+  // Bumped after a colour or category is created from inside the form.
+  const [revision, setRevision] = useState(0);
+  const { data: existing, loading } = useAsyncData(() => (isEdit ? getProduct(id) : Promise.resolve(null)), [id]);
+  const { data: categories } = useAsyncData(getCategories, [revision]);
+  const { data: colors } = useAsyncData(getColors, [revision]);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
-  const dimensions = taxonomy ?? {};
-
-  const [images, setImages] = useState([]);
-  const [colors, setColors] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  const [colorIds, setColorIds] = useState([]);
+  const [stock, setStock] = useState({});
   const [sizes, setSizes] = useState([]);
   const [tags, setTags] = useState([]);
+  const [spread, setSpread] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm({ defaultValues: EMPTY_PRODUCT });
+  const form = useForm({ defaultValues: EMPTY_VALUES });
+  const values = form.watch();
+  const category = (categories ?? []).find((c) => c.id === values.collectionId) ?? null;
 
-  const values = watch();
-
-  const snapshot = JSON.stringify({
-    values,
-    colors,
-    sizes,
-    tags,
-    // Strip the Blob: it serialises to {} and only wastes the storage quota.
-    images: images.map(({ id: imgId, url, name }) => ({ id: imgId, url, name })),
-  });
+  // The Blob serialises to {} and only wastes storage quota, so it is left out.
+  const draftPhotos = photos.map(({ id: photoId, url, name, colorId }) => ({ id: photoId, url, name, colorId }));
+  const snapshot = JSON.stringify({ values, colorIds, stock, sizes, tags, photos: draftPhotos });
 
   useProductDraftSync({
-    isEdit,
-    existing,
-    draft,
-    reset,
-    setImages,
-    setColors,
-    setSizes,
-    setTags,
-    snapshot,
-    toast,
+    isEdit, existing, draft, reset: form.reset, snapshot, toast,
+    setPhotos, setColorIds, setStock, setSizes, setTags, setSpread,
   });
 
-  const toggleTag = (dimension, valueId) => {
-
-    const token = `${DIMENSION_PREFIX[dimension] ?? dimension}:${valueId}`;
-    setTags((prev) => (prev.includes(token) ? prev.filter((t) => t !== token) : [...prev, token]));
+  // Sizes the new category does not offer are dropped rather than kept hidden.
+  const chooseCategory = (next) => {
+    form.setValue("collectionId", next.id, { shouldDirty: true });
+    setSizes((prev) => (next.sizes ?? []).filter((s) => prev.includes(s)));
   };
+
+  const save = (status) =>
+    form.handleSubmit(
+      async (formValues) => {
+        const problem = validateProduct({ status, category, colorIds, photos });
+        if (problem) {
+          toast(problem, "error");
+          return;
+        }
+        const payload = toPayload(formValues, { photos, colorIds, stock, sizes, tags, category, status });
+        try {
+          const saved = isEdit ? await updateProduct(id, payload) : await createProduct(payload);
+          if (!isEdit) draft.clearDraft("new-product");
+          toast(status === "active" ? `${saved.name} is live in the shop.` : `${saved.name} saved as a draft.`, "success");
+          navigate("/dashboard/products");
+        } catch (err) {
+          toast(err.message ?? "Could not save that product.", "error");
+        }
+      },
+      () => toast("A few fields need attention before saving.", "error"),
+    )();
 
   const discardDraft = () => {
     draft.clearDraft("new-product");
-    reset(EMPTY_PRODUCT);
-    setImages([]);
-    setColors([]);
-    setSizes([]);
-    setTags([]);
+    form.reset(EMPTY_VALUES);
+    [setPhotos, setColorIds, setSizes, setTags].forEach((set) => set([]));
+    setStock({});
   };
 
-  const onSubmit = async (formValues) => {
+  if (isEdit && loading) return <FormSkeleton />;
 
-    const payload = toPayload(formValues, { images, colors, sizes, tags });
-    try {
-      if (isEdit) {
-
-        const saved = await updateProduct(id, payload);
-        toast(`${saved.name} saved.`, "success");
-      } else {
-
-        const created = await createProduct(payload);
-        draft.clearDraft("new-product");
-        toast(`${created.name} added to the catalogue.`, "success");
-      }
-      navigate("/dashboard/products");
-    } catch (err) {
-      toast(err.message ?? "Could not save that product.", "error");
-    }
+  const actions = {
+    isEdit,
+    status: values.status,
+    submitting: form.formState.isSubmitting,
+    hasDraft: !isEdit && Boolean(draft.draftFor("new-product")),
+    onDiscardDraft: discardDraft,
+    onSave: save,
   };
-
-  if (isEdit && loadingProduct) return <FormSkeleton />;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-24">
-      <FormHeader
-        isEdit={isEdit}
-        hasDraft={Boolean(draft.draftFor("new-product"))}
-        onDiscardDraft={discardDraft}
-        submitting={isSubmitting}
-      />
-
-      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
-        <FormMain
-          register={register}
-          errors={errors}
-          images={images}
-          setImages={setImages}
-          onImageProgress={(p) => draft.updateDraft("new-product", { progress: p })}
-          dimensions={dimensions}
-          tags={tags}
-          onToggleTag={toggleTag}
-          colors={colors}
-          setColors={setColors}
-          sizes={sizes}
-          setSizes={setSizes}
-        />
-        <FormSidebar register={register} errors={errors} />
+    <div className="space-y-5">
+      <div className="flex items-center justify-between gap-4">
+        <Link to="/dashboard/products" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-espresso-soft transition-colors hover:text-espresso">
+          <ArrowLeft className="size-3.5" aria-hidden="true" />
+          All products
+        </Link>
+        <p className="truncate text-[13px] text-espresso-soft">
+          {isEdit ? "Editing" : "New piece"}
+          {values.name?.trim() && <span className="text-espresso"> · {values.name.trim()}</span>}
+        </p>
       </div>
-    </form>
+
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="min-w-0 space-y-4">
+          <ProductFormPhotos photos={photos} onChange={setPhotos} colors={colors ?? []} colorIds={colorIds} onImageProgress={(p) => draft.updateDraft("new-product", { progress: p })} />
+          <ProductFormEssentials register={form.register} errors={form.formState.errors} />
+          <ProductFormVariants
+            colors={colors ?? []} colorIds={colorIds} onColorIdsChange={setColorIds}
+            photos={photos} onPhotosChange={setPhotos} stock={stock} onStockChange={setStock}
+            sizes={sizes} onSizesChange={setSizes} category={category} taxonomy={taxonomy ?? {}}
+            spread={spread} onColorCreated={() => setRevision((n) => n + 1)}
+          />
+          <ProductFormDetails category={category} taxonomy={taxonomy ?? {}} tags={tags} onChange={setTags} />
+        </div>
+
+        {/* Stays in view beside a long form, clear of the sticky page header. */}
+        <aside className="min-w-0">
+          <div className="space-y-4 lg:sticky lg:top-28">
+            <ProductFormPublish {...actions} className="hidden lg:block" />
+            <ProductFormCategory categories={categories ?? []} value={values.collectionId} taxonomy={taxonomy ?? {}} onChange={chooseCategory} onCreated={(created) => { setRevision((n) => n + 1); chooseCategory(created); }} />
+            <ProductFormPricing register={form.register} errors={form.formState.errors} values={values} setValue={form.setValue} />
+            <ProductFormLabels values={values} setValue={form.setValue} />
+          </div>
+        </aside>
+      </div>
+
+      <SaveBar {...actions} className="lg:hidden" />
+    </div>
   );
 }

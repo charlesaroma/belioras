@@ -1,6 +1,4 @@
 /* Catalogue Reads */
-import newArrivalsSeed from "../../data/newArrivals.json";
-
 import { ApiError, mockApi } from "@/api/mock";
 import { getBestSellerProductIds } from "../ordersApi";
 import { catalogItems, normalize } from "./productStore";
@@ -24,17 +22,19 @@ export function getProductsByCollection(collectionId) {
   );
 }
 
+/**
+ * Pieces marked "New arrival" in the dashboard, newest first.
+ *
+ * This used to read a separate newArrivals.json that no screen could edit, so
+ * a piece added in the dashboard never reached the home page rail however it
+ * was flagged. The flag is now the single switch: badge, menu and rail.
+ */
 export function getNewArrivals() {
   return mockApi(() =>
-    newArrivalsSeed
-      .slice()
-      .sort((a, b) => (a.addedAt < b.addedAt ? 1 : -1))
-      .map((entry) => {
-
-        const product = catalogItems().find((p) => p.id === entry.productId);
-        return product ? { ...normalize(product), addedAt: entry.addedAt } : null;
-      })
-      .filter(Boolean)
+    catalogItems()
+      .filter((p) => p.isNew && p.status !== "draft")
+      .sort((a, b) => new Date(b.createdAt ?? 0) - new Date(a.createdAt ?? 0))
+      .map(normalize),
   );
 }
 

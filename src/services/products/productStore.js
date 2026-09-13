@@ -1,5 +1,6 @@
 /* Catalogue Store Access */
 import { getState } from "../contentStore";
+import { expandColorways } from "./productColorways";
 import { deriveTags } from "./productSlug";
 
 function catalogItems() {
@@ -7,12 +8,8 @@ function catalogItems() {
 }
 
 function normalize(product) {
-  return {
-    ...product,
-    images: product.images ?? [],
-    colorImages: product.colorImages ?? {},
-    tags: deriveTags(product),
-  };
+  const expanded = expandColorways(product);
+  return { ...product, ...expanded, tags: deriveTags(product, expanded.colorFamilies) };
 }
 
 export { catalogItems, normalize };

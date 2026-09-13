@@ -26,6 +26,8 @@ import sizeChartsSeed from "../data/sizeCharts.json";
 import catalogSeed from "../data/catalogSeed";
 import ordersSeed from "../data/ordersSeed";
 import transactionsSeed from "../data/transactionsSeed";
+import colorsSeed from "../data/colorsSeed";
+import categoriesSeed from "../data/categoriesSeed";
 import usersSeed from "../data/usersSeed";
 
 /* KEY PREFIX */
@@ -55,6 +57,9 @@ const DOMAINS = {
   // component state and was gone on reload. They are ordinary domains here —
   // the same rev reconciliation, the same per-item merge.
   products: { seed: catalogSeed, collection: "items" },
+  // The lists products choose from, managed under Categories & Colours.
+  colors: { seed: colorsSeed, collection: "items" },
+  categories: { seed: categoriesSeed, collection: "items" },
   orders: { seed: ordersSeed, collection: "items" },
   // Payments and refunds against those orders. Read-only today; registered here
   // so checkout can record a payment once a provider is connected.

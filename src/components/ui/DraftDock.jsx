@@ -1,5 +1,5 @@
 /* Ui Component: DraftDock */
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ImagePlus, X } from "lucide-react";
 
@@ -9,16 +9,21 @@ import { useProductDraft } from "../../context/ProductDraftContext";
 export default function DraftDock() {
   const { drafts, clearDraft } = useProductDraft();
   const { isAdmin } = useStaffAuth();
+  const { pathname } = useLocation();
 
   const reduceMotion = useReducedMotion();
 
+  // A draft is not offered on its own page: the form is already open, and
+  // the dock sat over the side panel's price field offering to resume it.
+  const visible = drafts.filter((draft) => (draft.href ?? "/dashboard/products/new") !== pathname);
+
   // Only staff have anywhere to restore a product draft to.
-  if (!isAdmin || drafts.length === 0) return null;
+  if (!isAdmin || visible.length === 0) return null;
 
   return (
     <div className="pointer-events-none fixed bottom-0 right-0 z-[65] flex flex-col items-end gap-2 p-4 sm:p-6">
       <AnimatePresence initial={false}>
-        {drafts.map((draft) => {
+        {visible.map((draft) => {
 
           const progress = draft.progress;
 

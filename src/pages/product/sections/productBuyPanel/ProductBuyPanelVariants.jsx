@@ -13,6 +13,7 @@ export default function ProductBuyPanelVariants({
   onSizeChange,
   sizeError,
   needsSize,
+  unavailable,
   chartKind,
   onOpenChart,
 }) {
@@ -31,7 +32,12 @@ export default function ProductBuyPanelVariants({
               </span>
             )}
           </p>
-          <ProductBuyPanelColors options={product.colors} value={color} onChange={onColorChange} />
+          <ProductBuyPanelColors
+            options={product.colors}
+            swatches={product.swatches}
+            value={color}
+            onChange={onColorChange}
+          />
         </div>
       )}
 
@@ -51,7 +57,12 @@ export default function ProductBuyPanelVariants({
               </button>
             )}
           </div>
-          <ProductBuyPanelSizes options={product.sizes} value={size} onChange={onSizeChange} />
+          <ProductBuyPanelSizes
+            options={product.sizes}
+            value={size}
+            onChange={onSizeChange}
+            unavailable={unavailable}
+          />
 
           {/* What they took last time, from their own orders. Only shown when
               this piece is actually offered in that size. */}

@@ -1,5 +1,5 @@
 /* Slug And Tag Derivation */
-import { COLOR_NAME_TO_TAXONOMY, LEGACY_CATEGORY_TOKENS } from "../../utils/constants";
+import { LEGACY_CATEGORY_TOKENS } from "../../utils/constants";
 
 const LIGATURES = {
   œ: "oe",
@@ -26,7 +26,8 @@ export function slugify(value) {
     .replace(/-+/g, "-");
 }
 
-function deriveTags(product) {
+// Colour families come from the managed colour list, resolved by the caller.
+function deriveTags(product, colorFamilies = []) {
 
   const tags = new Set(product.tags ?? []);
 
@@ -44,11 +45,7 @@ function deriveTags(product) {
     tags.add(`cat:${category}`);
   }
 
-  for (const color of product.colors ?? []) {
-
-    const swatch = COLOR_NAME_TO_TAXONOMY[color];
-    if (swatch) tags.add(`color:${swatch}`);
-  }
+  for (const family of colorFamilies) tags.add(`color:${family}`);
 
   return [...tags];
 }

@@ -11,7 +11,7 @@ export const DASHBOARD_NAV_GROUPS = [
     label: "Catalogue",
     items: [
       { id: "products", label: "Products", icon: "Package", capability: "catalog" },
-      { id: "categories", label: "Attributes", icon: "Tags", capability: "content" },
+      { id: "categories", label: "Categories & Colours", icon: "Tags", capability: "content" },
       { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
     ],
   },

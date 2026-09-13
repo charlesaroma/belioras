@@ -5,11 +5,13 @@
  * stock count sitting next to it in the same row.
  */
 
-export function toRows(products) {
+/** Category shows its name; an id with no category behind it shows as-is. */
+export function toRows(products, categories = []) {
+  const names = new Map((categories ?? []).map((c) => [c.id, c.name]));
   return (products ?? []).map((p) => ({
     ...p,
     status: p.stock === 0 ? "out_of_stock" : (p.status ?? "active"),
-    category: p.collectionId ?? "—",
+    category: names.get(p.collectionId) ?? p.collectionId ?? "—",
   }));
 }
 

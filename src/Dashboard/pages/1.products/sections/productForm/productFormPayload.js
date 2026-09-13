@@ -1,44 +1,145 @@
-/** The collections a piece can belong to. */
-export const COLLECTIONS = [
-  { id: "dresses", label: "Dresses" },
-  { id: "hair", label: "Hair" },
-  { id: "accessories", label: "Accessories" },
-];
+/* Product Form Payload */
+import { DIMENSION_PREFIX } from "@/utils/faceting";
 
-/* EMPTY PRODUCT */
-export const EMPTY_PRODUCT = {
+export const ONE_SIZE = "one-size";
+
+const DETAIL_PREFIXES = ["occasion", "fabric", "style", "length", "hair"].map((d) => DIMENSION_PREFIX[d] ?? d);
+
+export const EMPTY_VALUES = {
   name: "",
-  collectionId: "dresses",
-  price: "",
-  originalPrice: "",
-  stock: 0,
-  status: "draft",
   description: "",
+  collectionId: "",
+  price: "",
+  onSale: false,
+  originalPrice: "",
+  isNew: true,
+  featured: false,
+  status: "draft",
 };
 
-/** A stored product -> the flat form values. */
 export function toFormValues(product) {
   return {
     name: product.name ?? "",
-    collectionId: product.collectionId ?? "dresses",
-    price: product.price ?? "",
-    originalPrice: product.originalPrice ?? "",
-    stock: product.stock ?? 0,
-    status: product.status ?? "active",
     description: product.description ?? "",
+    collectionId: product.collectionId ?? "",
+    price: product.price ?? "",
+    onSale: Boolean(product.originalPrice && product.originalPrice > product.price),
+    originalPrice: product.originalPrice ?? "",
+    isNew: Boolean(product.isNew),
+    featured: Boolean(product.featured),
+    // Older products carry no status, and they are live in the shop.
+    status: product.status ?? "active",
   };
 }
 
-/** Form values + the separately-held lists -> the payload productsApi wants. */
-export function toPayload(values, { images, colors, sizes, tags }) {
+/** Sizes a product actually offers; the one-size placeholder is not a choice. */
+export function offeredSizes(sizes) {
+  return (sizes ?? []).filter((s) => s && s !== ONE_SIZE && s !== "default");
+}
+
+/** The stock grid's columns. A piece with no sizes gets one column. */
+export function stockColumns(sizes) {
+  return sizes.length ? sizes : [ONE_SIZE];
+}
+
+/** Only the detail tokens the form edits; derived tags are rebuilt on save. */
+export function detailTags(tags) {
+  return (tags ?? []).filter((t) => DETAIL_PREFIXES.includes(String(t).split(":")[0]));
+}
+
+/**
+ * A normalised product -> the form's model: photos each tagged with a colour,
+ * the chosen colours, and stock per colour and size.
+ *
+ * Older products hold one stock number for the whole piece; it is spread
+ * across colours and sizes so the total survives, and `spread` asks the admin
+ * to check it. When no colour has photos of its own, the product's gallery is
+ * given to the first colour, so the piece does not open with no photos.
+ */
+export function toFormModel(product) {
+  const columns = stockColumns(offeredSizes(product.sizes));
+  const ways = product.colorways ?? [];
+  const tracked = ways.some((w) => w.stock);
+  const total = Number(product.stock) || 0;
+  const cells = ways.length * columns.length;
+  const each = cells ? Math.floor(total / cells) : 0;
+  let remainder = cells ? total % cells : 0;
+
+  const stock = {};
+  for (const w of ways) {
+    stock[w.colorId] = {};
+    for (const size of columns) {
+      if (tracked) stock[w.colorId][size] = Number(w.stock?.[size]) || 0;
+      else {
+        stock[w.colorId][size] = each + (remainder > 0 ? 1 : 0);
+        remainder -= 1;
+      }
+    }
+  }
+
+  const anyOwn = ways.some((w) => w.images?.length);
+  const photos = ways.flatMap((w, i) => {
+    const urls = w.images?.length ? w.images : !anyOwn && i === 0 ? (product.images ?? []) : [];
+    return urls.map((url) => ({ id: `${w.colorId}:${url}`, url, colorId: w.colorId }));
+  });
+
   return {
-    ...values,
+    photos,
+    colorIds: ways.map((w) => w.colorId),
+    stock,
+    spread: !tracked && ways.length > 0 && total > 0,
+  };
+}
+
+/** Publishing asks for more than a draft does. Returns a message or null. */
+export function validateProduct({ status, category, colorIds, photos }) {
+  if (!category) return "Choose a category for this piece.";
+  if (status !== "active") return null;
+  if (!colorIds.length) return "Add at least one colour before publishing.";
+  if (!photos.length) return "Add at least one photo before publishing.";
+  if (photos.some((p) => !colorIds.includes(p.colorId))) {
+    return "Tag every photo with the colour it shows before publishing.";
+  }
+  return null;
+}
+
+/** The status line and the two actions, which depend on whether the piece is live. */
+export function publishLabels(isEdit, status) {
+  const live = isEdit && status === "active";
+  return {
+    live,
+    state: !isEdit ? "Not saved yet" : live ? "Live in the shop" : "Draft, hidden from the shop",
+    primary: live ? "Save changes" : "Publish",
+    secondary: live ? "Unpublish" : "Save draft",
+  };
+}
+
+/** The form's model -> what productsApi stores. */
+export function toPayload(values, { photos, colorIds, stock, sizes, tags, category, status }) {
+  const columns = stockColumns(sizes);
+  const allowed = new Set((category?.details ?? []).map((d) => DIMENSION_PREFIX[d] ?? d));
+
+  const colorways = colorIds.map((colorId) => ({
+    colorId,
+    images: photos.filter((p) => p.colorId === colorId).map((p) => p.url),
+    stock: Object.fromEntries(
+      columns.map((size) => [size, Math.max(0, Math.floor(Number(stock[colorId]?.[size]) || 0))]),
+    ),
+  }));
+
+  return {
+    name: values.name.trim(),
+    description: values.description,
+    collectionId: values.collectionId,
     price: Number(values.price),
-    originalPrice: values.originalPrice ? Number(values.originalPrice) : null,
-    stock: Number(values.stock) || 0,
-    images: images.map((img) => img.url),
-    colors,
-    sizes,
-    tags,
+    originalPrice: values.onSale && values.originalPrice ? Number(values.originalPrice) : null,
+    isNew: Boolean(values.isNew),
+    featured: Boolean(values.featured),
+    status,
+    colorways,
+    sizes: sizes.length ? sizes : [ONE_SIZE],
+    images: colorways.find((w) => w.images.length)?.images ?? [],
+    stock: colorways.reduce((sum, w) => sum + Object.values(w.stock).reduce((a, n) => a + n, 0), 0),
+    tags: detailTags(tags).filter((t) => allowed.has(t.split(":")[0])),
   };
 }

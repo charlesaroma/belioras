@@ -9,7 +9,6 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getProducts } from "../../../services/productsApi";
 import { getTaxonomy } from "../../../services/navigationApi";
-import { COLOR_NAME_TO_TAXONOMY } from "../../../utils/constants";
 import { cn } from "../../../utils/cn";
 
 import SearchPanelImageSearch from "./searchPanel/SearchPanelImageSearch";
@@ -56,12 +55,12 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   useSearchPanelDismiss({ open, onDismiss: close, panelRef, inputRef, restoreFocusRef });
 
   const colourSwatches = useMemo(
-    () => stockedColours(catalog, taxonomy, COLOR_NAME_TO_TAXONOMY),
+    () => stockedColours(catalog, taxonomy),
     [catalog, taxonomy],
   );
   const sizeChips = useMemo(() => stockedSizes(catalog), [catalog]);
   const results = useMemo(
-    () => searchResults(catalog, trimmed, colours, sizes, COLOR_NAME_TO_TAXONOMY),
+    () => searchResults(catalog, trimmed, colours, sizes),
     [catalog, trimmed, colours, sizes],
   );
   const suggestions = useMemo(() => nameSuggestions(results, trimmed), [results, trimmed]);

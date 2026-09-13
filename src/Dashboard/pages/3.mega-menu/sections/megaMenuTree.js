@@ -9,6 +9,22 @@ export function countForItem(item, products) {
   return products.filter((p) => (p.tags ?? []).some((t) => t.endsWith(`:${slug}`))).length;
 }
 
+/**
+ * Links that currently lead to an empty page. A shopper following one lands on
+ * a grid with nothing in it, which is the most useful thing to flag here.
+ * Group links (a whole root) are skipped: they have no slug of their own.
+ */
+export function emptyLinks(tree, products) {
+  if (!products) return [];
+  return tree.flatMap((root) =>
+    (root.sections ?? []).flatMap((section) =>
+      (section.items ?? [])
+        .filter((item) => countForItem(item, products) === 0)
+        .map((item) => ({ ...item, rootLabel: root.label })),
+    ),
+  );
+}
+
 /** Every link across every root, for the summary line. */
 export function totalLinks(tree) {
   return tree.reduce(

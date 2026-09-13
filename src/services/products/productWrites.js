@@ -44,7 +44,7 @@ export function createProduct(input) {
       originalPrice: input.originalPrice ? Number(input.originalPrice) : null,
       stock: Number(input.stock) || 0,
       images: input.images ?? [],
-      colors: input.colors ?? [],
+      ...(Array.isArray(input.colorways) ? {} : { colors: input.colors ?? [] }),
       sizes: input.sizes ?? [],
       categories: input.categories ?? [],
       status: input.status ?? "draft",
@@ -82,6 +82,13 @@ export function updateProduct(id, patch) {
       stock: patch.stock !== undefined ? Number(patch.stock) || 0 : existing.stock,
       updatedAt: new Date().toISOString(),
     };
+
+    // Colourways supersede the older per-name fields; leaving them would let
+    // a stale colour list reappear if colourways were ever cleared.
+    if (Array.isArray(patch.colorways)) {
+      delete updated.colors;
+      delete updated.colorImages;
+    }
 
     setState("products", (state) => ({
       ...state,

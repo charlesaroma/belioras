@@ -11,7 +11,7 @@ import { getNavigation, resetNavigation, updateNavigation } from "../../../servi
 import { getProducts } from "../../../services/productsApi";
 import IconAction from "../../components/IconAction";
 import MenuRoot from "./sections/MegaMenuRoot";
-import { countForItem, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
+import { countForItem, emptyLinks, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
 
 export default function DashMegaMenu() {
   const { toast } = useToast();
@@ -70,6 +70,7 @@ export default function DashMegaMenu() {
   }
 
   const linkCount = totalLinks(draft);
+  const empty = emptyLinks(draft, products);
 
   return (
     <div className="space-y-5">
@@ -88,6 +89,17 @@ export default function DashMegaMenu() {
           </Button>
         </div>
       </div>
+
+      {empty.length > 0 && (
+        <p className="border-l-2 border-error py-2 pl-4 text-[12px] leading-relaxed text-espresso-soft">
+          <strong className="font-medium text-espresso">
+            {empty.length} {empty.length === 1 ? "link leads" : "links lead"} to an empty page
+          </strong>
+          , so a shopper following {empty.length === 1 ? "it" : "one"} finds nothing:{" "}
+          {empty.slice(0, 6).map((item) => `${item.rootLabel} › ${item.label}`).join(", ")}
+          {empty.length > 6 && `, and ${empty.length - 6} more`}. Open a menu below to see which.
+        </p>
+      )}
 
       <ul className="space-y-3">
         {draft.map((root, i) => (
