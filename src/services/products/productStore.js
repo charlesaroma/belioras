@@ -7,7 +7,12 @@ function catalogItems() {
 }
 
 function normalize(product) {
-  return { ...product, images: product.images ?? [], tags: deriveTags(product) };
+  return {
+    ...product,
+    images: product.images ?? [],
+    colorImages: product.colorImages ?? {},
+    tags: deriveTags(product),
+  };
 }
 
 export { catalogItems, normalize };

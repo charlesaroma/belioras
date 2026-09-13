@@ -16,12 +16,11 @@ import ProductPageAccordions from "../ProductPageAccordions";
 
 const ADDED_FEEDBACK_MS = 1800;
 
-export default function ProductBuyPanel({ product }) {
+export default function ProductBuyPanel({ product, color, onColorChange, images }) {
   const { addItem } = useCart();
   const { has, toggle } = useWishlist();
   const { t } = useLanguage();
 
-  const [color, setColor] = useState(product.colors?.[0] ?? null);
   const [size, setSize] = useState(null);
   const [qty, setQty] = useState(1);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
@@ -42,7 +41,13 @@ export default function ProductBuyPanel({ product }) {
       return;
     }
     setSizeError("");
-    addItem(product, { size: size ?? product.sizes?.[0] ?? null, color, quantity: qty });
+    addItem(product, {
+      size: size ?? product.sizes?.[0] ?? null,
+      color,
+      quantity: qty,
+      // The bag shows the colourway that was bought, not the default photo.
+      image: images?.[0],
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), ADDED_FEEDBACK_MS);
   };
@@ -52,7 +57,7 @@ export default function ProductBuyPanel({ product }) {
       <ProductBuyPanelVariants
         product={product}
         color={color}
-        onColorChange={setColor}
+        onColorChange={onColorChange}
         size={size}
         onSizeChange={(s) => {
           setSize(s);

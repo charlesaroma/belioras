@@ -44,9 +44,19 @@
     "rating": 4.8,
     "reviewCount": 42,
     "images": [
-      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop"
-    ]
+      "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "colorImages": {
+      "Champagne": [
+        "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1671437538187-be7eb01a322c?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "p2",
@@ -91,8 +101,19 @@
     "rating": 4.7,
     "reviewCount": 38,
     "images": [
-      "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1000&auto=format&fit=crop"
-    ]
+      "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "colorImages": {
+      "Sand": [
+        "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ivory": [
+        "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Rosewood": [
+        "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "p3",
@@ -137,8 +158,19 @@
     "rating": 4.9,
     "reviewCount": 27,
     "images": [
-      "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
-    ]
+      "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "colorImages": {
+      "Ebony": [
+        "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Forest": [
+        "https://images.unsplash.com/photo-1742038107091-9a7e1f01b42c?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "p4",
@@ -182,7 +214,18 @@
     "rating": 4.6,
     "reviewCount": 19,
     "images": [
-      "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?q=80&w=1000&auto=format&fit=crop"
-    ]
+      "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "colorImages": {
+      "Blush": [
+        "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Sand": [
+        "https://images.unsplash.com/photo-1581750340249-ea1cf6560f37?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   }
 ]

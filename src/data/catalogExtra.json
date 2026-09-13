@@ -28,7 +28,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Ivory"
+      "Ivory",
+      "Champagne",
+      "Ebony"
     ],
     "sizes": [
       "xs",
@@ -44,8 +46,7 @@
     "rating": 4.6,
     "reviewCount": 34,
     "images": [
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-18",
     "tags": [
@@ -58,7 +59,18 @@
       "color:white",
       "tag:new",
       "tag:featured"
-    ]
+    ],
+    "colorImages": {
+      "Ivory": [
+        "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Champagne": [
+        "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf02",
@@ -89,7 +101,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Blush"
+      "Blush",
+      "Ivory",
+      "Burgundy"
     ],
     "sizes": [
       "xs",
@@ -105,8 +119,7 @@
     "rating": 4.5,
     "reviewCount": 96,
     "images": [
-      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-16",
     "tags": [
@@ -118,7 +131,18 @@
       "fabric:chiffon",
       "color:pink",
       "tag:new"
-    ]
+    ],
+    "colorImages": {
+      "Blush": [
+        "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ivory": [
+        "https://images.unsplash.com/photo-1443180683100-fbb2c471775e?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1606489236892-ed5989dd023a?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf03",
@@ -149,7 +173,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Ebony"
+      "Ebony",
+      "Burgundy",
+      "Blush"
     ],
     "sizes": [
       "xs",
@@ -165,8 +191,7 @@
     "rating": 4.7,
     "reviewCount": 55,
     "images": [
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-06-02",
     "tags": [
@@ -178,7 +203,18 @@
       "fabric:bandage",
       "color:black",
       "tag:bestseller"
-    ]
+    ],
+    "colorImages": {
+      "Ebony": [
+        "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1606489236892-ed5989dd023a?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Blush": [
+        "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf04",
@@ -209,7 +245,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Rosewood"
+      "Rosewood",
+      "Burgundy",
+      "Ebony"
     ],
     "sizes": [
       "xs",
@@ -224,8 +262,7 @@
     "rating": 4.9,
     "reviewCount": 90,
     "images": [
-      "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-07-10",
     "tags": [
@@ -237,7 +274,18 @@
       "fabric:satin",
       "color:red",
       "tag:featured"
-    ]
+    ],
+    "colorImages": {
+      "Rosewood": [
+        "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1558513248-f87da9f8fe92?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf05",
@@ -268,7 +316,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Blush"
+      "Blush",
+      "Ivory",
+      "Champagne"
     ],
     "sizes": [
       "xs",
@@ -284,8 +334,7 @@
     "rating": 4.1,
     "reviewCount": 97,
     "images": [
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-12",
     "tags": [
@@ -297,7 +346,18 @@
       "fabric:mesh",
       "color:pink",
       "tag:new"
-    ]
+    ],
+    "colorImages": {
+      "Blush": [
+        "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ivory": [
+        "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Champagne": [
+        "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf06",
@@ -328,7 +388,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Forest"
+      "Forest",
+      "Burgundy",
+      "Ebony"
     ],
     "sizes": [
       "xs",
@@ -344,8 +406,7 @@
     "rating": 4.2,
     "reviewCount": 25,
     "images": [
-      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1649109668399-f2aa27708952?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-07-04",
     "tags": [
@@ -356,7 +417,18 @@
       "style:halter-neck",
       "fabric:chiffon",
       "color:green"
-    ]
+    ],
+    "colorImages": {
+      "Forest": [
+        "https://images.unsplash.com/photo-1649109668399-f2aa27708952?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1558513248-f87da9f8fe92?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf07",
@@ -387,7 +459,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Blush"
+      "Blush",
+      "Ivory",
+      "Ebony"
     ],
     "sizes": [
       "xs",
@@ -403,8 +477,7 @@
     "rating": 5,
     "reviewCount": 13,
     "images": [
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-05-20",
     "tags": [
@@ -416,7 +489,18 @@
       "fabric:satin",
       "color:pink",
       "tag:bestseller"
-    ]
+    ],
+    "colorImages": {
+      "Blush": [
+        "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ivory": [
+        "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf08",
@@ -447,7 +531,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Burgundy"
+      "Burgundy",
+      "Forest",
+      "Ebony"
     ],
     "sizes": [
       "s",
@@ -462,8 +548,7 @@
     "rating": 4.4,
     "reviewCount": 10,
     "images": [
-      "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-07-22",
     "tags": [
@@ -475,7 +560,18 @@
       "fabric:velvet",
       "color:burgundy",
       "tag:featured"
-    ]
+    ],
+    "colorImages": {
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Forest": [
+        "https://images.unsplash.com/photo-1557274426-7a739b45d09a?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf09",
@@ -506,7 +602,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Gold"
+      "Gold",
+      "Champagne",
+      "Ebony"
     ],
     "sizes": [
       "xs",
@@ -521,8 +619,7 @@
     "rating": 4.1,
     "reviewCount": 68,
     "images": [
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-08",
     "tags": [
@@ -535,7 +632,18 @@
       "color:metallic",
       "tag:new",
       "tag:bestseller"
-    ]
+    ],
+    "colorImages": {
+      "Gold": [
+        "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Champagne": [
+        "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf10",
@@ -565,7 +673,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Ivory"
+      "Ivory",
+      "Blush",
+      "Ebony"
     ],
     "sizes": [
       "xs",
@@ -580,8 +690,7 @@
     "rating": 4.9,
     "reviewCount": 80,
     "images": [
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1616348490852-d80c545b4f79?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-06-15",
     "tags": [
@@ -591,7 +700,18 @@
       "style:long-sleeve",
       "fabric:lace",
       "color:white"
-    ]
+    ],
+    "colorImages": {
+      "Ivory": [
+        "https://images.unsplash.com/photo-1616348490852-d80c545b4f79?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Blush": [
+        "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Ebony": [
+        "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf11",
@@ -621,7 +741,9 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Ebony"
+      "Ebony",
+      "Burgundy",
+      "Blush"
     ],
     "sizes": [
       "xs",
@@ -637,8 +759,7 @@
     "rating": 4.7,
     "reviewCount": 13,
     "images": [
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1569530593433-77299d056539?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-20",
     "tags": [
@@ -649,7 +770,18 @@
       "fabric:mesh",
       "color:black",
       "tag:new"
-    ]
+    ],
+    "colorImages": {
+      "Ebony": [
+        "https://images.unsplash.com/photo-1569530593433-77299d056539?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Burgundy": [
+        "https://images.unsplash.com/photo-1542892770-3e6a09c7a7da?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Blush": [
+        "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf12",
@@ -681,7 +813,8 @@
     ],
     "colors": [
       "Caramel",
-      "Champagne"
+      "Champagne",
+      "Chestnut"
     ],
     "sizes": [
       "xs",
@@ -697,8 +830,7 @@
     "rating": 4.6,
     "reviewCount": 52,
     "images": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1677715156741-b7af71207c4d?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-07-01",
     "tags": [
@@ -710,7 +842,18 @@
       "fabric:crepe",
       "color:orange",
       "color:yellow"
-    ]
+    ],
+    "colorImages": {
+      "Caramel": [
+        "https://images.unsplash.com/photo-1677715156741-b7af71207c4d?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Champagne": [
+        "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Chestnut": [
+        "https://images.unsplash.com/photo-1641521119204-ca47d21ed8eb?q=80&w=1000&auto=format&fit=crop"
+      ]
+    }
   },
   {
     "id": "bf13",

@@ -13,7 +13,7 @@ export function CartProvider({ children }) {
   const [items, setItems] = useLocalStorage("belioras:cart", []);
 
   const addItem = useCallback(
-    (product, { size, color, quantity = 1 } = {}) => {
+    (product, { size, color, quantity = 1, image } = {}) => {
       if (!product || product.stock <= 0) return false;
 
       const qty = clampQty(quantity, product.stock);
@@ -35,7 +35,7 @@ export function CartProvider({ children }) {
             name: product.name,
             price: product.price,
             originalPrice: product.originalPrice,
-            image: product.images?.[0],
+            image: image ?? product.images?.[0],
             size,
             color,
             quantity: qty,
