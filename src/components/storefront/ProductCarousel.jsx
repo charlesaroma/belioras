@@ -1,13 +1,15 @@
 /* Storefront Component: ProductCarousel */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import ProductCard from "./ProductCard";
+import { scrollTrack, useCarouselAutoplay } from "./useCarouselAutoplay";
 import { cn } from "../../utils/cn";
 
 export default function ProductCarousel({ title, products, loading, ctaLabel, ctaTo, limit = 8 }) {
 
+  const containerRef = useRef(null);
   const trackRef = useRef(null);
   const [overflows, setOverflows] = useState(false);
 
@@ -27,14 +29,9 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
     return () => observer.disconnect();
   }, [items.length]);
 
-  const scroll = useCallback((direction) => {
+  const scroll = (direction) => scrollTrack(trackRef.current, direction);
 
-    const track = trackRef.current;
-    if (!track) return;
-
-    const cardWidth = track.firstChild?.offsetWidth ?? 300;
-    track.scrollBy({ left: direction * (cardWidth + 20), behavior: "smooth" });
-  }, []);
+  useCarouselAutoplay({ containerRef, trackRef, enabled: !loading && items.length > 0 });
 
   const onKeyDown = (e) => {
     if (e.key === "ArrowRight") {
@@ -59,7 +56,7 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
         <span aria-hidden="true" className="mx-auto mt-3 block h-px w-12 bg-gold-500" />
       </div>
 
-      <div className="relative">
+      <div ref={containerRef} className="relative">
         {overflows && <Arrow direction="left" onClick={() => scroll(-1)} />}
 
         <div
