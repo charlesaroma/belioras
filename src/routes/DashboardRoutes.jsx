@@ -9,6 +9,7 @@ import {
   DashCategories,
   DashMegaMenu,
   DashOrders,
+  DashTransactions,
   DashCustomers,
   DashTeam,
   DashSettings,
@@ -45,6 +46,16 @@ export default function dashboardRoutes() {
           with, and the two were conflated under Categories. */}
       <Route path="mega-menu" element={<DashMegaMenu />} />
       <Route path="orders" element={<DashOrders />} />
+      {/* Finance, so administrators only: staff run orders but do not see
+          revenue, provider fees or refunds. */}
+      <Route
+        path="transactions"
+        element={
+          <RequireAuth adminOnly capability="payments">
+            <DashTransactions />
+          </RequireAuth>
+        }
+      />
       {/* Staff handle orders, so they need the customers behind them.
           The combined Users page was administrator-only, which locked
           staff out of the very records they were being asked to serve. */}

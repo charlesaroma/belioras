@@ -1,7 +1,9 @@
 /* Admin Dashboard Page: Orders - orders */
 import { useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Receipt } from "lucide-react";
 
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
@@ -17,12 +19,13 @@ export default function DashOrders() {
   const { format } = useCurrency();
   const { locale } = useLanguage();
   const { toast } = useToast();
+  const { can } = useStaffAuth();
 
   const [revision, setRevision] = useState(0);
 
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
   const { data: orders, loading } = useAsyncData(getAllOrders, [revision]);
-  const [viewing, setViewing] = useState(null);
+  const [params, setParams] = useSearchParams();
 
   const rows = useMemo(
     () =>
@@ -34,6 +37,19 @@ export default function DashOrders() {
       })),
     [orders],
   );
+
+  // The open order lives in the URL, so a transaction can link straight to it.
+  const viewing = rows.find((o) => o.id === params.get("order")) ?? null;
+  const setViewing = (order) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (order) next.set("order", order.id);
+        else next.delete("order");
+        return next;
+      },
+      { replace: !order },
+    );
 
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -59,9 +75,8 @@ export default function DashOrders() {
   const advance = async (order, status) => {
     try {
 
-      const updated = await updateOrderStatus(order.id, status);
+      await updateOrderStatus(order.id, status);
       refresh();
-      setViewing((v) => (v && v.id === order.id ? { ...v, status: updated.status } : v));
       toast(`${order.id} marked ${ORDER_STATUS[status]?.label ?? status}.`, "success");
     } catch (err) {
       toast(err.message ?? "Could not update that order.", "error");
@@ -107,6 +122,7 @@ export default function DashOrders() {
         order={viewing}
         onClose={() => setViewing(null)}
         onAdvance={advance}
+        showPayments={can("payments")}
         format={format}
         dateFmt={dateFmt}
       />

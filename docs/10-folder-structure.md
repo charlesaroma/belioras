@@ -110,10 +110,11 @@ pages/
 ├── 1.products/    DashProducts.jsx  + sections/ (ProductForm, 4 modals)
 ├── 2.categories/  DashCategories.jsx + sections/ (4 modals)
 ├── 3.mega-menu/   DashMegaMenu.jsx  + sections/ (MenuRoot, IconButton)
-├── 4.orders/      DashOrders.jsx
-├── 5.customers/   DashCustomers.jsx
-├── 6.team/        DashTeam.jsx
-└── 7.settings/    DashSettings.jsx
+├── 4.orders/        DashOrders.jsx
+├── 5.transactions/  DashTransactions.jsx  (super-admin only)
+├── 6.customers/     DashCustomers.jsx
+├── 7.team/          DashTeam.jsx
+└── 8.settings/      DashSettings.jsx
 ```
 
 Modals sit directly in `sections/` rather than a nested `modals/` folder —

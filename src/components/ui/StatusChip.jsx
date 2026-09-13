@@ -1,9 +1,10 @@
 /* Ui Component: StatusChip */
 import { PRODUCT_STATUS, STATUS_TONES } from "../../Dashboard/lib/constants";
 import { ORDER_STATUS, normalizeStatus } from "../../utils/orderStatus";
+import { TRANSACTION_STATUS } from "../../utils/transactionStatus";
 import { cn } from "../../utils/cn";
 
-const SETS = { order: ORDER_STATUS, product: PRODUCT_STATUS };
+const SETS = { order: ORDER_STATUS, product: PRODUCT_STATUS, transaction: TRANSACTION_STATUS };
 
 export default function StatusChip({ status, kind = "order", className }) {
   if (!status) return null;

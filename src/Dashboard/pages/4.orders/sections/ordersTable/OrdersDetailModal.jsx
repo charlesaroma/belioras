@@ -3,8 +3,16 @@ import Button from "../../../../../components/ui/Button";
 import StatusChip from "../../../../../components/ui/StatusChip";
 import Modal from "../../../../../components/common/Modal";
 import { ORDER_STATUS, nextStatuses } from "../../../../../utils/orderStatus";
+import OrdersPayments from "./OrdersPayments";
 
-export default function OrderDetailModal({ order, onClose, onAdvance, format, dateFmt }) {
+export default function OrderDetailModal({
+  order,
+  onClose,
+  onAdvance,
+  format,
+  dateFmt,
+  showPayments = false,
+}) {
 
   const transitions = order ? nextStatuses(order.status) : [];
 
@@ -52,6 +60,8 @@ export default function OrderDetailModal({ order, onClose, onAdvance, format, da
             <Row label="Tax" value={format(order.tax ?? 0)} />
             <Row label="Total" value={format(order.total ?? 0)} strong />
           </dl>
+
+          {showPayments && <OrdersPayments orderId={order.id} />}
 
           {transitions.length > 0 ? (
             <div className="border-t border-umber-50 pt-4">

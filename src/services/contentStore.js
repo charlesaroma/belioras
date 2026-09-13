@@ -25,6 +25,7 @@ import settingsSeed from "../data/settings.json";
 import sizeChartsSeed from "../data/sizeCharts.json";
 import catalogSeed from "../data/catalogSeed";
 import ordersSeed from "../data/ordersSeed";
+import transactionsSeed from "../data/transactionsSeed";
 import usersSeed from "../data/usersSeed";
 
 /* KEY PREFIX */
@@ -55,6 +56,9 @@ const DOMAINS = {
   // the same rev reconciliation, the same per-item merge.
   products: { seed: catalogSeed, collection: "items" },
   orders: { seed: ordersSeed, collection: "items" },
+  // Payments and refunds against those orders. Read-only today; registered here
+  // so checkout can record a payment once a provider is connected.
+  transactions: { seed: transactionsSeed, collection: "items" },
   users: { seed: usersSeed, collection: "items" },
 };
 

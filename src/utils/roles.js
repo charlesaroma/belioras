@@ -28,11 +28,13 @@ export const ADMIN_ROLES = new Set([ROLES.SUPER_ADMIN, ROLES.STAFF]);
  * hold `team` or `settings`: staff could previously open the users page and
  * promote a colleague, or an account they controlled, to super-admin. Store
  * settings are excluded for the same reason — legal entity, tax rate and the
- * published contact addresses are not day-to-day operations.
+ * published contact addresses are not day-to-day operations. So is `payments`:
+ * revenue, provider fees and refunds are finance, and staff run orders without
+ * needing to see the money behind them.
  */
 
 export const CAPABILITIES = {
-  [ROLES.SUPER_ADMIN]: new Set(["catalog", "orders", "content", "settings", "team"]),
+  [ROLES.SUPER_ADMIN]: new Set(["catalog", "orders", "content", "payments", "settings", "team"]),
   [ROLES.STAFF]: new Set(["catalog", "orders", "content"]),
   [ROLES.CUSTOMER]: new Set(),
 };

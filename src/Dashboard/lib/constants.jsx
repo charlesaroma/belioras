@@ -20,6 +20,9 @@ export const DASHBOARD_NAV_GROUPS = [
     label: "Sales",
     items: [
       { id: "orders", label: "Orders", icon: "ShoppingCart", capability: "orders" },
+      // The money behind orders: payments, refunds and failed attempts. A
+      // separate page because one order can carry several of them.
+      { id: "transactions", label: "Transactions", icon: "CreditCard", capability: "payments" },
       // Customers and Team were one "Users" page listing shoppers and staff in
       // the same table, with a role dropdown on every row — the control that
       // grants administrator access sitting beside a customer's delivery

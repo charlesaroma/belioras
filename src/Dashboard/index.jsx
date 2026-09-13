@@ -7,9 +7,10 @@ export { default as DashProducts } from "./pages/1.products/products";
 export { default as DashCategories } from "./pages/2.categories/categories";
 export { default as DashMegaMenu } from "./pages/3.mega-menu/mega-menu";
 export { default as DashOrders } from "./pages/4.orders/orders";
-export { default as DashCustomers } from "./pages/5.customers/customers";
-export { default as DashTeam } from "./pages/6.team/team";
-export { default as DashSettings } from "./pages/7.settings/settings";
+export { default as DashTransactions } from "./pages/5.transactions/transactions";
+export { default as DashCustomers } from "./pages/6.customers/customers";
+export { default as DashTeam } from "./pages/7.team/team";
+export { default as DashSettings } from "./pages/8.settings/settings";
 
 // Chrome shared by every dashboard page
 export { default as DashSidebar } from "./components/DashSidebar";
