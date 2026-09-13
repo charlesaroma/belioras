@@ -1,26 +1,15 @@
 /* Navbar Paths */
 
-// Paths whose page opens on a plain light background rather than a full-bleed
-// photo, so the navbar renders solid from the first frame instead of
-// transparent-over-dark. The catalogue routes were missing here and it showed
-// as a dark gradient smudge over blank ivory once ShopHeader lost its banner.
-const LIGHT_BG_PATHS = [
-  "/product",
-  "/shop",
-  "/dresses",
-  "/hair",
-  "/accessories",
-  "/new-arrivals",
-  "/account",
-  "/contact",
-  "/about",
-  "/login",
-  "/signup",
-  "/forgot-password",
-  "/search",
-  "/wishlist",
-];
+// The navbar is transparent only over a full-bleed photograph, and only the
+// home page opens on one. Everywhere else the page starts on ivory, where a
+// transparent navbar is ivory text on an ivory page.
+//
+// This used to be a list of the light pages instead, which every new page had
+// to remember to join. Order tracking, both size guides, all five legal pages,
+// FAQ, checkout and the 404 never did. Listing the exception rather than the
+// rule means a new page is readable by default.
+const PHOTO_HERO_PATHS = ["/"];
 
 export function isLightBgPath(pathname) {
-  return LIGHT_BG_PATHS.some((p) => pathname.startsWith(p));
+  return !PHOTO_HERO_PATHS.includes(pathname);
 }

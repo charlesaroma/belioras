@@ -7,11 +7,6 @@ import {
 import GridDensityIcon from "../shared/GridDensityIcon";
 import { cn } from "../../utils/cn";
 
-/**
- * A segmented control sharing one border, rather than three loose icons. The
- * toolbar reads as one design that way: the same square corners, espresso
- * hairline and filled-on-active treatment as the Filter button next to it.
- */
 function DensityGroup({ options, columns, setColumns, className }) {
   // The two breakpoint sets do not overlap completely — a desktop choice of 4
   // or 6 has no equivalent in the tablet set. Without a fallback tab stop the
@@ -33,7 +28,7 @@ function DensityGroup({ options, columns, setColumns, className }) {
     <div
       role="radiogroup"
       aria-label="Products per row"
-      className={cn("items-center", className)}
+      className={className}
       onKeyDown={onKeyDown}
     >
       {options.map((option, i) => {
@@ -56,18 +51,11 @@ function DensityGroup({ options, columns, setColumns, className }) {
             className={cn(
               // 44px where a finger picks it, 36px on desktop where a mouse
               // does. At p-1 alone the target was 34px on a phone.
-              "flex size-11 cursor-pointer items-center justify-center transition-colors lg:size-9",
-              // Each segment carries its own border and overlaps the one
-              // before it, so neighbours share a single hairline. A border on
-              // the group instead would sit outside the buttons and make the
-              // control 2px taller than the Filter button beside it.
-              "-ml-px border border-espresso first:ml-0",
-              active
-                ? "bg-espresso text-ivory-50"
-                : "text-espresso hover:bg-espresso hover:text-ivory-50",
+              "flex size-11 cursor-pointer items-center justify-center transition-opacity lg:size-9",
+              active ? "opacity-100" : "opacity-50 hover:opacity-80",
             )}
           >
-            <GridDensityIcon columns={option} />
+            <GridDensityIcon columns={option} active={active} />
           </button>
         );
       })}
@@ -85,19 +73,19 @@ export default function GridViewSwitcher({ columns, setColumns }) {
         options={MOBILE_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="inline-flex md:hidden"
+        className="flex items-center gap-2 md:hidden"
       />
       <DensityGroup
         options={TABLET_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden md:inline-flex lg:hidden"
+        className="hidden items-center gap-2 md:flex lg:hidden"
       />
       <DensityGroup
         options={DESKTOP_COLUMN_OPTIONS}
         columns={columns}
         setColumns={setColumns}
-        className="hidden lg:inline-flex"
+        className="hidden items-center gap-1 lg:flex"
       />
     </>
   );

@@ -1,6 +1,6 @@
 /* Page: Shop - CatalogView */
 import { useMemo, useState } from "react";
-import { ChevronDown, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
@@ -15,7 +15,7 @@ import ActiveFilters from "./ActiveFilters";
 import FilterPanel from "./FilterPanel";
 import ProductGrid from "./ProductGrid";
 import ShopHeader from "./ShopHeader";
-import { SORT_OPTIONS } from "./constants";
+import CatalogSortControl from "./CatalogSortControl";
 
 export default function CatalogView({ products, loading, error, header = {}, emptyState = null }) {
 
@@ -83,34 +83,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                   the density switcher is pushed right. */}
               <div className="mb-5 flex flex-wrap items-center justify-end gap-3">
                 <div className="flex w-full items-center gap-2 sm:w-auto sm:gap-4">
-                  <label
-                    htmlFor="catalog-sort"
-                    className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso-soft"
-                  >
-                    <span className="hidden sm:inline">Sort by</span>
-                  </label>
-                  {/* appearance-none is the whole fix: without it macOS drew
-                      its own rounded, tinted control with a native stepper, so
-                      none of the border or radius below applied and the sort
-                      control looked nothing like the Filter button. */}
-                  <div className="relative min-w-0 flex-1 sm:-ml-2 sm:flex-none">
-                    <select
-                      id="catalog-sort"
-                      value={filters.sort}
-                      onChange={(e) => setSort(e.target.value)}
-                      className="peer min-h-11 w-full cursor-pointer appearance-none border border-espresso bg-transparent pl-3 pr-9 text-[11px] font-medium uppercase tracking-[0.18em] text-espresso outline-none transition-colors hover:bg-espresso hover:text-ivory-50 focus-visible:bg-espresso focus-visible:text-ivory-50 lg:min-h-9 [&>option]:bg-ivory-50 [&>option]:normal-case [&>option]:tracking-normal [&>option]:text-espresso"
-                    >
-                      {SORT_OPTIONS.map((option) => (
-                        <option key={option.value ?? option} value={option.value ?? option}>
-                          {option.label ?? option}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown
-                      aria-hidden="true"
-                      className="pointer-events-none absolute right-3 top-1/2 size-3.5 -translate-y-1/2 text-espresso transition-colors peer-hover:text-ivory-50 peer-focus-visible:text-ivory-50"
-                    />
-                  </div>
+                  <CatalogSortControl value={filters.sort} onChange={setSort} />
 
                   <button
                     type="button"
