@@ -9,6 +9,6 @@ import categories from "./categories.json";
  * the product's collectionId and part of the storefront's filter tokens.
  */
 export default {
-  rev: 1,
+  rev: 2,
   items: categories,
 };
