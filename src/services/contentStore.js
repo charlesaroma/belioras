@@ -29,6 +29,7 @@ import transactionsSeed from "../data/transactionsSeed";
 import colorsSeed from "../data/colorsSeed";
 import categoriesSeed from "../data/categoriesSeed";
 import usersSeed from "../data/usersSeed";
+import { campaignsSeed, newsletterSettingsSeed, subscribersSeed } from "../data/newsletterSeed";
 
 /* KEY PREFIX */
 const KEY_PREFIX = "belioras:content:";
@@ -65,6 +66,10 @@ const DOMAINS = {
   // so checkout can record a payment once a provider is connected.
   transactions: { seed: transactionsSeed, collection: "items" },
   users: { seed: usersSeed, collection: "items" },
+  // The Belioras Letter: who has consented, what was sent, and the welcome email.
+  subscribers: { seed: subscribersSeed, collection: "items" },
+  campaigns: { seed: campaignsSeed, collection: "items" },
+  newsletter: { seed: newsletterSettingsSeed, collection: null },
 };
 
 function storageKey(domain) {

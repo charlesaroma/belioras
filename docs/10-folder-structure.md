@@ -113,8 +113,9 @@ pages/
 ├── 4.orders/        DashOrders.jsx
 ├── 5.transactions/  DashTransactions.jsx  (super-admin only)
 ├── 6.customers/     DashCustomers.jsx
-├── 7.team/          DashTeam.jsx
-└── 8.settings/      DashSettings.jsx
+├── 7.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
+├── 8.team/          DashTeam.jsx
+└── 9.settings/      DashSettings.jsx
 ```
 
 Modals sit directly in `sections/` rather than a nested `modals/` folder —

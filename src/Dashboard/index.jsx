@@ -9,8 +9,9 @@ export { default as DashMegaMenu } from "./pages/3.mega-menu/mega-menu";
 export { default as DashOrders } from "./pages/4.orders/orders";
 export { default as DashTransactions } from "./pages/5.transactions/transactions";
 export { default as DashCustomers } from "./pages/6.customers/customers";
-export { default as DashTeam } from "./pages/7.team/team";
-export { default as DashSettings } from "./pages/8.settings/settings";
+export { default as DashNewsletter } from "./pages/7.newsletter/newsletter";
+export { default as DashTeam } from "./pages/8.team/team";
+export { default as DashSettings } from "./pages/9.settings/settings";
 
 // Chrome shared by every dashboard page
 export { default as DashSidebar } from "./components/DashSidebar";

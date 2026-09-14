@@ -5,6 +5,7 @@ import SettingsPanel from "./sections/SettingsPanel";
 import ProfileFields from "./sections/SettingsProfileFields";
 import SecurityFields from "./sections/SettingsSecurityFields";
 import PreferencesPanel from "./sections/SettingsPreferencesPanel";
+import NewsletterPanel from "./sections/SettingsNewsletterPanel";
 import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
@@ -98,6 +99,8 @@ export default function AccountSettings() {
         currencies={currencies}
         onCurrencyChange={(code) => savePreference({ currency: code }, () => setCurrency(code))}
       />
+
+      <NewsletterPanel user={user} />
     </div>
   );
 }

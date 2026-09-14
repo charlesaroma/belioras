@@ -11,6 +11,7 @@ import {
   DashOrders,
   DashTransactions,
   DashCustomers,
+  DashNewsletter,
   DashTeam,
   DashSettings,
 } from "../Dashboard";
@@ -60,6 +61,14 @@ export default function dashboardRoutes() {
           The combined Users page was administrator-only, which locked
           staff out of the very records they were being asked to serve. */}
       <Route path="customers" element={<DashCustomers />} />
+      <Route
+        path="newsletter"
+        element={
+          <RequireAuth adminOnly capability="marketing">
+            <DashNewsletter />
+          </RequireAuth>
+        }
+      />
 
       {/*
         Access management is its own job, and an administrator's. It used

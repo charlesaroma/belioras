@@ -22,6 +22,8 @@ import TermsOfServicePage from "../pages/legal/terms-of-service";
 import CookiePolicyPage from "../pages/legal/cookie-policy";
 import ShippingPolicyPage from "../pages/legal/shipping-policy";
 import ReturnAndRefundPolicyPage from "../pages/legal/return-and-refund-policy";
+import NewsletterConfirmPage from "../pages/newsletter/confirm";
+import NewsletterUnsubscribePage from "../pages/newsletter/unsubscribe";
 import {
   AccountLayout,
   AccountProfile,
@@ -93,6 +95,10 @@ export default function storefrontRoutes() {
       <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
       <Route path="/return-and-refund-policy" element={<ReturnAndRefundPolicyPage />} />
       <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+
+      {/* The two links newsletter emails carry. */}
+      <Route path="/newsletter/confirm" element={<NewsletterConfirmPage />} />
+      <Route path="/newsletter/unsubscribe" element={<NewsletterUnsubscribePage />} />
 
       {/*
         Every other address is a menu page or nothing. Menu items and links

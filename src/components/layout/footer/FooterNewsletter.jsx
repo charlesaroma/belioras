@@ -1,9 +1,10 @@
 /* Newsletter Band */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 import { useToast } from "../../../context/ToastContext";
+import { subscribe } from "../../../services/subscribersApi";
 import { EMAIL_RE } from "./footerLinks";
 
 // A dedicated band rather than a popup — the review ruled out interruptions
@@ -11,18 +12,40 @@ import { EMAIL_RE } from "./footerLinks";
 // the page rather than a large empty panel.
 export default function FooterNewsletter() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Double opt-in: the address joins only once the link in the confirmation
+  // email is followed, and the welcome code is sent then, not now.
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!EMAIL_RE.test(email.trim())) {
       setError("Please enter a valid email address.");
       return;
     }
     setError("");
-    setEmail("");
-    toast("Thanks for subscribing to Belioras — your 10% welcome code is on its way.", "success");
+    setBusy(true);
+    try {
+      const result = await subscribe({ email: email.trim(), source: "footer" });
+      setEmail("");
+      if (result.status === "subscribed") {
+        toast("You're already on the list for the Belioras Letter.", "info");
+        return;
+      }
+      toast(`Almost there: we've sent a confirmation link to ${result.email}. Your welcome code follows once you confirm.`, {
+        type: "success",
+        // There is no inbox in development, so the link is offered here instead.
+        ...(import.meta.env.DEV && {
+          action: { label: "Open link (demo)", onClick: () => navigate(`/newsletter/confirm?token=${result.token}`) },
+        }),
+      });
+    } catch (err) {
+      setError(err.message ?? "Could not sign you up. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -60,8 +83,9 @@ export default function FooterNewsletter() {
               />
               <button
                 type="submit"
+                disabled={busy}
                 aria-label="Subscribe to the Belioras Letter"
-                className="group/sub flex size-11 shrink-0 items-center justify-center text-ivory-50/70 transition-colors hover:text-gold-400"
+                className="group/sub flex size-11 shrink-0 items-center justify-center text-ivory-50/70 transition-colors hover:text-gold-400 disabled:opacity-40"
               >
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover/sub:translate-x-0.5"
@@ -76,7 +100,7 @@ export default function FooterNewsletter() {
               </p>
             ) : (
               <p className="mt-3 text-[11px] leading-relaxed text-ivory-50/35">
-                By subscribing you agree to our{" "}
+                We'll email you a link to confirm. Unsubscribe from any email. See our{" "}
                 <Link to="/privacy-policy" className="underline underline-offset-2 hover:text-ivory-50/70">
                   privacy policy
                 </Link>

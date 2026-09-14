@@ -31,6 +31,14 @@ export const DASHBOARD_NAV_GROUPS = [
     ],
   },
   {
+    id: "marketing",
+    label: "Marketing",
+    items: [
+      // Subscribers, campaigns and the welcome email for the Belioras Letter.
+      { id: "newsletter", label: "Newsletter", icon: "Mail", capability: "marketing" },
+    ],
+  },
+  {
     id: "store",
     label: "Store",
     items: [
