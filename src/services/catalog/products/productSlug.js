@@ -1,5 +1,5 @@
 /* Slug And Tag Derivation */
-import { LEGACY_CATEGORY_TOKENS } from "../../utils/constants";
+import { LEGACY_CATEGORY_TOKENS } from "../../../utils/constants";
 
 const LIGATURES = {
   œ: "oe",

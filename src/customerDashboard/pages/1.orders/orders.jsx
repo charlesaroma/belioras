@@ -6,7 +6,7 @@ import StatusChip from "../../../components/ui/StatusChip";
 import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getOrders } from "../../../services/ordersApi";
+import { getOrders } from "../../../services/sales/ordersApi";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-IE", { day: "numeric", month: "short", year: "numeric" });

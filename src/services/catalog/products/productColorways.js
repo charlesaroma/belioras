@@ -1,5 +1,5 @@
 /* Product Colourways */
-import { getState } from "../contentStore";
+import { getState } from "../../store/contentStore";
 import { slugify } from "./productSlug";
 
 /**

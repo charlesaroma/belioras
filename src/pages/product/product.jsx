@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { usePreloadImages } from "../../hooks/usePreloadImages";
-import { getProduct, getProductsByCollection } from "../../services/productsApi";
+import { getProduct, getProductsByCollection } from "../../services/catalog/productsApi";
 import { colorFromParam, imagesForColor } from "../../utils/productColors";
 
 import ProductPageGallery from "./sections/ProductPageGallery";

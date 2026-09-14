@@ -65,8 +65,8 @@ All under `<RequireAuth>` — no `adminOnly`, so staff can shop as themselves. U
 
 | Concern | Source | Notes |
 | --- | --- | --- |
-| Orders | `services/ordersApi` `getOrders(userId)` / `getOrder(id, { userId })` | `getOrder` requires proof of ownership — the id alone is guessable |
-| Products | `services/productsApi` | Wishlist resolution, order thumbnails, order again |
+| Orders | `services/sales/ordersApi` `getOrders(userId)` / `getOrder(id, { userId })` | `getOrder` requires proof of ownership — the id alone is guessable |
+| Products | `services/catalog/productsApi` | Wishlist resolution, order thumbnails, order again |
 | Wishlist | `context/WishlistContext` | Per-account via `useScopedStorage` |
 | Addresses | `useScopedStorage("belioras:addresses", [], user.id)` | Per-account. **No seed** — it once shipped a fictional customer's Lisbon address to every new account |
 | Profile | `context/AuthContext` → `updateProfile`, `changePassword`, `verifyPassword` | |

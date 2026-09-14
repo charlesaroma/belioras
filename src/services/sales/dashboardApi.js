@@ -1,6 +1,6 @@
 import { mockApi } from "@/api/mock";
 import { getAllOrders } from "./ordersApi";
-import { getProducts } from "./productsApi";
+import { getProducts } from "../catalog/productsApi";
 
 /**
  * Dashboard aggregates.

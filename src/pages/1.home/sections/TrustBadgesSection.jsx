@@ -3,7 +3,7 @@ import { Lock, RotateCcw, ShieldCheck, Truck } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
-import { getSettings } from "../../../services/settingsApi";
+import { getSettings } from "../../../services/content/settingsApi";
 
 const ICONS = {
   truck: Truck,

@@ -4,7 +4,7 @@ import { Plus } from "lucide-react";
 
 import CategoryDialog from "@/Dashboard/components/CategoryDialog";
 import { detailOptionsFrom, sizeLabel, sizeOptionsFrom } from "@/Dashboard/lib/catalogOptions";
-import { createCategory } from "@/services/categoriesApi";
+import { createCategory } from "@/services/catalog/categoriesApi";
 import { cn } from "@/utils/cn";
 import FormSection from "./ProductFormSection";
 

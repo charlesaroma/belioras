@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
-import { getHeroSlides } from "../../../services/contentApi";
+import { getHeroSlides } from "../../../services/content/contentApi";
 import { cn } from "../../../utils/cn";
 
 /* AUTOPLAY MS */

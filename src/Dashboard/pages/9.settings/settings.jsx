@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 import Button from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getSettings, updateSettings } from "../../../services/settingsApi";
+import { getSettings, updateSettings } from "../../../services/content/settingsApi";
 import ContactPanel from "./sections/SettingsContactPanel";
 import StorefrontPanels from "./sections/SettingsStorefrontPanels";
 import ShippingZonesPanel from "./sections/SettingsShippingZonesPanel";

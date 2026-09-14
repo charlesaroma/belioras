@@ -192,7 +192,7 @@ above `BrowserRouter` so an in-progress upload survives navigation.
 
 ### `src/services/`
 
-The entire API surface. `apiClient.js` exposes `mockDelay(ms = 250)`, `mockApi()`, and `ApiError`; nine domain modules wrap it (products, collections, categories, auth, orders, coupons, reviews, promotions, settings) plus the `useAsyncData` hook. Full contracts in [02](02-data-layer.md).
+The entire API surface, one folder per business area: `store/` (the local content store), `auth/`, `catalog/` (products, categories, colours, menu, size charts, reviews), `sales/` (orders, transactions, coupons, overview figures), `marketing/` (newsletter subscribers and campaigns, promotions) and `content/` (site content, settings, contact). Each module wraps `mockApi` from `src/api/mock.js`; pages read them through the `useAsyncData` hook. A new service goes in the folder of the area it serves. Full contracts in [02](02-data-layer.md).
 
 ### `src/data/`
 

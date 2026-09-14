@@ -1,7 +1,7 @@
 /* Page: Home - BestSellersSection */
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getBestSellers } from "../../../services/productsApi";
+import { getBestSellers } from "../../../services/catalog/productsApi";
 import ProductCarousel from "../../../components/storefront/ProductCarousel";
 
 export default function BestSellersSection() {

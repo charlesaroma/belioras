@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getFeaturedCollection } from "../../../services/catalogApi";
+import { getFeaturedCollection } from "../../../services/catalog/catalogApi";
 import { cn } from "../../../utils/cn";
 
 /* Grid and photo shape for however many pieces the collection holds */

@@ -1,5 +1,5 @@
 import { mockApi } from "@/api/mock";
-import { getState, setState } from "./contentStore";
+import { getState, setState } from "../store/contentStore";
 
 /**
  * Store settings.

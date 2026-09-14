@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react";
 
-import * as contentStore from "../services/contentStore";
+import * as contentStore from "../services/store/contentStore";
 
 const ContentContext = createContext(null);
 

@@ -1,7 +1,7 @@
 /* Layout Component: AnnouncementBar */
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getTopBanner } from "../../../services/promotionsApi";
+import { getTopBanner } from "../../../services/marketing/promotionsApi";
 import CurrencySelector from "../../common/CurrencySelector";
 
 export default function AnnouncementBar() {

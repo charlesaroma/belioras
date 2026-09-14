@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getCollections } from "../../../services/collectionsApi";
+import { getCollections } from "../../../services/catalog/collectionsApi";
 
 export default function FeaturedCategoriesSection() {
   const { data: collections, loading } = useAsyncData(getCollections, []);

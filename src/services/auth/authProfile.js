@@ -1,6 +1,6 @@
 /* Profile And Credentials */
 import { ApiError, mockApi } from "@/api/mock";
-import { setState } from "../contentStore";
+import { setState } from "../store/contentStore";
 import { findByEmail, publicUser, userItems } from "./authStore";
 
 /** Every account, for the admin users page. Passwords are stripped. */

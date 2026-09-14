@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, KeyRound, Loader2, MailCheck } from "lucide-react";
 
 import BrandMark from "../../../components/shared/BrandMark";
-import { requestPasswordReset } from "@/services/authApi";
+import { requestPasswordReset } from "@/services/auth/authApi";
 
 /* HERO IMAGE */
 const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";

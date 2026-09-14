@@ -4,7 +4,7 @@ import { Link, useSearchParams } from "react-router-dom";
 
 import PageShell from "../../components/layout/PageShell";
 import Button from "../../components/ui/Button";
-import { subscribe, unsubscribe } from "../../services/subscribersApi";
+import { subscribe, unsubscribe } from "../../services/marketing/subscribersApi";
 
 const EYEBROW = "The Belioras Letter";
 

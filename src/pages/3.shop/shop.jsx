@@ -2,7 +2,7 @@
 import { useSearchParams } from "react-router-dom";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
-import { getProducts } from "../../services/productsApi";
+import { getProducts } from "../../services/catalog/productsApi";
 
 import CatalogView from "./sections/CatalogView";
 

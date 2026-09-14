@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useContentVersion } from "../../context/ContentContext";
-import { getCatalog } from "../../services/catalogApi";
+import { getCatalog } from "../../services/catalog/catalogApi";
 import NotFound from "../../components/layout/NotFound";
 
 import CatalogView from "./sections/CatalogView";

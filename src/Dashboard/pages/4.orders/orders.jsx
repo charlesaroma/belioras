@@ -8,7 +8,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getAllOrders, updateOrderStatus } from "../../../services/ordersApi";
+import { getAllOrders, updateOrderStatus } from "../../../services/sales/ordersApi";
 import { ORDER_STATUS, normalizeStatus } from "../../../utils/orderStatus";
 import DashTable from "../../components/DashTable";
 import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";

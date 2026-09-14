@@ -1,4 +1,4 @@
-import reviewsSeed from "../data/reviews.json";
+import reviewsSeed from "../../data/reviews.json";
 
 import { mockApi } from "@/api/mock";
 

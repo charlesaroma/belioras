@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
 import { useToast } from "@/context/ToastContext";
 import Toggle from "@/Dashboard/components/Toggle";
-import { updateWelcomeEmail } from "@/services/campaignsApi";
+import { updateWelcomeEmail } from "@/services/marketing/campaignsApi";
 import NewsletterEmailPreview from "./NewsletterEmailPreview";
 
 /** The automatic email sent once, when someone confirms. Remount with a `key` after saving. */

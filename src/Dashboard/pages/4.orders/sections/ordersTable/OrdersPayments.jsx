@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import StatusChip from "../../../../../components/ui/StatusChip";
 import { useLanguage } from "../../../../../context/LanguageContext";
 import { useAsyncData } from "../../../../../hooks/useAsyncData";
-import { getTransactionsForOrder } from "../../../../../services/transactionsApi";
+import { getTransactionsForOrder } from "../../../../../services/sales/transactionsApi";
 import {
   TRANSACTION_TYPE,
   describeMethod,

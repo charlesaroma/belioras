@@ -15,8 +15,8 @@ import {
   deleteCategory,
   getCategories,
   updateCategory,
-} from "@/services/categoriesApi";
-import { getTaxonomy } from "@/services/navigationApi";
+} from "@/services/catalog/categoriesApi";
+import { getTaxonomy } from "@/services/catalog/navigationApi";
 import { buildCategoryColumns } from "./categoriesColumns";
 
 export default function CategoriesPanel() {

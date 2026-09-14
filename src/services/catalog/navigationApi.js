@@ -1,7 +1,7 @@
 import { ApiError, mockApi } from "@/api/mock";
-import { getState, resetDomain, setState } from "./contentStore";
+import { getState, resetDomain, setState } from "../store/contentStore";
 import { catalogItems, normalize } from "./products/productStore";
-import { RESERVED_SLUGS, matchesTarget, targetExists } from "../utils/menuTargets";
+import { RESERVED_SLUGS, matchesTarget, targetExists } from "../../utils/menuTargets";
 
 /**
  * The menu tree and product taxonomy.

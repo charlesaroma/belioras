@@ -59,7 +59,7 @@ src/
 ├── App.jsx                  ← replace with routes
 ├── utils/                   ← cn, formatCurrency, filterSort, constants
 ├── hooks/                   ← useAsyncData, useLocalStorage, useMediaQuery
-├── services/                ← apiClient + productsApi, collectionsApi, categoriesApi, authApi, ordersApi, couponsApi, reviewsApi, promotionsApi, settingsApi
+├── services/                ← store/, auth/, catalog/, sales/, marketing/, content/ (see 02)
 ├── context/                 ← Auth, Cart, Wishlist, Currency, Toast
 ├── components/
 │   ├── layout/              ← navbar/ (8 files), AiChat/ (3), footer, cookieConsent, ScrollToTop, NotFound

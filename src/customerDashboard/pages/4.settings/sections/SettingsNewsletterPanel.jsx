@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Button from "../../../../components/ui/Button";
 import { useToast } from "../../../../context/ToastContext";
 import { useAsyncData } from "../../../../hooks/useAsyncData";
-import { getSubscription, subscribe, unsubscribeByEmail } from "../../../../services/subscribersApi";
+import { getSubscription, subscribe, unsubscribeByEmail } from "../../../../services/marketing/subscribersApi";
 
 /** The customer's own subscription to the Belioras Letter. */
 export default function NewsletterPanel({ user }) {

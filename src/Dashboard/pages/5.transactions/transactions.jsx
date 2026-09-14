@@ -5,7 +5,7 @@ import { CreditCard } from "lucide-react";
 
 import { useLanguage } from "../../../context/LanguageContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getTransactions } from "../../../services/transactionsApi";
+import { getTransactions } from "../../../services/sales/transactionsApi";
 import DashTable from "../../components/DashTable";
 import TransactionsSummary from "./sections/TransactionsSummary";
 import { PERIODS, VIEWS, matchesView } from "./sections/transactionsFilters";

@@ -1,6 +1,6 @@
 /* Role Changes */
 import { ApiError, mockApi } from "@/api/mock";
-import { setState } from "../contentStore";
+import { setState } from "../store/contentStore";
 import { can } from "../../utils/roles";
 import { publicUser, userItems } from "./authStore";
 

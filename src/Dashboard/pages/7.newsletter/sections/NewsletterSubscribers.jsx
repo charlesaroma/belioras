@@ -10,7 +10,7 @@ import { useAsyncData } from "@/hooks/useAsyncData";
 import DashTable from "@/Dashboard/components/DashTable";
 import DashToolbar, { FilterTabs } from "@/Dashboard/components/DashToolbar";
 import StatCard from "@/Dashboard/components/StatCard";
-import { eraseSubscriber, getSubscribers, unsubscribeSubscriber } from "@/services/subscribersApi";
+import { eraseSubscriber, getSubscribers, unsubscribeSubscriber } from "@/services/marketing/subscribersApi";
 import { buildSubscriberColumns } from "./subscribersColumns";
 import { downloadCsv, statusTabs, subscriberStats, subscribersCsv } from "./subscribersRows";
 

@@ -17,19 +17,19 @@
  *                               while stored supplies the admin's edits.
  */
 
-import navigationSeed from "../data/navigation.json";
-import taxonomySeed from "../data/taxonomy.json";
-import heroSeed from "../data/heroSlides.json";
-import instagramSeed from "../data/instagram.json";
-import settingsSeed from "../data/settings.json";
-import sizeChartsSeed from "../data/sizeCharts.json";
-import catalogSeed from "../data/catalogSeed";
-import ordersSeed from "../data/ordersSeed";
-import transactionsSeed from "../data/transactionsSeed";
-import colorsSeed from "../data/colorsSeed";
-import categoriesSeed from "../data/categoriesSeed";
-import usersSeed from "../data/usersSeed";
-import { campaignsSeed, newsletterSettingsSeed, subscribersSeed } from "../data/newsletterSeed";
+import navigationSeed from "../../data/navigation.json";
+import taxonomySeed from "../../data/taxonomy.json";
+import heroSeed from "../../data/heroSlides.json";
+import instagramSeed from "../../data/instagram.json";
+import settingsSeed from "../../data/settings.json";
+import sizeChartsSeed from "../../data/sizeCharts.json";
+import catalogSeed from "../../data/catalogSeed";
+import ordersSeed from "../../data/ordersSeed";
+import transactionsSeed from "../../data/transactionsSeed";
+import colorsSeed from "../../data/colorsSeed";
+import categoriesSeed from "../../data/categoriesSeed";
+import usersSeed from "../../data/usersSeed";
+import { campaignsSeed, newsletterSettingsSeed, subscribersSeed } from "../../data/newsletterSeed";
 
 /* KEY PREFIX */
 const KEY_PREFIX = "belioras:content:";

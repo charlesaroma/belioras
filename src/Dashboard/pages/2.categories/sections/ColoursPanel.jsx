@@ -10,8 +10,8 @@ import ColorDialog from "@/Dashboard/components/ColorDialog";
 import DashTable from "@/Dashboard/components/DashTable";
 import IconAction from "@/Dashboard/components/IconAction";
 import { familyOptionsFrom } from "@/Dashboard/lib/catalogOptions";
-import { colorUsage, createColor, deleteColor, getColors, updateColor } from "@/services/colorsApi";
-import { getTaxonomy } from "@/services/navigationApi";
+import { colorUsage, createColor, deleteColor, getColors, updateColor } from "@/services/catalog/colorsApi";
+import { getTaxonomy } from "@/services/catalog/navigationApi";
 
 export default function ColoursPanel() {
   const { toast } = useToast();

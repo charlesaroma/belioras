@@ -8,8 +8,8 @@ import PageShell from "../../components/layout/PageShell";
 import { useToast } from "../../context/ToastContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useContentVersion } from "../../context/ContentContext";
-import { sendMessage } from "../../services/contactApi";
-import { getSettings } from "../../services/settingsApi";
+import { sendMessage } from "../../services/content/contactApi";
+import { getSettings } from "../../services/content/settingsApi";
 import { CONTACT_EMAIL } from "../../utils/constants";
 
 const SUBJECTS = [

@@ -1,6 +1,6 @@
 /* Catalogue Reads */
 import { ApiError, mockApi } from "@/api/mock";
-import { getBestSellerProductIds } from "../ordersApi";
+import { getBestSellerProductIds } from "../../sales/ordersApi";
 import { catalogItems, normalize } from "./productStore";
 
 export function getProducts() {

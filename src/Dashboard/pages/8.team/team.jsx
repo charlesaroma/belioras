@@ -6,7 +6,7 @@ import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getUsers, updateUserRole } from "../../../services/authApi";
+import { getUsers, updateUserRole } from "../../../services/auth/authApi";
 import DashTable from "../../components/DashTable";
 import { roleLabel } from "./sections/teamTable/teamTableRoles";
 import { buildTeamColumns } from "./sections/teamTable/teamTableColumns";

@@ -7,10 +7,10 @@ import { ArrowLeft } from "lucide-react";
 import { useProductDraft } from "@/context/ProductDraftContext";
 import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
-import { getCategories } from "@/services/categoriesApi";
-import { getColors } from "@/services/colorsApi";
-import { getTaxonomy } from "@/services/navigationApi";
-import { createProduct, getProduct, updateProduct } from "@/services/productsApi";
+import { getCategories } from "@/services/catalog/categoriesApi";
+import { getColors } from "@/services/catalog/colorsApi";
+import { getTaxonomy } from "@/services/catalog/navigationApi";
+import { createProduct, getProduct, updateProduct } from "@/services/catalog/productsApi";
 
 import ProductFormCategory from "./sections/productForm/ProductFormCategory";
 import ProductFormDetails from "./sections/productForm/ProductFormDetails";

@@ -48,8 +48,8 @@ export default defineConfig([
     rules: {
       'no-restricted-imports': ['error', {
         patterns: [{
-          group: ['react', 'react-*', '@/services/*', '@/pages/*', '@/components/*',
-                  '../services/*', '../pages/*', '../components/*'],
+          group: ['react', 'react-*', '@/services/**', '@/pages/*', '@/components/*',
+                  '../services/**', '../pages/*', '../components/*'],
           message:
             'src/api is the bottom layer. Importing a service, a component or React inverts the dependency.',
         }],

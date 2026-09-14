@@ -7,7 +7,7 @@ import ProductCard from "../../../components/storefront/ProductCard";
 import GridViewSwitcher from "../../../components/storefront/GridViewSwitcher";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getProducts } from "../../../services/productsApi";
+import { getProducts } from "../../../services/catalog/productsApi";
 import {
   COLUMN_CLASSES,
   COLUMN_GAP_CLASSES,

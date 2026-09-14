@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Loader2, Tag, X } from "lucide-react";
 
 import { useCurrency } from "../../../context/CurrencyContext";
-import { validateCoupon } from "../../../services/couponsApi";
+import { validateCoupon } from "../../../services/sales/couponsApi";
 import { cn } from "../../../utils/cn";
 
 export default function OrderSummary({ items, totals, coupon, onCoupon, disabled }) {

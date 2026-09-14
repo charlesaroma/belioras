@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import PageShell, { Section } from "../../components/layout/PageShell";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { getOrder } from "../../services/ordersApi";
+import { getOrder } from "../../services/sales/ordersApi";
 import OrderTimeline from "../../components/account/OrderTimeline";
 import StatusChip from "../../components/ui/StatusChip";
 import Field from "../../components/ui/Field";

@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 
 import PageShell from "../../components/layout/PageShell";
 import { useAsyncData } from "../../hooks/useAsyncData";
-import { confirmSubscription } from "../../services/subscribersApi";
+import { confirmSubscription } from "../../services/marketing/subscribersApi";
 
 const EYEBROW = "The Belioras Letter";
 

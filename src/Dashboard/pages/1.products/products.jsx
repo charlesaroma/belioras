@@ -6,14 +6,14 @@ import { Package } from "lucide-react";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getCategories } from "../../../services/categoriesApi";
-import { getTaxonomy } from "../../../services/navigationApi";
+import { getCategories } from "../../../services/catalog/categoriesApi";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import {
   deleteProduct,
   getProducts,
   restoreProduct,
   updateProduct,
-} from "../../../services/productsApi";
+} from "../../../services/catalog/productsApi";
 import DashTable from "../../components/DashTable";
 import ProductsToolbar from "./sections/productsTable/ProductsTableToolbar";
 import ViewProductModal from "./sections/productsTable/ProductsViewModal";

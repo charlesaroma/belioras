@@ -1,5 +1,5 @@
 import { mockApi } from "@/api/mock";
-import { getState } from "./contentStore";
+import { getState } from "../store/contentStore";
 
 /**
  * Dashboard-managed content.

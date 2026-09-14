@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getDashboardStats, getRecentOrders } from "../../../services/dashboardApi";
+import { getDashboardStats, getRecentOrders } from "../../../services/sales/dashboardApi";
 
 import KeyFigures from "./sections/OverviewKeyFigures";
 import RevenuePanel from "./sections/OverviewRevenuePanel";

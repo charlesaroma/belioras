@@ -7,8 +7,8 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getProducts } from "../../../services/productsApi";
-import { getTaxonomy } from "../../../services/navigationApi";
+import { getProducts } from "../../../services/catalog/productsApi";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { cn } from "../../../utils/cn";
 
 import SearchPanelImageSearch from "./searchPanel/SearchPanelImageSearch";

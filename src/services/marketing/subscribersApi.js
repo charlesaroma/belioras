@@ -1,6 +1,6 @@
 import { ApiError, mockApi } from "@/api/mock";
-import { getState, setState } from "./contentStore";
-import { liveItems, removeItem } from "./storeCollections";
+import { getState, setState } from "../store/contentStore";
+import { liveItems, removeItem } from "../store/storeCollections";
 
 /**
  * The Belioras Letter's audience, with the rules an email service applies.

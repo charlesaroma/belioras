@@ -2,8 +2,8 @@
 import { useState } from "react";
 
 import { useAsyncData } from "@/hooks/useAsyncData";
-import { getNewsletterSettings } from "@/services/campaignsApi";
-import { getCoupons } from "@/services/couponsApi";
+import { getNewsletterSettings } from "@/services/marketing/campaignsApi";
+import { getCoupons } from "@/services/sales/couponsApi";
 import WelcomeEmailForm from "./WelcomeEmailForm";
 
 export default function NewsletterWelcome() {

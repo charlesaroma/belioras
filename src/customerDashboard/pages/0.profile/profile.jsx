@@ -7,8 +7,8 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useWishlist } from "../../../context/WishlistContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useScopedStorage } from "../../../hooks/useScopedStorage";
-import { getOrders } from "../../../services/ordersApi";
-import { getProducts } from "../../../services/productsApi";
+import { getOrders } from "../../../services/sales/ordersApi";
+import { getProducts } from "../../../services/catalog/productsApi";
 
 import ProfileHeader from "./sections/ProfileHeader";
 import LatestOrder from "./sections/ProfileLatestOrder";

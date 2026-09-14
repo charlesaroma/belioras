@@ -4,7 +4,7 @@ import { Heart } from "lucide-react";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getInstagramPosts } from "../../../services/contentApi";
+import { getInstagramPosts } from "../../../services/content/contentApi";
 
 export default function InstagramGridSection() {
 

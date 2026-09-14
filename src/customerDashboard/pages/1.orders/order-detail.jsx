@@ -10,8 +10,8 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useCart } from "../../../context/CartContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getOrder } from "../../../services/ordersApi";
-import { getProducts } from "../../../services/productsApi";
+import { getOrder } from "../../../services/sales/ordersApi";
+import { getProducts } from "../../../services/catalog/productsApi";
 
 import OrderLines from "./sections/OrderDetailLines";
 import { OrderNotFound, OrderSkeleton } from "./sections/OrderDetailStates";

@@ -4,23 +4,49 @@
 
 ## Files: `src/services/`
 
+Grouped by business area. Import a service by its folder, e.g. `@/services/catalog/productsApi`. The transport (`mockDelay`, `mockApi`, `ApiError`) lives below this layer in `src/api/mock.js`.
+
+```
+services/
+├── store/      contentStore (the local store every domain reads), storeCollections (deletes that stick)
+├── auth/       authApi + authSession, authProfile, authRoles, authStore
+├── catalog/    productsApi + products/, categoriesApi, colorsApi, collectionsApi, catalogApi,
+│               navigationApi, sizeChartApi, visualSearchApi, reviewsApi
+├── sales/      ordersApi, transactionsApi, couponsApi, dashboardApi
+├── marketing/  subscribersApi, campaignsApi, promotionsApi
+└── content/    contentApi, settingsApi, contactApi
+```
+
 | File | Exports | Shape |
 |------|---------|-------|
-| `apiClient.js` | `mockDelay(ms=250)`, `mockApi(getter, ms)` wrapper, `ApiError` | — |
-| `productsApi.js` | `getProducts()`, `getProduct(id)`, `getByCollection(catId)`, `getNewArrivals()`, `search(query)` | product objects |
+| **store/** | | |
+| `contentStore.js` | `getState(domain)`, `setState(domain, updater)`, `resetDomain()`, `subscribe()`, `getVersion()` | per-domain localStorage store seeded from `src/data` |
+| `storeCollections.js` | `liveItems(domain)`, `removeItem(domain, id)` | a collection minus remembered deletes |
+| **auth/** | | |
+| `authApi.js` | `login({email,password})`, `register(user)`, `logout()`, `requestPasswordReset()`, `getUsers()`, `updateProfile()`, `verifyPassword()`, `changePassword()`, `updateUserRole()` | `{token, user}` from `users.json`; validate; throws `ApiError` on bad creds |
+| **catalog/** | | |
+| `productsApi.js` | `getProducts()`, `getProduct(id)`, `getProductsByCollection()`, `getNewArrivals()`, `searchProducts(query)`, `getFeaturedProducts()`, `getBestSellers()`, `createProduct()`, `updateProduct()`, `deleteProduct()`, `restoreProduct()` | product objects |
 | `collectionsApi.js` | `getCollections()` | dress/hair/accessory collections |
 | `categoriesApi.js` | `getCategories()`, `categoryUsage()`, `createCategory()`, `updateCategory()`, `deleteCategory()` | categories: name, sizes offered, types, details asked for |
+| `colorsApi.js` | `getColors()`, `colorUsage()`, `createColor()`, `updateColor()`, `deleteColor()` | colours: name, swatch hex, shop-filter family |
 | `navigationApi.js` | `getNavigation()` (tiles resolved), `getNavigationForEditing()`, `updateNavigation(items)` (validated), `resetNavigation()`, `getTaxonomy()` | the menu tree |
 | `catalogApi.js` | `getCatalog(pathname)`, `getFeaturedCollection()`, `getSiblingLeaves(pathname)` | a menu page's products |
+| `sizeChartApi.js` | `getSizeCharts()` | size reference tables |
+| `visualSearchApi.js` | `searchByImage()`, `isVisualSearchAvailable()` | products matching a photo |
+| `reviewsApi.js` | `getReviews(productId)`, `getAllReviews()` | review objects (name, rating, title, body, date, verified) |
+| **sales/** | | |
+| `ordersApi.js` | `createOrder(payload)`, `getOrders(userId)`, `getOrder(id)`, `updateOrderStatus(id, status)` | order with generated id + dates |
+| `transactionsApi.js` | `getTransactions()`, `getTransactionsForOrder(orderId)` | payments and refunds |
+| `couponsApi.js` | `validateCoupon(code)`, `getCoupons()` | coupon or null |
+| `dashboardApi.js` | `getDashboardStats()`, `getRecentOrders()` | overview figures |
+| **marketing/** | | |
 | `subscribersApi.js` | `subscribe()`, `confirmSubscription(token)`, `unsubscribe(token)`, `unsubscribeByEmail()`, `getSubscription(email)`, `getSubscribers()`, `unsubscribeSubscriber(id)`, `eraseSubscriber(id)` | newsletter audience and consent |
 | `campaignsApi.js` | `getCampaigns()`, `saveCampaign()`, `scheduleCampaign()`, `unscheduleCampaign()`, `sendCampaign()`, `deleteCampaign()`, `getNewsletterSettings()`, `updateWelcomeEmail()` | newsletter campaigns and welcome email |
-| `colorsApi.js` | `getColors()`, `colorUsage()`, `createColor()`, `updateColor()`, `deleteColor()` | colours: name, swatch hex, shop-filter family |
-| `authApi.js` | `login({email,password})`, `register(user)`, `logout()` | `{token, user}` from `users.json`; validate; throws `ApiError` on bad creds |
-| `ordersApi.js` | `createOrder(payload)`, `getOrders(userId)`, `getOrder(id)`, `updateOrderStatus(id, status)` | order with generated id + dates |
-| `couponsApi.js` | `validateCoupon(code)`, `getCoupons()` | coupon or null |
-| `reviewsApi.js` | `getReviews(productId)`, `getAllReviews()` | review objects (name, rating, title, body, date, verified) |
 | `promotionsApi.js` | `getPromotions()` | promo banners/flash sale config |
-| `settingsApi.js` | `getSettings()` | shipping zones, tax rate, free-shipping threshold, announcement text, cookies text |
+| **content/** | | |
+| `contentApi.js` | `getHeroSlides()`, `getInstagramPosts()` | home page content |
+| `settingsApi.js` | `getSettings()`, `updateSettings()` | shipping zones, tax rate, free-shipping threshold, announcement text, cookies text |
+| `contactApi.js` | `sendMessage()`, `getMessages()` | contact form messages |
 
 Hook: `src/hooks/useAsyncData.js` — `useAsyncData(fn, deps)` → `{data, loading, error, refresh}`.
 

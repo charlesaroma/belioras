@@ -6,7 +6,7 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { useFilterParams } from "../../../hooks/useFilterParams";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
-import { getTaxonomy } from "../../../services/navigationApi";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { applyFilters, computeFacets, priceBounds } from "../../../utils/faceting";
 import { sortProducts } from "../../../utils/catalogSort";
 import { DEFAULT_COLUMNS, isValidColumns } from "../../../utils/gridColumns";

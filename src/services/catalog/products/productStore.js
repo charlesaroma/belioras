@@ -1,5 +1,5 @@
 /* Catalogue Store Access */
-import { getState } from "../contentStore";
+import { getState } from "../../store/contentStore";
 import { expandColorways } from "./productColorways";
 import { deriveTags } from "./productSlug";
 

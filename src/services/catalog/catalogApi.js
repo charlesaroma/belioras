@@ -1,8 +1,8 @@
 import { mockApi } from "@/api/mock";
-import { getState } from "./contentStore";
+import { getState } from "../store/contentStore";
 import { flattenLeaves } from "./navigationApi";
 import { getProducts } from "./productsApi";
-import { matchesTarget } from "../utils/menuTargets";
+import { matchesTarget } from "../../utils/menuTargets";
 
 /**
  * The catalog page's single data source.

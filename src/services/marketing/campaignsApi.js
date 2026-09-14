@@ -1,8 +1,8 @@
-import couponsSeed from "../data/coupons.json";
+import couponsSeed from "../../data/coupons.json";
 
 import { ApiError, mockApi } from "@/api/mock";
-import { getState, setState } from "./contentStore";
-import { liveItems, removeItem } from "./storeCollections";
+import { getState, setState } from "../store/contentStore";
+import { liveItems, removeItem } from "../store/storeCollections";
 
 /**
  * Campaigns: one-off emails to every confirmed subscriber. Draft, then

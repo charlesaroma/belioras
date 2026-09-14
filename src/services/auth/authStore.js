@@ -1,5 +1,5 @@
 /* Account Store Access */
-import { getState } from "../contentStore";
+import { getState } from "../store/contentStore";
 
 /**
  * Accounts.

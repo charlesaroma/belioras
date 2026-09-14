@@ -10,7 +10,7 @@ import {
   register as registerApi,
   updateProfile as updateProfileApi,
   verifyPassword as verifyPasswordApi,
-} from "@/services/authApi";
+} from "@/services/auth/authApi";
 
 /**
  * One realm's session. Both providers run this; only the realm differs.

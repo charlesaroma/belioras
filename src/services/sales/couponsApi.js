@@ -1,4 +1,4 @@
-import couponsSeed from "../data/coupons.json";
+import couponsSeed from "../../data/coupons.json";
 
 import { ApiError, mockApi } from "@/api/mock";
 

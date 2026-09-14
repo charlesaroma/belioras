@@ -1,8 +1,8 @@
 /* Layout Component: Footer */
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useContentVersion } from "../../context/ContentContext";
-import { getSettings } from "../../services/settingsApi";
-import { getNavigation } from "../../services/navigationApi";
+import { getSettings } from "../../services/content/settingsApi";
+import { getNavigation } from "../../services/catalog/navigationApi";
 
 import FooterNewsletter from "./footer/FooterNewsletter";
 import FooterBrand, { FooterCompliance } from "./footer/FooterBrand";

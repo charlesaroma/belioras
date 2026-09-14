@@ -4,7 +4,7 @@ import { Plus, X } from "lucide-react";
 
 import ColorDialog from "@/Dashboard/components/ColorDialog";
 import { familyOptionsFrom } from "@/Dashboard/lib/catalogOptions";
-import { createColor } from "@/services/colorsApi";
+import { createColor } from "@/services/catalog/colorsApi";
 import FormSection from "./ProductFormSection";
 import ProductFormSizes from "./ProductFormSizes";
 import ProductFormStock from "./ProductFormStock";

@@ -3,7 +3,7 @@ import { BadgeCheck, Quote } from "lucide-react";
 
 import RatingStars from "../../../components/shared/RatingStars";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getRecentReviews } from "../../../services/reviewsApi";
+import { getRecentReviews } from "../../../services/catalog/reviewsApi";
 
 export default function TestimonialsSection() {
   const { data: reviews = [], loading } = useAsyncData(getRecentReviews, []);

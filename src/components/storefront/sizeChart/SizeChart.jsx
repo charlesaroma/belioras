@@ -2,7 +2,7 @@
 import { useId, useState } from "react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getSizeCharts } from "../../../services/sizeChartApi";
+import { getSizeCharts } from "../../../services/catalog/sizeChartApi";
 import { useMeasurementUnit } from "./useMeasurementUnit";
 import { sizeChartTabsFor } from "./sizeChartKind";
 import SizeChartTabs from "./SizeChartTabs";

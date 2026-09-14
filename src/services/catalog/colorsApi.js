@@ -1,5 +1,5 @@
 import { ApiError, mockApi } from "@/api/mock";
-import { getState, setState } from "./contentStore";
+import { getState, setState } from "../store/contentStore";
 import { colorIndex, colorwaysOf } from "./products/productColorways";
 import { slugify } from "./products/productSlug";
 import { catalogItems } from "./products/productStore";

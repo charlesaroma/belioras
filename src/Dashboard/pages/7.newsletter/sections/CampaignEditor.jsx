@@ -4,7 +4,7 @@ import { useState } from "react";
 import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
-import { saveCampaign, scheduleCampaign, sendCampaign, unscheduleCampaign } from "@/services/campaignsApi";
+import { saveCampaign, scheduleCampaign, sendCampaign, unscheduleCampaign } from "@/services/marketing/campaignsApi";
 import CampaignFormFields from "./CampaignFormFields";
 import NewsletterEmailPreview from "./NewsletterEmailPreview";
 import { EMPTY_CAMPAIGN, fromCampaign, toLocalInput } from "./campaignFields";

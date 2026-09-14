@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 import { useToast } from "../../../context/ToastContext";
-import { subscribe } from "../../../services/subscribersApi";
+import { subscribe } from "../../../services/marketing/subscribersApi";
 import { EMAIL_RE } from "./footerLinks";
 
 // A dedicated band rather than a popup — the review ruled out interruptions

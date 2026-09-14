@@ -5,7 +5,7 @@ import { Camera, ImageUp, Loader2, X } from "lucide-react";
 
 import Button from "../../../ui/Button";
 import Modal from "../../../common/Modal";
-import { searchByImage } from "../../../../services/visualSearchApi";
+import { searchByImage } from "../../../../services/catalog/visualSearchApi";
 import { cn } from "../../../../utils/cn";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/heic";

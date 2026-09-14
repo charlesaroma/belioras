@@ -10,9 +10,9 @@ import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import DashTable from "@/Dashboard/components/DashTable";
 import IconAction from "@/Dashboard/components/IconAction";
-import { deleteCampaign, getAudienceSize, getCampaigns } from "@/services/campaignsApi";
-import { getNavigation } from "@/services/navigationApi";
-import { getProducts } from "@/services/productsApi";
+import { deleteCampaign, getAudienceSize, getCampaigns } from "@/services/marketing/campaignsApi";
+import { getNavigation } from "@/services/catalog/navigationApi";
+import { getProducts } from "@/services/catalog/productsApi";
 import CampaignEditor from "./CampaignEditor";
 import { pagesFrom } from "./campaignFields";
 

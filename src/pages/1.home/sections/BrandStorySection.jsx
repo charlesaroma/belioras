@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
-import { getSettings } from "../../../services/settingsApi";
+import { getSettings } from "../../../services/content/settingsApi";
 
 export default function BrandStorySection() {
 

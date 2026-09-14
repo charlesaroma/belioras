@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { useCart } from "../../../context/CartContext";
-import { getNavigation } from "../../../services/navigationApi";
+import { getNavigation } from "../../../services/catalog/navigationApi";
 import { cn } from "../../../utils/cn";
 
 import AnnouncementBar from "./AnnouncementBar";

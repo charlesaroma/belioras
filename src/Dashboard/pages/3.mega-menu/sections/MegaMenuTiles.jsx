@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { Plus } from "lucide-react";
 
 import { ACCEPT, processImage } from "@/Dashboard/lib/imageUpload";
-import { resolveTile } from "@/services/navigationApi";
+import { resolveTile } from "@/services/catalog/navigationApi";
 import { describeTarget } from "@/utils/menuTargetText";
 
 const ACTION = "text-[11px] uppercase tracking-[0.14em] transition-colors";

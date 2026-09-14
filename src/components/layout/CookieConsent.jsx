@@ -7,7 +7,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useContentVersion } from "../../context/ContentContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { getSettings } from "../../services/settingsApi";
+import { getSettings } from "../../services/content/settingsApi";
 
 const ACCEPTED = "accepted";
 

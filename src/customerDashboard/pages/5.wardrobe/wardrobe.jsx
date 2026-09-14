@@ -8,8 +8,8 @@ import { useCart } from "../../../context/CartContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getOrders } from "../../../services/ordersApi";
-import { getProducts } from "../../../services/productsApi";
+import { getOrders } from "../../../services/sales/ordersApi";
+import { getProducts } from "../../../services/catalog/productsApi";
 import { ownedPieces, usualSizes } from "../../../utils/purchaseHistory";
 
 import WardrobeSizes from "./sections/WardrobeSizes";

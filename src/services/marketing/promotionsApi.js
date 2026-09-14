@@ -1,4 +1,4 @@
-import promotionsSeed from "../data/promotions.json";
+import promotionsSeed from "../../data/promotions.json";
 
 import { mockApi } from "@/api/mock";
 
