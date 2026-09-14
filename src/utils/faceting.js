@@ -1,10 +1,10 @@
 /**
  * Facet counting and filtering over the shared token vocabulary.
  *
- * The same `dimension:value` tokens the mega menu resolves URLs against
- * (see navTokens.js) are what the filter panel selects on, so a menu link and
- * a filter checkbox are the same operation rather than two implementations of
- * it that drift apart.
+ * The same `dimension:value` tokens a menu link's target matches on (see
+ * menuTargets.js) are what the filter panel selects on, so a menu link and a
+ * filter checkbox are the same operation rather than two implementations of it
+ * that drift apart.
  *
  * Pure module — no React, no data imports — so the counting logic is testable
  * on its own.

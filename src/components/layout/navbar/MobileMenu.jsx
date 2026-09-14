@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Search, X } from "lucide-react";
 
 import BrandMark from "../../shared/BrandMark";
-import { NAV_LINKS } from "../../../utils/constants";
+import { hasMegaMenu, menuLabel } from "./navbarMenu";
 import { useCustomerAuth, useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useWishlist } from "../../../context/WishlistContext";
@@ -87,21 +87,20 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
               </div>
 
               <nav aria-label="Categories" className="border-t border-umber-50 px-6">
-                {NAV_LINKS.map((link) => {
-                  const category = categories?.find((c) => c.id === link.id);
-                  return category ? (
-                    <MobileMenuCategory key={link.id} category={category} onClose={onClose} />
+                {(categories ?? []).map((item) =>
+                  hasMegaMenu(item) ? (
+                    <MobileMenuCategory key={item.id} category={item} onClose={onClose} />
                   ) : (
                     <Link
-                      key={link.id}
-                      to={link.to}
+                      key={item.id}
+                      to={item.url}
                       onClick={onClose}
                       className="block border-b border-umber-50 py-5 font-display text-[26px] leading-none tracking-[-0.01em] text-espresso transition-colors hover:text-gold-700"
                     >
-                      {titleCase(t(link.key, link.label))}
+                      {titleCase(menuLabel(item, t))}
                     </Link>
-                  );
-                })}
+                  ),
+                )}
               </nav>
 
               <MobileMenuAccount

@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
 
 import { cn } from "../../../../../utils/cn";
-import { ACCEPT, MAX_BYTES, processImage } from "./productFormImage";
+import { ACCEPT, MAX_BYTES, processImage } from "@/Dashboard/lib/imageUpload";
 import ProductFormDropzoneThumbs from "./ProductFormDropzoneThumbs";
 
 export default function ProductFormDropzone({

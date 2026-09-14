@@ -51,7 +51,7 @@ export function linksFor(column, categories) {
   if (column.dynamic !== "categories") return column.links;
   return [
     ...column.links,
-    ...(categories ?? []).map((c) => ({ label: titleCase(c.label), to: `/${c.id}` })),
+    ...(categories ?? []).map((c) => ({ label: titleCase(c.label), to: c.url })),
   ];
 }
 

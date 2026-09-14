@@ -7,6 +7,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getCategories } from "../../../services/categoriesApi";
+import { getTaxonomy } from "../../../services/navigationApi";
 import {
   deleteProduct,
   getProducts,
@@ -34,6 +35,7 @@ export default function DashProducts() {
 
   const { data: products, loading } = useAsyncData(getProducts, [revision]);
   const { data: categories } = useAsyncData(getCategories, []);
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
   const [viewing, setViewing] = useState(null);
   const [pendingDelete, setPendingDelete] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -131,7 +133,10 @@ export default function DashProducts() {
         empty={{ icon: Package, ...emptyState(Boolean(query) || statusFilter !== "all") }}
       />
 
-      <ViewProductModal open={Boolean(viewing)} onClose={() => setViewing(null)} product={viewing} />
+      {/* Looked up in the live rows by id, so it shows the piece as it is now. */}
+      <ViewProductModal key={viewing?.id ?? "none"} product={rows.find((p) => p.id === viewing?.id) ?? null}
+        onClose={() => setViewing(null)} onEdit={(p) => navigate(`/dashboard/products/${p.id}/edit`)}
+        format={format} categories={categories ?? []} taxonomy={taxonomy ?? {}} />
 
       <DeleteProductDialog
         product={pendingDelete}

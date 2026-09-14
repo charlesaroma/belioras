@@ -69,6 +69,28 @@ export function getCatalog(pathname) {
   }, 0);
 }
 
+/**
+ * The Featured Collection, as the menu defines it: the menu page that shows
+ * featured pieces, and the pieces it lists. The home page previews it, so its
+ * photos and its link always agree with the page it opens. Without such a page
+ * in the menu, it falls back to every featured piece and the shop.
+ */
+export function getFeaturedCollection(limit = 4) {
+  return mockApi(async () => {
+    const { items } = getState("navigation");
+    const nodes = [...flattenLeaves(items), ...items];
+    const node = nodes.find((n) => n.target?.kind === "label" && n.target.id === "featured");
+    const target = node?.target ?? { kind: "label", id: "featured" };
+
+    const all = await getProducts();
+    return {
+      url: node?.url ?? "/shop",
+      label: node?.label ?? "Featured",
+      products: all.filter((product) => matchesTarget(product, target)).slice(0, limit),
+    };
+  }, 0);
+}
+
 /** Sibling leaves under the same section — the chips shown above the grid. */
 export function getSiblingLeaves(pathname) {
   return mockApi(() => {

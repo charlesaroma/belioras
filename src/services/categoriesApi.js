@@ -4,12 +4,13 @@ import { slugify } from "./products/productSlug";
 import { catalogItems } from "./products/productStore";
 
 /**
- * Categories: what a piece is. Each offers a set of sizes and a set of extra
- * details (occasion, fabric…) that the product form asks for.
+ * Categories: what a piece is. Each offers a set of sizes, a set of extra
+ * details (occasion, fabric…) the product form asks for, and optional types
+ * within it (Accessories: Heels, Handbags…).
  *
- * The id is fixed at creation: it is every product's collectionId and part of
- * the storefront's `cat:` filter token, so renaming changes only the name. A
- * category still holding products cannot be deleted.
+ * Ids are fixed at creation: a category id is every product's collectionId and
+ * a type id is a product's `type`, and both are filter tokens, so renaming
+ * changes only the name. A category or type still in use cannot be removed.
  */
 
 function categoryItems() {
@@ -44,7 +45,21 @@ export function updateCategory(id, input) {
   return mockApi(() => {
     const existing = categoryItems().find((c) => c.id === id);
     if (!existing) throw new ApiError("That category no longer exists.", 404);
-    const updated = { ...existing, ...clean(input, id) };
+
+    const fields = clean(input, existing);
+    const kept = new Set(fields.types.map((t) => t.id));
+    for (const type of existing.types ?? []) {
+      if (kept.has(type.id)) continue;
+      const count = catalogItems().filter((p) => p.collectionId === id && p.type === type.id).length;
+      if (count) {
+        throw new ApiError(
+          `${type.name} is on ${count} ${count === 1 ? "product" : "products"}. Give ${count === 1 ? "it" : "them"} another type before removing it.`,
+          409,
+        );
+      }
+    }
+
+    const updated = { ...existing, ...fields };
     setState("categories", (state) => ({
       ...state,
       items: state.items.map((c) => (c.id === id ? updated : c)),
@@ -74,12 +89,12 @@ export function deleteCategory(id) {
   });
 }
 
-function clean({ name, sizes, details } = {}, ignoreId = null) {
+function clean({ name, sizes, details, types } = {}, existing = null) {
   const trimmed = String(name ?? "").trim();
   if (!trimmed) throw new ApiError("Give the category a name.", 422);
 
   const clash = categoryItems().find(
-    (c) => c.id !== ignoreId && c.name.toLowerCase() === trimmed.toLowerCase(),
+    (c) => c.id !== existing?.id && c.name.toLowerCase() === trimmed.toLowerCase(),
   );
   if (clash) throw new ApiError(`There is already a category called ${clash.name}.`, 409);
 
@@ -87,7 +102,31 @@ function clean({ name, sizes, details } = {}, ignoreId = null) {
     name: trimmed,
     sizes: Array.isArray(sizes) ? sizes : [],
     details: Array.isArray(details) ? details : [],
+    types: cleanTypes(types, existing?.types ?? []),
   };
+}
+
+/** Types keep their id when renamed; new ones get an id from their name. */
+function cleanTypes(types, previous) {
+  const known = new Set(previous.map((t) => t.id));
+  const names = new Set();
+  const ids = new Set();
+
+  return (Array.isArray(types) ? types : []).flatMap((type) => {
+    const typeName = String(type?.name ?? "").trim();
+    if (!typeName) return [];
+    if (names.has(typeName.toLowerCase())) {
+      throw new ApiError(`${typeName} is listed twice. Each type needs its own name.`, 409);
+    }
+    names.add(typeName.toLowerCase());
+
+    let id = known.has(type.id) ? type.id : slugify(typeName) || "type";
+    for (let n = 2; ids.has(id) || (!known.has(type.id) && known.has(id)); n += 1) {
+      id = `${slugify(typeName) || "type"}-${n}`;
+    }
+    ids.add(id);
+    return [{ id, name: typeName }];
+  });
 }
 
 function uniqueId(base) {

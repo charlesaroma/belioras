@@ -109,7 +109,7 @@ pages/
 ├── 0.overview/    DashOverview.jsx
 ├── 1.products/    DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
 ├── 2.categories/  DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
-├── 3.mega-menu/   DashMegaMenu.jsx  + sections/ (MenuRoot, IconButton)
+├── 3.mega-menu/   DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
 ├── 4.orders/        DashOrders.jsx
 ├── 5.transactions/  DashTransactions.jsx  (super-admin only)
 ├── 6.customers/     DashCustomers.jsx

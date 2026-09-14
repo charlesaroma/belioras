@@ -1,69 +1,76 @@
 /* Page: Home - FeaturedCollectionSection */
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 import { useAsyncData } from "../../../hooks/useAsyncData";
+import { useContentVersion } from "../../../context/ContentContext";
 import { useLanguage } from "../../../context/LanguageContext";
-import { getFeaturedProducts } from "../../../services/productsApi";
+import { getFeaturedCollection } from "../../../services/catalogApi";
+import { cn } from "../../../utils/cn";
 
-/* FALLBACK IMAGES */
-const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1566206091558-7f218b696731?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=900&auto=format&fit=crop",
-];
+/* Grid and photo shape for however many pieces the collection holds */
+const LAYOUT = {
+  1: { grid: "grid-cols-1", photo: "aspect-[16/9]" },
+  2: { grid: "grid-cols-2", photo: "aspect-[4/5]" },
+  3: { grid: "grid-cols-3", photo: "aspect-[3/4]" },
+  4: { grid: "grid-cols-2", photo: "aspect-square" },
+};
 
+/**
+ * A preview of the Featured Collection page, built only from the pieces that
+ * page lists: one photo per piece, up to four, and no stock imagery. The whole
+ * block links to that page. With nothing in the collection it is not shown.
+ */
 export default function FeaturedCollectionSection() {
-  const { data } = useAsyncData(getFeaturedProducts, []);
+  const version = useContentVersion();
+  const { data } = useAsyncData(getFeaturedCollection, [version]);
   const { t } = useLanguage();
 
-  const featured = (data ?? []).slice(0, 4);
+  const photos = (data?.products ?? []).filter((p) => p.images?.[0]).slice(0, 4);
+  if (!photos.length) return null;
 
-  const tiles = Array.from({ length: 4 }, (_, i) => ({
-    image: featured[i]?.images?.[0] ?? FALLBACK_IMAGES[i],
-    to: featured[i]?.slug ? `/product/${featured[i].slug}` : "/shop",
-    name: featured[i]?.name ?? "",
-  }));
+  const layout = LAYOUT[photos.length];
 
   return (
     <section
       className="mx-auto max-w-[1400px] px-6 py-10 md:px-10"
       aria-labelledby="featured-collection-heading"
     >
-      <div className="relative grid grid-cols-2 gap-1">
-        {tiles.map((tile, i) => (
-          <Link
-            key={tile.to + i}
-            to={tile.to}
-            className="group block overflow-hidden bg-ivory-300"
-          >
+      <Link to={data.url} className={cn("group relative grid gap-1", layout.grid)}>
+        {photos.map((product) => (
+          <span key={product.id} className="block overflow-hidden bg-ivory-300">
             <img
-              src={tile.image}
-              alt={tile.name}
+              src={product.images[0]}
+              alt={product.name}
               loading="lazy"
-              className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              className={cn(
+                "w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]",
+                layout.photo,
+              )}
             />
-          </Link>
+          </span>
         ))}
 
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center bg-ivory-50/90 px-8 py-5 text-center shadow-sm backdrop-blur-[2px]">
-            <p className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-espresso-300">
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="flex flex-col items-center bg-ivory-50/90 px-8 py-5 text-center shadow-sm backdrop-blur-[2px] transition-colors group-hover:bg-ivory-50">
+            <span className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-espresso-300">
               {t("home.featuredKicker", "Curated for you")}
-            </p>
-            <p
+            </span>
+            <span
               id="featured-collection-heading"
               className="font-display text-xl italic leading-tight text-espresso md:text-2xl"
             >
               {t("home.featuredLine1", "Featured")}
-            </p>
-            <p className="font-display text-xl italic leading-tight text-espresso md:text-2xl">
-              {t("home.featuredLine2", "Collection")}
-            </p>
+              <span className="block">{t("home.featuredLine2", "Collection")}</span>
+            </span>
             <span aria-hidden="true" className="mt-3 h-px w-12 bg-gold-500" />
-          </div>
-        </div>
-      </div>
+            <span className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-espresso">
+              {t("home.featuredCta", "View the collection")}
+              <ArrowRight className="size-3 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+            </span>
+          </span>
+        </span>
+      </Link>
     </section>
   );
 }

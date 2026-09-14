@@ -59,9 +59,10 @@ export default function ProductForm() {
     setPhotos, setColorIds, setStock, setSizes, setTags, setSpread,
   });
 
-  // Sizes the new category does not offer are dropped rather than kept hidden.
+  // Sizes and a type the new category does not offer are dropped rather than kept hidden.
   const chooseCategory = (next) => {
     form.setValue("collectionId", next.id, { shouldDirty: true });
+    if (!(next.types ?? []).some((t) => t.id === form.getValues("type"))) form.setValue("type", "");
     setSizes((prev) => (next.sizes ?? []).filter((s) => prev.includes(s)));
   };
 
@@ -95,14 +96,8 @@ export default function ProductForm() {
 
   if (isEdit && loading) return <FormSkeleton />;
 
-  const actions = {
-    isEdit,
-    status: values.status,
-    submitting: form.formState.isSubmitting,
-    hasDraft: !isEdit && Boolean(draft.draftFor("new-product")),
-    onDiscardDraft: discardDraft,
-    onSave: save,
-  };
+  const actions = { isEdit, status: values.status, submitting: form.formState.isSubmitting,
+    hasDraft: !isEdit && Boolean(draft.draftFor("new-product")), onDiscardDraft: discardDraft, onSave: save };
 
   return (
     <div className="space-y-5">
@@ -134,7 +129,11 @@ export default function ProductForm() {
         <aside className="min-w-0">
           <div className="space-y-4 lg:sticky lg:top-28">
             <ProductFormPublish {...actions} className="hidden lg:block" />
-            <ProductFormCategory categories={categories ?? []} value={values.collectionId} taxonomy={taxonomy ?? {}} onChange={chooseCategory} onCreated={(created) => { setRevision((n) => n + 1); chooseCategory(created); }} />
+            <ProductFormCategory
+              categories={categories ?? []} value={values.collectionId} type={values.type} taxonomy={taxonomy ?? {}}
+              onChange={chooseCategory} onTypeChange={(next) => form.setValue("type", next, { shouldDirty: true })}
+              onCreated={(created) => { setRevision((n) => n + 1); chooseCategory(created); }}
+            />
             <ProductFormPricing register={form.register} errors={form.formState.errors} values={values} setValue={form.setValue} />
             <ProductFormLabels values={values} setValue={form.setValue} />
           </div>

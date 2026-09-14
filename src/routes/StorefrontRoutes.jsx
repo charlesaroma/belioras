@@ -3,7 +3,6 @@ import { Navigate, Route } from "react-router-dom";
 
 import StorefrontLayout from "./StorefrontLayout";
 import RequireAuth from "../components/auth/RequireAuth";
-import NotFound from "../components/layout/NotFound";
 import SearchRedirect from "./SearchRedirect";
 
 import HomePage from "../pages/1.home/home";
@@ -42,18 +41,6 @@ export default function storefrontRoutes() {
       <Route path="/whats-new" element={<Navigate to="/new-arrivals" replace />} />
       <Route path="/shop" element={<ShopPage />} />
 
-      {/*
-        Splat per root rather than a route per dimension. The navigation
-        data has leaves one, two and three segments deep, and a future
-        dashboard-added item must produce a working URL without a code
-        change. CatalogPage renders NotFound for anything the navigation
-        tree does not contain, so garbage paths still 404.
-      */}
-      <Route path="/shop/*" element={<CatalogPage />} />
-      <Route path="/new-arrivals/*" element={<CatalogPage />} />
-      <Route path="/dresses/*" element={<CatalogPage />} />
-      <Route path="/hair/*" element={<CatalogPage />} />
-      <Route path="/accessories/*" element={<CatalogPage />} />
       <Route path="/product/:slug" element={<ProductPage />} />
       {/*
         One results surface. /shop already filters on ?q= and carries the
@@ -107,7 +94,13 @@ export default function storefrontRoutes() {
       <Route path="/return-and-refund-policy" element={<ReturnAndRefundPolicyPage />} />
       <Route path="/cookie-policy" element={<CookiePolicyPage />} />
 
-      <Route path="*" element={<NotFound />} />
+      {/*
+        Every other address is a menu page or nothing. Menu items and links
+        are added in the dashboard, so their addresses cannot be listed here;
+        CatalogPage looks the path up in the menu and renders NotFound when it
+        is not there. Every specific route above still wins.
+      */}
+      <Route path="*" element={<CatalogPage />} />
     </Route>
     </>
   );

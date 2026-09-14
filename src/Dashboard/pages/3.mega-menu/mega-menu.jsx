@@ -1,51 +1,58 @@
 /* Admin Dashboard Page: Mega-menu - mega-menu */
 import { useState } from "react";
-import { ChevronDown, ChevronUp, RotateCcw, Save } from "lucide-react";
 
-import Button from "../../../components/ui/Button";
-import ConfirmDialog from "../../../components/ui/ConfirmDialog";
-import { useContentVersion } from "../../../context/ContentContext";
-import { useToast } from "../../../context/ToastContext";
-import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getNavigation, resetNavigation, updateNavigation } from "../../../services/navigationApi";
-import { getProducts } from "../../../services/productsApi";
-import IconAction from "../../components/IconAction";
-import MenuRoot from "./sections/MegaMenuRoot";
-import { countForItem, emptyLinks, moveRootIn, patchRootIn, totalLinks } from "./sections/megaMenuTree";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { useContentVersion } from "@/context/ContentContext";
+import { useToast } from "@/context/ToastContext";
+import { useAsyncData } from "@/hooks/useAsyncData";
+import { getCategories } from "@/services/categoriesApi";
+import { getNavigationForEditing, getTaxonomy, resetNavigation, updateNavigation } from "@/services/navigationApi";
+import { getProducts } from "@/services/productsApi";
+import MegaMenuHeader from "./sections/MegaMenuHeader";
+import MegaMenuItem from "./sections/MegaMenuItem";
+import MegaMenuPickers from "./sections/MegaMenuPickers";
+import { applyPick } from "./sections/megaMenuActions";
+import { makeRootEditor } from "./sections/megaMenuEdits";
+import { emptyLinks, moveRootIn, patchRootIn, removeRootIn, totalLinks } from "./sections/megaMenuTree";
 
 export default function DashMegaMenu() {
   const { toast } = useToast();
-
   const version = useContentVersion();
 
-  const { data: navigation, loading } = useAsyncData(getNavigation, [version]);
-  const { data: products } = useAsyncData(getProducts, []);
+  const { data: navigation, loading } = useAsyncData(getNavigationForEditing, [version]);
+  const { data: products } = useAsyncData(getProducts, [version]);
+  const { data: categories } = useAsyncData(getCategories, [version]);
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
-  // null means "not edited yet, show what loaded". Derived during render
-  // rather than copied in an effect, which would render the old tree for a
-  // frame and re-render immediately.
+  // null means "not edited yet, show what loaded".
   const [edits, setEdits] = useState(null);
-
   const draft = edits ?? navigation ?? [];
-
   const [saving, setSaving] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [pendingRemove, setPendingRemove] = useState(null);
   const [openRoot, setOpenRoot] = useState(null);
+  // `n` remounts a picker, so each opening starts from what it is editing.
+  const [picker, setPicker] = useState({ request: null, n: 0 });
 
+  const lookups = { categories: categories ?? [], taxonomy: taxonomy ?? {}, products: products ?? [] };
   const dirty = Boolean(edits) && JSON.stringify(edits) !== JSON.stringify(navigation);
+  const editorFor = (root) => makeRootEditor(root, (patch) => setEdits(patchRootIn(draft, root.id, patch)));
+  const onPick = (request) => setPicker((p) => ({ request, n: p.n + 1 }));
+  const closePicker = () => setPicker((p) => ({ ...p, request: null }));
 
-  const countFor = (item) => countForItem(item, products);
-
-  const patchRoot = (rootId, patch) => setEdits(patchRootIn(draft, rootId, patch));
-
-  const moveRoot = (index, delta) => setEdits(moveRootIn(draft, index, delta));
+  const applyResult = (result) => {
+    const { tree, openRoot: opened } = applyPick(draft, picker.request, result);
+    setEdits(tree);
+    if (opened) setOpenRoot(opened);
+    closePicker();
+  };
 
   const save = async () => {
     setSaving(true);
     try {
       await updateNavigation(draft);
       setEdits(null);
-      toast("Mega menu saved. The storefront menu is showing it now.", "success");
+      toast("Menu saved. The shop is showing it now.", "success");
     } catch (err) {
       toast(err.message ?? "Could not save the menu.", "error");
     } finally {
@@ -57,7 +64,7 @@ export default function DashMegaMenu() {
     setConfirmReset(false);
     await resetNavigation();
     setEdits(null);
-    toast("Menu restored to the shipped version.", "success");
+    toast("Menu restored to the original version.", "success");
   };
 
   if (loading) {
@@ -69,80 +76,63 @@ export default function DashMegaMenu() {
     );
   }
 
-  const linkCount = totalLinks(draft);
-  const empty = emptyLinks(draft, products);
-
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[12px] text-espresso-soft">
-          {draft.length} top-level menus · {linkCount} links
-          {dirty && <span className="ml-2 text-gold-700">· unsaved changes</span>}
-        </p>
-
-        <div className="flex gap-2">
-          <Button variant="ghost" size="md" icon={RotateCcw} onClick={() => setConfirmReset(true)}>
-            Restore shipped menu
-          </Button>
-          <Button size="md" icon={Save} onClick={save} loading={saving} disabled={!dirty}>
-            Save menu
-          </Button>
-        </div>
-      </div>
-
-      {empty.length > 0 && (
-        <p className="border-l-2 border-error py-2 pl-4 text-[12px] leading-relaxed text-espresso-soft">
-          <strong className="font-medium text-espresso">
-            {empty.length} {empty.length === 1 ? "link leads" : "links lead"} to an empty page
-          </strong>
-          , so a shopper following {empty.length === 1 ? "it" : "one"} finds nothing:{" "}
-          {empty.slice(0, 6).map((item) => `${item.rootLabel} › ${item.label}`).join(", ")}
-          {empty.length > 6 && `, and ${empty.length - 6} more`}. Open a menu below to see which.
-        </p>
-      )}
+      <MegaMenuHeader
+        itemCount={draft.length}
+        linkCount={totalLinks(draft)}
+        dirty={dirty}
+        saving={saving}
+        empty={emptyLinks(draft, products)}
+        onRestore={() => setConfirmReset(true)}
+        onAdd={() => onPick({ mode: "item" })}
+        onSave={save}
+      />
 
       <ul className="space-y-3">
         {draft.map((root, i) => (
           <li key={root.id}>
-            <MenuRoot
+            <MegaMenuItem
               root={root}
+              index={i}
+              total={draft.length}
               open={openRoot === root.id}
               onToggle={() => setOpenRoot(openRoot === root.id ? null : root.id)}
-              onPatch={(patch) => patchRoot(root.id, patch)}
-              countFor={countFor}
-              controls={
-                <>
-                  <IconAction
-                    label={`Move ${root.label} earlier`}
-                    icon={ChevronUp}
-                    disabled={i === 0}
-                    onClick={() => moveRoot(i, -1)}
-                  />
-                  <IconAction
-                    label={`Move ${root.label} later`}
-                    icon={ChevronDown}
-                    disabled={i === draft.length - 1}
-                    onClick={() => moveRoot(i, 1)}
-                  />
-                </>
-              }
+              onMove={(delta) => setEdits(moveRootIn(draft, i, delta))}
+              onRemove={() => setPendingRemove(root)}
+              editor={editorFor(root)}
+              lookups={lookups}
+              onPick={onPick}
             />
           </li>
         ))}
       </ul>
 
-      <p className="text-[11px] leading-relaxed text-espresso-soft">
-        A link&rsquo;s path is where shoppers land. Paths are resolved against this same tree, so
-        anything not listed here returns a 404 — which is what stops a typo becoming a silent dead
-        end rather than a visible one.
+      <p className="text-[12px] leading-relaxed text-espresso-soft">
+        Every menu item and link is chosen from your categories, types, filters and labels, so it always leads to real
+        pieces. Addresses are created for you. Nothing changes in the shop until you press Save menu.
       </p>
+
+      <MegaMenuPickers picker={picker} draft={draft} lookups={lookups} onClose={closePicker} onSave={applyResult} />
+
+      <ConfirmDialog
+        open={Boolean(pendingRemove)}
+        onClose={() => setPendingRemove(null)}
+        onConfirm={() => {
+          setEdits(removeRootIn(draft, pendingRemove.id));
+          setPendingRemove(null);
+        }}
+        title={`Remove ${pendingRemove?.label ?? "this item"} from the menu?`}
+        description="Its columns, links and tiles go with it. Nothing changes in the shop until you press Save menu."
+        confirmLabel="Remove"
+      />
 
       <ConfirmDialog
         open={confirmReset}
         onClose={() => setConfirmReset(false)}
         onConfirm={reset}
-        title="Restore the shipped menu?"
-        description="Every change made here is discarded and the menu returns to the version that ships with the site. This cannot be undone."
+        title="Restore the original menu?"
+        description="Every change made here is discarded and the menu returns to the version the site shipped with. This cannot be undone."
         confirmLabel="Restore"
       />
     </div>

@@ -4,11 +4,12 @@ import { useState } from "react";
 import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
+import CategoryTypesField from "./CategoryTypesField";
 import ChoiceChips from "./ChoiceChips";
 
 /**
- * Adds or edits one category: its name, the sizes it offers and the extra
- * details the product form asks for. Remount with a changing `key` per open.
+ * Adds or edits one category: its name, the sizes it offers, its types and the
+ * extra details the product form asks for. Remount with a changing `key` per open.
  */
 export default function CategoryDialog({
   open,
@@ -22,6 +23,7 @@ export default function CategoryDialog({
     name: initial?.name ?? "",
     sizes: initial?.sizes ?? [],
     details: initial?.details ?? [],
+    types: initial?.types ?? [],
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -66,6 +68,8 @@ export default function CategoryDialog({
           selected={form.sizes}
           onToggle={toggle("sizes")}
         />
+
+        <CategoryTypesField types={form.types} onChange={(types) => setForm((f) => ({ ...f, types }))} />
 
         <ChoiceChips
           label="Details to ask for"

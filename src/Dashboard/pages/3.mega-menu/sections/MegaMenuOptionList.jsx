@@ -1,11 +1,11 @@
-/* Admin Dashboard Page: Mega-menu - MegaMenuPickerOptions */
+/* Admin Dashboard Page: Mega-menu - MegaMenuOptionList */
 import { Fragment } from "react";
 
 import { cn } from "@/utils/cn";
 import { piecesText } from "./megaMenuPickerOptions";
 
 /** The values to choose from, each with how many pieces it would show. */
-export default function MegaMenuPickerOptions({ options, selected, multi, countOf, onPick }) {
+export default function MegaMenuOptionList({ options, selected, multi, countOf, onPick }) {
   if (!options.length) {
     return (
       <p className="text-[13px] text-espresso-soft">

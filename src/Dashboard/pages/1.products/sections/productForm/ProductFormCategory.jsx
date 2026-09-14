@@ -15,9 +15,10 @@ function sizeSummary(category, taxonomy) {
   return `${sizeLabel(taxonomy, sizes[0])}–${sizeLabel(taxonomy, sizes.at(-1))}`;
 }
 
-export default function ProductFormCategory({ categories, value, taxonomy, onChange, onCreated }) {
+export default function ProductFormCategory({ categories, value, type, taxonomy, onChange, onTypeChange, onCreated }) {
   const [dialog, setDialog] = useState({ open: false, n: 0 });
   const close = () => setDialog((d) => ({ ...d, open: false }));
+  const chosen = categories.find((c) => c.id === value);
 
   const create = async (form) => {
     const category = await createCategory(form);
@@ -51,6 +52,37 @@ export default function ProductFormCategory({ categories, value, taxonomy, onCha
           );
         })}
       </div>
+
+      {chosen?.types?.length > 0 && (
+        <div>
+          <p className="input-label">
+            Type <span className="font-normal normal-case tracking-normal text-espresso-soft">(optional)</span>
+          </p>
+          <div role="radiogroup" aria-label={`${chosen.name} type`} className="flex flex-wrap gap-1.5">
+            {chosen.types.map((t) => {
+              const on = t.id === type;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  // Choosing the selected type again clears it.
+                  onClick={() => onTypeChange(on ? "" : t.id)}
+                  className={cn(
+                    "inline-flex min-h-9 items-center border px-3 text-[12px] transition-colors",
+                    on
+                      ? "border-espresso bg-espresso text-ivory-50"
+                      : "border-umber-100 bg-ivory-50 text-espresso-soft hover:border-espresso/50 hover:text-espresso",
+                  )}
+                >
+                  {t.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <button
         type="button"
