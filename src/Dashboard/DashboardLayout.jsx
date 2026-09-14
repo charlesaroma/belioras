@@ -20,7 +20,7 @@ const IDLE_WARNING = 2 * 60 * 1000;
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [collapsed] = useLocalStorage("belioras:dash:collapsed", false);
+  const [collapsed, setCollapsed] = useLocalStorage("belioras:dash:collapsed", false);
   const { pathname } = useLocation();
 
   const navigate = useNavigate();
@@ -47,13 +47,19 @@ export default function DashboardLayout() {
     <div
       className={cn(
         "min-h-dvh bg-ivory-500 transition-[padding] duration-300",
-        // Mirrors the sidebar's own width. Both read the same stored
-        // preference rather than one telling the other, so a reload cannot
-        // leave the shell and the rail disagreeing.
+        // Mirrors the sidebar's width. The preference is held here, once, and
+        // handed to the sidebar: two separate reads of the stored value did not
+        // update each other, so collapsing left the content where it was until
+        // a reload.
         collapsed ? "lg:pl-[72px]" : "lg:pl-64",
       )}
     >
-      <DashSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <DashSidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        collapsed={collapsed}
+        onToggleCollapsed={() => setCollapsed((v) => !v)}
+      />
 
       <div className="flex min-h-dvh flex-col">
         <DashHeader title={title} onMenuToggle={() => setSidebarOpen(true)} />

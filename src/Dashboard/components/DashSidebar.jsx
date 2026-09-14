@@ -1,17 +1,15 @@
 /* Admin Dashboard: DashSidebar */
-import { X } from "lucide-react";
+import { ChevronLeft, X } from "lucide-react";
 
 import BrandMark from "../../components/shared/BrandMark";
 import { useStaffAuth } from "@/context/auth/useAuthRealm";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { cn } from "../../utils/cn";
 import { DASHBOARD_NAV_GROUPS } from "../lib/constants";
 import SidebarNav from "./sidebar/SidebarNav";
 import SidebarFooter from "./sidebar/SidebarFooter";
 
-export default function DashSidebar({ isOpen, onClose }) {
+export default function DashSidebar({ isOpen, onClose, collapsed, onToggleCollapsed }) {
   const { user, logout, can } = useStaffAuth();
-  const [collapsed, setCollapsed] = useLocalStorage("belioras:dash:collapsed", false);
 
   // A group whose every item is out of reach for this role disappears with it.
   const groups = DASHBOARD_NAV_GROUPS.map((group) => ({
@@ -62,14 +60,34 @@ export default function DashSidebar({ isOpen, onClose }) {
           </button>
         </div>
 
+        {/* On the edge, halfway down, so it is found where the sidebar ends
+            rather than below the account block. Desktop only: the phone
+            drawer closes with its X. */}
+        <button
+          type="button"
+          onClick={onToggleCollapsed}
+          aria-expanded={!collapsed}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className={cn(
+            "absolute right-0 top-1/2 z-10 hidden size-6 -translate-y-1/2 translate-x-1/2 items-center justify-center",
+            // Gold rather than the sidebar's espresso, so the tab stands apart from it.
+            "rounded-full bg-gold-400 text-espresso shadow-md transition-colors lg:flex",
+            "hover:bg-gold-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400",
+            // A larger hit area than the tab itself.
+            "after:absolute after:-inset-2.5 after:content-['']",
+          )}
+        >
+          <ChevronLeft
+            className={cn("size-3.5 transition-transform duration-300 motion-reduce:transition-none", collapsed && "rotate-180")}
+            strokeWidth={1.75}
+            aria-hidden="true"
+          />
+        </button>
+
         <SidebarNav groups={groups} collapsed={collapsed} onNavigate={onClose} />
 
-        <SidebarFooter
-          user={user}
-          logout={logout}
-          collapsed={collapsed}
-          onToggleCollapsed={() => setCollapsed((v) => !v)}
-        />
+        <SidebarFooter user={user} logout={logout} collapsed={collapsed} />
       </aside>
     </>
   );

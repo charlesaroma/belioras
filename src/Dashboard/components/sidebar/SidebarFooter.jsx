@@ -1,11 +1,11 @@
 /* Admin Dashboard: SidebarFooter */
 import { useNavigate } from "react-router-dom";
-import { LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 import Avatar from "../../../components/account/Avatar";
 import { cn } from "../../../utils/cn";
 
-export default function SidebarFooter({ user, logout, collapsed, onToggleCollapsed }) {
+export default function SidebarFooter({ user, logout, collapsed }) {
 
   const navigate = useNavigate();
 
@@ -18,23 +18,6 @@ export default function SidebarFooter({ user, logout, collapsed, onToggleCollaps
 
   return (
     <div className="shrink-0 border-t border-ivory-50/10 p-3">
-      <button
-        type="button"
-        onClick={onToggleCollapsed}
-        aria-pressed={collapsed}
-        className={cn(
-          "mb-2 hidden w-full items-center gap-2.5 px-4 py-2.5 text-[11px] uppercase tracking-[0.14em] text-ivory-50/40 transition-colors hover:bg-ivory-50/5 hover:text-ivory-50 lg:flex",
-          collapsed && "lg:justify-center lg:px-0",
-        )}
-      >
-        {collapsed ? (
-          <PanelLeftOpen className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
-        ) : (
-          <PanelLeftClose className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
-        )}
-        <span className={cn(collapsed && "lg:hidden")}>Collapse</span>
-      </button>
-
       <div className={cn("mb-2 flex items-center gap-3 px-1", collapsed && "lg:justify-center lg:px-0")}>
         <Avatar user={user} size="sm" />
         <div className={cn("min-w-0", collapsed && "lg:hidden")}>
