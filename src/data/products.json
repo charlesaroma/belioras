@@ -57,7 +57,8 @@
         "https://images.unsplash.com/photo-1671437538187-be7eb01a322c?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "createdAt": "2026-07-18"
+    "createdAt": "2026-07-18",
+    "featured": true
   },
   {
     "id": "p2",

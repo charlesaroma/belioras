@@ -115,7 +115,7 @@
     "stock": 9,
     "isNew": true,
     "bestseller": false,
-    "featured": false,
+    "featured": true,
     "rating": 4.5,
     "reviewCount": 96,
     "images": [
@@ -615,7 +615,7 @@
     "stock": 12,
     "isNew": true,
     "bestseller": true,
-    "featured": false,
+    "featured": true,
     "rating": 4.1,
     "reviewCount": 68,
     "images": [
