@@ -11,12 +11,19 @@ import ChoiceChips from "./ChoiceChips";
 /**
  * Adds or edits one category: its name, the sizes it offers, its types and the
  * extra details the product form asks for. Remount with a changing `key` per open.
+ *
+ * `sizesEditable` is false for the quick "+ New category" shortcut inside Add
+ * Product: deciding what a whole category's size range is belongs to
+ * Categories & Colours, not a detour while adding one piece. The new category
+ * opens there with no sizes yet ("one size" until set), same as if it had been
+ * created from Categories & Colours and left unconfigured.
  */
 export default function CategoryDialog({
   open,
   initial = null,
   sizeOptions = [],
   detailOptions = [],
+  sizesEditable = true,
   onClose,
   onSave,
 }) {
@@ -65,13 +72,19 @@ export default function CategoryDialog({
           />
         </Field>
 
-        <ChoiceChips
-          label="Sizes offered"
-          hint="Leave all unticked for one-size pieces, such as bags or wigs."
-          options={sizeOptions.map((s) => ({ id: s.id, label: s.name }))}
-          selected={form.sizes}
-          onToggle={toggle("sizes")}
-        />
+        {sizesEditable ? (
+          <ChoiceChips
+            label="Sizes offered"
+            hint="Leave all unticked for one-size pieces, such as bags or wigs."
+            options={sizeOptions.map((s) => ({ id: s.id, label: s.name }))}
+            selected={form.sizes}
+            onToggle={toggle("sizes")}
+          />
+        ) : (
+          <p className="input-helper">
+            Sizes, one size by default: set them afterwards in Categories &amp; Colours.
+          </p>
+        )}
 
         <CategoryTypesField types={form.types} onChange={(types) => setForm((f) => ({ ...f, types }))} />
 

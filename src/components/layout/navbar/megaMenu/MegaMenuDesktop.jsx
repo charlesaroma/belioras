@@ -24,10 +24,7 @@ export default function MegaMenuDesktop({ item, sections, tiles, columns, showTi
               transition={{ duration: 0.3, delay: i * COLUMN_STAGGER, ease: "easeOut" }}
               className="min-w-0"
             >
-              <h3 className="eyebrow mb-4 flex items-center gap-2">
-                {section.title}
-                <span aria-hidden="true" className="h-px flex-1 bg-gold-500/25" />
-              </h3>
+              <h3 className="eyebrow mb-4">{section.title}</h3>
 
               <ul className="space-y-2.5">
                 {section.items.slice(0, ITEMS_PER_SECTION).map((leaf) => (

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 
 import CategoryDialog from "@/Dashboard/components/CategoryDialog";
-import { detailOptionsFrom, sizeLabel, sizeOptionsFrom } from "@/Dashboard/lib/catalogOptions";
+import { detailOptionsFrom, sizeLabel } from "@/Dashboard/lib/catalogOptions";
 import { createCategory } from "@/services/catalog/categoriesApi";
 import { cn } from "@/utils/cn";
 import FormSection from "./ProductFormSection";
@@ -93,7 +93,10 @@ export default function ProductFormCategory({ categories, value, type, taxonomy,
         New category
       </button>
 
-      <CategoryDialog key={dialog.n} open={dialog.open} sizeOptions={sizeOptionsFrom(taxonomy)} detailOptions={detailOptionsFrom(taxonomy)} onClose={close} onSave={create} />
+      {/* Quick-created here, so sizing stays out of it: that belongs on the
+          category itself, in Categories & Colours, not a detour while adding
+          one piece. */}
+      <CategoryDialog key={dialog.n} open={dialog.open} sizesEditable={false} detailOptions={detailOptionsFrom(taxonomy)} onClose={close} onSave={create} />
     </FormSection>
   );
 }
