@@ -56,16 +56,16 @@
     "tiktok": "https://tiktok.com/@belioras"
   },
   "hero": {
-    "eyebrow": "New Season",
-    "headline": "Quiet pieces, made to be kept",
-    "subtitle": "European-made dresses, ethically sourced hair and leather goods that only get better with age.",
+    "eyebrow": "Luxury fashion & hair",
+    "headline": "Your Style. Your Crown.",
+    "subtitle": "Luxury fashion and hair, curated for confident women.",
     "primaryCta": {
-      "label": "Shop Dresses",
-      "to": "/shop/dresses"
+      "label": "Shop dresses",
+      "to": "/dresses"
     },
     "secondaryCta": {
-      "label": "Explore Hair",
-      "to": "/shop/hair"
+      "label": "Explore hair",
+      "to": "/hair"
     }
   },
   "valueProps": [
@@ -91,20 +91,20 @@
     }
   ],
   "brandStory": {
-    "heading": "The Maison",
-    "body": "Belioras began in a small Lisbon atelier with a simple belief — quiet luxury should not be a luxury. Each piece is made in limited runs by European artisans, finished with details no one notices, except you.",
+    "heading": "Your Style. Your Crown.",
+    "body": "Belioras is a luxury fashion and hair boutique, curated for confident women. Dresses, hair, accessories and beauty, each piece chosen by hand and sent from our atelier with DHL.",
     "stats": [
       {
-        "value": "12",
-        "label": "Years of craft"
+        "value": "34",
+        "label": "Countries we ship to"
       },
       {
-        "value": "28",
-        "label": "Countries served"
+        "value": "14",
+        "label": "Days to change your mind"
       },
       {
-        "value": "40k+",
-        "label": "Clients dressed"
+        "value": "1–4",
+        "label": "Days to prepare an order"
       }
     ]
   }

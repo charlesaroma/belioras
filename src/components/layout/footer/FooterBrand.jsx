@@ -21,8 +21,7 @@ export default function FooterBrand({ social }) {
       </Link>
 
       <p className="mt-6 max-w-[30ch] text-[13px] leading-[1.8] text-espresso/60">
-        Quiet pieces, made to be kept. European-made dresses, ethically sourced hair and leather
-        goods that only get better with age.
+        Your Style. Your Crown. Luxury fashion and hair, curated for confident women.
       </p>
 
       <div className="mt-7 flex items-center gap-5">
