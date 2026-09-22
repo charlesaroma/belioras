@@ -13,7 +13,9 @@ export default function DashToolbar({
 }) {
   return (
     <div className={cn("flex flex-wrap items-center gap-3", className)}>
-      <div className="relative min-w-[200px] flex-1">
+      {/* Full width on a phone; capped at 24rem from sm, so it does not
+          stretch across the row and the controls beside it stay close. */}
+      <div className="relative min-w-[200px] flex-1 sm:max-w-sm">
         <Search
           className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-espresso/35"
           aria-hidden="true"

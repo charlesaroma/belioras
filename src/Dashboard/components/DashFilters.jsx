@@ -64,7 +64,7 @@ export default function DashFilters({ groups, value, onChange }) {
         aria-expanded={open}
         aria-controls={panelId}
         className={cn(
-          "flex h-10 items-center gap-2 border px-3.5 text-[11px] uppercase tracking-[0.12em] transition-colors",
+          "flex h-12 items-center gap-2 border px-4 text-[11px] uppercase tracking-[0.12em] transition-colors",
           active ? "border-espresso bg-espresso text-ivory-50" : "border-umber-100 bg-ivory-50 text-espresso hover:border-espresso",
         )}
       >
