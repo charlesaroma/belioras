@@ -1,7 +1,7 @@
 /* Admin Dashboard Page: Products - ProductFormPublish */
 import Button from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
-import { publishLabels } from "./productFormPayload";
+import { publishLabels } from "./publishLabels";
 
 /** The publishing card at the top of the side panel, on large screens. */
 export default function ProductFormPublish({ isEdit, status, submitting, hasDraft, onDiscardDraft, onSave, className }) {

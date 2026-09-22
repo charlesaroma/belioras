@@ -1,6 +1,8 @@
 import { mockApi } from "@/api/mock";
 import { getAllOrders } from "./ordersApi";
 import { getProducts } from "../catalog/productsApi";
+import { lowStockThreshold } from "../catalog/inventory/inventoryApi";
+import { stockLevel, thresholdFor } from "../../utils/stockLevel";
 
 /**
  * Dashboard aggregates.
@@ -43,7 +45,8 @@ export function getDashboardStats() {
       orderCount: live.length,
       orderChange: percentChange(previous.count, current.count),
       productCount: products.length,
-      lowStockCount: products.filter((p) => (p.stock ?? 0) > 0 && (p.stock ?? 0) <= 3).length,
+      // The same rule and threshold Inventory uses, on what is left to sell.
+      lowStockCount: products.filter((p) => stockLevel(p.stock, thresholdFor(p, lowStockThreshold())) === "low").length,
       customerCount: customers,
       averageOrder: live.length ? revenue / live.length : 0,
       series: months.map((key) => ({

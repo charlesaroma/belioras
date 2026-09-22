@@ -1,6 +1,11 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
-import { isOffTimeline, normalizeStatus } from "../../utils/orderStatus";
+import { normalizeStatus } from "../../utils/orderStatus";
+import { availabilityProblems, stockChangesForStatus } from "../catalog/inventory/orderStock";
+import { applyStockChanges } from "../catalog/inventory/stockLedger";
+
+export { returnableUnits } from "../catalog/inventory/orderStock";
+export { getBestSellerProductIds } from "./orderRankings";
 
 /**
  * Orders, read and written through the content store.
@@ -42,43 +47,6 @@ export function getAllOrders() {
 }
 
 /**
- * Product ids ranked by units sold — the client's requirement that Best Sellers
- * "populate automatically based on client order data" rather than a manual flag.
- *
- * Orders that never completed are excluded; a real backend would compute this
- * as a rollup updated on order.paid rather than scanning on read.
- */
-
-export function getBestSellerProductIds({ limit = 12, sinceDays = null } = {}) {
-  return mockApi(() => {
-
-    const cutoff = sinceDays ? Date.now() - sinceDays * 86400000 : null;
-
-    const unitsByProduct = new Map();
-
-    for (const order of orderItems()) {
-      // Refunded orders were previously counted as sales, inflating the
-      // ranking with pieces that came back.
-      if (isOffTimeline(order.status)) continue;
-      if (cutoff && new Date(order.createdAt).getTime() < cutoff) continue;
-
-      for (const item of order.items ?? []) {
-        if (!item.productId) continue;
-        unitsByProduct.set(
-          item.productId,
-          (unitsByProduct.get(item.productId) ?? 0) + (item.quantity ?? 1),
-        );
-      }
-    }
-
-    return [...unitsByProduct.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, limit)
-      .map(([productId, units]) => ({ productId, units }));
-  }, 0);
-}
-
-/**
  * Fetch one order, with an ownership check.
  *
  * This previously took only an id and applied no check at all, while
@@ -112,6 +80,11 @@ export function getOrder(id, as = {}) {
 
 export function createOrder(payload) {
   return mockApi(() => {
+
+    // Refused rather than oversold: another shopper may have taken the last
+    // one since this bag was filled.
+    const problems = availabilityProblems(payload.items ?? []);
+    if (problems.length) throw new ApiError(problems.join(" "), 409);
 
     const now = new Date().toISOString();
 
@@ -147,7 +120,7 @@ export function createOrder(payload) {
  * chip on two different surfaces.
  */
 
-export function updateOrderStatus(id, status) {
+export function updateOrderStatus(id, status, { restock = false, by = null } = {}) {
   return mockApi(() => {
 
     const canonical = normalizeStatus(status);
@@ -156,7 +129,12 @@ export function updateOrderStatus(id, status) {
     const order = orderItems().find((o) => o.id === id);
     if (!order) throw new ApiError("Order not found.", 404);
 
-    const updated = { ...order, status: canonical, updatedAt: new Date().toISOString() };
+    // Shipping takes the pieces off the shelf; cancelling or refunding a
+    // shipped order puts them back when `restock` says they came back.
+    const { changes, patch } = stockChangesForStatus(order, canonical, { restock, by });
+    applyStockChanges(changes);
+
+    const updated = { ...order, ...patch, status: canonical, updatedAt: new Date().toISOString() };
     setState("orders", (state) => ({
       ...state,
       items: state.items.map((o) => (o.id === id ? updated : o)),

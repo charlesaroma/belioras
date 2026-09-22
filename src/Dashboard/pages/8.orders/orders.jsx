@@ -8,18 +8,19 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getAllOrders, updateOrderStatus } from "../../../services/sales/ordersApi";
+import { getAllOrders, returnableUnits, updateOrderStatus } from "../../../services/sales/ordersApi";
 import { ORDER_STATUS, normalizeStatus } from "../../../utils/orderStatus";
 import DashTable from "../../components/DashTable";
 import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
+import OrdersRestockDialog from "./sections/ordersTable/OrdersRestockDialog";
 
 export default function DashOrders() {
   const { format } = useCurrency();
   const { locale } = useLanguage();
   const { toast } = useToast();
-  const { can } = useStaffAuth();
+  const { can, user } = useStaffAuth();
 
   const [revision, setRevision] = useState(0);
 
@@ -72,15 +73,23 @@ export default function DashOrders() {
     ];
   }, [rows]);
 
-  const advance = async (order, status) => {
+  const move = async (order, status, restock = false) => {
     try {
-
-      await updateOrderStatus(order.id, status);
+      await updateOrderStatus(order.id, status, { restock, by: user?.name });
       refresh();
-      toast(`${order.id} marked ${ORDER_STATUS[status]?.label ?? status}.`, "success");
+      const label = ORDER_STATUS[status]?.label ?? status;
+      toast(restock ? `${order.id} marked ${label}. Its pieces are back in stock.` : `${order.id} marked ${label}.`, "success");
     } catch (err) {
       toast(err.message ?? "Could not update that order.", "error");
     }
+  };
+
+  // A shipped order that is cancelled or refunded: were its pieces returned?
+  const [restockAsk, setRestockAsk] = useState(null);
+  const advance = (order, status) => {
+    const units = returnableUnits(order);
+    if ((status === "cancelled" || status === "refunded") && units > 0) setRestockAsk({ order, status, units });
+    else move(order, status);
   };
 
   const dateFmt = useMemo(
@@ -125,6 +134,15 @@ export default function DashOrders() {
         showPayments={can("payments")}
         format={format}
         dateFmt={dateFmt}
+      />
+
+      <OrdersRestockDialog
+        ask={restockAsk}
+        onClose={() => setRestockAsk(null)}
+        onAnswer={(restock) => {
+          move(restockAsk.order, restockAsk.status, restock);
+          setRestockAsk(null);
+        }}
       />
     </div>
   );

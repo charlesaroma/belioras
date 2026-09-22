@@ -14,7 +14,7 @@ const CHIP = "inline-flex min-h-10 items-center gap-2 border px-3 text-[12px] tr
 /** Colours, sizes and stock together: the three decide what a shopper can buy. */
 export default function ProductFormVariants({
   colors, colorIds, onColorIdsChange, photos, onPhotosChange, stock, onStockChange,
-  sizes, onSizesChange, category, taxonomy, spread, onColorCreated,
+  sizes, onSizesChange, category, taxonomy, spread, onColorCreated, register, reserved,
 }) {
   // A colour made here is usable at once, before the list refetches.
   const [created, setCreated] = useState([]);
@@ -98,7 +98,7 @@ export default function ProductFormVariants({
 
       <ProductFormSizes category={category} taxonomy={taxonomy} sizes={sizes} onChange={onSizesChange} />
 
-      <ProductFormStock colors={all} colorIds={colorIds} stock={stock} onChange={onStockChange} sizes={sizes} taxonomy={taxonomy} spread={spread} />
+      <ProductFormStock colors={all} colorIds={colorIds} stock={stock} onChange={onStockChange} sizes={sizes} taxonomy={taxonomy} spread={spread} reserved={reserved} register={register} />
 
       <ColorDialog key={dialog.n} open={dialog.open} families={familyOptionsFrom(taxonomy)} onClose={() => setDialog((d) => ({ ...d, open: false }))} onSave={createAndAdd} />
     </FormSection>

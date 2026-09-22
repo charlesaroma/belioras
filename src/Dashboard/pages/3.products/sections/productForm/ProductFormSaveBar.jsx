@@ -1,7 +1,7 @@
 /* Admin Dashboard Page: Products - ProductFormSaveBar */
 import Button from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
-import { publishLabels } from "./productFormPayload";
+import { publishLabels } from "./publishLabels";
 
 /** On smaller screens, where the side panel stacks below the form. */
 export default function ProductFormSaveBar({ isEdit, status, submitting, onSave, className }) {

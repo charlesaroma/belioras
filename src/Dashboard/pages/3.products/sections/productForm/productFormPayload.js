@@ -16,6 +16,7 @@ export const EMPTY_VALUES = {
   isNew: true,
   featured: false,
   status: "draft",
+  lowStockThreshold: "",
 };
 
 export function toFormValues(product) {
@@ -31,6 +32,7 @@ export function toFormValues(product) {
     featured: Boolean(product.featured),
     // Older products carry no status, and they are live in the shop.
     status: product.status ?? "active",
+    lowStockThreshold: product.lowStockThreshold ?? "",
   };
 }
 
@@ -62,7 +64,8 @@ export function toFormModel(product) {
   const columns = stockColumns(offeredSizes(product.sizes));
   const ways = product.colorways ?? [];
   const tracked = ways.some((w) => w.stock);
-  const total = Number(product.stock) || 0;
+  // On the shelf, not what is left to sell: `stock` has open orders taken off.
+  const total = Number(product.onHand ?? product.stock) || 0;
   const cells = ways.length * columns.length;
   const each = cells ? Math.floor(total / cells) : 0;
   let remainder = cells ? total % cells : 0;
@@ -105,17 +108,6 @@ export function validateProduct({ status, category, colorIds, photos }) {
   return null;
 }
 
-/** The status line and the two actions, which depend on whether the piece is live. */
-export function publishLabels(isEdit, status) {
-  const live = isEdit && status === "active";
-  return {
-    live,
-    state: !isEdit ? "Not saved yet" : live ? "Live in the shop" : "Draft, hidden from the shop",
-    primary: live ? "Save changes" : "Publish",
-    secondary: live ? "Unpublish" : "Save draft",
-  };
-}
-
 /** The form's model -> what productsApi stores. */
 export function toPayload(values, { photos, colorIds, stock, sizes, tags, category, status }) {
   const columns = stockColumns(sizes);
@@ -144,6 +136,8 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
     sizes: sizes.length ? sizes : [ONE_SIZE],
     images: colorways.find((w) => w.images.length)?.images ?? [],
     stock: colorways.reduce((sum, w) => sum + Object.values(w.stock).reduce((a, n) => a + n, 0), 0),
+    // Blank means "use the shop's threshold".
+    lowStockThreshold: `${values.lowStockThreshold ?? ""}` === "" ? null : Math.max(0, Math.floor(Number(values.lowStockThreshold))),
     tags: detailTags(tags).filter((t) => allowed.has(t.split(":")[0])),
   };
 }

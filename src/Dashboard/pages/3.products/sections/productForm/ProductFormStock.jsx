@@ -5,7 +5,7 @@ import { stockColumns } from "./productFormPayload";
 
 const HEAD = "py-2 text-[10px] font-normal uppercase tracking-[0.18em] text-espresso-soft";
 
-export default function ProductFormStock({ colors, colorIds, stock, onChange, sizes, taxonomy, spread }) {
+export default function ProductFormStock({ colors, colorIds, stock, onChange, sizes, taxonomy, spread, reserved = {}, register }) {
   const columns = stockColumns(sizes);
   const colorById = new Map(colors.map((c) => [c.id, c]));
   const count = (value) => Math.max(0, Math.floor(Number(value) || 0));
@@ -65,6 +65,10 @@ export default function ProductFormStock({ colors, colorIds, stock, onChange, si
                             count(stock[id]?.[size]) === 0 ? "text-espresso-soft" : "text-espresso",
                           )}
                         />
+                        {/* On hand includes pieces open orders hold until they ship. */}
+                        {reserved[id]?.[size] > 0 && (
+                          <span className="mt-0.5 block text-[10px] text-gold-700">{reserved[id][size]} held</span>
+                        )}
                       </td>
                     ))}
                     <td className="px-3 py-1.5 text-right tabular-nums text-espresso">{rowTotal(id)}</td>
@@ -82,6 +86,27 @@ export default function ProductFormStock({ colors, colorIds, stock, onChange, si
             </tfoot>
           </table>
         </div>
+      )}
+
+      {colorIds.length > 0 && (
+        <p className="mt-2 text-[11px] text-espresso-soft">
+          Counts are what is on the shelf; &ldquo;held&rdquo; is how many of those open orders are waiting to ship.
+        </p>
+      )}
+
+      {register && (
+        <label className="mt-4 flex flex-wrap items-center gap-3 text-[13px] text-espresso">
+          Low-stock alert at
+          <input
+            type="number"
+            min="0"
+            inputMode="numeric"
+            placeholder="Shop default"
+            {...register("lowStockThreshold")}
+            className="h-10 w-32 border border-umber-100 bg-ivory-50 px-3 tabular-nums focus:border-espresso focus:outline-none"
+          />
+          <span className="text-[12px] text-espresso-soft">or fewer left. Leave blank to use the shop-wide number.</span>
+        </label>
       )}
     </div>
   );

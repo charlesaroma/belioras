@@ -6,6 +6,7 @@ import {
   DashboardLayout,
   DashOverview,
   DashProducts,
+  DashInventory,
   DashCategories,
   DashMegaMenu,
   DashOrders,
@@ -41,6 +42,7 @@ export default function dashboardRoutes() {
           route makes an edit linkable and refresh-safe. */}
       <Route path="products/new" element={<ProductForm />} />
       <Route path="products/:id/edit" element={<ProductForm />} />
+      <Route path="inventory" element={<DashInventory />} />
       <Route path="categories" element={<DashCategories />} />
       {/* The navigation tree gets its own section: it is the structure
           shoppers move through, not the vocabulary pieces are tagged

@@ -4,6 +4,7 @@ export { default as DashboardLayout } from "./DashboardLayout";
 // Pages, in sidebar order
 export { default as DashOverview } from "./pages/1.overview/overview";
 export { default as DashProducts } from "./pages/3.products/products";
+export { default as DashInventory } from "./pages/4.inventory/inventory";
 export { default as DashCategories } from "./pages/5.categories/categories";
 export { default as DashMegaMenu } from "./pages/7.mega-menu/mega-menu";
 export { default as DashOrders } from "./pages/8.orders/orders";

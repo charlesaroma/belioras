@@ -3,6 +3,7 @@ import { PRODUCT_STATUS, STATUS_TONES } from "../../Dashboard/lib/constants";
 import { ORDER_STATUS, normalizeStatus } from "../../utils/orderStatus";
 import { TRANSACTION_STATUS } from "../../utils/transactionStatus";
 import { CAMPAIGN_STATUS, SUBSCRIBER_STATUS } from "../../utils/newsletterStatus";
+import { STOCK_LEVELS } from "../../utils/stockLevel";
 import { cn } from "../../utils/cn";
 
 const SETS = {
@@ -11,6 +12,7 @@ const SETS = {
   transaction: TRANSACTION_STATUS,
   subscriber: SUBSCRIBER_STATUS,
   campaign: CAMPAIGN_STATUS,
+  stock: STOCK_LEVELS,
 };
 
 export default function StatusChip({ status, kind = "order", className }) {

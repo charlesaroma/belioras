@@ -25,6 +25,7 @@ import settingsSeed from "../../data/settings.json";
 import sizeChartsSeed from "../../data/sizeCharts.json";
 import catalogSeed from "../../data/catalogSeed";
 import ordersSeed from "../../data/ordersSeed";
+import stockMovementsSeed from "../../data/stockMovementsSeed";
 import transactionsSeed from "../../data/transactionsSeed";
 import colorsSeed from "../../data/colorsSeed";
 import categoriesSeed from "../../data/categoriesSeed";
@@ -62,6 +63,9 @@ const DOMAINS = {
   colors: { seed: colorsSeed, collection: "items" },
   categories: { seed: categoriesSeed, collection: "items" },
   orders: { seed: ordersSeed, collection: "items" },
+  // Every change to what is on the shelf, and why. On hand itself stays on
+  // each product; what open orders hold is worked out from orders.
+  stockMovements: { seed: stockMovementsSeed, collection: "items" },
   // Payments and refunds against those orders. Read-only today; registered here
   // so checkout can record a payment once a provider is connected.
   transactions: { seed: transactionsSeed, collection: "items" },

@@ -1,4 +1,5 @@
 /* Subscriber List Helpers */
+import { downloadCsv, toCsv } from "../../../lib/csv";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -34,27 +35,9 @@ const CSV_COLUMNS = [
   ["confirmedAt", "Confirmed"],
 ];
 
-/**
- * A spreadsheet-safe CSV. A value starting with = + - or @ is prefixed with an
- * apostrophe, so a crafted address cannot run as a formula when opened.
- */
+/** A spreadsheet-safe CSV of the subscribers given (see lib/csv). */
 export function subscribersCsv(rows) {
-  const cell = (value) => {
-    let s = String(value ?? "");
-    if (/^[=+\-@]/.test(s)) s = `'${s}`;
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-  };
-  return [
-    CSV_COLUMNS.map(([, header]) => header).join(","),
-    ...rows.map((row) => CSV_COLUMNS.map(([key]) => cell(row[key])).join(",")),
-  ].join("\n");
+  return toCsv(CSV_COLUMNS, rows);
 }
 
-export function downloadCsv(text, filename) {
-  const url = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
+export { downloadCsv };

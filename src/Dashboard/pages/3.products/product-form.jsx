@@ -121,13 +121,15 @@ export default function ProductForm() {
             photos={photos} onPhotosChange={setPhotos} stock={stock} onStockChange={setStock}
             sizes={sizes} onSizesChange={setSizes} category={category} taxonomy={taxonomy ?? {}}
             spread={spread} onColorCreated={() => setRevision((n) => n + 1)}
+            register={form.register} reserved={existing?.reservedCells ?? {}}
           />
           <ProductFormDetails category={category} taxonomy={taxonomy ?? {}} tags={tags} onChange={setTags} />
         </div>
 
-        {/* Stays in view beside a long form, clear of the sticky page header. */}
+        {/* Stays in view beside a long form. The page scrolls inside <main>,
+            below the header, so it sticks to the top of that. */}
         <aside className="min-w-0">
-          <div className="space-y-4 lg:sticky lg:top-28">
+          <div className="space-y-4 lg:sticky lg:top-0">
             <ProductFormPublish {...actions} className="hidden lg:block" />
             <ProductFormCategory
               categories={categories ?? []} value={values.collectionId} type={values.type} taxonomy={taxonomy ?? {}}

@@ -1,6 +1,8 @@
 /* Catalogue Writes */
 import { ApiError, mockApi } from "@/api/mock";
 import { setState } from "../../store/contentStore";
+import { recordMovements } from "../inventory/stockLedger";
+import { stockDiff } from "../inventory/stockDiff";
 import { slugify } from "./productSlug";
 import { catalogItems, normalize } from "./productStore";
 
@@ -52,6 +54,7 @@ export function createProduct(input) {
     };
 
     setState("products", (state) => ({ ...state, items: [product, ...state.items] }));
+    recordMovements(stockDiff(null, product));
     return normalize(product);
   });
 }
@@ -94,6 +97,7 @@ export function updateProduct(id, patch) {
       ...state,
       items: state.items.map((p) => (p.id === id ? updated : p)),
     }));
+    recordMovements(stockDiff(existing, updated));
     return normalize(updated);
   });
 }
