@@ -1,20 +1,18 @@
 /* Admin Dashboard Page: Customers - CustomersTableToolbar */
-import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
+import DashListToolbar from "../../../../components/DashListToolbar";
 
-export default function CustomersToolbar({ query, onQueryChange, tabs, activity, onActivityChange }) {
+export default function CustomersToolbar({ query, onQueryChange, tabs, activity, onActivityChange, pageSize, onPageSizeChange }) {
   return (
-    <DashToolbar
+    <DashListToolbar
+      tabs={tabs}
+      tab={activity}
+      onTabChange={onActivityChange}
+      tabsLabel="Customers by activity"
       query={query}
       onQueryChange={onQueryChange}
-      placeholder="Search customers by name or email"
-      filters={
-        <FilterTabs
-          ariaLabel="Filter by activity"
-          value={activity}
-          onChange={onActivityChange}
-          options={tabs}
-        />
-      }
+      placeholder="Search customers"
+      pageSize={pageSize}
+      onPageSizeChange={onPageSizeChange}
     />
   );
 }

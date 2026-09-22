@@ -7,6 +7,8 @@ import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import CategoryDialog from "@/Dashboard/components/CategoryDialog";
+import DashListToolbar from "@/Dashboard/components/DashListToolbar";
+import { usePageSize } from "@/Dashboard/lib/usePageSize";
 import DashTable from "@/Dashboard/components/DashTable";
 import { detailOptionsFrom, sizeOptionsFrom } from "@/Dashboard/lib/catalogOptions";
 import {
@@ -30,6 +32,8 @@ export default function CategoriesPanel() {
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [query, setQuery] = useState("");
+  const [pageSize, setPageSize] = usePageSize("categories");
 
   const open = (initial) => setDialog((d) => ({ open: true, initial, n: d.n + 1 }));
   const close = () => setDialog((d) => ({ ...d, open: false }));
@@ -68,20 +72,32 @@ export default function CategoriesPanel() {
 
   return (
     <section className="space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
-          What a piece is. Every product belongs to one category, and the category decides which
-          sizes, types and details its product form asks for.
-        </p>
-        <Button icon={Plus} onClick={() => open(null)} className="bg-espresso text-ivory-50 hover:bg-espresso-600">
-          Add category
-        </Button>
-      </div>
+      <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
+        What a piece is. Every product belongs to one category, and the category decides which
+        sizes, types and details its product form asks for.
+      </p>
+
+      <DashListToolbar
+        actions={
+          <Button icon={Plus} size="sm" onClick={() => open(null)} className="h-10">
+            <span className="hidden sm:inline">Add category</span>
+            <span className="sm:hidden">Add</span>
+          </Button>
+        }
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Search categories"
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+      />
 
       <DashTable
         columns={buildCategoryColumns({ taxonomy, usage, onEdit: open, onDelete: askDelete })}
         data={categories ?? []}
         loading={loading}
+        globalFilter={query}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
         unit={(categories ?? []).length === 1 ? "category" : "categories"}
         empty={{ icon: Shapes, title: "No categories yet", description: "Add the first, such as Dresses." }}
       />

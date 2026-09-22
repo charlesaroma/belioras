@@ -1,54 +1,30 @@
 /* Admin Dashboard Page: Transactions - TransactionsTableToolbar */
-import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
+import DashListToolbar from "../../../../components/DashListToolbar";
+import DashSelect from "../../../../components/DashSelect";
 import { PERIODS, PROVIDERS } from "../transactionsFilters";
 
-const SELECT =
-  "min-h-9 cursor-pointer border border-umber-50 bg-ivory-50 px-3 text-[11px] uppercase tracking-[0.12em] text-espresso-soft transition-colors hover:text-espresso focus-visible:border-espresso focus-visible:outline-none";
+const PERIOD_OPTIONS = Object.entries(PERIODS).map(([value, p]) => ({ value, label: p.label }));
 
 export default function TransactionsToolbar({
-  query,
-  onQueryChange,
-  tabs,
-  view,
-  onViewChange,
-  provider,
-  onProviderChange,
-  period,
-  onPeriodChange,
+  query, onQueryChange, tabs, view, onViewChange, provider, onProviderChange, period, onPeriodChange, pageSize, onPageSizeChange,
 }) {
   return (
-    <DashToolbar
+    <DashListToolbar
+      tabs={tabs}
+      tab={view}
+      onTabChange={onViewChange}
+      tabsLabel="Transactions by type"
       query={query}
       onQueryChange={onQueryChange}
       placeholder="Search transactions"
-      filters={
-        <FilterTabs ariaLabel="Filter by type" value={view} onChange={onViewChange} options={tabs} />
+      controls={
+        <>
+          <DashSelect label="Provider" value={provider} onChange={onProviderChange} options={PROVIDERS} />
+          <DashSelect label="Period" value={period} onChange={onPeriodChange} options={PERIOD_OPTIONS} />
+        </>
       }
-    >
-      <select
-        aria-label="Provider"
-        value={provider}
-        onChange={(e) => onProviderChange(e.target.value)}
-        className={SELECT}
-      >
-        {PROVIDERS.map((p) => (
-          <option key={p.value} value={p.value}>
-            {p.label}
-          </option>
-        ))}
-      </select>
-      <select
-        aria-label="Period"
-        value={period}
-        onChange={(e) => onPeriodChange(e.target.value)}
-        className={SELECT}
-      >
-        {Object.entries(PERIODS).map(([value, p]) => (
-          <option key={value} value={value}>
-            {p.label}
-          </option>
-        ))}
-      </select>
-    </DashToolbar>
+      pageSize={pageSize}
+      onPageSizeChange={onPageSizeChange}
+    />
   );
 }

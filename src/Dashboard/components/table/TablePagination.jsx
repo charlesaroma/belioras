@@ -8,7 +8,8 @@ const STEP = "flex size-10 items-center justify-center border border-umber-100 b
 
 export default function TablePagination({ table, total, unit, pageSizeOptions, onPageSizeChange }) {
   const { pageIndex, pageSize } = table.getState().pagination;
-  const pageCount = table.getPageCount();
+  // At least one page, so the bar reads the same on every list, however short.
+  const pageCount = Math.max(1, table.getPageCount());
   const from = total === 0 ? 0 : pageIndex * pageSize + 1;
   const to = Math.min(total, (pageIndex + 1) * pageSize);
 
@@ -35,7 +36,6 @@ export default function TablePagination({ table, total, unit, pageSizeOptions, o
         )}
       </div>
 
-      {pageCount > 1 && (
         <nav aria-label="Pages" className="flex items-center gap-1">
           <button type="button" className={cn(STEP, "hidden sm:flex")} onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()} aria-label="First page">
             <ChevronsLeft className="size-4" aria-hidden="true" />
@@ -79,7 +79,6 @@ export default function TablePagination({ table, total, unit, pageSizeOptions, o
             <ChevronsRight className="size-4" aria-hidden="true" />
           </button>
         </nav>
-      )}
     </div>
   );
 }

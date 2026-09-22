@@ -33,6 +33,7 @@ export default function RecentOrders({ orders, format, dateFmt }) {
           columns={columns}
           data={orders ?? []}
           initialSorting={[{ id: "createdAt", desc: true }]}
+          paginate={false}
           unit={(orders ?? []).length === 1 ? "order" : "orders"}
           empty={{
             icon: Receipt,

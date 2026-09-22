@@ -1,20 +1,18 @@
 /* Admin Dashboard Page: Orders - OrdersTableToolbar */
-import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
+import DashListToolbar from "../../../../components/DashListToolbar";
 
-export default function OrdersToolbar({ query, onQueryChange, tabs, status, onStatusChange }) {
+export default function OrdersToolbar({ query, onQueryChange, tabs, status, onStatusChange, pageSize, onPageSizeChange }) {
   return (
-    <DashToolbar
+    <DashListToolbar
+      tabs={tabs}
+      tab={status}
+      onTabChange={onStatusChange}
+      tabsLabel="Orders by status"
       query={query}
       onQueryChange={onQueryChange}
-      placeholder="Search by reference, name or email"
-      filters={
-        <FilterTabs
-          ariaLabel="Filter by status"
-          value={status}
-          onChange={onStatusChange}
-          options={tabs}
-        />
-      }
+      placeholder="Search orders"
+      pageSize={pageSize}
+      onPageSizeChange={onPageSizeChange}
     />
   );
 }

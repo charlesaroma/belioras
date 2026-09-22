@@ -41,6 +41,7 @@ export default function DashTable({
   onPageSizeChange,
   pageSizeOptions = PAGE_SIZES,
   fill = false,
+  paginate = true,
   initialSorting = [],
   skeletonRows = 6,
 }) {
@@ -49,7 +50,8 @@ export default function DashTable({
   // A page that shows its own "Show" menu passes the size in; otherwise the
   // table keeps it, with the menu beside its pagination.
   const [ownSize, setOwnSize] = useLocalStorage(`belioras:dash:pageSize:${tableId}`, 20);
-  const pageSize = onPageSizeChange ? controlledSize : ownSize;
+  // A short preview (Overview's recent orders) shows every row and no pagination bar.
+  const pageSize = !paginate ? Math.max(1, (data ?? []).length) : onPageSizeChange ? controlledSize : ownSize;
   // The page index belongs to one page size: a new size starts at page 1.
   const [paging, setPaging] = useState({ size: pageSize, index: 0 });
   const pageIndex = paging.size === pageSize ? paging.index : 0;
@@ -101,13 +103,15 @@ export default function DashTable({
         </table>
       </div>
 
-      <TablePagination
-        table={table}
-        total={total}
-        unit={unit}
-        pageSizeOptions={onPageSizeChange ? null : pageSizeOptions}
-        onPageSizeChange={setOwnSize}
-      />
+      {paginate && (
+        <TablePagination
+          table={table}
+          total={total}
+          unit={unit}
+          pageSizeOptions={onPageSizeChange ? null : pageSizeOptions}
+          onPageSizeChange={setOwnSize}
+        />
+      )}
     </div>
   );
 }

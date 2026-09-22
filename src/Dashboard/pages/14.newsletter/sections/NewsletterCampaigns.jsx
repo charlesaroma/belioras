@@ -1,17 +1,18 @@
 /* Admin Dashboard Page: Newsletter - NewsletterCampaigns */
 import { useState } from "react";
-import { Eye, Pencil, Plus, Send, Trash2 } from "lucide-react";
+import { Plus, Send } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import StatusChip from "@/components/ui/StatusChip";
 import { useLanguage } from "@/context/LanguageContext";
 import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
+import DashListToolbar from "@/Dashboard/components/DashListToolbar";
 import DashTable from "@/Dashboard/components/DashTable";
-import IconAction from "@/Dashboard/components/IconAction";
+import { usePageSize } from "@/Dashboard/lib/usePageSize";
 import { deleteCampaign, getAudienceSize, getCampaigns } from "@/services/marketing/campaignsApi";
 import { getNavigation } from "@/services/catalog/navigationApi";
+import { buildCampaignColumns } from "./campaignsColumns";
 import { getProducts } from "@/services/catalog/productsApi";
 import CampaignEditor from "./CampaignEditor";
 import { pagesFrom } from "./campaignFields";
@@ -27,6 +28,8 @@ export default function NewsletterCampaigns() {
 
   const [editor, setEditor] = useState({ open: false, campaign: null, n: 0 });
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [query, setQuery] = useState("");
+  const [pageSize, setPageSize] = usePageSize("campaigns");
 
   const open = (campaign) => setEditor((e) => ({ open: true, campaign, n: e.n + 1 }));
   const close = () => setEditor((e) => ({ ...e, open: false }));
@@ -45,67 +48,36 @@ export default function NewsletterCampaigns() {
     }
   };
 
-  const columns = [
-    {
-      accessorKey: "subject",
-      header: "Campaign",
-      cell: ({ row: r }) => (
-        <div className="min-w-0">
-          <p className="truncate font-medium text-espresso">{r.original.subject}</p>
-          {r.original.previewText && <p className="truncate text-[11px] text-espresso-soft">{r.original.previewText}</p>}
-        </div>
-      ),
-    },
-    { accessorKey: "status", header: "Status", cell: ({ getValue }) => <StatusChip kind="campaign" status={getValue()} /> },
-    {
-      id: "when",
-      header: "When",
-      enableSorting: false,
-      cell: ({ row: { original: c } }) => (
-        <span className="whitespace-nowrap text-espresso-soft">
-          {c.status === "sent" ? `Sent ${fmt.format(new Date(c.sentAt))}` : c.status === "scheduled" ? `Sends ${fmt.format(new Date(c.sendAt))}` : `Edited ${fmt.format(new Date(c.updatedAt))}`}
-        </span>
-      ),
-    },
-    {
-      id: "audience",
-      header: "Audience",
-      enableSorting: false,
-      meta: { align: "right" },
-      cell: ({ row: { original: c } }) => (
-        <span className="whitespace-nowrap tabular-nums">{c.status === "sent" ? `${c.recipients} sent` : `${reach} subscribers`}</span>
-      ),
-    },
-    {
-      id: "actions",
-      header: "",
-      enableSorting: false,
-      meta: { align: "right" },
-      cell: ({ row: { original: c } }) => (
-        <div className="flex justify-end gap-1">
-          <IconAction label={`${c.status === "sent" ? "View" : "Edit"} ${c.subject}`} icon={c.status === "sent" ? Eye : Pencil} onClick={() => open(c)} />
-          {c.status !== "sent" && <IconAction label={`Delete ${c.subject}`} icon={Trash2} destructive onClick={() => setPendingDelete(c)} />}
-        </div>
-      ),
-    },
-  ];
+  const columns = buildCampaignColumns({ fmt, reach, onOpen: open, onDelete: setPendingDelete });
 
   return (
     <section className="space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
-          One-off emails to everyone who has confirmed, such as a new collection or a private sale.
-          Write one, then send it now or schedule it.
-        </p>
-        <Button icon={Plus} onClick={() => open(null)} className="bg-espresso text-ivory-50 hover:bg-espresso-600">
-          New campaign
-        </Button>
-      </div>
+      <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
+        One-off emails to everyone who has confirmed, such as a new collection or a private sale.
+        Write one, then send it now or schedule it.
+      </p>
+
+      <DashListToolbar
+        actions={
+          <Button icon={Plus} size="sm" onClick={() => open(null)} className="h-10">
+            <span className="hidden sm:inline">New campaign</span>
+            <span className="sm:hidden">New</span>
+          </Button>
+        }
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Search campaigns"
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+      />
 
       <DashTable
         columns={columns}
         data={campaigns ?? []}
         loading={loading}
+        globalFilter={query}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
         onRowClick={open}
         unit={(campaigns ?? []).length === 1 ? "campaign" : "campaigns"}
         empty={{ icon: Send, title: "No campaigns yet", description: "Write the first, such as a note about new arrivals." }}

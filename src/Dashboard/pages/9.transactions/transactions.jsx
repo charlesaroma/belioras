@@ -7,6 +7,7 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getTransactions } from "../../../services/sales/transactionsApi";
 import DashTable from "../../components/DashTable";
+import { usePageSize } from "../../lib/usePageSize";
 import TransactionsSummary from "./sections/TransactionsSummary";
 import { PERIODS, VIEWS, matchesView } from "./sections/transactionsFilters";
 import TransactionsDetailModal from "./sections/transactionsTable/TransactionsDetailModal";
@@ -22,6 +23,7 @@ export default function DashTransactions() {
   const [view, setView] = useState("all");
   const [provider, setProvider] = useState("all");
   const [period, setPeriod] = useState("all");
+  const [pageSize, setPageSize] = usePageSize("transactions");
 
   const rows = useMemo(() => data ?? [], [data]);
 
@@ -77,8 +79,10 @@ export default function DashTransactions() {
   const narrowed = Boolean(query) || view !== "all" || provider !== "all" || period !== "all";
 
   return (
-    <div className="space-y-6">
-      <TransactionsSummary transactions={scoped} loading={loading} locale={locale} />
+    <div className="space-y-5 lg:flex lg:h-full lg:min-h-0 lg:flex-col">
+      <div className="shrink-0">
+        <TransactionsSummary transactions={scoped} loading={loading} locale={locale} />
+      </div>
 
       <TransactionsToolbar
         query={query}
@@ -90,6 +94,8 @@ export default function DashTransactions() {
         onProviderChange={setProvider}
         period={period}
         onPeriodChange={setPeriod}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
       />
 
       <DashTable
@@ -99,6 +105,9 @@ export default function DashTransactions() {
         globalFilter={query}
         initialSorting={[{ id: "createdAt", desc: true }]}
         onRowClick={setOpen}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        fill
         unit={visible.length === 1 ? "transaction" : "transactions"}
         empty={{
           icon: CreditCard,

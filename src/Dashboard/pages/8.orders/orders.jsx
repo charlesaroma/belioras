@@ -11,10 +11,13 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getAllOrders, returnableUnits, updateOrderStatus } from "../../../services/sales/ordersApi";
 import { ORDER_STATUS, normalizeStatus } from "../../../utils/orderStatus";
 import DashTable from "../../components/DashTable";
+import { usePageSize } from "../../lib/usePageSize";
 import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 import OrdersRestockDialog from "./sections/ordersTable/OrdersRestockDialog";
+
+const TABS = [["all", "All"], ["to-pay", "To pay"], ["to-ship", "To ship"], ["shipped", "Shipped"]];
 
 export default function DashOrders() {
   const { format } = useCurrency();
@@ -23,7 +26,6 @@ export default function DashOrders() {
   const { can, user } = useStaffAuth();
 
   const [revision, setRevision] = useState(0);
-
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
   const { data: orders, loading } = useAsyncData(getAllOrders, [revision]);
   const [params, setParams] = useSearchParams();
@@ -54,24 +56,18 @@ export default function DashOrders() {
 
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [pageSize, setPageSize] = usePageSize("orders");
 
-  // The page owns the status tabs because they need counts from the whole set.
   const visible = useMemo(
     () => (statusFilter === "all" ? rows : rows.filter((o) => o.status === statusFilter)),
     [rows, statusFilter],
   );
 
-  // The tabs need counts from the whole set, not the filtered one.
-  const tabs = useMemo(() => {
-
-    const by = (status) => rows.filter((o) => o.status === status).length;
-    return [
-      { value: "all", label: "All", count: rows.length },
-      { value: "to-pay", label: "To pay", count: by("to-pay") },
-      { value: "to-ship", label: "To ship", count: by("to-ship") },
-      { value: "shipped", label: "Shipped", count: by("shipped") },
-    ];
-  }, [rows]);
+  // The page owns the tabs because they count the whole set, not the filtered one.
+  const tabs = useMemo(
+    () => TABS.map(([value, label]) => ({ value, label, count: value === "all" ? rows.length : rows.filter((o) => o.status === value).length })),
+    [rows],
+  );
 
   const move = async (order, status, restock = false) => {
     try {
@@ -100,13 +96,15 @@ export default function DashOrders() {
   const columns = useMemo(() => buildOrderColumns({ format, dateFmt }), [format, dateFmt]);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 lg:flex lg:h-full lg:min-h-0 lg:flex-col">
       <OrdersToolbar
         query={query}
         onQueryChange={setQuery}
         tabs={tabs}
         status={statusFilter}
         onStatusChange={setStatusFilter}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
       />
 
       <DashTable
@@ -116,6 +114,9 @@ export default function DashOrders() {
         globalFilter={query}
         initialSorting={[{ id: "createdAt", desc: true }]}
         onRowClick={setViewing}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        fill
         unit={visible.length === 1 ? "order" : "orders"}
         empty={{
           icon: Receipt,

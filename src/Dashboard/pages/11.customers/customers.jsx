@@ -8,6 +8,7 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getUsers } from "../../../services/auth/authApi";
 import { getAllOrders } from "../../../services/sales/ordersApi";
 import DashTable from "../../components/DashTable";
+import { usePageSize } from "../../lib/usePageSize";
 import { activityTabs, toRows } from "./sections/customersTable/customersTableRows";
 import { buildCustomerColumns } from "./sections/customersTable/customersTableColumns";
 import CustomerModal from "./sections/customersTable/CustomersDetailModal";
@@ -22,6 +23,7 @@ export default function DashCustomers() {
   const [viewing, setViewing] = useState(null);
   const [query, setQuery] = useState("");
   const [activity, setActivity] = useState("all");
+  const [pageSize, setPageSize] = usePageSize("customers");
 
   const dateFmt = useMemo(
     () => new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric" }),
@@ -40,13 +42,15 @@ export default function DashCustomers() {
   const columns = useMemo(() => buildCustomerColumns({ format, dateFmt }), [format, dateFmt]);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 lg:flex lg:h-full lg:min-h-0 lg:flex-col">
       <CustomersToolbar
         query={query}
         onQueryChange={setQuery}
         tabs={tabs}
         activity={activity}
         onActivityChange={setActivity}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
       />
 
       <DashTable
@@ -56,6 +60,9 @@ export default function DashCustomers() {
         globalFilter={query}
         initialSorting={[{ id: "spent", desc: true }]}
         onRowClick={setViewing}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        fill
         unit={visible.length === 1 ? "customer" : "customers"}
         empty={{
           icon: Users,

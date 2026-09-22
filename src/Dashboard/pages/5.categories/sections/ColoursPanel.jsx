@@ -1,17 +1,19 @@
 /* Admin Dashboard Page: Categories - ColoursPanel */
 import { useState } from "react";
-import { Palette, Pencil, Plus, Trash2 } from "lucide-react";
+import { Palette, Plus } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import ColorDialog from "@/Dashboard/components/ColorDialog";
+import DashListToolbar from "@/Dashboard/components/DashListToolbar";
+import { usePageSize } from "@/Dashboard/lib/usePageSize";
 import DashTable from "@/Dashboard/components/DashTable";
-import IconAction from "@/Dashboard/components/IconAction";
 import { familyOptionsFrom } from "@/Dashboard/lib/catalogOptions";
 import { colorUsage, createColor, deleteColor, getColors, updateColor } from "@/services/catalog/colorsApi";
 import { getTaxonomy } from "@/services/catalog/navigationApi";
+import { buildColourColumns } from "./coloursColumns";
 
 export default function ColoursPanel() {
   const { toast } = useToast();
@@ -27,6 +29,8 @@ export default function ColoursPanel() {
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [query, setQuery] = useState("");
+  const [pageSize, setPageSize] = usePageSize("colours");
 
   const open = (initial) => setDialog((d) => ({ open: true, initial, n: d.n + 1 }));
   const close = () => setDialog((d) => ({ ...d, open: false }));
@@ -66,70 +70,36 @@ export default function ColoursPanel() {
     }
   };
 
-  const columns = [
-    {
-      accessorKey: "name",
-      header: "Colour",
-      cell: ({ row: r }) => (
-        <span className="inline-flex items-center gap-3">
-          <span aria-hidden="true" className="size-6 border border-umber-100" style={{ backgroundColor: r.original.hex }} />
-          <span className="font-medium text-espresso">{r.original.name}</span>
-          <code className="text-[11px] text-espresso-soft">{r.original.hex}</code>
-        </span>
-      ),
-    },
-    {
-      id: "family",
-      accessorFn: (c) => familyById.get(c.family)?.name ?? c.family,
-      header: "Shop filter",
-      cell: ({ row: r, getValue }) => (
-        <span className="inline-flex items-center gap-2">
-          <span
-            aria-hidden="true"
-            className="size-2.5 border border-umber-50"
-            style={{ backgroundColor: familyById.get(r.original.family)?.hex }}
-          />
-          {getValue()}
-        </span>
-      ),
-    },
-    {
-      id: "products",
-      accessorFn: (c) => usage?.[c.id] ?? 0,
-      header: "Products",
-      meta: { align: "right" },
-      cell: ({ getValue }) => <span className="tabular-nums">{getValue()}</span>,
-    },
-    {
-      id: "actions",
-      header: "",
-      enableSorting: false,
-      meta: { align: "right" },
-      cell: ({ row: r }) => (
-        <div className="flex justify-end gap-1">
-          <IconAction label={`Edit ${r.original.name}`} icon={Pencil} onClick={() => open(r.original)} />
-          <IconAction label={`Delete ${r.original.name}`} icon={Trash2} destructive onClick={() => askDelete(r.original)} />
-        </div>
-      ),
-    },
-  ];
+  const columns = buildColourColumns({ familyById, usage, onEdit: open, onDelete: askDelete });
 
   return (
     <section className="space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
-          The colours products come in. Shoppers see the name you give each one; the shop filter
-          is the plain colour they filter by, so Ebony and Jet Black both appear under Black.
-        </p>
-        <Button icon={Plus} onClick={() => open(null)} className="bg-espresso text-ivory-50 hover:bg-espresso-600">
-          Add colour
-        </Button>
-      </div>
+      <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
+        The colours products come in. Shoppers see the name you give each one; the shop filter
+        is the plain colour they filter by, so Ebony and Jet Black both appear under Black.
+      </p>
+
+      <DashListToolbar
+        actions={
+          <Button icon={Plus} size="sm" onClick={() => open(null)} className="h-10">
+            <span className="hidden sm:inline">Add colour</span>
+            <span className="sm:hidden">Add</span>
+          </Button>
+        }
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Search colours"
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+      />
 
       <DashTable
         columns={columns}
         data={colors ?? []}
         loading={loading}
+        globalFilter={query}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
         initialSorting={[{ id: "name", desc: false }]}
         unit={(colors ?? []).length === 1 ? "colour" : "colours"}
         empty={{ icon: Palette, title: "No colours yet", description: "Add the first, such as Ebony." }}

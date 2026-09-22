@@ -8,6 +8,7 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getUsers, updateUserRole } from "../../../services/auth/authApi";
 import DashTable from "../../components/DashTable";
+import { usePageSize } from "../../lib/usePageSize";
 import { roleLabel } from "./sections/teamTable/teamTableRoles";
 import { buildTeamColumns } from "./sections/teamTable/teamTableColumns";
 import { AddMemberDialog, RoleChangeDialog } from "./sections/teamTable/TeamTableDialogs";
@@ -79,6 +80,8 @@ export default function DashTeam() {
     }
   };
 
+  const [pageSize, setPageSize] = usePageSize("team");
+
   const columns = useMemo(
     () =>
       buildTeamColumns({
@@ -95,6 +98,8 @@ export default function DashTeam() {
         query={query}
         onQueryChange={setQuery}
         onAddExisting={() => setPromoting(true)}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
       />
 
       <DashTable
@@ -103,6 +108,8 @@ export default function DashTeam() {
         loading={loading}
         globalFilter={query}
         initialSorting={[{ id: "role", desc: false }]}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
         unit={team.length === 1 ? "member" : "members"}
         empty={{ icon: ShieldCheck, title: "No one on the team matches that search" }}
       />

@@ -8,7 +8,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import DashTable from "@/Dashboard/components/DashTable";
-import DashToolbar, { FilterTabs } from "@/Dashboard/components/DashToolbar";
+import DashListToolbar from "@/Dashboard/components/DashListToolbar";
+import { usePageSize } from "@/Dashboard/lib/usePageSize";
 import StatCard from "@/Dashboard/components/StatCard";
 import { eraseSubscriber, getSubscribers, unsubscribeSubscriber } from "@/services/marketing/subscribersApi";
 import { buildSubscriberColumns } from "./subscribersColumns";
@@ -23,6 +24,7 @@ export default function NewsletterSubscribers() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
   const [pending, setPending] = useState(null);
+  const [pageSize, setPageSize] = usePageSize("subscribers");
 
   const rows = data ?? [];
   const visible = status === "all" ? rows : rows.filter((r) => r.status === status);
@@ -64,16 +66,23 @@ export default function NewsletterSubscribers() {
         <StatCard label="Joined in 30 days" value={show(stats.recent)} hint="confirmed sign-ups" icon={TrendingUp} />
       </div>
 
-      <DashToolbar
+      <DashListToolbar
+        actions={
+          <Button variant="secondary" size="sm" icon={Download} onClick={exportCsv} disabled={!stats.subscribed} className="h-10">
+            <span className="hidden sm:inline">Export CSV</span>
+            <span className="sm:hidden">CSV</span>
+          </Button>
+        }
+        tabs={statusTabs(rows)}
+        tab={status}
+        onTabChange={setStatus}
+        tabsLabel="Subscribers by status"
         query={query}
         onQueryChange={setQuery}
         placeholder="Search subscribers"
-        filters={<FilterTabs ariaLabel="Filter by status" value={status} onChange={setStatus} options={statusTabs(rows)} />}
-      >
-        <Button variant="secondary" icon={Download} onClick={exportCsv} disabled={!stats.subscribed}>
-          Export CSV
-        </Button>
-      </DashToolbar>
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+      />
 
       <DashTable
         columns={buildSubscriberColumns({
@@ -85,6 +94,8 @@ export default function NewsletterSubscribers() {
         loading={loading}
         globalFilter={query}
         initialSorting={[{ id: "consentedAt", desc: true }]}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
         unit={visible.length === 1 ? "subscriber" : "subscribers"}
         empty={{
           icon: Mail,
