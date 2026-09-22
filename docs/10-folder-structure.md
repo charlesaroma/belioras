@@ -108,20 +108,21 @@ it move up by one.
 
 ```
 pages/
-├── 0.overview/       DashOverview.jsx
-├── 2.products/       DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
-├── 4.categories/     DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
-├── 6.mega-menu/      DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
-├── 7.orders/         DashOrders.jsx
-├── 8.transactions/   DashTransactions.jsx  (super-admin only)
-├── 10.customers/     DashCustomers.jsx
-├── 13.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
-├── 14.team/          DashTeam.jsx
-└── 15.settings/      DashSettings.jsx
+├── 1.overview/       DashOverview.jsx
+├── 3.products/       DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
+├── 5.categories/     DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
+├── 7.mega-menu/      DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
+├── 8.orders/         DashOrders.jsx
+├── 9.transactions/   DashTransactions.jsx  (super-admin only)
+├── 11.customers/     DashCustomers.jsx
+├── 14.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
+├── 15.team/          DashTeam.jsx
+└── 16.settings/      DashSettings.jsx
 ```
 
+Admin pages count from 1 (the storefront and account pages count from 0).
 The gaps are the pages being added next, in their sidebar places:
-`1.reports`, `3.inventory`, `5.sizes`, `9.discounts`, `11.reviews`, `12.messages`.
+`2.reports`, `4.inventory`, `6.sizes`, `10.discounts`, `12.reviews`, `13.messages`.
 
 Modals sit directly in `sections/` rather than a nested `modals/` folder —
 `sections/` already means "private to this page", and a second level said the
