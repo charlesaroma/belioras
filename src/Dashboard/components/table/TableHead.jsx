@@ -4,9 +4,10 @@ import { flexRender } from "@tanstack/react-table";
 
 import { cn } from "../../../utils/cn";
 
-export default function TableHead({ table, enableSelection }) {
+export default function TableHead({ table, enableSelection, sticky = false }) {
   return (
-    <thead>
+    // Sticky only inside a table that scrolls on its own (DashTable `fill`).
+    <thead className={cn(sticky && "lg:sticky lg:top-0 lg:z-10 lg:bg-ivory-50 lg:shadow-[0_1px_0_var(--color-umber-50)]")}>
       {table.getHeaderGroups().map((headerGroup) => (
         <tr key={headerGroup.id} className="border-b border-umber-50">
           {enableSelection && (

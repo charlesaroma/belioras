@@ -7,6 +7,8 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getCategories } from "../../../services/catalog/categoriesApi";
+import { getColors } from "../../../services/catalog/colorsApi";
+import { useProductsList } from "./sections/productsTable/useProductsList";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import {
   deleteProduct,
@@ -18,7 +20,7 @@ import DashTable from "../../components/DashTable";
 import ProductsToolbar from "./sections/productsTable/ProductsTableToolbar";
 import ViewProductModal from "./sections/productsTable/ProductsViewModal";
 import { buildProductColumns } from "./sections/productsTable/productsTableColumns";
-import { emptyState, statusTabs, toRows } from "./sections/productsTable/productsTableRows";
+import { emptyState, toRows } from "./sections/productsTable/productsTableRows";
 import BulkActionsBar from "./sections/productsTable/ProductsTableBulkActions";
 import DeleteProductDialog from "./sections/productsTable/ProductsDeleteDialog";
 
@@ -40,20 +42,10 @@ export default function DashProducts() {
   const [pendingDelete, setPendingDelete] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
 
+  const { data: colors } = useAsyncData(getColors, []);
+
   const rows = useMemo(() => toRows(products, categories), [products, categories]);
-
-  const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-
-  // The status tabs need counts from the whole set, so the page filters on
-  // status and hands the table the rest. Search, sort and paging are the
-  // table's job.
-  const visible = useMemo(
-    () => (statusFilter === "all" ? rows : rows.filter((p) => p.status === statusFilter)),
-    [rows, statusFilter],
-  );
-
-  const tabs = useMemo(() => statusTabs(rows), [rows]);
+  const list = useProductsList(rows, { categories, colors, format });
 
   const confirmDelete = async () => {
 
@@ -106,13 +98,17 @@ export default function DashProducts() {
   );
 
   return (
-    <div className="space-y-5">
+    // A column the height of the page on a desktop: the toolbar stays, the rows scroll.
+    <div className="space-y-5 lg:flex lg:h-full lg:min-h-0 lg:flex-col">
       <ProductsToolbar
-        query={query}
-        onQueryChange={setQuery}
-        tabs={tabs}
-        status={statusFilter}
-        onStatusChange={setStatusFilter}
+        query={list.query}
+        onQueryChange={list.setQuery}
+        tabs={list.tabs}
+        status={list.status}
+        onStatusChange={list.setStatus}
+        groups={list.groups}
+        filters={list.filters}
+        onFiltersChange={list.setFilters}
       />
 
       <BulkActionsBar
@@ -123,14 +119,16 @@ export default function DashProducts() {
 
       <DashTable
         columns={columns}
-        data={visible}
+        data={list.visible}
         loading={loading}
-        globalFilter={query}
+        globalFilter={list.query}
         initialSorting={[{ id: "name", desc: false }]}
         enableSelection
         onSelectionChange={setSelectedIds}
-        unit={visible.length === 1 ? "piece" : "pieces"}
-        empty={{ icon: Package, ...emptyState(Boolean(query) || statusFilter !== "all") }}
+        tableId="products"
+        fill
+        unit={list.visible.length === 1 ? "piece" : "pieces"}
+        empty={{ icon: Package, ...emptyState(list.filtering) }}
       />
 
       {/* Looked up in the live rows by id, so it shows the piece as it is now. */}

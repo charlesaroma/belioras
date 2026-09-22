@@ -9,10 +9,21 @@ import {
 } from "@tanstack/react-table";
 
 import EmptyState from "../../components/ui/EmptyState";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { cn } from "../../utils/cn";
 import TableHead from "./table/TableHead";
 import TableBody from "./table/TableBody";
 import TablePagination from "./table/TablePagination";
+import { PAGE_SIZES } from "../lib/tablePaging";
 
+/**
+ * A sortable, searchable, paged table.
+ *
+ * `tableId` names where its rows-per-page choice is remembered. `fill` makes it
+ * take the rest of the page on a desktop, so the page's own toolbar stays put
+ * and only the rows scroll, under a header that stays in view. The page must
+ * be a column with a height for that: see the Products page.
+ */
 export default function DashTable({
   columns,
   data,
@@ -23,18 +34,27 @@ export default function DashTable({
   onRowClick,
   empty,
   unit = "rows",
-  pageSize = 25,
+  tableId = "all",
+  pageSize: defaultPageSize = 20,
+  pageSizeOptions = PAGE_SIZES,
+  fill = false,
   initialSorting = [],
   skeletonRows = 6,
 }) {
   const [sorting, setSorting] = useState(initialSorting);
   const [rowSelection, setRowSelection] = useState({});
+  const [pageSize, setPageSize] = useLocalStorage(`belioras:dash:pageSize:${tableId}`, defaultPageSize);
+  const [pageIndex, setPageIndex] = useState(0);
 
   const table = useReactTable({
     data: data ?? [],
     columns,
-    state: { sorting, globalFilter, rowSelection },
+    state: { sorting, globalFilter, rowSelection, pagination: { pageIndex, pageSize } },
     onSortingChange: setSorting,
+    onPaginationChange: (updater) => {
+      const next = typeof updater === "function" ? updater({ pageIndex, pageSize }) : updater;
+      setPageIndex(next.pageIndex);
+    },
     onRowSelectionChange: (updater) => {
 
       const next = typeof updater === "function" ? updater(rowSelection) : updater;
@@ -47,23 +67,20 @@ export default function DashTable({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageSize } },
     autoResetPageIndex: true,
   });
 
   const total = table.getFilteredRowModel().rows.length;
-
-  const pageCount = table.getPageCount();
 
   if (!loading && total === 0 && empty) {
     return <EmptyState {...empty} />;
   }
 
   return (
-    <div>
-      <div className="overflow-x-auto border border-umber-50 bg-ivory-50">
+    <div className={cn(fill && "lg:flex lg:min-h-0 lg:flex-1 lg:flex-col")}>
+      <div className={cn("overflow-x-auto border border-umber-50 bg-ivory-50", fill && "lg:min-h-0 lg:flex-1 lg:overflow-y-auto")}>
         <table className="w-full">
-          <TableHead table={table} enableSelection={enableSelection} />
+          <TableHead table={table} enableSelection={enableSelection} sticky={fill} />
           <TableBody
             table={table}
             columns={columns}
@@ -75,7 +92,16 @@ export default function DashTable({
         </table>
       </div>
 
-      <TablePagination table={table} pageCount={pageCount} total={total} unit={unit} />
+      <TablePagination
+        table={table}
+        total={total}
+        unit={unit}
+        pageSizeOptions={pageSizeOptions}
+        onPageSizeChange={(size) => {
+          setPageSize(size);
+          setPageIndex(0);
+        }}
+      />
     </div>
   );
 }

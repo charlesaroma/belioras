@@ -3,10 +3,10 @@ import { Eye, Package, Pencil, Trash2 } from "lucide-react";
 
 import StatusChip from "../../../../../components/ui/StatusChip";
 import { cn } from "../../../../../utils/cn";
+import { STOCK_LEVELS } from "../../../../../utils/stockLevel";
 import IconAction from "../../../../components/IconAction";
 
-/* LOW STOCK */
-const LOW_STOCK = 5;
+const LEVEL_TONE = { in: "", low: "font-medium text-warning", out: "font-medium text-error" };
 
 export function buildProductColumns({ format, onView, onEdit, onDelete }) {
   return [
@@ -45,20 +45,12 @@ export function buildProductColumns({ format, onView, onEdit, onDelete }) {
       accessorKey: "stock",
       header: "Stock",
       meta: { align: "right" },
-      cell: ({ getValue }) => {
-
-        const stock = getValue();
-        return (
-          <span
-            className={cn(
-              "tabular-nums",
-              stock === 0 ? "text-error" : stock <= LOW_STOCK ? "text-warning" : "",
-            )}
-          >
-            {stock}
-          </span>
-        );
-      },
+      // Coloured by the same low-stock rule Inventory and the filters use.
+      cell: ({ row, getValue }) => (
+        <span className={cn("tabular-nums", LEVEL_TONE[row.original.level])} title={STOCK_LEVELS[row.original.level]?.label}>
+          {getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "status",

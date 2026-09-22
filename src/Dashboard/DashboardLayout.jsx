@@ -1,5 +1,5 @@
 /* Admin Dashboard: DashboardLayout */
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import ConfirmDialog from "../components/ui/ConfirmDialog";
@@ -37,6 +37,12 @@ export default function DashboardLayout() {
     toast("Signed out after 30 minutes of inactivity.", "info");
   }, [logout, navigate, toast]);
 
+  // The window's scroll-to-top on navigation does not reach <main>.
+  const mainRef = useRef(null);
+  useEffect(() => {
+    mainRef.current?.scrollTo(0, 0);
+  }, [pathname]);
+
   const { warning, extend } = useIdleTimeout({
     timeout: IDLE_TIMEOUT,
     warnBefore: IDLE_WARNING,
@@ -61,10 +67,15 @@ export default function DashboardLayout() {
         onToggleCollapsed={() => setCollapsed((v) => !v)}
       />
 
-      <div className="flex min-h-dvh flex-col">
+      {/*
+        On a desktop the page scrolls inside <main>, not the window, so a list
+        page can hold its toolbar still and scroll only its rows (DashTable
+        `fill`). A phone keeps ordinary page scrolling.
+      */}
+      <div className="flex min-h-dvh flex-col lg:h-dvh">
         <DashHeader title={title} onMenuToggle={() => setSidebarOpen(true)} />
 
-        <main className="flex-1 px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
+        <main ref={mainRef} className="flex-1 px-5 py-8 sm:px-8 lg:min-h-0 lg:overflow-y-auto lg:px-10 lg:py-10">
           <Outlet />
         </main>
       </div>

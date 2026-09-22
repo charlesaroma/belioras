@@ -5,13 +5,16 @@
  * stock count sitting next to it in the same row.
  */
 
+import { stockLevel, thresholdFor } from "@/utils/stockLevel";
+
 /** Category shows its name; an id with no category behind it shows as-is. */
-export function toRows(products, categories = []) {
+export function toRows(products, categories = [], lowStock) {
   const names = new Map((categories ?? []).map((c) => [c.id, c.name]));
   return (products ?? []).map((p) => ({
     ...p,
     status: p.stock === 0 ? "out_of_stock" : (p.status ?? "active"),
     category: names.get(p.collectionId) ?? p.collectionId ?? "—",
+    level: stockLevel(p.stock, thresholdFor(p, lowStock)),
   }));
 }
 
@@ -39,7 +42,7 @@ export function emptyState(filtering) {
   return filtering
     ? {
         title: "Nothing matches",
-        description: "Try a different search, or clear the status filter.",
+        description: "Try a different search, or clear the filters.",
       }
     : {
         title: "No pieces yet",
