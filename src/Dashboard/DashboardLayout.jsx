@@ -11,6 +11,7 @@ import { cn } from "../utils/cn";
 import DashSidebar from "./components/DashSidebar";
 import DashHeader from "./components/DashHeader";
 import { DASHBOARD_NAV_ITEMS } from "./lib/constants";
+import { HeaderSlotContext } from "./lib/headerSlot";
 
 /* IDLE TIMEOUT */
 const IDLE_TIMEOUT = 30 * 60 * 1000;
@@ -36,6 +37,9 @@ export default function DashboardLayout() {
     navigate("/atelier", { replace: true });
     toast("Signed out after 30 minutes of inactivity.", "info");
   }, [logout, navigate, toast]);
+
+  // Where a page's main action renders, in the header (DashHeaderActions).
+  const [headerSlot, setHeaderSlot] = useState(null);
 
   // The window's scroll-to-top on navigation does not reach <main>.
   const mainRef = useRef(null);
@@ -73,10 +77,12 @@ export default function DashboardLayout() {
         `fill`). A phone keeps ordinary page scrolling.
       */}
       <div className="flex min-h-dvh flex-col lg:h-dvh">
-        <DashHeader title={title} onMenuToggle={() => setSidebarOpen(true)} />
+        <DashHeader title={title} onMenuToggle={() => setSidebarOpen(true)} actionsRef={setHeaderSlot} />
 
         <main ref={mainRef} className="flex-1 px-5 py-8 sm:px-8 lg:min-h-0 lg:overflow-y-auto lg:px-10 lg:py-10">
-          <Outlet />
+          <HeaderSlotContext.Provider value={headerSlot}>
+            <Outlet />
+          </HeaderSlotContext.Provider>
         </main>
       </div>
 

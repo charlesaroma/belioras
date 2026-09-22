@@ -8,6 +8,7 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getCategories } from "../../../services/catalog/categoriesApi";
 import { getColors } from "../../../services/catalog/colorsApi";
+import { usePageSize } from "../../lib/usePageSize";
 import { useProductsList } from "./sections/productsTable/useProductsList";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import {
@@ -46,6 +47,7 @@ export default function DashProducts() {
 
   const rows = useMemo(() => toRows(products, categories), [products, categories]);
   const list = useProductsList(rows, { categories, colors, format });
+  const [pageSize, setPageSize] = usePageSize("products");
 
   const confirmDelete = async () => {
 
@@ -109,6 +111,8 @@ export default function DashProducts() {
         groups={list.groups}
         filters={list.filters}
         onFiltersChange={list.setFilters}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
       />
 
       <BulkActionsBar
@@ -125,7 +129,8 @@ export default function DashProducts() {
         initialSorting={[{ id: "name", desc: false }]}
         enableSelection
         onSelectionChange={setSelectedIds}
-        tableId="products"
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
         fill
         unit={list.visible.length === 1 ? "piece" : "pieces"}
         empty={{ icon: Package, ...emptyState(list.filtering) }}
@@ -136,12 +141,7 @@ export default function DashProducts() {
         onClose={() => setViewing(null)} onEdit={(p) => navigate(`/dashboard/products/${p.id}/edit`)}
         format={format} categories={categories ?? []} taxonomy={taxonomy ?? {}} />
 
-      <DeleteProductDialog
-        product={pendingDelete}
-        format={format}
-        onClose={() => setPendingDelete(null)}
-        onConfirm={confirmDelete}
-      />
+      <DeleteProductDialog product={pendingDelete} format={format} onClose={() => setPendingDelete(null)} onConfirm={confirmDelete} />
     </div>
   );
 }

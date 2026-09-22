@@ -19,7 +19,9 @@ import { PAGE_SIZES } from "../lib/tablePaging";
 /**
  * A sortable, searchable, paged table.
  *
- * `tableId` names where its rows-per-page choice is remembered. `fill` makes it
+ * `tableId` names where its rows-per-page choice is remembered; a page that
+ * puts the "Show" menu in its own toolbar passes `pageSize` and
+ * `onPageSizeChange` (see usePageSize) instead. `fill` makes it
  * take the rest of the page on a desktop, so the page's own toolbar stays put
  * and only the rows scroll, under a header that stays in view. The page must
  * be a column with a height for that: see the Products page.
@@ -35,7 +37,8 @@ export default function DashTable({
   empty,
   unit = "rows",
   tableId = "all",
-  pageSize: defaultPageSize = 20,
+  pageSize: controlledSize,
+  onPageSizeChange,
   pageSizeOptions = PAGE_SIZES,
   fill = false,
   initialSorting = [],
@@ -43,8 +46,14 @@ export default function DashTable({
 }) {
   const [sorting, setSorting] = useState(initialSorting);
   const [rowSelection, setRowSelection] = useState({});
-  const [pageSize, setPageSize] = useLocalStorage(`belioras:dash:pageSize:${tableId}`, defaultPageSize);
-  const [pageIndex, setPageIndex] = useState(0);
+  // A page that shows its own "Show" menu passes the size in; otherwise the
+  // table keeps it, with the menu beside its pagination.
+  const [ownSize, setOwnSize] = useLocalStorage(`belioras:dash:pageSize:${tableId}`, 20);
+  const pageSize = onPageSizeChange ? controlledSize : ownSize;
+  // The page index belongs to one page size: a new size starts at page 1.
+  const [paging, setPaging] = useState({ size: pageSize, index: 0 });
+  const pageIndex = paging.size === pageSize ? paging.index : 0;
+  const setPageIndex = (index) => setPaging({ size: pageSize, index });
 
   const table = useReactTable({
     data: data ?? [],
@@ -96,11 +105,8 @@ export default function DashTable({
         table={table}
         total={total}
         unit={unit}
-        pageSizeOptions={pageSizeOptions}
-        onPageSizeChange={(size) => {
-          setPageSize(size);
-          setPageIndex(0);
-        }}
+        pageSizeOptions={onPageSizeChange ? null : pageSizeOptions}
+        onPageSizeChange={setOwnSize}
       />
     </div>
   );

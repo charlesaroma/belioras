@@ -4,26 +4,39 @@ import { Plus } from "lucide-react";
 import Button from "../../../../../components/ui/Button";
 import DashFilterChips from "../../../../components/DashFilterChips";
 import DashFilters from "../../../../components/DashFilters";
-import DashToolbar, { FilterTabs } from "../../../../components/DashToolbar";
+import DashHeaderActions from "../../../../components/DashHeaderActions";
+import DashTabs from "../../../../components/DashTabs";
+import DashToolbar from "../../../../components/DashToolbar";
+import PageSizeSelect from "../../../../components/PageSizeSelect";
 
-export default function ProductsToolbar({ query, onQueryChange, tabs, status, onStatusChange, groups, filters, onFiltersChange }) {
+/**
+ * Three quiet rows rather than one crowded one: the status tabs across the
+ * top, then search, Filters and "Show 20", then the filters that are on.
+ * "Add product" is the page's main action, so it sits in the page header.
+ */
+export default function ProductsToolbar({
+  query, onQueryChange, tabs, status, onStatusChange, groups, filters, onFiltersChange, pageSize, onPageSizeChange,
+}) {
   return (
-    <div className="shrink-0 space-y-3">
+    <div className="shrink-0 space-y-4">
+      <DashHeaderActions>
+        <Button icon={Plus} size="sm" to="/dashboard/products/new" className="h-10">
+          <span className="hidden sm:inline">Add product</span>
+          <span className="sm:hidden">Add</span>
+        </Button>
+      </DashHeaderActions>
+
+      <DashTabs ariaLabel="Products by status" options={tabs} value={status} onChange={onStatusChange} />
+
       <DashToolbar
         query={query}
         onQueryChange={onQueryChange}
-        placeholder="Search by name, slug, category or colour"
-        filters={
-          <>
-            <FilterTabs ariaLabel="Filter by status" value={status} onChange={onStatusChange} options={tabs} />
-            <DashFilters groups={groups} value={filters} onChange={onFiltersChange} />
-          </>
-        }
+        placeholder="Search pieces"
+        filters={<DashFilters groups={groups} value={filters} onChange={onFiltersChange} />}
       >
-        <Button icon={Plus} to="/dashboard/products/new">
-          Add product
-        </Button>
+        <PageSizeSelect value={pageSize} onChange={onPageSizeChange} />
       </DashToolbar>
+
       <DashFilterChips groups={groups} value={filters} onChange={onFiltersChange} />
     </div>
   );
