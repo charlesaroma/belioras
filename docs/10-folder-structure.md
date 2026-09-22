@@ -103,20 +103,25 @@ A complete admin app living beside the storefront:
 Page folders are numbered the same way `src/pages/` numbers the storefront,
 and for the same reason: the number is the order the sidebar shows them
 (`lib/constants.jsx`), so the folder listing and the navigation read alike.
+A new page takes the number of its place in the sidebar, and the folders after
+it move up by one.
 
 ```
 pages/
-├── 0.overview/    DashOverview.jsx
-├── 1.products/    DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
-├── 2.categories/  DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
-├── 3.mega-menu/   DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
-├── 4.orders/        DashOrders.jsx
-├── 5.transactions/  DashTransactions.jsx  (super-admin only)
-├── 6.customers/     DashCustomers.jsx
-├── 7.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
-├── 8.team/          DashTeam.jsx
-└── 9.settings/      DashSettings.jsx
+├── 0.overview/       DashOverview.jsx
+├── 2.products/       DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
+├── 4.categories/     DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
+├── 6.mega-menu/      DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
+├── 7.orders/         DashOrders.jsx
+├── 8.transactions/   DashTransactions.jsx  (super-admin only)
+├── 10.customers/     DashCustomers.jsx
+├── 13.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
+├── 14.team/          DashTeam.jsx
+└── 15.settings/      DashSettings.jsx
 ```
+
+The gaps are the pages being added next, in their sidebar places:
+`1.reports`, `3.inventory`, `5.sizes`, `9.discounts`, `11.reviews`, `12.messages`.
 
 Modals sit directly in `sections/` rather than a nested `modals/` folder —
 `sections/` already means "private to this page", and a second level said the

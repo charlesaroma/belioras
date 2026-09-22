@@ -15,7 +15,7 @@ import {
   DashTeam,
   DashSettings,
 } from "../Dashboard";
-import ProductForm from "../Dashboard/pages/1.products/product-form";
+import ProductForm from "../Dashboard/pages/2.products/product-form";
 
 export default function dashboardRoutes() {
   return (
