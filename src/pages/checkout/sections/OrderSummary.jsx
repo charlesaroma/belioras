@@ -4,6 +4,7 @@ import { Loader2, Tag, X } from "lucide-react";
 
 import { useCurrency } from "../../../context/CurrencyContext";
 import { validateCoupon } from "../../../services/sales/couponsApi";
+import { useToast } from "@/context/ToastContext";
 import { cn } from "../../../utils/cn";
 
 export default function OrderSummary({ items, totals, coupon, onCoupon, disabled }) {
@@ -11,18 +12,21 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
   const [code, setCode] = useState("");
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
+  const { toast } = useToast();
 
   const apply = async () => {
     if (!code.trim()) return;
     setChecking(true);
     setError("");
     try {
-
       const valid = await validateCoupon(code, totals.subtotal);
       onCoupon(valid);
       setCode("");
+      toast(`${valid.code} applied to your order.`, "success");
     } catch (err) {
-      setError(err.message ?? "That code is not valid.");
+      const message = err.message ?? "That code is not valid.";
+      setError(message);
+      toast(message, "error");
     } finally {
       setChecking(false);
     }
@@ -35,11 +39,7 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
       <ul className="mt-5 space-y-4 border-b border-umber-50 pb-5">
         {items.map((item) => (
           <li key={`${item.id}-${item.size}-${item.color}`} className="flex gap-3">
-            <img
-              src={item.image}
-              alt=""
-              className="size-16 shrink-0 border border-umber-50 object-cover"
-            />
+            <img src={item.image} alt="" className="size-16 shrink-0 border border-umber-50 object-cover" />
             <div className="min-w-0 flex-1">
               <p className="truncate text-[13px] text-espresso">{item.name}</p>
               <p className="mt-0.5 text-[11px] text-espresso-soft">

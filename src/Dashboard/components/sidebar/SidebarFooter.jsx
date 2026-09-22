@@ -1,20 +1,12 @@
 /* Admin Dashboard: SidebarFooter */
-import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 import Avatar from "../../../components/account/Avatar";
+import { useStaffSignOut } from "@/context/auth/useSignOut";
 import { cn } from "../../../utils/cn";
 
-export default function SidebarFooter({ user, logout, collapsed }) {
-
-  const navigate = useNavigate();
-
-  const signOut = async () => {
-    // Same ordering as the account area: leave the guarded route before the
-    // session disappears, or the guard redirects first.
-    navigate("/atelier", { replace: true });
-    if (typeof logout === "function") await logout();
-  };
+export default function SidebarFooter({ user, collapsed }) {
+  const signOut = useStaffSignOut();
 
   return (
     <div className="shrink-0 border-t border-ivory-50/10 p-3">

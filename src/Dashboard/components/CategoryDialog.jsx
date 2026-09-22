@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
+import { useToast } from "@/context/ToastContext";
 import CategoryTypesField from "./CategoryTypesField";
 import ChoiceChips from "./ChoiceChips";
 
@@ -27,6 +28,7 @@ export default function CategoryDialog({
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
 
   const toggle = (key) => (id) =>
     setForm((f) => ({
@@ -44,7 +46,9 @@ export default function CategoryDialog({
       const sizes = sizeOptions.map((s) => s.id).filter((id) => form.sizes.includes(id));
       await onSave({ ...form, sizes });
     } catch (err) {
-      setError(err.message ?? "Could not save that category.");
+      const message = err.message ?? "Could not save that category.";
+      setError(message);
+      toast(message, "error");
     } finally {
       setSaving(false);
     }

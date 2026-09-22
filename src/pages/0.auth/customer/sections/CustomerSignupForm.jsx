@@ -49,7 +49,9 @@ export default function CustomerSignupForm() {
       toast("Welcome to Belioras", "success");
       navigate(resolveLanding(result?.user, location.state?.from), { replace: true });
     } catch (err) {
-      setError(err?.message ?? "Registration failed. Please try again.");
+      const message = err?.message ?? "Registration failed. Please try again.";
+      setError(message);
+      toast(message, "error");
     }
   };
 

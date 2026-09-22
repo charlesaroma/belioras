@@ -6,6 +6,7 @@ import { LogOut } from "lucide-react";
 import Avatar from "../../account/Avatar";
 import { accountMenuItems } from "../../account/accountMenuItems";
 import { useCustomerAuth, useStaffAuth } from "@/context/auth/useAuthRealm";
+import { useCustomerSignOut } from "@/context/auth/useSignOut";
 import { useLanguage } from "../../../context/LanguageContext";
 import { cn } from "../../../utils/cn";
 
@@ -14,7 +15,8 @@ export default function AccountMenu() {
   // answers a separate question — whether to add the dashboard row — so it is
   // read separately, and someone signed into both gets the shortcut without
   // either session standing in for the other.
-  const { user, logout } = useCustomerAuth();
+  const { user } = useCustomerAuth();
+  const signOut = useCustomerSignOut();
   const { isAdmin } = useStaffAuth();
   const { t } = useLanguage();
   const { pathname } = useLocation();
@@ -131,7 +133,7 @@ export default function AccountMenu() {
               }}
               onClick={() => {
                 setOpen(false);
-                logout?.();
+                signOut();
               }}
               className="flex w-full items-center gap-3 border-t border-umber-50 px-4 py-2.5 text-left text-[13px] text-espresso-soft transition-colors hover:bg-brown-50 hover:text-error"
             >

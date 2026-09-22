@@ -9,6 +9,7 @@ import {
 } from "../../../../components/storefront/sizeChart/sizeChartKind";
 import { useCart } from "../../../../context/CartContext";
 import { useLanguage } from "../../../../context/LanguageContext";
+import { useToast } from "../../../../context/ToastContext";
 import { useWishlist } from "../../../../context/WishlistContext";
 import { stockFor } from "../../../../utils/productColors";
 import ProductBuyPanelVariants from "./ProductBuyPanelVariants";
@@ -21,6 +22,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
   const { addItem } = useCart();
   const { has, toggle } = useWishlist();
   const { t } = useLanguage();
+  const { toast } = useToast();
 
   const [size, setSize] = useState(null);
   const [qty, setQty] = useState(1);
@@ -56,7 +58,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
       return;
     }
     setSizeError("");
-    addItem(product, {
+    const ok = addItem(product, {
       size: size ?? product.sizes?.[0] ?? null,
       color,
       quantity: qty,
@@ -64,8 +66,18 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
       image: images?.[0],
       stock: available,
     });
+    if (!ok) {
+      toast(`There is no more stock of ${product.name} in that size.`, "error");
+      return;
+    }
+    toast(`${product.name} added to your bag.`, "success");
     setAdded(true);
     setTimeout(() => setAdded(false), ADDED_FEEDBACK_MS);
+  };
+
+  const toggleSaved = () => {
+    toggle(product.id);
+    toast(saved ? `${product.name} removed from your wishlist.` : `${product.name} saved to your wishlist.`, saved ? "info" : "success");
   };
 
   return (
@@ -95,7 +107,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
         added={added}
         soldOut={soldOut}
         saved={saved}
-        onToggleSaved={() => toggle(product.id)}
+        onToggleSaved={toggleSaved}
       />
 
       <ProductPageAccordions product={product} />

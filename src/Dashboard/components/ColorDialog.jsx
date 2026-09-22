@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
+import { useToast } from "@/context/ToastContext";
 
 const EMPTY = { name: "", hex: "#120700", family: "" };
 
@@ -17,6 +18,7 @@ export default function ColorDialog({ open, initial = null, families = [], onClo
   const [form, setForm] = useState(initial ?? EMPTY);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
   const swatch = /^#[0-9a-f]{6}$/i.test(form.hex) ? form.hex : "#000000";
@@ -29,7 +31,9 @@ export default function ColorDialog({ open, initial = null, families = [], onClo
     try {
       await onSave(form);
     } catch (err) {
-      setError(err.message ?? "Could not save that colour.");
+      const message = err.message ?? "Could not save that colour.";
+      setError(message);
+      toast(message, "error");
     } finally {
       setSaving(false);
     }

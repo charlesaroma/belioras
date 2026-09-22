@@ -4,6 +4,7 @@ import { ImagePlus } from "lucide-react";
 
 import { cn } from "../../../../../utils/cn";
 import { ACCEPT, MAX_BYTES, processImage } from "@/Dashboard/lib/imageUpload";
+import { useToast } from "@/context/ToastContext";
 import ProductFormDropzoneThumbs from "./ProductFormDropzoneThumbs";
 
 export default function ProductFormDropzone({
@@ -18,6 +19,7 @@ export default function ProductFormDropzone({
 }) {
   const [dragging, setDragging] = useState(false);
   const [busy, setBusy] = useState(null); // {done, total}
+  const { toast } = useToast();
   const [error, setError] = useState("");
 
   const inputRef = useRef(null);
@@ -33,21 +35,22 @@ export default function ProductFormDropzone({
 
       const files = Array.from(fileList ?? []);
       if (!files.length) return;
+      const fail = (message) => (setError(message), toast(message, "error"));
 
       const room = max - images.length;
       if (room <= 0) {
-        setError(`Up to ${max} photos.`);
+        fail(`Up to ${max} photos.`);
         return;
       }
 
       const usable = [];
       for (const file of files.slice(0, room)) {
         if (!ACCEPT.includes(file.type)) {
-          setError(`${file.name} is not a JPEG, PNG, WebP or AVIF.`);
+          fail(`${file.name} is not a JPEG, PNG, WebP or AVIF.`);
           continue;
         }
         if (file.size > MAX_BYTES) {
-          setError(`${file.name} is over 10MB.`);
+          fail(`${file.name} is over 10MB.`);
           continue;
         }
         usable.push(file);
@@ -76,16 +79,19 @@ export default function ProductFormDropzone({
             colorId: defaultColorId,
           });
         } catch {
-          setError(`${file.name} could not be read.`);
+          fail(`${file.name} could not be read.`);
         }
       }
 
       const finished = { done: usable.length, total: usable.length };
       setBusy(null);
       onProgress?.(finished);
-      if (added.length) onChange([...images, ...added]);
+      if (added.length) {
+        onChange([...images, ...added]);
+        toast(`${added.length} ${added.length === 1 ? "photo" : "photos"} added.`, "success");
+      }
     },
-    [images, max, onChange, onProgress, defaultColorId],
+    [images, max, onChange, onProgress, defaultColorId, toast],
   );
 
   const removeAt = (i) => {

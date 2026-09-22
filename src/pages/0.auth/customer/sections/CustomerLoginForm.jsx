@@ -51,7 +51,9 @@ export default function CustomerLoginForm() {
       // then dumped on the account overview.
       navigate(resolveLanding(result?.user, location.state?.from), { replace: true });
     } catch (err) {
-      setError(err?.message ?? "Sign in failed. Please try again.");
+      const message = err?.message ?? "Sign in failed. Please try again.";
+      setError(message);
+      toast(message, "error");
     }
   };
 

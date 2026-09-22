@@ -60,7 +60,9 @@ export default function AtelierLogin() {
       // uncancelled timer that fired even after unmount.
       navigate(resolveLanding(signedIn, location.state?.from), { replace: true });
     } catch (err) {
-      setError(err?.message ?? "Sign in failed. Please try again.");
+      const message = err?.message ?? "Sign in failed. Please try again.";
+      setError(message);
+      toast(message, "error");
     }
   };
 

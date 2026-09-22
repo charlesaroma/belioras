@@ -22,7 +22,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
   // answers a separate question — whether to add the dashboard row — so it is
   // read separately, and someone signed into both gets the shortcut without
   // either session standing in for the other.
-  const { user, logout } = useCustomerAuth();
+  const { user } = useCustomerAuth();
   const { isAdmin } = useStaffAuth();
   const { t } = useLanguage();
   const { count: wishlistCount } = useWishlist();
@@ -112,7 +112,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
               />
             </div>
 
-            <MobileMenuFooter user={user} logout={logout} t={t} onClose={onClose} />
+            <MobileMenuFooter user={user} t={t} onClose={onClose} />
           </motion.div>
         </>
       )}

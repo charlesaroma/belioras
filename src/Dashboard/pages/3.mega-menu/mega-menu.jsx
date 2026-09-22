@@ -62,9 +62,13 @@ export default function DashMegaMenu() {
 
   const reset = async () => {
     setConfirmReset(false);
-    await resetNavigation();
-    setEdits(null);
-    toast("Menu restored to the original version.", "success");
+    try {
+      await resetNavigation();
+      setEdits(null);
+      toast("Menu restored to the original version.", "success");
+    } catch (err) {
+      toast(err.message ?? "Could not restore the menu.", "error");
+    }
   };
 
   if (loading) {

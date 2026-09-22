@@ -6,6 +6,7 @@ import { Camera, ImageUp, Loader2, X } from "lucide-react";
 import Button from "../../../ui/Button";
 import Modal from "../../../common/Modal";
 import { searchByImage } from "../../../../services/catalog/visualSearchApi";
+import { useToast } from "@/context/ToastContext";
 import { cn } from "../../../../utils/cn";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/heic";
@@ -51,6 +52,7 @@ export default function SearchPanelImageSearch({ open, onClose }) {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [dragging, setDragging] = useState(false);
+  const { toast } = useToast();
 
   // Object URLs are a manual resource; the last one is revoked on unmount.
   useEffect(
@@ -95,10 +97,14 @@ export default function SearchPanelImageSearch({ open, onClose }) {
 
   const submit = async () => {
     setState("searching");
-
-    const response = await searchByImage(blob);
-    setResult(response);
-    setState("done");
+    try {
+      const response = await searchByImage(blob);
+      setResult(response);
+      setState("done");
+    } catch (err) {
+      setState("idle");
+      toast(err?.message ?? "Photo search is not responding. Please try again.", "error");
+    }
   };
 
   return (

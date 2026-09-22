@@ -1,12 +1,13 @@
 /* Identity And Sign Out */
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 import Avatar from "../../../account/Avatar";
+import { useCustomerSignOut } from "@/context/auth/useSignOut";
 
 // Who you are, and the one way out. Everything else scrolls above this.
-export default function MobileMenuFooter({ user, logout, t, onClose }) {
-  const navigate = useNavigate();
+export default function MobileMenuFooter({ user, t, onClose }) {
+  const signOut = useCustomerSignOut();
 
   if (!user) {
     return (
@@ -46,10 +47,7 @@ export default function MobileMenuFooter({ user, logout, t, onClose }) {
           type="button"
           onClick={() => {
             onClose();
-            // Leave the guarded route before the session clears, or
-            // RequireAuth redirects to the sign-in page first.
-            navigate("/", { replace: true });
-            logout();
+            signOut();
           }}
           aria-label="Sign out"
           className="flex size-11 shrink-0 items-center justify-center text-espresso/40 transition-colors hover:text-error"

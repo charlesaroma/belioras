@@ -5,6 +5,7 @@ import { ArrowRight, Check, Copy } from "lucide-react";
 
 import Modal from "../../../../../components/common/Modal";
 import StatusChip from "../../../../../components/ui/StatusChip";
+import { useToast } from "@/context/ToastContext";
 import {
   TRANSACTION_TYPE,
   describeMethod,
@@ -15,6 +16,7 @@ const PROVIDER = { stripe: "Stripe", paypal: "PayPal" };
 
 export default function TransactionsDetailModal({ transaction: t, related, onClose, onOpen, locale, dateFmt }) {
   const [copied, setCopied] = useState(null);
+  const { toast } = useToast();
   const money = (amount, currency = t?.currency) => formatCharged(amount, currency, locale);
 
   const copy = async () => {
@@ -22,8 +24,10 @@ export default function TransactionsDetailModal({ transaction: t, related, onClo
       await navigator.clipboard.writeText(t.providerRef);
       setCopied(t.id);
       setTimeout(() => setCopied(null), 1500);
+      toast("Payment reference copied.", "success");
     } catch {
       // Clipboard refused; the reference is still selectable text.
+      toast("Could not copy. Select the reference and copy it instead.", "error");
     }
   };
 

@@ -6,6 +6,7 @@ import { ArrowLeft, KeyRound, Loader2, MailCheck } from "lucide-react";
 
 import BrandMark from "../../../components/shared/BrandMark";
 import { requestPasswordReset } from "@/services/auth/authApi";
+import { useToast } from "@/context/ToastContext";
 
 /* HERO IMAGE */
 const HERO_IMAGE = "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/model-belioras123.jpeg";
@@ -49,6 +50,7 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,6 +63,11 @@ export default function ForgotPasswordPage() {
     try {
       await requestPasswordReset(email);
       setSent(true);
+      toast("Check your inbox for a link to reset your password.", "success");
+    } catch (err) {
+      const message = err?.message ?? "Could not send the reset link. Please try again.";
+      setError(message);
+      toast(message, "error");
     } finally {
       setSubmitting(false);
     }

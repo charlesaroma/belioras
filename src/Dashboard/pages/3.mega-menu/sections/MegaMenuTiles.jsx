@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Plus } from "lucide-react";
 
 import { ACCEPT, processImage } from "@/Dashboard/lib/imageUpload";
+import { useToast } from "@/context/ToastContext";
 import { resolveTile } from "@/services/catalog/navigationApi";
 import { describeTarget } from "@/utils/menuTargetText";
 
@@ -42,12 +43,18 @@ export default function MegaMenuTiles({ root, editor, lookups, onPick }) {
 
 function TileCard({ tile, root, editor, lookups, onPick }) {
   const inputRef = useRef(null);
+  const { toast } = useToast();
   const shown = resolveTile(tile, lookups.products);
 
   const replace = async (file) => {
     if (!file) return;
-    const { url } = await processImage(file);
-    editor.patchTile(tile.id, { image: url });
+    try {
+      const { url } = await processImage(file);
+      editor.patchTile(tile.id, { image: url });
+      toast("Photo added. Save the menu to show it in the shop.", "success");
+    } catch {
+      toast(`${file.name} could not be read. Try a JPEG, PNG or WebP.`, "error");
+    }
   };
 
   return (

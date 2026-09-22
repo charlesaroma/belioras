@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
+import { useToast } from "@/context/ToastContext";
 import { saveCampaign, scheduleCampaign, sendCampaign, unscheduleCampaign } from "@/services/marketing/campaignsApi";
 import CampaignFormFields from "./CampaignFormFields";
 import NewsletterEmailPreview from "./NewsletterEmailPreview";
@@ -14,6 +15,7 @@ const SOLID = "bg-espresso text-ivory-50 hover:bg-espresso-600";
 /** Writes, schedules or sends one campaign. Remount with a changing `key` per open. */
 export default function CampaignEditor({ open, campaign, audience, products, pages, onClose, onChanged }) {
   const { locale } = useLanguage();
+  const { toast } = useToast();
   const [form, setForm] = useState(() => (campaign ? fromCampaign(campaign) : EMPTY_CAMPAIGN));
   const [sendAt, setSendAt] = useState(() => toLocalInput(campaign?.sendAt));
   const [confirming, setConfirming] = useState(false);
@@ -34,7 +36,9 @@ export default function CampaignEditor({ open, campaign, audience, products, pag
       const saved = await saveCampaign({ ...form, id: campaign?.id });
       onChanged(await action(saved));
     } catch (err) {
-      setError(err.message ?? "Could not save the campaign.");
+      const message = err.message ?? "Could not save the campaign.";
+      setError(message);
+      toast(message, "error");
       setConfirming(false);
     } finally {
       setBusy(false);

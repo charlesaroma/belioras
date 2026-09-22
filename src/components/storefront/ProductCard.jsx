@@ -3,12 +3,14 @@ import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { useCurrency } from "../../context/CurrencyContext";
+import { useToast } from "../../context/ToastContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../utils/cn";
 
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
   const { has, toggle } = useWishlist();
+  const { toast } = useToast();
 
   const { id, slug, name, price, originalPrice, images = [], isNew, stock = 0 } = product;
 
@@ -67,7 +69,10 @@ export default function ProductCard({ product }) {
 
       <button
         type="button"
-        onClick={() => toggle(id)}
+        onClick={() => {
+          toggle(id);
+          toast(saved ? `${name} removed from your wishlist.` : `${name} saved to your wishlist.`, saved ? "info" : "success");
+        }}
         aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name}`}
         aria-pressed={saved}
         className={cn(

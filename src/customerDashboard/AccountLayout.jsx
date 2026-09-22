@@ -1,21 +1,22 @@
 /* Customer Dashboard: AccountLayout */
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 import { useCustomerAuth } from "@/context/auth/useAuthRealm";
+import { useCustomerSignOut } from "@/context/auth/useSignOut";
 import { useLanguage } from "../context/LanguageContext";
 import { accountMenuItems } from "../components/account/accountMenuItems";
 import { cn } from "../utils/cn";
 
 export default function AccountLayout() {
-  const { user, isAdmin, logout } = useCustomerAuth();
+  const { user, isAdmin } = useCustomerAuth();
+  const signOut = useCustomerSignOut();
   const { t } = useLanguage();
 
   // The same list the header dropdown and the mobile drawer render. This rail
   // kept its own copy, so adding Wardrobe reached both of those and not this.
   const nav = accountMenuItems({ t, isAdmin });
 
-  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   return (
@@ -62,15 +63,7 @@ export default function AccountLayout() {
 
               <button
                 type="button"
-                onClick={async () => {
-                  // Leave the guarded route first. Clearing the session while
-                  // still on /account re-renders RequireAuth, which redirects
-                  // to the sign-in page before this navigate can run — so a
-                  // shopper signing out landed on a login form they had just
-                  // walked away from.
-                  navigate("/", { replace: true });
-                  await logout();
-                }}
+                onClick={signOut}
                 className="flex items-center gap-3 py-3 text-left text-[13px] text-espresso-soft transition-colors hover:text-error"
               >
                 <LogOut className="size-4" strokeWidth={1.5} aria-hidden="true" />
