@@ -6,12 +6,6 @@
     "price": 290,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "maxi",
-      "cocktail",
-      "evening"
-    ],
     "description": "Bias-cut in pure mulberry silk with a whisper-light drape. Adjustable straps and a low cowl back make it as graceful from behind as it is from the front.",
     "details": [
       "Concealed back zip",
@@ -55,8 +49,7 @@
       "occ:cocktail",
       "occ:evening",
       "style:backless",
-      "fabric:satin",
-      "color:white",
+      "fabric:silk",
       "tag:new",
       "tag:featured"
     ],
@@ -79,12 +72,6 @@
     "price": 240,
     "originalPrice": 280,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "midi",
-      "wedding-guest",
-      "cocktail"
-    ],
     "description": "Layers of blush chiffon float over a lined bodice. The off-shoulder neckline is finished with hand-rolled ruffles.",
     "details": [
       "Concealed back zip",
@@ -129,7 +116,6 @@
       "occ:cocktail",
       "style:off-shoulder",
       "fabric:chiffon",
-      "color:pink",
       "tag:new"
     ],
     "colorImages": {
@@ -151,12 +137,6 @@
     "price": 160,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "mini",
-      "party",
-      "birthday"
-    ],
     "description": "Sculpting bandage panels contour the figure in our signature little black dress. A house bestseller since season one.",
     "details": [
       "Concealed back zip",
@@ -201,7 +181,6 @@
       "occ:birthday",
       "style:bodycon",
       "fabric:bandage",
-      "color:black",
       "tag:bestseller"
     ],
     "colorImages": {
@@ -223,12 +202,6 @@
     "price": 480,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "maxi",
-      "gala",
-      "formal"
-    ],
     "description": "A floor-sweeping column in liquid scarlet satin with an internal corset. Made for entrances.",
     "details": [
       "Concealed back zip",
@@ -245,7 +218,7 @@
       "Store on padded hanger"
     ],
     "colors": [
-      "Rosewood",
+      "Scarlet",
       "Burgundy",
       "Ebony"
     ],
@@ -272,7 +245,6 @@
       "occ:formal",
       "style:corset",
       "fabric:satin",
-      "color:red",
       "tag:featured"
     ],
     "colorImages": {
@@ -294,12 +266,6 @@
     "price": 420,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "maxi",
-      "prom",
-      "gala"
-    ],
     "description": "Cloud-like tiers of powder-pink tulle over a boned bodice, scattered with hand-set crystals.",
     "details": [
       "Concealed back zip",
@@ -344,7 +310,6 @@
       "occ:gala",
       "style:embellished",
       "fabric:mesh",
-      "color:pink",
       "tag:new"
     ],
     "colorImages": {
@@ -366,12 +331,6 @@
     "price": 265,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "maxi",
-      "wedding-guest",
-      "party"
-    ],
     "description": "Botanical print on fluid georgette with a halter tie that adjusts to the centimetre.",
     "details": [
       "Concealed back zip",
@@ -415,8 +374,7 @@
       "occ:wedding-guest",
       "occ:party",
       "style:halter-neck",
-      "fabric:chiffon",
-      "color:green"
+      "fabric:chiffon"
     ],
     "colorImages": {
       "Forest": [
@@ -437,12 +395,6 @@
     "price": 230,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "midi",
-      "cocktail",
-      "party"
-    ],
     "description": "Duchess satin with a structured fold-over neckline and gently gathered skirt.",
     "details": [
       "Concealed back zip",
@@ -487,7 +439,6 @@
       "occ:party",
       "style:off-shoulder",
       "fabric:satin",
-      "color:pink",
       "tag:bestseller"
     ],
     "colorImages": {
@@ -509,12 +460,6 @@
     "price": 310,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "midi",
-      "evening",
-      "formal"
-    ],
     "description": "Silk-blend velvet in deep bordeaux, cut close through the body with softly padded shoulders.",
     "details": [
       "Concealed back zip",
@@ -558,7 +503,6 @@
       "occ:formal",
       "style:long-sleeve",
       "fabric:velvet",
-      "color:burgundy",
       "tag:featured"
     ],
     "colorImages": {
@@ -580,12 +524,6 @@
     "price": 280,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "mini",
-      "party",
-      "birthday"
-    ],
     "description": "Hand-applied champagne paillettes on stretch mesh — catches every light in the room.",
     "details": [
       "Concealed back zip",
@@ -629,7 +567,6 @@
       "occ:birthday",
       "style:embellished",
       "fabric:sequin",
-      "color:metallic",
       "tag:new",
       "tag:bestseller"
     ],
@@ -652,11 +589,6 @@
     "price": 360,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "maxi",
-      "wedding-guest"
-    ],
     "description": "Guipure lace over a champagne underlayer, with scalloped hems at the sleeve and skirt.",
     "details": [
       "Concealed back zip",
@@ -698,8 +630,7 @@
       "len:maxi",
       "occ:wedding-guest",
       "style:long-sleeve",
-      "fabric:lace",
-      "color:white"
+      "fabric:lace"
     ],
     "colorImages": {
       "Ivory": [
@@ -720,11 +651,6 @@
     "price": 195,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "midi",
-      "party"
-    ],
     "description": "Illusion mesh panels meet a fully boned corsetry interior. Sharp lines, soft feel.",
     "details": [
       "Concealed back zip",
@@ -768,7 +694,6 @@
       "occ:party",
       "style:corset",
       "fabric:mesh",
-      "color:black",
       "tag:new"
     ],
     "colorImages": {
@@ -790,12 +715,6 @@
     "price": 340,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "dresses",
-      "maxi",
-      "gala",
-      "evening"
-    ],
     "description": "Single-shoulder silhouette in sun-washed crepe with a subtle side slit.",
     "details": [
       "Concealed back zip",
@@ -839,9 +758,7 @@
       "occ:gala",
       "occ:evening",
       "style:one-shoulder",
-      "fabric:crepe",
-      "color:orange",
-      "color:yellow"
+      "fabric:crepe"
     ],
     "colorImages": {
       "Caramel": [
@@ -862,11 +779,6 @@
     "price": 450,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "coats-jackets",
-      "everyday",
-      "evening"
-    ],
     "description": "Double-faced Italian wool in the perfect camel. Dropped shoulder, hidden closure, welt pockets.",
     "details": [
       "Concealed back zip",
@@ -908,7 +820,6 @@
       "occ:everyday",
       "occ:evening",
       "fabric:wool",
-      "color:brown",
       "tag:featured",
       "tag:bestseller"
     ],
@@ -921,11 +832,6 @@
     "price": 520,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "coats-jackets",
-      "everyday",
-      "party"
-    ],
     "description": "Butter-soft lambskin with asymmetric zip and snap-down lapels. Breaks in beautifully.",
     "details": [
       "Concealed back zip",
@@ -965,8 +871,7 @@
       "cat:coats-jackets",
       "occ:everyday",
       "occ:party",
-      "fabric:leather",
-      "color:black"
+      "fabric:leather"
     ],
     "type": "coats-jackets"
   },
@@ -977,11 +882,6 @@
     "price": 220,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "jumpsuits",
-      "formal",
-      "cocktail"
-    ],
     "description": "Sharp suiting lines in stretch crepe — wide leg, cinched waist, zero effort.",
     "details": [
       "Concealed back zip",
@@ -1023,7 +923,6 @@
       "occ:formal",
       "occ:cocktail",
       "fabric:crepe",
-      "color:black",
       "tag:new"
     ],
     "type": "jumpsuits"
@@ -1035,11 +934,6 @@
     "price": 245,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "jumpsuits",
-      "party",
-      "evening"
-    ],
     "description": "Liquid satin with a cowl neck and dramatic puddle hem. Adjust the strap to taste.",
     "details": [
       "Concealed back zip",
@@ -1078,8 +972,7 @@
       "cat:jumpsuits",
       "occ:party",
       "occ:evening",
-      "fabric:satin",
-      "color:burgundy"
+      "fabric:satin"
     ],
     "type": "jumpsuits"
   },
@@ -1090,11 +983,6 @@
     "price": 260,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "two-piece-sets",
-      "party",
-      "birthday"
-    ],
     "description": "Cropped sequin blouse and bias midi skirt, sold as one look. Wear together or apart.",
     "details": [
       "Concealed back zip",
@@ -1135,7 +1023,6 @@
       "occ:party",
       "occ:birthday",
       "fabric:sequin",
-      "color:metallic",
       "tag:new"
     ],
     "type": "two-piece-sets"
@@ -1147,10 +1034,6 @@
     "price": 180,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "two-piece-sets",
-      "everyday"
-    ],
     "description": "Ribbed knit tank and matching skirt in toasted almond. Airport-to-apéro comfort.",
     "details": [
       "Concealed back zip",
@@ -1191,8 +1074,7 @@
     "tags": [
       "cat:two-piece-sets",
       "occ:everyday",
-      "fabric:knit",
-      "color:brown"
+      "fabric:knit"
     ],
     "type": "two-piece-sets"
   },

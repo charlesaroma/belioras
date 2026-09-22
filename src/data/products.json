@@ -6,10 +6,6 @@
     "price": 129,
     "originalPrice": 169,
     "collectionId": "dresses",
-    "categories": [
-      "midi",
-      "evening"
-    ],
     "description": "Liquid satin midi with a softly draped neckline and concealed zip. Cut to skim the body without clinging, finished with a subtle side slit.",
     "details": [
       "Concealed back zip",
@@ -58,7 +54,13 @@
       ]
     },
     "createdAt": "2026-07-18",
-    "featured": true
+    "featured": true,
+    "tags": [
+      "len:midi",
+      "occ:evening",
+      "occ:cocktail",
+      "fabric:satin"
+    ]
   },
   {
     "id": "p2",
@@ -67,10 +69,6 @@
     "price": 98,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "midi",
-      "everyday"
-    ],
     "description": "Airy European linen crafted into a timeless wrap silhouette. Tie waist, elbow sleeves, natural breathability for warm days.",
     "details": [
       "Adjustable wrap tie",
@@ -116,7 +114,12 @@
         "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "createdAt": "2026-03-06"
+    "createdAt": "2026-03-06",
+    "tags": [
+      "len:midi",
+      "occ:everyday",
+      "fabric:linen"
+    ]
   },
   {
     "id": "p3",
@@ -125,10 +128,6 @@
     "price": 149,
     "originalPrice": 199,
     "collectionId": "dresses",
-    "categories": [
-      "midi",
-      "evening"
-    ],
     "description": "Deep-pile velvet slip with delicate adjustable straps. Falls to mid-calf with a bias cut that moves with you.",
     "details": [
       "Adjustable straps",
@@ -174,7 +173,12 @@
         "https://images.unsplash.com/photo-1742038107091-9a7e1f01b42c?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "createdAt": "2026-03-20"
+    "createdAt": "2026-03-20",
+    "tags": [
+      "len:midi",
+      "occ:evening",
+      "fabric:velvet"
+    ]
   },
   {
     "id": "p4",
@@ -183,10 +187,6 @@
     "price": 118,
     "originalPrice": null,
     "collectionId": "dresses",
-    "categories": [
-      "maxi",
-      "everyday"
-    ],
     "description": "Featherlight pleated maxi with a square neckline and optional sash. Packable, effortless, endlessly wearable.",
     "details": [
       "Square neckline",
@@ -231,6 +231,11 @@
         "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "createdAt": "2026-07-22"
+    "createdAt": "2026-07-22",
+    "tags": [
+      "len:maxi",
+      "occ:everyday",
+      "fabric:crepe"
+    ]
   }
 ]
