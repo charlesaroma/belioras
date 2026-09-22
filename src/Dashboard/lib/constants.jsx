@@ -14,6 +14,7 @@ export const DASHBOARD_NAV_GROUPS = [
       // How many of each piece: on hand, held by open orders, and available.
       { id: "inventory", label: "Inventory", icon: "Warehouse", capability: "catalog" },
       { id: "categories", label: "Categories & Colours", icon: "Tags", capability: "content" },
+      { id: "sizes", label: "Sizes & Guides", icon: "Ruler", capability: "content" },
       { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
     ],
   },

@@ -8,6 +8,7 @@ import {
   DashProducts,
   DashInventory,
   DashCategories,
+  DashSizes,
   DashMegaMenu,
   DashOrders,
   DashTransactions,
@@ -44,6 +45,7 @@ export default function dashboardRoutes() {
       <Route path="products/:id/edit" element={<ProductForm />} />
       <Route path="inventory" element={<DashInventory />} />
       <Route path="categories" element={<DashCategories />} />
+      <Route path="sizes" element={<DashSizes />} />
       {/* The navigation tree gets its own section: it is the structure
           shoppers move through, not the vocabulary pieces are tagged
           with, and the two were conflated under Categories. */}

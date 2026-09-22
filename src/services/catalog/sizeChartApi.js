@@ -1,5 +1,5 @@
-import { mockApi } from "@/api/mock";
-import { getState } from "../store/contentStore";
+import { ApiError, mockApi } from "@/api/mock";
+import { getState, resetDomain, setState } from "../store/contentStore";
 
 /**
  * The size reference tables.
@@ -14,4 +14,20 @@ import { getState } from "../store/contentStore";
 
 export function getSizeCharts() {
   return mockApi(() => structuredClone(getState("sizeCharts")), 0);
+}
+
+const SECTIONS = new Set(["garment", "international", "footwear", "hair", "howToMeasure"]);
+
+/** Replaces one whole section — "garment", "international", "footwear", "hair" or "howToMeasure". */
+export function updateSizeChart(section, data) {
+  return mockApi(() => {
+    if (!SECTIONS.has(section)) throw new ApiError(`"${section}" is not a size chart section.`, 404);
+    setState("sizeCharts", (state) => ({ ...state, [section]: data }));
+    return data;
+  });
+}
+
+/** Discards every edit and returns to the shipped tables. */
+export function resetSizeCharts() {
+  return mockApi(() => structuredClone(resetDomain("sizeCharts")));
 }
