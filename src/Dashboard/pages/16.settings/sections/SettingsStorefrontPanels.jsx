@@ -23,7 +23,7 @@ export default function StorefrontPanels({ register, errors }) {
       <Panel title="Tax">
         <Field
           label="VAT rate (%)"
-          helper="Portuguese standard rate is 23%. Prices are shown inclusive."
+          helper="German standard rate is 19%. Prices are shown inclusive."
           error={errors.taxRate?.message}
         >
           <input

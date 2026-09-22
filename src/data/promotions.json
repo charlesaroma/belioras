@@ -8,7 +8,7 @@
   "announcements": [
     {
       "key": "promo.freeShipping",
-      "default": "Free EU shipping on orders over €150"
+      "default": "Free shipping in Germany · free EU shipping over €250"
     },
     {
       "key": "promo.winterStyles",

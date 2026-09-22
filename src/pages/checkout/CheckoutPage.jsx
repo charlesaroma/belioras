@@ -52,7 +52,7 @@ export default function CheckoutPage() {
       line1: defaultAddress?.line1 ?? "",
       city: defaultAddress?.city ?? "",
       postcode: defaultAddress?.postcode ?? "",
-      country: defaultAddress?.country ?? "Portugal",
+      country: defaultAddress?.country ?? "Germany",
     },
   });
 
@@ -71,6 +71,10 @@ export default function CheckoutPage() {
   };
 
   const placeOrder = async (values) => {
+    if (!totals.shippable) {
+      toast(`We don't ship to ${values.country} yet. Choose one of the countries listed.`, "error");
+      return;
+    }
     setPlacing(true);
     try {
 

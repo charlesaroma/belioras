@@ -22,7 +22,7 @@
 /** The four stages a healthy order passes through, in order. */
 export const ORDER_STAGES = [
   { id: "to-pay", label: "To pay", blurb: "Awaiting payment." },
-  { id: "to-ship", label: "To ship", blurb: "Paid, being prepared in Lisbon." },
+  { id: "to-ship", label: "To ship", blurb: "Paid, being prepared in our atelier." },
   { id: "shipped", label: "Shipped", blurb: "With the carrier." },
   { id: "to-review", label: "Delivered", blurb: "Arrived. Tell us how it wears." },
 ];

@@ -1,33 +1,29 @@
 /* Page: Legal - shipping-policy */
 import PageShell, { Section } from "../../components/layout/PageShell";
-
-const ZONES = [
-  { zone: "European Union", cost: "€5.90", free: "Free over €150", time: "2–5 working days" },
-  { zone: "United Kingdom", cost: "€12.00", free: "—", time: "3–7 working days" },
-  { zone: "Rest of World", cost: "€19.00", free: "—", time: "7–14 working days" },
-];
+import { SHIPPING_COUNTRIES } from "../../utils/checkout";
+import { BUSINESS, SHIPPING_ZONES, UPDATED } from "./legalDetails";
 
 export default function ShippingPolicyPage() {
   return (
     <PageShell
-      eyebrow="Client care"
+      eyebrow="Worldwide delivery"
       title="Shipping &amp; Delivery"
-      intro="Where we ship, what it costs, and how long it takes. Every order is tracked and insured."
-      meta="Last updated 8 September 2026"
+      intro="Every order is prepared, packed and dispatched from our atelier. Here's what to expect, wherever you are."
+      meta={UPDATED}
     >
       <Section title="Rates and timings">
         <div className="-mx-1 overflow-x-auto">
-          <table className="w-full min-w-[420px] text-left text-sm">
+          <table className="w-full min-w-[460px] text-left text-sm">
             <thead>
               <tr className="border-b border-umber-50 text-[10px] uppercase tracking-[0.16em] text-espresso/45">
                 <th className="pb-2 pr-4 font-semibold">Destination</th>
                 <th className="pb-2 pr-4 font-semibold">Shipping</th>
-                <th className="pb-2 pr-4 font-semibold">Free over</th>
-                <th className="pb-2 font-semibold">Estimated</th>
+                <th className="pb-2 pr-4 font-semibold">Free</th>
+                <th className="pb-2 font-semibold">Delivery</th>
               </tr>
             </thead>
             <tbody>
-              {ZONES.map((z) => (
+              {SHIPPING_ZONES.map((z) => (
                 <tr key={z.zone} className="border-b border-umber-50/60 last:border-0">
                   <td className="py-3 pr-4 text-espresso">{z.zone}</td>
                   <td className="py-3 pr-4 tabular-nums">{z.cost}</td>
@@ -39,43 +35,54 @@ export default function ShippingPolicyPage() {
           </table>
         </div>
         <p>
-          Times run from dispatch, not from when you order. Orders placed before 13:00 WET on a
-          working day are usually dispatched the same day.
+          EU shipping is free on orders over €250; below that, rates start from €9.99. International
+          rates start from €14.99. The exact cost is shown at checkout.
+        </p>
+      </Section>
+
+      <Section title="Where we ship">
+        <p>
+          <strong>Germany</strong> and the <strong>European Union</strong> ({SHIPPING_COUNTRIES.eu.length} more
+          countries): {SHIPPING_COUNTRIES.eu.join(", ")}.
+        </p>
+        <p>
+          <strong>International</strong> ({SHIPPING_COUNTRIES.intl.length} destinations):{" "}
+          {SHIPPING_COUNTRIES.intl.join(", ")}.
+        </p>
+        <p>Don&rsquo;t see your country, or it is missing at checkout? We don&rsquo;t ship there yet, but our network is growing.</p>
+      </Section>
+
+      <Section title="Processing">
+        <p>
+          Orders are prepared within 1–4 business days before they leave the atelier. Pre-orders need
+          more time; see the delivery estimate above. Delivery times are estimates and can run longer
+          because of customs, weather or the carrier.
+        </p>
+      </Section>
+
+      <Section title="Carrier and tracking">
+        <p>
+          Orders travel mainly with DHL. Where it serves the delivery better, we use another trusted
+          courier. Once your order ships you will get an email with its tracking link, and you can
+          also follow it from <a href="/order-tracking">order tracking</a>.
         </p>
       </Section>
 
       <Section title="Duties and taxes">
+        <p>Prices include VAT. Within the EU, nothing further is due on delivery.</p>
         <p>
-          Prices include 20% VAT. For orders inside the EU, that is everything you pay — nothing
-          further is due on delivery.
-        </p>
-        <p>
-          <strong>Outside the EU</strong>, including the United Kingdom, your order may attract
-          import duty or local tax on arrival. That is set by your country, collected by the carrier,
-          and is not something we can calculate or refund.
+          <strong>Outside the EU</strong>, including the United Kingdom and Switzerland, your order may
+          be charged import duty or tax on arrival. These charges are set by your country, collected
+          by the carrier, and are the customer&rsquo;s to pay.
         </p>
       </Section>
 
-      <Section title="Tracking your order">
+      <Section title="Lost or damaged parcels">
         <p>
-          You will receive a tracking link by email at dispatch. You can also follow an order from{" "}
-          <a href="/order-tracking">order tracking</a>, or in your account if you have one.
-        </p>
-      </Section>
-
-      <Section title="Pre-order pieces">
-        <p>
-          Where a piece is available to pre-order, the expected dispatch date is stated in its
-          description. An order containing a pre-order item ships complete, once every piece in it is
-          ready — tell us if you would prefer it split and we will arrange it.
-        </p>
-      </Section>
-
-      <Section title="If something goes wrong">
-        <p>
-          Every parcel is insured. If yours arrives damaged, or tracking has not moved for five
-          working days, write to <a href="mailto:support@belioras.com">support@belioras.com</a> and we will
-          replace it or refund you.
+          If your parcel arrives damaged, or its tracking hasn&rsquo;t moved for five working days,
+          write to <a href={`mailto:${BUSINESS.support}`}>{BUSINESS.support}</a> and we will sort it
+          out. If tracking says delivered but the parcel hasn&rsquo;t reached you, tell us straight
+          away and we will investigate it with the carrier.
         </p>
       </Section>
     </PageShell>

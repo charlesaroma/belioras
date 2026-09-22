@@ -1,5 +1,6 @@
 /* Page: Checkout - DeliveryForm */
 import Field from "../../../components/ui/Field";
+import { SHIPPING_COUNTRIES } from "../../../utils/checkout";
 
 export default function DeliveryForm({ register, errors, savedAddresses, onUseSaved, signedIn }) {
   return (
@@ -75,12 +76,20 @@ export default function DeliveryForm({ register, errors, savedAddresses, onUseSa
             required
             className="sm:col-span-2"
             error={errors.country?.message}
-            helper="Sets the shipping rate. EU, United Kingdom, or elsewhere."
+            helper="Sets the shipping rate. These are the countries we ship to."
           >
-            <input
-              {...register("country", { required: "A country is required." })}
-              placeholder="Portugal"
-            />
+            {/* A list rather than free text: only countries we ship to can be chosen. */}
+            <select {...register("country", { required: "Choose a country." })}>
+              <optgroup label="Germany">
+                {SHIPPING_COUNTRIES.de.map((c) => <option key={c} value={c}>{c}</option>)}
+              </optgroup>
+              <optgroup label="European Union">
+                {SHIPPING_COUNTRIES.eu.map((c) => <option key={c} value={c}>{c}</option>)}
+              </optgroup>
+              <optgroup label="International">
+                {SHIPPING_COUNTRIES.intl.map((c) => <option key={c} value={c}>{c}</option>)}
+              </optgroup>
+            </select>
           </Field>
         </div>
       </section>

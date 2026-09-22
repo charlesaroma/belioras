@@ -28,7 +28,7 @@ export default function ProductPageAccordions({ product }) {
         <p className="leading-relaxed">
           {t(
             "pdp.shippingBody",
-            "Complimentary EU shipping on orders over €150, tracked and insured. Unworn pieces may be returned within 14 days.",
+            "Free shipping in Germany, and across the EU on orders over €250, tracked with DHL. Unworn pieces can be returned within 14 days; opened hair cannot, for hygiene reasons.",
           )}
         </p>
       </Accordion>

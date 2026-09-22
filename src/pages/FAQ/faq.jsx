@@ -7,15 +7,15 @@ const GROUPS = [
     items: [
       {
         q: "How long will my order take?",
-        a: "Two to five working days inside the EU, three to seven to the UK, and seven to fourteen elsewhere — counted from dispatch. Orders placed before 13:00 WET on a working day usually leave the same day.",
+        a: "We prepare every order within one to four business days. From there it is about 5–14 business days within Germany and the EU, and 7–21 days to our international destinations. Pre-orders take 15–28 business days. We ship with DHL.",
       },
       {
         q: "When is shipping free?",
-        a: "On EU orders over €150. Below that it is €5.90. The UK is €12 and the rest of the world €19, with no free threshold, because both are shipped outside the customs union.",
+        a: "Always within Germany. Across the rest of the EU on orders over €250; below that, from €9.99. International orders (United Kingdom, Switzerland, Norway, United States, Canada, Australia and New Zealand) start from €14.99.",
       },
       {
         q: "Will I pay customs or duty?",
-        a: "Not within the EU — the price you see includes 20% VAT and nothing further is due. Outside the EU, including the UK, your country may charge import duty on arrival. That is collected by the carrier and is outside our control.",
+        a: "Not within the EU: the price you see includes VAT and nothing further is due. Outside the EU, including the UK and Switzerland, your country may charge import duty or tax on arrival. Those charges are the customer's to pay and are collected by the carrier.",
       },
       {
         q: "Can I track my order?",
@@ -32,7 +32,7 @@ const GROUPS = [
       },
       {
         q: "Can I return hair?",
-        a: "Only if the packaging is still sealed. Once a wig or set of extensions is opened we cannot take it back — a hygiene rule, and the one exception EU consumer law makes for goods sealed for health reasons.",
+        a: "Yes, within 14 days, if it is unopened and still sealed. Once hair has been opened, worn, washed, cut, coloured or styled, or its lace has been cut, we cannot take it back: a hygiene exception EU consumer law allows. If it arrived damaged or was not what you ordered, tell us within 48 hours with photos and we will replace or refund it.",
       },
       {
         q: "Who pays return postage?",

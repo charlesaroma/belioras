@@ -1,111 +1,132 @@
 /* Page: Legal - privacy-policy */
 import PageShell, { DraftNotice, Section } from "../../components/layout/PageShell";
+import { AUTHORITY, BUSINESS, UPDATED } from "./legalDetails";
+import BusinessAddress from "./sections/BusinessAddress";
+import LegalFacts from "./sections/LegalFacts";
 
 export default function PrivacyPolicyPage() {
   return (
     <PageShell
-      eyebrow="Legal"
+      eyebrow="Data protection & legal"
       title="Privacy Policy"
-      intro="What we collect when you shop with Belioras, why we hold it, and how to get it back or have it erased."
-      meta="Last updated 8 September 2026"
+      intro="We respect your privacy and are committed to protecting your personal information. Here is how we collect, use and safeguard it."
+      meta={UPDATED}
     >
+      <LegalFacts
+        facts={[
+          { label: "Framework", value: "GDPR", note: "EU standard" },
+          { label: "Controller", value: BUSINESS.owner, note: "Kaiserslautern, Germany" },
+          { label: "Scope", value: BUSINESS.site, note: "All services" },
+          { label: "Your data", value: "Never sold", note: "Shared only to fulfil orders" },
+        ]}
+      />
+
       <DraftNotice>
         It states our real practices but has not been reviewed by a lawyer. Before launch it needs
-        checking against GDPR and Portuguese implementing law, and the CNPD registration details
-        confirmed.
+        checking against the GDPR and the German Federal Data Protection Act (BDSG).
       </DraftNotice>
 
       <Section title="Who we are">
-        <p>
-          Belioras Maison Lda., Rua Augusta 118, 1100-053 Lisboa, Portugal, is the data controller
-          for the personal data described here. For any privacy question, or to exercise the rights
-          below, write to <a href="mailto:info@belioras.com">info@belioras.com</a>.
-        </p>
+        <p>The data controller for the personal data described here is:</p>
+        <BusinessAddress email={BUSINESS.privacy} />
+        <p>Personal data is processed in strict accordance with the General Data Protection Regulation (GDPR).</p>
       </Section>
 
       <Section title="What we collect">
         <ul>
           <li>
-            <strong>When you order:</strong> name, delivery and billing address, email, phone
-            number, and the contents of your order.
+            <strong>Personal and contact data:</strong> your name, email address, phone number, and
+            delivery and billing address.
           </li>
           <li>
-            <strong>When you create an account:</strong> your email, a hashed password, and any
-            saved addresses and preferences.
+            <strong>Order data:</strong> what you ordered and your order history. Payment is handled
+            by our payment providers: we never see or store your full card number.
           </li>
           <li>
-            <strong>When you browse:</strong> pages and products viewed, and items saved to your
-            bag or wishlist.
+            <strong>Account data:</strong> your email, a hashed password, and any saved addresses and
+            preferences.
           </li>
           <li>
-            <strong>When you subscribe:</strong> your email address, until you unsubscribe.
+            <strong>Technical data:</strong> your IP address, device and browser type, which our
+            hosting provider records to keep the store running and secure.
+          </li>
+          <li>
+            <strong>Newsletter:</strong> your email address and the record of your consent, until you
+            unsubscribe.
           </li>
         </ul>
-        <p>
-          We never see or store your full card number. Card details go directly to our payment
-          provider; we receive only the last four digits and the result.
-        </p>
       </Section>
 
-      <Section title="Why we hold it">
+      <Section title="Why we use it">
         <ul>
           <li>
-            <strong>To fulfil your order</strong> — performance of our contract with you. Without
-            this data we cannot ship to you.
+            <strong>To process and deliver your order</strong>, and to keep you updated about it:
+            performance of our contract with you.
           </li>
           <li>
-            <strong>To meet our legal obligations</strong> — Portuguese tax law requires us to keep
-            invoices and transaction records.
+            <strong>To answer your questions</strong> as customer support.
           </li>
           <li>
-            <strong>To improve the store</strong> — our legitimate interest in understanding which
-            pieces people look for. You can object to this at any time.
+            <strong>To meet our legal obligations</strong>, such as keeping invoices as German tax law
+            requires.
           </li>
           <li>
-            <strong>To send you the newsletter</strong> — your consent, withdrawable from any email
-            or by writing to us.
+            <strong>To improve the store</strong>: our legitimate interest. You can object at any time.
+          </li>
+          <li>
+            <strong>To send the newsletter</strong>: only if you subscribed, and you can withdraw that
+            consent from any email.
           </li>
         </ul>
       </Section>
 
-      <Section title="Who else sees it">
+      <Section title="Who we share it with">
+        <p>We do not sell your personal information. It is shared only with the partners we need to fulfil your order:</p>
+        <ul>
+          <li>Payment providers (PayPal, Stripe, Klarna)</li>
+          <li>Shipping and logistics carriers, mainly DHL</li>
+          <li>Website hosting and security partners</li>
+          <li>Our email platform, for order emails and, if you subscribed, the newsletter</li>
+        </ul>
         <p>
-          Only those who need it to get your order to you: our payment providers, our delivery
-          carriers, and the services that host this store and send our email. Each acts on our
-          written instructions and may not use your data for anything else. We do not sell your
-          personal data, and we never have.
-        </p>
-        <p>
-          Where a provider operates outside the European Economic Area, the transfer is covered by
-          the European Commission&rsquo;s Standard Contractual Clauses.
+          Each acts on our instructions and may not use your data for anything else. Where one works
+          outside the European Economic Area, the transfer is covered by the European
+          Commission&rsquo;s Standard Contractual Clauses.
         </p>
       </Section>
 
       <Section title="How long we keep it">
         <p>
-          Order and invoice records are kept for ten years, as Portuguese tax law requires. Account
-          data is kept until you close your account. Newsletter data is kept until you unsubscribe.
-          Browsing data is kept for twenty-four months.
+          Orders and invoices are kept for as long as German tax and commercial law requires, up to
+          ten years. Account data is kept until you close your account, and newsletter data until you
+          unsubscribe.
         </p>
       </Section>
 
       <Section title="Your rights">
         <p>
-          Under the GDPR you may ask us for a copy of your data, correct it, have it erased, restrict
-          or object to how we use it, or receive it in a portable format. Where we rely on consent,
-          you may withdraw it at any time without affecting what came before.
+          You may ask for a copy of your data, have it corrected or deleted, restrict or object to how
+          we use it, or receive it in a portable format. Where we rely on your consent, you can
+          withdraw it at any time, and unsubscribe from marketing whenever you like.
         </p>
         <p>
-          Write to <a href="mailto:info@belioras.com">info@belioras.com</a> and we will respond
-          within one month. If you are not satisfied, you may complain to the Comissão Nacional de
-          Protecção de Dados (CNPD), Portugal&rsquo;s supervisory authority.
+          To make a request, write to <a href={`mailto:${BUSINESS.privacy}`}>{BUSINESS.privacy}</a>.
+          We reply within one month. You may also complain to the data protection authority for
+          Rhineland-Palatinate: {AUTHORITY.name} (<a href={AUTHORITY.url}>datenschutz.rlp.de</a>).
+        </p>
+      </Section>
+
+      <Section title="Security">
+        <p>
+          We protect your information with secure servers, SSL encryption, and trusted,
+          PCI-compliant payment providers.
         </p>
       </Section>
 
       <Section title="Cookies">
         <p>
-          We set only what is necessary until you choose otherwise. See our{" "}
-          <a href="/cookie-policy">cookie policy</a> for the detail and to change your mind.
+          We set only what the store needs until you choose otherwise. See our{" "}
+          <a href="/cookie-policy">cookie policy</a> for the detail.
         </p>
       </Section>
     </PageShell>

@@ -94,7 +94,7 @@
         "sizeGuide": "Size Guide",
         "details": "Details & Composition",
         "shipping": "Shipping & Returns",
-        "shippingBody": "Complimentary express shipping on orders over €200. Returns accepted within 30 days, free of charge within the EU.",
+        "shippingBody": "Free shipping in Germany, and across the EU on orders over €250, tracked with DHL. Unworn pieces can be returned within 14 days; opened hair cannot, for hygiene reasons.",
         "sizeGuideNote": "Measurements in centimetres, taken flat."
       },
       "cart": {
@@ -258,7 +258,7 @@
         "sizeGuide": "Guide des Tailles",
         "details": "Détails & Composition",
         "shipping": "Livraison & Retours",
-        "shippingBody": "Livraison express offerte dès 200 € d'achat. Retours acceptés sous 30 jours, gratuits au sein de l'UE.",
+        "shippingBody": "Livraison offerte en Allemagne, et dans toute l'UE dès 250 € d'achat, suivie par DHL. Les pièces non portées peuvent être retournées sous 14 jours ; les cheveux ouverts ne sont pas repris, pour des raisons d'hygiène.",
         "sizeGuideNote": "Mesures en centimètres, prises à plat."
       },
       "cart": {
@@ -422,7 +422,7 @@
         "sizeGuide": "Größentabelle",
         "details": "Details & Zusammensetzung",
         "shipping": "Versand & Rückgabe",
-        "shippingBody": "Kostenloser Expressversand ab einem Bestellwert von 200 €. Rückgabe innerhalb von 30 Tagen kostenlos innerhalb der EU.",
+        "shippingBody": "Kostenloser Versand innerhalb Deutschlands und EU-weit ab 250 € Bestellwert, mit DHL-Sendungsverfolgung. Ungetragene Artikel können innerhalb von 14 Tagen zurückgegeben werden; geöffnete Haarprodukte sind aus Hygienegründen ausgeschlossen.",
         "sizeGuideNote": "Maße in Zentimetern, flach gemessen."
       },
       "cart": {
@@ -586,7 +586,7 @@
         "sizeGuide": "尺码指南",
         "details": "详情与成分",
         "shipping": "配送与退货",
-        "shippingBody": "订单满200欧元享免费快递。30天内可退货，欧盟境内免费退货。",
+        "shippingBody": "德国境内免运费，欧盟订单满250欧元免运费，DHL全程追踪。未穿着的商品可在14天内退货；出于卫生原因，已拆封的假发及接发产品不予退换。",
         "sizeGuideNote": "尺寸均为平铺测量，单位为厘米。"
       },
       "cart": {
@@ -750,7 +750,7 @@
         "sizeGuide": "Guía de Tallas",
         "details": "Detalles y Composición",
         "shipping": "Envíos y Devoluciones",
-        "shippingBody": "Envío exprés gratuito en pedidos superiores a 200 €. Devoluciones aceptadas en 30 días, gratuitas dentro de la UE.",
+        "shippingBody": "Envío gratuito en Alemania y en toda la UE en pedidos superiores a 250 €, con seguimiento DHL. Las prendas sin usar pueden devolverse en 14 días; el cabello abierto no admite devolución por motivos de higiene.",
         "sizeGuideNote": "Medidas en centímetros, tomadas en plano."
       },
       "cart": {
@@ -914,7 +914,7 @@
         "sizeGuide": "Guida alle Taglie",
         "details": "Dettagli e Composizione",
         "shipping": "Spedizioni e Resi",
-        "shippingBody": "Spedizione express gratuita per ordini superiori a 200 €. Resi accettati entro 30 giorni, gratuiti all'interno dell'UE.",
+        "shippingBody": "Spedizione gratuita in Germania e in tutta l'UE per ordini superiori a 250 €, tracciata con DHL. I capi non indossati possono essere resi entro 14 giorni; i capelli aperti non sono restituibili per motivi igienici.",
         "sizeGuideNote": "Misure in centimetri, rilevate in piano."
       },
       "cart": {

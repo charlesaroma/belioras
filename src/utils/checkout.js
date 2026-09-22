@@ -5,9 +5,8 @@
  * rather than inside a form component.
  *
  * **VAT is inclusive**, which is what EU consumer law requires of a price shown
- * to a shopper and what settings.tax.note already claims: "All prices include
- * 20% VAT." So the tax figure is *extracted* from the subtotal for the receipt,
- * not added on top of it.
+ * to a shopper and what settings.tax.note says. So the tax figure, at the rate
+ * in settings, is *extracted* from the subtotal for the receipt, not added on top.
  *
  * Worth flagging: the seeded orders in orders.json were built the other way —
  * subtotal + shipping + tax = total, with tax added at 20% of the two. Those
@@ -16,23 +15,30 @@
  * rewriting history that Belioras may have reconciled against.
  */
 
-/** EU member states, for the shipping zone. */
-const EU = new Set([
-  "austria", "belgium", "bulgaria", "croatia", "cyprus", "czechia", "czech republic",
-  "denmark", "estonia", "finland", "france", "germany", "greece", "hungary", "ireland",
-  "italy", "latvia", "lithuania", "luxembourg", "malta", "netherlands", "poland",
-  "portugal", "romania", "slovakia", "slovenia", "spain", "sweden",
-]);
+/**
+ * Where Belioras ships, by zone, as the shipping policy lists it: Germany, the
+ * other 26 EU countries, and seven international destinations. Anywhere else
+ * is not shipped to yet, and checkout says so instead of quoting a price.
+ */
+export const SHIPPING_COUNTRIES = {
+  de: ["Germany"],
+  eu: [
+    "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia",
+    "Finland", "France", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg",
+    "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden",
+  ],
+  intl: ["United Kingdom", "Switzerland", "Norway", "United States", "Canada", "Australia", "New Zealand"],
+};
 
-const UK = new Set(["united kingdom", "uk", "great britain", "england", "scotland", "wales", "northern ireland"]);
+const ALIASES = { czechia: "czech republic", uk: "united kingdom", "great britain": "united kingdom", usa: "united states", "united states of america": "united states" };
+const ZONE_BY_COUNTRY = new Map(
+  Object.entries(SHIPPING_COUNTRIES).flatMap(([zone, names]) => names.map((n) => [n.toLowerCase(), zone])),
+);
 
-/** Which shipping zone a delivery country falls into. */
+/** Which shipping zone a delivery country falls into, or null where we do not ship. */
 export function zoneIdFor(country) {
-
   const name = String(country ?? "").trim().toLowerCase();
-  if (EU.has(name)) return "eu";
-  if (UK.has(name)) return "uk";
-  return "world";
+  return ZONE_BY_COUNTRY.get(ALIASES[name] ?? name) ?? null;
 }
 
 /**
@@ -49,7 +55,9 @@ export function computeTotals({ items = [], country, coupon = null, settings }) 
 
   const zoneId = zoneIdFor(country);
 
-  const zone = zones.find((z) => z.id === zoneId) ?? zones[0] ?? { flat: 0 };
+  // No zone means we do not ship there: no price is quoted and the order cannot be placed.
+  const zone = zones.find((z) => z.id === zoneId) ?? null;
+  const shippable = Boolean(zone);
 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
@@ -64,9 +72,10 @@ export function computeTotals({ items = [], country, coupon = null, settings }) 
 
   // The threshold is checked against what the customer actually pays for the
   // goods, so a discount can legitimately drop an order below free shipping.
-  const qualifiesFree = zone.freeThreshold != null && goods >= zone.freeThreshold;
+  // A zone that costs nothing (Germany) is free whatever the order.
+  const qualifiesFree = shippable && ((zone.flat ?? 0) === 0 || (zone.freeThreshold != null && goods >= zone.freeThreshold));
 
-  const shipping = qualifiesFree ? 0 : (zone.flat ?? 0);
+  const shipping = !shippable || qualifiesFree ? 0 : (zone.flat ?? 0);
 
   const total = goods + shipping;
 
@@ -76,7 +85,8 @@ export function computeTotals({ items = [], country, coupon = null, settings }) 
   const tax = rate > 0 ? total - total / (1 + rate) : 0;
 
   return {
-    zone,
+    zone: zone ?? { id: null, label: "Not shipped here yet" },
+    shippable,
     subtotal: round(subtotal),
     discount: round(discount),
     shipping: round(shipping),
@@ -85,7 +95,7 @@ export function computeTotals({ items = [], country, coupon = null, settings }) 
     qualifiesFree,
     /** How much more to spend to reach free shipping, or null. */
     freeShippingGap:
-      zone.freeThreshold != null && !qualifiesFree ? round(zone.freeThreshold - goods) : null,
+      shippable && zone.freeThreshold != null && !qualifiesFree ? round(zone.freeThreshold - goods) : null,
   };
 }
 

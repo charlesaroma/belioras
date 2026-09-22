@@ -1,91 +1,127 @@
 /* Page: Legal - terms-of-service */
 import PageShell, { DraftNotice, Section } from "../../components/layout/PageShell";
+import { BUSINESS, PAYMENT_METHODS, UPDATED } from "./legalDetails";
+import BusinessAddress from "./sections/BusinessAddress";
+import LegalFacts from "./sections/LegalFacts";
+import TermsWithdrawal from "./sections/TermsWithdrawal";
 
 export default function TermsOfServicePage() {
   return (
-    <PageShell
-      eyebrow="Legal"
-      title="Terms of Service"
-      intro="The terms you agree to when you buy from Belioras."
-      meta="Last updated 8 September 2026"
-    >
+    <PageShell eyebrow="Belioras – International" title="Terms &amp; Conditions" intro="The terms you agree to when you buy from Belioras." meta={UPDATED}>
+      <LegalFacts
+        facts={[
+          { label: "Scope", value: "Online boutique", note: "International" },
+          { label: "Contract party", value: BUSINESS.owner, note: "Kaiserslautern, Germany" },
+          { label: "Withdrawal", value: "14 days", note: "EU statutory right" },
+          { label: "Base currency", value: "EUR (€)", note: "VAT included" },
+        ]}
+      />
+
       <DraftNotice>
-        These need review against Portuguese commercial law and the EU consumer rights directive
-        before launch, particularly the liability and governing-law sections.
+        These need review against German law (BGB) and the EU consumer rights directive before
+        launch, particularly the liability and withdrawal sections.
       </DraftNotice>
 
-      <Section title="Who you are contracting with">
+      <Section title="1. Overview">
+        <p>These terms apply to every purchase made in the Belioras online store. By placing an order, you agree to them.</p>
+      </Section>
+
+      <Section title="2. Contracting party">
+        <p>Your purchase contract is with:</p>
+        <BusinessAddress />
+      </Section>
+
+      <Section title="3. Products and availability">
         <p>
-          Belioras Maison Lda., Rua Augusta 118, 1100-053 Lisboa, Portugal. Buying from this store
-          means accepting these terms.
+          We offer fashion, accessories, beauty items and hair. Availability cannot be guaranteed,
+          and we may change or discontinue pieces at any time.
         </p>
       </Section>
 
-      <Section title="Orders">
+      <Section title="4. Orders and contract">
         <p>
-          Your order is an offer to buy. The contract forms when we email to confirm dispatch, not
-          when you pay — so if a piece turns out to be unavailable, or was listed at an obviously
-          wrong price, we may decline the order and refund you in full.
-        </p>
-        <p>
-          Prices are in the currency shown and include 20% VAT. The currency selector converts for
-          display; you are charged in euro at the rate applied at checkout.
+          Clicking &ldquo;Place order&rdquo; makes a binding offer to buy. The contract is formed when
+          we email you an order confirmation. If we cannot accept your order, we will tell you and
+          refund anything you have paid.
         </p>
       </Section>
 
-      <Section title="Availability">
+      <Section title="5. Prices and currency">
         <p>
-          We hold stock for the time it takes you to complete checkout. Where a piece sells out
-          between your adding it and paying, we will tell you and refund that line.
+          Prices are in euro (€) and include VAT. International customers may see prices converted
+          for display; you are charged in euro. Shipping costs are shown at checkout.
         </p>
       </Section>
 
-      <Section title="Photography and colour">
+      <Section title="6. Payment">
+        <p>We accept:</p>
+        <ul>
+          {PAYMENT_METHODS.map((m) => (
+            <li key={m}>{m}</li>
+          ))}
+        </ul>
+        <p>Payment must be completed before an order ships.</p>
+      </Section>
+
+      <Section title="7. Shipping and delivery">
         <p>
-          We photograph every piece as faithfully as we can, but screens vary and colour will never
-          be exact. A difference in shade alone is not a fault — though it is a perfectly good reason
-          to use your <a href="/return-and-refund-policy">right to return</a>.
+          We ship to Germany, the European Union and selected international destinations. Delivery
+          times on the site are estimates, not guarantees: some pieces are prepared after you order
+          or ship from international locations. If there is a significant delay, we will tell you.
+          Rates and times are in our <a href="/shipping-policy">shipping policy</a>.
         </p>
       </Section>
 
-      <Section title="Your account">
+      <Section title="8. Customs and import duties">
+        <p>Orders shipped outside the EU may be charged customs duty or import tax on arrival. These are the customer&rsquo;s responsibility.</p>
+      </Section>
+
+      <Section title="9. Returns, exchanges and damaged items">
         <p>
-          Keep your password to yourself; you are responsible for what happens under your account. If
-          you think someone else has access, tell us and change it. We may suspend an account we
-          reasonably believe is being used fraudulently.
+          You may withdraw from your purchase within 14 days of receiving it, as set out in the
+          withdrawal policy below and our <a href="/return-and-refund-policy">returns policy</a>.
+          We do not offer direct exchanges: return the piece and place a new order.
+        </p>
+        <p>
+          If a piece arrives damaged or is not what you ordered, please tell us within 48 hours with
+          photos, so we can replace or refund it quickly at no cost to you. Your statutory warranty
+          rights are not affected.
         </p>
       </Section>
 
-      <Section title="Our content">
+      <Section title="10. Intellectual property">
+        <p>All images, designs, logos and content on Belioras belong to Belioras or are used with permission. Using them without permission is prohibited.</p>
+      </Section>
+
+      <Section title="11. Liability">
         <p>
-          The photography, text and design on this site belong to Belioras Maison Lda. You are
-          welcome to share links and images for personal, non-commercial purposes. Reselling our
-          imagery, or using it to represent another business, is not permitted.
+          We are fully liable for intent and gross negligence, and for injury to life, body or health.
+          Otherwise we are liable only for breaches of essential contractual duties, limited to the
+          damage typical and foreseeable for this kind of contract. We are not responsible for delays
+          caused by carriers, customs or payment providers beyond our control, or for damage from
+          improper use of a product. Your statutory rights as a consumer are not affected.
         </p>
       </Section>
 
-      <Section title="Liability">
+      <Section title="12. Privacy">
         <p>
-          We do not limit our liability for death or personal injury caused by negligence, for fraud,
-          or for anything else that cannot be limited by law. Beyond that, our liability for any
-          order is limited to what you paid for it. None of this affects your statutory rights as a
-          consumer.
+          We process personal data under the GDPR, only to process and ship orders, provide customer
+          service and meet legal obligations. See our <a href="/privacy-policy">privacy policy</a>.
         </p>
       </Section>
 
-      <Section title="Governing law">
+      <Section title="13. Governing law">
         <p>
-          These terms are governed by Portuguese law. As a consumer you keep the protection of the
-          mandatory laws of the country you live in, and may bring proceedings there.
-        </p>
-        <p>
-          The European Commission&rsquo;s online dispute resolution platform is available at{" "}
-          <a href="https://ec.europa.eu/odr" target="_blank" rel="noreferrer">
-            ec.europa.eu/odr
-          </a>
-          .
+          These terms are governed by German law. If you are a consumer living in another country,
+          the mandatory consumer protection laws of that country still apply to you.
         </p>
       </Section>
+
+      <Section title="14. Changes">
+        <p>We may update these terms. The version in force when you placed your order applies to it.</p>
+      </Section>
+
+      <TermsWithdrawal />
     </PageShell>
   );
 }

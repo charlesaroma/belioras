@@ -116,7 +116,7 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
         )}
         <Row
           label={`Shipping · ${totals.zone.label ?? "Standard"}`}
-          value={totals.qualifiesFree ? "Complimentary" : format(totals.shipping)}
+          value={!totals.shippable ? "Not available" : totals.qualifiesFree ? "Complimentary" : format(totals.shipping)}
           accent={totals.qualifiesFree}
         />
 

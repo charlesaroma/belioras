@@ -1,5 +1,7 @@
 /* Page: Legal - cookie-policy */
 import PageShell, { DraftNotice, Section } from "../../components/layout/PageShell";
+import { AUTHORITY, BUSINESS, UPDATED } from "./legalDetails";
+import LegalFacts from "./sections/LegalFacts";
 
 export default function CookiePolicyPage() {
   return (
@@ -7,8 +9,17 @@ export default function CookiePolicyPage() {
       eyebrow="Legal"
       title="Cookie Policy"
       intro="What we store on your device, what each thing is for, and how to change your mind."
-      meta="Last updated 8 September 2026"
+      meta={UPDATED}
     >
+      <LegalFacts
+        facts={[
+          { label: "Essential", value: "Always on", note: "Bag, checkout, sign-in" },
+          { label: "Preferences", value: "Functional", note: "Currency and language" },
+          { label: "Analytics", value: "None yet", note: "Off until you opt in" },
+          { label: "Marketing", value: "None yet", note: "No ad pixels are loaded" },
+        ]}
+      />
+
       <DraftNotice>
         The categories below describe what the store actually sets today. Once analytics or
         advertising tags are added, this page and the consent banner must be updated together.
@@ -59,6 +70,15 @@ export default function CookiePolicyPage() {
         <p>
           We currently set none. If that changes, this page will list each one before it is used,
           and it will be off until you opt in.
+        </p>
+      </Section>
+
+      <Section title="Your data rights">
+        <p>
+          As a business in Germany, we protect your data under the GDPR. You may access it, ask for it
+          to be deleted, or withdraw cookie consent whenever you wish. Questions or requests:{" "}
+          <a href={`mailto:${BUSINESS.privacy}`}>{BUSINESS.privacy}</a>. You may also contact the
+          authority for Rhineland-Palatinate, {AUTHORITY.name}.
         </p>
       </Section>
 

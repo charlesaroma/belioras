@@ -166,7 +166,7 @@ export default function CartDrawer({ open, onClose }) {
                     </span>
                   </div>
                   <p className="text-xs text-espresso/50 mb-4">
-                    Shipping calculated at checkout · All prices include 20% VAT
+                    Shipping calculated at checkout · All prices include VAT
                   </p>
                   <Link
                     to="/checkout"
