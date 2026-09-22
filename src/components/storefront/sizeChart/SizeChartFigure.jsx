@@ -1,16 +1,15 @@
 /**
  * A reference photo for "how to measure", replacing the earlier line-drawing
- * figure with an actual photo — the instructions beside it (see
- * SizeChartHowTo) already name Shoulder, Bust, Waist, Hip and Inside leg in
- * words, so nothing here needs to point at them pixel-for-pixel.
+ * figure. Belioras' own photo — the shoulder, bust, waist, hip and inside leg
+ * labels are drawn onto the image itself, so nothing needs to be overlaid.
  */
 export default function SizeChartFigure({ className = "" }) {
   return (
     <img
-      src="https://images.unsplash.com/photo-1699787167971-db840f61c3bd?q=80&w=400&auto=format&fit=crop"
-      alt="A woman standing, for reference when taking your own measurements"
+      src="https://ik.imagekit.io/sbgenu6wj/Belioras/image.png"
+      alt="A woman standing, labelled with where to measure the shoulder, bust, waist, hip and inside leg"
       loading="lazy"
-      className={`aspect-[2/3] w-full max-w-[220px] rounded-sm border border-umber-50 object-cover ${className}`}
+      className={`h-auto w-full max-w-[220px] object-contain ${className}`}
     />
   );
 }

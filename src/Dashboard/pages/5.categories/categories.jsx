@@ -1,18 +1,23 @@
 /* Admin Dashboard Page: Categories - categories */
 import { useState } from "react";
-import { Palette, Shapes } from "lucide-react";
+import { Palette, Shapes, Tags } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 import CategoriesPanel from "./sections/CategoriesPanel";
 import ColoursPanel from "./sections/ColoursPanel";
+import DetailsPanel from "./sections/DetailsPanel";
 
 const TABS = [
   { id: "categories", label: "Categories", icon: Shapes },
   { id: "colours", label: "Colours", icon: Palette },
+  { id: "details", label: "Details", icon: Tags },
 ];
+
+const PANELS = { categories: CategoriesPanel, colours: ColoursPanel, details: DetailsPanel };
 
 export default function DashCategories() {
   const [tab, setTab] = useState("categories");
+  const Panel = PANELS[tab];
 
   return (
     <div className="space-y-6">
@@ -40,7 +45,7 @@ export default function DashCategories() {
       </div>
 
       <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
-        {tab === "categories" ? <CategoriesPanel /> : <ColoursPanel />}
+        <Panel />
       </div>
     </div>
   );
