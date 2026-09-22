@@ -1,6 +1,6 @@
 /* Admin Dashboard Page: Categories - CategoriesPanel */
 import { useState } from "react";
-import { Plus, Shapes } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
@@ -8,18 +8,17 @@ import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import CategoryDialog from "@/Dashboard/components/CategoryDialog";
 import DashListToolbar from "@/Dashboard/components/DashListToolbar";
-import { usePageSize } from "@/Dashboard/lib/usePageSize";
-import DashTable from "@/Dashboard/components/DashTable";
 import { detailOptionsFrom, sizeOptionsFrom } from "@/Dashboard/lib/catalogOptions";
 import {
   categoryUsage,
   createCategory,
   deleteCategory,
   getCategories,
+  typeUsage,
   updateCategory,
 } from "@/services/catalog/categoriesApi";
 import { getTaxonomy } from "@/services/catalog/navigationApi";
-import { buildCategoryColumns } from "./categoriesColumns";
+import CategoriesTree from "./CategoriesTree";
 
 export default function CategoriesPanel() {
   const { toast } = useToast();
@@ -28,12 +27,12 @@ export default function CategoriesPanel() {
 
   const { data: categories, loading } = useAsyncData(getCategories, [revision]);
   const { data: usage } = useAsyncData(categoryUsage, [revision]);
+  const { data: types } = useAsyncData(typeUsage, [revision]);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
   const [pendingDelete, setPendingDelete] = useState(null);
   const [query, setQuery] = useState("");
-  const [pageSize, setPageSize] = usePageSize("categories");
 
   const open = (initial) => setDialog((d) => ({ open: true, initial, n: d.n + 1 }));
   const close = () => setDialog((d) => ({ ...d, open: false }));
@@ -86,21 +85,24 @@ export default function CategoriesPanel() {
         }
         query={query}
         onQueryChange={setQuery}
-        placeholder="Search categories"
-        pageSize={pageSize}
-        onPageSizeChange={setPageSize}
+        placeholder="Search categories or subcategories"
       />
 
-      <DashTable
-        columns={buildCategoryColumns({ taxonomy, usage, onEdit: open, onDelete: askDelete })}
-        data={categories ?? []}
-        loading={loading}
-        globalFilter={query}
-        pageSize={pageSize}
-        onPageSizeChange={setPageSize}
-        unit={(categories ?? []).length === 1 ? "category" : "categories"}
-        empty={{ icon: Shapes, title: "No categories yet", description: "Add the first, such as Dresses." }}
-      />
+      {/* A hierarchy, not a flat table: a category's subcategories (Dresses
+          holds Jumpsuits, Two-Piece Sets…) are its children, not a cell in
+          its row. There are few enough categories that paging buys nothing. */}
+      {loading ? (
+        <p className="text-[13px] text-espresso-soft">Loading…</p>
+      ) : (
+        <CategoriesTree
+          categories={categories ?? []}
+          usage={usage}
+          typeUsage={types}
+          query={query}
+          onEdit={open}
+          onDelete={askDelete}
+        />
+      )}
 
       <CategoryDialog
         key={dialog.n}

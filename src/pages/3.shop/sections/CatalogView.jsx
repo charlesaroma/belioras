@@ -6,8 +6,10 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useContentVersion } from "../../../context/ContentContext";
 import { useFilterParams } from "../../../hooks/useFilterParams";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
+import { getCategories } from "../../../services/catalog/categoriesApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { applyFilters, computeFacets, priceBounds } from "../../../utils/faceting";
+import { typeDimension } from "../../../utils/typeFacet";
 import { sortProducts } from "../../../utils/catalogSort";
 import { DEFAULT_COLUMNS, isValidColumns } from "../../../utils/gridColumns";
 import GridViewSwitcher from "../../../components/storefront/GridViewSwitcher";
@@ -24,6 +26,13 @@ export default function CatalogView({ products, loading, error, header = {}, emp
 
   const version = useContentVersion();
   const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
+  const { data: categories } = useAsyncData(getCategories, [version]);
+  // "type" (Jumpsuits, Heels…) has no fixed taxonomy entry — each category
+  // defines its own — so it is assembled here rather than stored.
+  const enrichedTaxonomy = useMemo(
+    () => (taxonomy ? { ...taxonomy, type: typeDimension(categories) } : taxonomy),
+    [taxonomy, categories],
+  );
   const { filters, activeCount, toggleValue, setPrice, setSale, setSort, setQuery, clearAll } =
     useFilterParams();
 
@@ -35,8 +44,8 @@ export default function CatalogView({ products, loading, error, header = {}, emp
   const bounds = useMemo(() => priceBounds(list), [list]);
 
   const facets = useMemo(
-    () => (taxonomy ? computeFacets(list, taxonomy, filters) : {}),
-    [list, taxonomy, filters],
+    () => (enrichedTaxonomy ? computeFacets(list, enrichedTaxonomy, filters) : {}),
+    [list, enrichedTaxonomy, filters],
   );
 
   const searchActive = Boolean(filters.query);

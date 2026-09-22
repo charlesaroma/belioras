@@ -32,6 +32,17 @@ export function categoryUsage() {
   }, 0);
 }
 
+/** How many products sit in each type, keyed by `<categoryId>:<typeId>`. */
+export function typeUsage() {
+  return mockApi(() => {
+    const counts = {};
+    for (const p of catalogItems()) {
+      if (p.type) counts[`${p.collectionId}:${p.type}`] = (counts[`${p.collectionId}:${p.type}`] ?? 0) + 1;
+    }
+    return counts;
+  }, 0);
+}
+
 export function createCategory(input) {
   return mockApi(() => {
     const fields = clean(input);
