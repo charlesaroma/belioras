@@ -3,20 +3,21 @@ import { Link } from "react-router-dom";
 import { RotateCcw } from "lucide-react";
 
 import { useCurrency } from "../../../../context/CurrencyContext";
+import { sizeLabel } from "../../../../utils/sizeLabel";
 
-export default function WardrobeGrid({ pieces, dateFmt, onBuyAgain }) {
+export default function WardrobeGrid({ pieces, dateFmt, onBuyAgain, taxonomy }) {
   return (
     <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 lg:grid-cols-4">
       {pieces.map((piece) => (
         <li key={piece.productId}>
-          <WardrobePiece piece={piece} dateFmt={dateFmt} onBuyAgain={onBuyAgain} />
+          <WardrobePiece piece={piece} dateFmt={dateFmt} onBuyAgain={onBuyAgain} taxonomy={taxonomy} />
         </li>
       ))}
     </ul>
   );
 }
 
-function WardrobePiece({ piece, dateFmt, onBuyAgain }) {
+function WardrobePiece({ piece, dateFmt, onBuyAgain, taxonomy }) {
   const { format } = useCurrency();
   const { product } = piece;
 
@@ -57,7 +58,7 @@ function WardrobePiece({ piece, dateFmt, onBuyAgain }) {
 
       <p className="mt-1 text-[12px] text-espresso-soft">
         {[
-          piece.size && piece.size !== "one-size" ? `Size ${piece.size.toUpperCase()}` : null,
+          piece.size && piece.size !== "one-size" ? `Size ${sizeLabel(taxonomy, piece.size)}` : null,
           piece.color,
         ]
           .filter(Boolean)

@@ -1,8 +1,10 @@
 /* Size Chips */
 import { cn } from "../../../../utils/cn";
+import { sizeLabel } from "../../../../utils/sizeLabel";
 
 export default function ProductBuyPanelSizes({
   options = [],
+  taxonomy,
   value,
   onChange = () => {},
   unavailable,
@@ -16,6 +18,7 @@ export default function ProductBuyPanelSizes({
         // Sold out in the chosen colour. Shown struck through rather than
         // hidden, so a shopper can see the size exists and try another colour.
         const soldOut = Boolean(unavailable?.has(size));
+        const label = sizeLabel(taxonomy, size);
 
         return (
           <button
@@ -23,7 +26,7 @@ export default function ProductBuyPanelSizes({
             type="button"
             role="radio"
             aria-checked={selected}
-            aria-label={soldOut ? `${size}, sold out in this colour` : undefined}
+            aria-label={soldOut ? `${label}, sold out in this colour` : undefined}
             disabled={soldOut}
             onClick={() => onChange(size)}
             className={cn(
@@ -35,7 +38,7 @@ export default function ProductBuyPanelSizes({
                   : "border-umber-100 bg-transparent text-espresso-soft hover:border-espresso",
             )}
           >
-            {size}
+            {label}
           </button>
         );
       })}

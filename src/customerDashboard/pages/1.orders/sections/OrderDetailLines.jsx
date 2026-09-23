@@ -1,7 +1,9 @@
 /* Customer Dashboard Page: Orders - OrderDetailLines */
 import { Link } from "react-router-dom";
 
-export default function OrderLines({ order, thumbnails, format, discount }) {
+import { sizeLabel } from "../../../../utils/sizeLabel";
+
+export default function OrderLines({ order, thumbnails, taxonomy, format, discount }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-umber-50 bg-white">
       <ul className="divide-y divide-umber-50">
@@ -41,7 +43,7 @@ export default function OrderLines({ order, thumbnails, format, discount }) {
               </Link>
               <p className="mt-0.5 text-xs text-espresso-soft">
                 Qty {item.quantity}
-                {item.size ? ` · Size ${item.size}` : ""}
+                {item.size ? ` · Size ${sizeLabel(taxonomy, item.size)}` : ""}
                 {item.color ? ` · ${item.color}` : ""}
               </p>
             </div>

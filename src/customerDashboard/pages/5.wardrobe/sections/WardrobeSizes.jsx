@@ -1,12 +1,13 @@
 /* Usual Sizes */
 import { useLanguage } from "../../../../context/LanguageContext";
+import { sizeLabel } from "../../../../utils/sizeLabel";
 
 const COLLECTION_LABEL = { dresses: "Dresses", hair: "Hair", accessories: "Accessories" };
 
 // The single most useful thing a wardrobe can tell someone: what they
 // actually take. Derived from what they bought and kept, not from a profile
 // field nobody fills in.
-export default function WardrobeSizes({ sizes, pieceCount }) {
+export default function WardrobeSizes({ sizes, pieceCount, taxonomy }) {
   const { t } = useLanguage();
   if (!sizes.length) return null;
 
@@ -17,14 +18,25 @@ export default function WardrobeSizes({ sizes, pieceCount }) {
       </p>
 
       <dl className="mt-4 flex flex-wrap gap-x-10 gap-y-4">
-        {sizes.map((s) => (
-          <div key={s.collection}>
-            <dt className="text-[11px] uppercase tracking-[0.16em] text-espresso-soft">
-              {COLLECTION_LABEL[s.collection] ?? s.collection}
-            </dt>
-            <dd className="mt-1 font-display text-2xl uppercase text-espresso">{s.size}</dd>
-          </div>
-        ))}
+        {sizes.map((s) => {
+          const label = sizeLabel(taxonomy, s.size);
+          return (
+            <div key={s.collection} className="max-w-[220px]">
+              <dt className="text-[11px] uppercase tracking-[0.16em] text-espresso-soft">
+                {COLLECTION_LABEL[s.collection] ?? s.collection}
+              </dt>
+              <dd
+                className={
+                  label.length > 8
+                    ? "mt-1 font-display text-base uppercase leading-snug text-espresso"
+                    : "mt-1 font-display text-2xl uppercase text-espresso"
+                }
+              >
+                {label}
+              </dd>
+            </div>
+          );
+        })}
       </dl>
 
       <p className="mt-4 text-[12px] leading-relaxed text-espresso/45">

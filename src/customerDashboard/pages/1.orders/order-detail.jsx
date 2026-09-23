@@ -12,6 +12,7 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getOrder } from "../../../services/sales/ordersApi";
 import { getProducts } from "../../../services/catalog/productsApi";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
 
 import OrderLines from "./sections/OrderDetailLines";
 import { OrderNotFound, OrderSkeleton } from "./sections/OrderDetailStates";
@@ -34,6 +35,7 @@ export default function OrderDetail() {
   } = useAsyncData(() => getOrder(id, { userId: user?.id }), [id, user?.id]);
 
   const { data: catalog } = useAsyncData(getProducts, []);
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const thumbnails = Object.fromEntries(
     (catalog ?? []).map((p) => [p.id, p.images?.[0]]).filter(([, src]) => src),
@@ -77,6 +79,7 @@ export default function OrderDetail() {
       <OrderLines
         order={order}
         thumbnails={thumbnails}
+        taxonomy={taxonomy}
         format={format}
         discount={discountOn(order)}
       />

@@ -6,11 +6,15 @@ import { ShoppingBag, Trash2, X } from "lucide-react";
 
 import { useCart } from "../../../context/CartContext";
 import { useCurrency } from "../../../context/CurrencyContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
+import { sizeLabel } from "../../../utils/sizeLabel";
 import QuantitySelector from "../../shared/QuantitySelector";
 
 export default function CartDrawer({ open, onClose }) {
   const { items, subtotal, count, updateQty, removeItem } = useCart();
   const { convert, format, formatConverted } = useCurrency();
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   /* Keyboard Event Handler */
   useEffect(() => {
@@ -130,7 +134,9 @@ export default function CartDrawer({ open, onClose }) {
                           {item.name}
                         </Link>
                         <p className="mt-1 text-xs text-espresso/50">
-                          {[item.color, item.size && `Size ${item.size}`].filter(Boolean).join(" · ")}
+                          {[item.color, item.size && `Size ${sizeLabel(taxonomy, item.size)}`]
+                            .filter(Boolean)
+                            .join(" · ")}
                         </p>
                         <div className="mt-auto flex items-center justify-between pt-3">
                           <QuantitySelector

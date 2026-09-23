@@ -4,8 +4,11 @@ import { Loader2, Tag, X } from "lucide-react";
 
 import { useCurrency } from "../../../context/CurrencyContext";
 import { validateCoupon } from "../../../services/sales/couponsApi";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { useToast } from "@/context/ToastContext";
+import { useAsyncData } from "../../../hooks/useAsyncData";
 import { cn } from "../../../utils/cn";
+import { sizeLabel } from "../../../utils/sizeLabel";
 
 export default function OrderSummary({ items, totals, coupon, onCoupon, disabled }) {
   const { format } = useCurrency();
@@ -13,6 +16,7 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const apply = async () => {
     if (!code.trim()) return;
@@ -43,7 +47,11 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
             <div className="min-w-0 flex-1">
               <p className="truncate text-[13px] text-espresso">{item.name}</p>
               <p className="mt-0.5 text-[11px] text-espresso-soft">
-                {[item.size && `Size ${item.size}`, item.color, `Qty ${item.quantity}`]
+                {[
+                  item.size && `Size ${sizeLabel(taxonomy, item.size)}`,
+                  item.color,
+                  `Qty ${item.quantity}`,
+                ]
                   .filter(Boolean)
                   .join(" · ")}
               </p>

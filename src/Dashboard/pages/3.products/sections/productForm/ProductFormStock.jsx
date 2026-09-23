@@ -33,7 +33,7 @@ export default function ProductFormStock({ colors, colorIds, stock, onChange, si
               <tr className="border-b border-umber-50">
                 <th scope="col" className={cn(HEAD, "px-3 text-left")}>Colour</th>
                 {columns.map((size) => (
-                  <th key={size} scope="col" className={cn(HEAD, "px-1 text-center")}>{heading(size)}</th>
+                  <th key={size} scope="col" className={cn(HEAD, "whitespace-nowrap px-2 text-center")}>{heading(size)}</th>
                 ))}
                 <th scope="col" className={cn(HEAD, "px-3 text-right")}>Total</th>
               </tr>

@@ -11,6 +11,8 @@ import { useCart } from "../../../../context/CartContext";
 import { useLanguage } from "../../../../context/LanguageContext";
 import { useToast } from "../../../../context/ToastContext";
 import { useWishlist } from "../../../../context/WishlistContext";
+import { useAsyncData } from "../../../../hooks/useAsyncData";
+import { getTaxonomy } from "../../../../services/catalog/navigationApi";
 import { stockFor } from "../../../../utils/productColors";
 import ProductBuyPanelVariants from "./ProductBuyPanelVariants";
 import ProductBuyPanelActions from "./ProductBuyPanelActions";
@@ -23,6 +25,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
   const { has, toggle } = useWishlist();
   const { t } = useLanguage();
   const { toast } = useToast();
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const [size, setSize] = useState(null);
   const [qty, setQty] = useState(1);
@@ -87,6 +90,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
     <>
       <ProductBuyPanelVariants
         product={product}
+        taxonomy={taxonomy}
         color={color}
         onColorChange={changeColor}
         size={size}

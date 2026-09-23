@@ -10,6 +10,7 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getOrders } from "../../../services/sales/ordersApi";
 import { getProducts } from "../../../services/catalog/productsApi";
+import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { ownedPieces, usualSizes } from "../../../utils/purchaseHistory";
 
 import WardrobeSizes from "./sections/WardrobeSizes";
@@ -32,6 +33,7 @@ export default function AccountWardrobe() {
 
   const { data: orders, loading } = useAsyncData(() => getOrders(user?.id), [user?.id]);
   const { data: catalog } = useAsyncData(getProducts, []);
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const pieces = useMemo(() => ownedPieces(orders, catalog), [orders, catalog]);
   const sizes = useMemo(() => usualSizes(pieces), [pieces]);
@@ -82,8 +84,8 @@ export default function AccountWardrobe() {
   return (
     <div className="space-y-8">
       <WardrobeHeading count={pieces.length} />
-      <WardrobeSizes sizes={sizes} pieceCount={pieces.length} />
-      <WardrobeGrid pieces={pieces} dateFmt={dateFmt} onBuyAgain={buyAgain} />
+      <WardrobeSizes sizes={sizes} pieceCount={pieces.length} taxonomy={taxonomy} />
+      <WardrobeGrid pieces={pieces} dateFmt={dateFmt} onBuyAgain={buyAgain} taxonomy={taxonomy} />
     </div>
   );
 }
