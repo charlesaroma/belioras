@@ -12,6 +12,7 @@ export { default as DashOrders } from "./pages/8.orders/orders";
 export { default as DashTransactions } from "./pages/9.transactions/transactions";
 export { default as DashDiscounts } from "./pages/10.discounts/discounts";
 export { default as DashCustomers } from "./pages/11.customers/customers";
+export { default as DashReviews } from "./pages/12.reviews/reviews";
 export { default as DashNewsletter } from "./pages/14.newsletter/newsletter";
 export { default as DashTeam } from "./pages/15.team/team";
 export { default as DashSettings } from "./pages/16.settings/settings";

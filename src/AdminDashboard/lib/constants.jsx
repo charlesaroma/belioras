@@ -16,6 +16,7 @@ export const DASHBOARD_NAV_GROUPS = [
       { id: "categories", label: "Categories & Colours", icon: "Tags", capability: "content" },
       { id: "sizes", label: "Sizes & Guides", icon: "Ruler", capability: "content" },
       { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
+      { id: "reviews", label: "Reviews", icon: "Star", capability: "content" },
     ],
   },
   {

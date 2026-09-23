@@ -10,6 +10,7 @@ import { colorFromParam, imagesForColor } from "../../utils/productColors";
 import ProductPageGallery from "./sections/ProductPageGallery";
 import ProductPageHeader from "./sections/ProductPageHeader";
 import ProductPageSummary from "./sections/ProductPageSummary";
+import ProductPageReviews from "./sections/ProductPageReviews";
 import ProductPageRelated from "./sections/ProductPageRelated";
 import { ProductPageLoading, ProductPageNotFound } from "./sections/ProductPageStates";
 import ProductBuyPanel from "./sections/productBuyPanel/ProductBuyPanel";
@@ -91,6 +92,8 @@ export default function ProductPage() {
           />
         </div>
       </div>
+
+      <ProductPageReviews product={product} />
 
       <ProductPageRelated products={suggestions} />
     </div>

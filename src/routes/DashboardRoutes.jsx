@@ -14,6 +14,7 @@ import {
   DashTransactions,
   DashCustomers,
   DashDiscounts,
+  DashReviews,
   DashNewsletter,
   DashTeam,
   DashSettings,
@@ -51,6 +52,7 @@ export default function dashboardRoutes() {
           shoppers move through, not the vocabulary pieces are tagged
           with, and the two were conflated under Categories. */}
       <Route path="mega-menu" element={<DashMegaMenu />} />
+      <Route path="reviews" element={<DashReviews />} />
       <Route path="orders" element={<DashOrders />} />
       {/* Finance, so administrators only: staff run orders but do not see
           revenue, provider fees or refunds. */}

@@ -7,7 +7,9 @@
     "title": "Feels couture",
     "body": "The drape is beautiful and the colour exactly as pictured. I wore it to a wedding and got stopped twice.",
     "date": "2026-04-02",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r2",
@@ -17,7 +19,9 @@
     "title": "Gorgeous, size up",
     "body": "Beautiful satin, true to the photo. I would size up — the fit is on the slimmer side.",
     "date": "2026-05-18",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r3",
@@ -27,7 +31,9 @@
     "title": "My new staple",
     "body": "Fully lined, no cling, and the side slit walks beautifully. Packed with care.",
     "date": "2026-06-27",
-    "verified": false
+    "verified": false,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r4",
@@ -37,7 +43,9 @@
     "title": "Perfect summer dress",
     "body": "Linen is high quality with a soft hand. The wrap tie keeps everything in place.",
     "date": "2026-07-08",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r5",
@@ -47,7 +55,9 @@
     "title": "Lovely and breathable",
     "body": "Great for warm days. A touch long on me (172cm) but easy to take up.",
     "date": "2026-07-19",
-    "verified": false
+    "verified": false,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r6",
@@ -57,7 +67,9 @@
     "title": "Unreal velvet",
     "body": "Deep pile, heavy and luxurious. The bias cut is very flattering. Worth every euro.",
     "date": "2026-06-11",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r7",
@@ -67,7 +79,9 @@
     "title": "Best dress in my closet",
     "body": "The straps adjust perfectly and it falls at the ideal midi length on me.",
     "date": "2026-07-30",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r8",
@@ -77,7 +91,9 @@
     "title": "Elegant and packable",
     "body": "Rolls flat in a suitcase and comes out ready to wear. Slightly sheer in direct sun.",
     "date": "2026-08-01",
-    "verified": false
+    "verified": false,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r9",
@@ -87,7 +103,9 @@
     "title": "Lasts months",
     "body": "Clean cuticles, zero shedding by week six. Already reordering in a second colour.",
     "date": "2026-05-02",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r10",
@@ -97,7 +115,9 @@
     "title": "Exactly single drawn",
     "body": "Root to tip thickness is consistent. The colour charts were accurate.",
     "date": "2026-07-14",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r11",
@@ -107,7 +127,9 @@
     "title": "Soft wave, soft feel",
     "body": "Beautiful blend with my natural texture. Sheds a little at first wash, normal for Remy.",
     "date": "2026-07-05",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r12",
@@ -117,7 +139,9 @@
     "title": "The wave is gorgeous",
     "body": "Uniform curls, full body, and it holds moisture well. My stylist asked where it was from.",
     "date": "2026-08-09",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r13",
@@ -127,7 +151,9 @@
     "title": "A trophy bag",
     "body": "Structured, roomy, gorgeous leather smell. Fits my laptop and then some.",
     "date": "2026-06-15",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r14",
@@ -137,7 +163,9 @@
     "title": "So elegant",
     "body": "The print is unmistakably Belioras. Use it in my hair constantly.",
     "date": "2026-08-03",
-    "verified": false
+    "verified": false,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r15",
@@ -147,7 +175,9 @@
     "title": "Weighty and lovely",
     "body": "Cinch the waist of any dress instantly. Clasp is solid; wish it came in a shorter option.",
     "date": "2026-08-11",
-    "verified": true
+    "verified": true,
+    "status": "published",
+    "reply": null
   },
   {
     "id": "r16",
@@ -157,6 +187,8 @@
     "title": "Everyday gold",
     "body": "Featherlight, comfortable for 10-hour days. Colours have not tarnished.",
     "date": "2026-07-22",
-    "verified": false
+    "verified": false,
+    "status": "published",
+    "reply": null
   }
 ]
