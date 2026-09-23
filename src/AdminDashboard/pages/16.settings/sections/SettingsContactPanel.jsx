@@ -1,8 +1,9 @@
 /* Admin Dashboard Page: Settings - SettingsContactPanel */
 import Field from "../../../../components/ui/Field";
+import PhoneField from "../../../../components/ui/PhoneField";
 import Panel from "@/AdminDashboard/components/Panel";
 
-export default function ContactPanel({ register, errors }) {
+export default function ContactPanel({ register, setValue, watch, errors }) {
   return (
     <Panel
       title="Contact"
@@ -32,9 +33,7 @@ export default function ContactPanel({ register, errors }) {
         />
       </Field>
 
-      <Field label="Telephone">
-        <input {...register("contactPhone")} />
-      </Field>
+      <PhoneField register={register} setValue={setValue} watch={watch} name="contactPhone" label="Telephone" />
 
       <Field label="Opening hours">
         <input {...register("contactHours")} />

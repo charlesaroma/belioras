@@ -1,8 +1,9 @@
 /* Page: Checkout - DeliveryForm */
 import Field from "../../../components/ui/Field";
+import PhoneField from "../../../components/ui/PhoneField";
 import { SHIPPING_COUNTRIES } from "../../../utils/checkout";
 
-export default function DeliveryForm({ register, errors, savedAddresses, onUseSaved, signedIn }) {
+export default function DeliveryForm({ register, setValue, watch, errors, savedAddresses, onUseSaved, signedIn }) {
   return (
     <div className="space-y-6">
       <section className="border border-umber-50 bg-ivory-50 p-6">
@@ -28,13 +29,14 @@ export default function DeliveryForm({ register, errors, savedAddresses, onUseSa
             />
           </Field>
 
-          <Field
+          <PhoneField
+            register={register}
+            setValue={setValue}
+            watch={watch}
             label="Telephone"
             className="sm:col-span-2"
             helper="Only used if the carrier needs to reach you."
-          >
-            <input type="tel" {...register("phone")} />
-          </Field>
+          />
         </div>
       </section>
 

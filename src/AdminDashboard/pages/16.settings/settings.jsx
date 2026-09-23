@@ -18,6 +18,8 @@ export default function DashSettings() {
 
   const {
     register,
+    setValue,
+    watch,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
@@ -55,7 +57,7 @@ export default function DashSettings() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <ContactPanel register={register} errors={errors} />
+        <ContactPanel register={register} setValue={setValue} watch={watch} errors={errors} />
         <StorefrontPanels register={register} errors={errors} />
         <CompliancePanels register={register} errors={errors} />
       </div>

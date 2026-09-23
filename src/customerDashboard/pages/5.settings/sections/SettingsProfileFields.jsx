@@ -1,8 +1,9 @@
 /* Customer Dashboard Page: Settings - SettingsProfileFields */
 import Field from "../../../../components/ui/Field";
+import PhoneField from "../../../../components/ui/PhoneField";
 
 export default function ProfileFields({ form, emailChanged }) {
-  const { register, formState } = form;
+  const { register, setValue, watch, formState } = form;
 
   return (
     <>
@@ -25,9 +26,13 @@ export default function ProfileFields({ form, emailChanged }) {
         />
       </Field>
 
-      <Field label="Telephone" helper="Only used if the carrier needs to reach you.">
-        <input type="tel" {...register("phone")} />
-      </Field>
+      <PhoneField
+        register={register}
+        setValue={setValue}
+        watch={watch}
+        label="Telephone"
+        helper="Only used if the carrier needs to reach you."
+      />
 
       {emailChanged && (
         <Field

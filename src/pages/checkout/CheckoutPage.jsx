@@ -147,6 +147,8 @@ export default function CheckoutPage() {
         <div className="space-y-6">
           <DeliveryForm
             register={register}
+            setValue={setValue}
+            watch={watch}
             errors={errors}
             savedAddresses={savedAddresses}
             onUseSaved={useSaved}
