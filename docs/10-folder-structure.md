@@ -121,7 +121,8 @@ pages/
 ├── 12.reviews/       DashReviews.jsx   + sections/ (ReviewsDetailModal)
 ├── 14.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
 ├── 15.team/          DashTeam.jsx
-└── 16.settings/      DashSettings.jsx
+├── 16.settings/      DashSettings.jsx
+└── 17.shipping/      DashShipping.jsx + sections/ (ShippingZonesPanel)
 ```
 
 Admin pages count from 1 — and so do the customer's own account pages under

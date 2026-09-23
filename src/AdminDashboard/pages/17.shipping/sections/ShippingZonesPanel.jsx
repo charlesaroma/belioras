@@ -1,11 +1,15 @@
-/* Admin Dashboard Page: Settings - SettingsShippingZonesPanel */
+/* Admin Dashboard Page: Shipping - ShippingZonesPanel */
 import Field from "../../../../components/ui/Field";
-import Panel from "./SettingsPanel";
+import Panel from "@/AdminDashboard/components/Panel";
 
 export default function ShippingZonesPanel({ zones, onChange }) {
 
+  // Built against the already-resolved `zones` prop, not a functional state
+  // updater — the parent's own state starts `null` until the first edit, and
+  // a functional updater would receive that `null` rather than the seeded
+  // default, breaking the very first change.
   const patch = (index, changes) =>
-    onChange((prev) => prev.map((z, i) => (i === index ? { ...z, ...changes } : z)));
+    onChange(zones.map((z, i) => (i === index ? { ...z, ...changes } : z)));
 
   return (
     <Panel

@@ -48,6 +48,7 @@ export const DASHBOARD_NAV_GROUPS = [
     label: "Store",
     items: [
       { id: "team", label: "Team", icon: "ShieldCheck", capability: "team" },
+      { id: "shipping", label: "Shipping", icon: "Truck", capability: "settings" },
       { id: "settings", label: "Settings", icon: "Settings", capability: "settings" },
     ],
   },

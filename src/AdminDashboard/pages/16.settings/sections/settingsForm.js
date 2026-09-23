@@ -28,8 +28,8 @@ export function toFormValues(settings) {
   };
 }
 
-/** Flat form values (+ the separately-held zones) -> settings.json. */
-export function toSettingsPayload(values, zones) {
+/** Flat form values -> settings.json. Shipping zones are their own page — see 17.shipping/. */
+export function toSettingsPayload(values) {
   return {
     contact: {
       general: values.contactGeneral.trim(),
@@ -51,6 +51,5 @@ export function toSettingsPayload(values, zones) {
       pinterest: values.pinterest,
       tiktok: values.tiktok,
     },
-    shipping: { zones },
   };
 }

@@ -1,4 +1,4 @@
-
+/* Admin Dashboard: Panel */
 export default function Panel({ title, hint, children }) {
   return (
     <section className="border border-umber-50 bg-ivory-50 p-5">

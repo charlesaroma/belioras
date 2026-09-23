@@ -15,6 +15,7 @@ export { default as DashCustomers } from "./pages/11.customers/customers";
 export { default as DashReviews } from "./pages/12.reviews/reviews";
 export { default as DashNewsletter } from "./pages/14.newsletter/newsletter";
 export { default as DashTeam } from "./pages/15.team/team";
+export { default as DashShipping } from "./pages/17.shipping/shipping";
 export { default as DashSettings } from "./pages/16.settings/settings";
 
 // Chrome shared by every dashboard page

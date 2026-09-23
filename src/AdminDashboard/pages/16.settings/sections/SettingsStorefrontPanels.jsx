@@ -1,6 +1,6 @@
 /* Admin Dashboard Page: Settings - SettingsStorefrontPanels */
 import Field from "../../../../components/ui/Field";
-import Panel from "./SettingsPanel";
+import Panel from "@/AdminDashboard/components/Panel";
 
 export default function StorefrontPanels({ register, errors }) {
   return (

@@ -1,6 +1,6 @@
 /* Admin Dashboard Page: Settings - SettingsContactPanel */
 import Field from "../../../../components/ui/Field";
-import Panel from "./SettingsPanel";
+import Panel from "@/AdminDashboard/components/Panel";
 
 export default function ContactPanel({ register, errors }) {
   return (

@@ -25,7 +25,8 @@ Numbered by sidebar order; the gaps (`2`, `13`) are reserved slots for pages not
 11. **Reviews** (`12.reviews`, content capability) — every submission lands pending; status tabs (pending/published/hidden), a detail view with publish/hide actions and a reply field shown publicly under the review once posted. Only published reviews are ever readable on the storefront.
 12. **Newsletter** (`14.newsletter`, marketing capability) — the Belioras Letter. **Subscribers**: counts, status tabs, search, CSV export with consent record, unsubscribe, erase (GDPR). **Campaigns**: subject, heading, message, featured pieces, a link, a live email preview; draft, schedule or send. **Welcome email**: on/off, its coupon code, wording. Sign-up is double opt-in (`pending` → `subscribed` via `/newsletter/confirm`); only `subscribed` addresses are ever emailed.
 13. **Team** (`15.team`) — the staff/super-admin table (name, email, role, status), role changes with a confirmation, invite.
-14. **Settings** (`16.settings`) — one form, several panels: Contact, Storefront (branding/announcement), Shipping zones (per-country flat rate and free-shipping threshold, edited inline), Compliance (GPSR manufacturer records, legal-page text — the legal pages render straight from these settings, so an edit here is live on save).
+14. **Shipping** (`17.shipping`) — its own page rather than a panel inside Settings, since shipping is where the shop's real operational complexity lives (zones today, room for carriers and methods later). Per-zone flat rate and free-shipping threshold, edited inline; saves through the same settings document as everything else, merged section-by-section so it never touches Contact/Tax/Compliance.
+15. **Settings** (`16.settings`) — one form, several panels: Contact, Storefront (branding/announcement), Compliance (GPSR manufacturer records, legal-page text — the legal pages render straight from these settings, so an edit here is live on save).
 
 ## Acceptance
 

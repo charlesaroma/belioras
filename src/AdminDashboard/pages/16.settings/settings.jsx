@@ -1,5 +1,5 @@
 /* Admin Dashboard Page: Settings - settings */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Check } from "lucide-react";
 
@@ -9,7 +9,6 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getSettings, updateSettings } from "../../../services/content/settingsApi";
 import ContactPanel from "./sections/SettingsContactPanel";
 import StorefrontPanels from "./sections/SettingsStorefrontPanels";
-import ShippingZonesPanel from "./sections/SettingsShippingZonesPanel";
 import CompliancePanels from "./sections/SettingsCompliancePanels";
 import { toFormValues, toSettingsPayload } from "./sections/settingsForm";
 
@@ -29,13 +28,9 @@ export default function DashSettings() {
     if (settings) reset(toFormValues(settings));
   }, [settings, reset]);
 
-  const [zoneEdits, setZones] = useState(null);
-
-  const zones = zoneEdits ?? settings?.shipping?.zones ?? [];
-
   const onSubmit = async (values) => {
     try {
-      await updateSettings(toSettingsPayload(values, zones));
+      await updateSettings(toSettingsPayload(values));
       toast("Settings saved.", "success");
     } catch (err) {
       toast(err.message ?? "Could not save those settings.", "error");
@@ -62,7 +57,6 @@ export default function DashSettings() {
       <div className="grid gap-5 lg:grid-cols-2">
         <ContactPanel register={register} errors={errors} />
         <StorefrontPanels register={register} errors={errors} />
-        <ShippingZonesPanel zones={zones} onChange={setZones} />
         <CompliancePanels register={register} errors={errors} />
       </div>
     </form>

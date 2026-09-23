@@ -17,6 +17,7 @@ import {
   DashReviews,
   DashNewsletter,
   DashTeam,
+  DashShipping,
   DashSettings,
 } from "../AdminDashboard/DashboardPages";
 import ProductForm from "../AdminDashboard/pages/3.products/product-form";
@@ -104,6 +105,14 @@ export default function dashboardRoutes() {
       {/* The old combined page, kept so a bookmark still lands somewhere
           useful rather than on a 404. */}
       <Route path="users" element={<Navigate to="/dashboard/customers" replace />} />
+      <Route
+        path="shipping"
+        element={
+          <RequireAuth adminOnly capability="settings">
+            <DashShipping />
+          </RequireAuth>
+        }
+      />
       <Route
         path="settings"
         element={
