@@ -28,13 +28,9 @@ export default function ProductsToolbar({
 
       <DashTabs ariaLabel="Products by status" options={tabs} value={status} onChange={onStatusChange} />
 
-      <DashToolbar
-        query={query}
-        onQueryChange={onQueryChange}
-        placeholder="Search pieces"
-        filters={<DashFilters groups={groups} value={filters} onChange={onFiltersChange} />}
-      >
+      <DashToolbar query={query} onQueryChange={onQueryChange} placeholder="Search pieces">
         <PageSizeSelect value={pageSize} onChange={onPageSizeChange} />
+        <DashFilters groups={groups} value={filters} onChange={onFiltersChange} />
       </DashToolbar>
 
       <DashFilterChips groups={groups} value={filters} onChange={onFiltersChange} />

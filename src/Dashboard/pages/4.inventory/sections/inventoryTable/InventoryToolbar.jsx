@@ -22,13 +22,9 @@ export default function InventoryToolbar({ list, pageSize, onPageSizeChange, sel
 
       <DashTabs ariaLabel="Variants by stock" options={list.tabs} value={list.level} onChange={list.setLevel} />
 
-      <DashToolbar
-        query={list.query}
-        onQueryChange={list.setQuery}
-        placeholder="Search pieces or colours"
-        filters={<DashFilters groups={list.groups} value={list.filters} onChange={list.setFilters} />}
-      >
+      <DashToolbar query={list.query} onQueryChange={list.setQuery} placeholder="Search pieces or colours">
         <PageSizeSelect value={pageSize} onChange={onPageSizeChange} />
+        <DashFilters groups={list.groups} value={list.filters} onChange={list.setFilters} />
       </DashToolbar>
 
       <DashFilterChips groups={list.groups} value={list.filters} onChange={list.setFilters} />
