@@ -33,7 +33,7 @@ import {
   AccountWardrobe,
   AccountAddresses,
   AccountSettings,
-} from "../customerDashboard";
+} from "../customerDashboard/AccountPages";
 
 export default function storefrontRoutes() {
   return (
