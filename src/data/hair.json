@@ -43,7 +43,8 @@
     "hairType": "brazilian",
     "lengthInInches": 20,
     "weight": 100,
-    "createdAt": "2026-04-03"
+    "createdAt": "2026-04-03",
+    "sku": "BEL-H1"
   },
   {
     "id": "h2",
@@ -89,7 +90,8 @@
     "hairType": "indian",
     "lengthInInches": 18,
     "weight": 100,
-    "createdAt": "2026-07-26"
+    "createdAt": "2026-07-26",
+    "sku": "BEL-H2"
   },
   {
     "id": "h3",
@@ -135,6 +137,7 @@
     "hairType": "brazilian",
     "lengthInInches": 22,
     "weight": 100,
-    "createdAt": "2026-04-17"
+    "createdAt": "2026-04-17",
+    "sku": "BEL-H3"
   }
 ]

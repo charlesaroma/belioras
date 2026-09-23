@@ -40,7 +40,8 @@
       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop"
     ],
     "isNonReturnable": false,
-    "createdAt": "2026-07-30"
+    "createdAt": "2026-07-30",
+    "sku": "BEL-A1"
   },
   {
     "id": "a2",
@@ -83,7 +84,8 @@
     ],
     "isNonReturnable": true,
     "createdAt": "2026-05-01",
-    "type": "scarves"
+    "type": "scarves",
+    "sku": "BEL-A2"
   },
   {
     "id": "a3",
@@ -124,7 +126,8 @@
     ],
     "isNonReturnable": false,
     "createdAt": "2026-08-02",
-    "type": "belts"
+    "type": "belts",
+    "sku": "BEL-A3"
   },
   {
     "id": "a4",
@@ -165,6 +168,7 @@
       "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=1000&auto=format&fit=crop"
     ],
     "isNonReturnable": true,
-    "createdAt": "2026-05-15"
+    "createdAt": "2026-05-15",
+    "sku": "BEL-A4"
   }
 ]

@@ -63,7 +63,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF01"
   },
   {
     "id": "bf02",
@@ -128,7 +129,8 @@
       "Burgundy": [
         "https://images.unsplash.com/photo-1606489236892-ed5989dd023a?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF02"
   },
   {
     "id": "bf03",
@@ -193,7 +195,8 @@
       "Blush": [
         "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF03"
   },
   {
     "id": "bf04",
@@ -257,7 +260,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF04"
   },
   {
     "id": "bf05",
@@ -322,7 +326,8 @@
       "Champagne": [
         "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF05"
   },
   {
     "id": "bf06",
@@ -386,7 +391,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF06"
   },
   {
     "id": "bf07",
@@ -451,7 +457,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF07"
   },
   {
     "id": "bf08",
@@ -515,7 +522,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF08"
   },
   {
     "id": "bf09",
@@ -580,7 +588,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF09"
   },
   {
     "id": "bf10",
@@ -642,7 +651,8 @@
       "Ebony": [
         "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF10"
   },
   {
     "id": "bf11",
@@ -706,7 +716,8 @@
       "Blush": [
         "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF11"
   },
   {
     "id": "bf12",
@@ -770,7 +781,8 @@
       "Chestnut": [
         "https://images.unsplash.com/photo-1641521119204-ca47d21ed8eb?q=80&w=1000&auto=format&fit=crop"
       ]
-    }
+    },
+    "sku": "BEL-BF12"
   },
   {
     "id": "bf13",
@@ -823,7 +835,8 @@
       "tag:featured",
       "tag:bestseller"
     ],
-    "type": "coats-jackets"
+    "type": "coats-jackets",
+    "sku": "BEL-BF13"
   },
   {
     "id": "bf14",
@@ -873,7 +886,8 @@
       "occ:party",
       "fabric:leather"
     ],
-    "type": "coats-jackets"
+    "type": "coats-jackets",
+    "sku": "BEL-BF14"
   },
   {
     "id": "bf15",
@@ -925,7 +939,8 @@
       "fabric:crepe",
       "tag:new"
     ],
-    "type": "jumpsuits"
+    "type": "jumpsuits",
+    "sku": "BEL-BF15"
   },
   {
     "id": "bf16",
@@ -974,7 +989,8 @@
       "occ:evening",
       "fabric:satin"
     ],
-    "type": "jumpsuits"
+    "type": "jumpsuits",
+    "sku": "BEL-BF16"
   },
   {
     "id": "bf17",
@@ -1025,7 +1041,8 @@
       "fabric:sequin",
       "tag:new"
     ],
-    "type": "two-piece-sets"
+    "type": "two-piece-sets",
+    "sku": "BEL-BF17"
   },
   {
     "id": "bf18",
@@ -1076,7 +1093,8 @@
       "occ:everyday",
       "fabric:knit"
     ],
-    "type": "two-piece-sets"
+    "type": "two-piece-sets",
+    "sku": "BEL-BF18"
   },
   {
     "id": "bf19",
@@ -1127,7 +1145,8 @@
       "color:black",
       "tag:bestseller"
     ],
-    "type": "wigs"
+    "type": "wigs",
+    "sku": "BEL-BF19"
   },
   {
     "id": "bf20",
@@ -1176,7 +1195,8 @@
       "hair:curly",
       "color:black"
     ],
-    "type": "wigs"
+    "type": "wigs",
+    "sku": "BEL-BF20"
   },
   {
     "id": "bf21",
@@ -1227,7 +1247,8 @@
       "color:brown",
       "tag:new"
     ],
-    "type": "wigs"
+    "type": "wigs",
+    "sku": "BEL-BF21"
   },
   {
     "id": "bf22",
@@ -1277,7 +1298,8 @@
       "hair:braided",
       "color:black"
     ],
-    "type": "wigs"
+    "type": "wigs",
+    "sku": "BEL-BF22"
   },
   {
     "id": "bf23",
@@ -1335,7 +1357,8 @@
       "color:black",
       "tag:bestseller"
     ],
-    "type": "heels"
+    "type": "heels",
+    "sku": "BEL-BF23"
   },
   {
     "id": "bf24",
@@ -1392,7 +1415,8 @@
       "color:metallic",
       "tag:new"
     ],
-    "type": "heels"
+    "type": "heels",
+    "sku": "BEL-BF24"
   },
   {
     "id": "bf25",
@@ -1446,7 +1470,8 @@
       "color:brown",
       "tag:featured"
     ],
-    "type": "handbags"
+    "type": "handbags",
+    "sku": "BEL-BF25"
   },
   {
     "id": "bf26",
@@ -1500,7 +1525,8 @@
       "color:metallic",
       "tag:new"
     ],
-    "type": "clutch"
+    "type": "clutch",
+    "sku": "BEL-BF26"
   },
   {
     "id": "bf27",
@@ -1553,7 +1579,8 @@
       "color:yellow",
       "tag:new"
     ],
-    "type": "earrings"
+    "type": "earrings",
+    "sku": "BEL-BF27"
   },
   {
     "id": "bf28",
@@ -1606,6 +1633,7 @@
       "color:white",
       "tag:bestseller"
     ],
-    "type": "necklaces"
+    "type": "necklaces",
+    "sku": "BEL-BF28"
   }
 ]

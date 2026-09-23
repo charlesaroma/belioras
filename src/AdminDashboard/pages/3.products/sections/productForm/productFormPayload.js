@@ -7,6 +7,7 @@ const DETAIL_PREFIXES = ["occasion", "fabric", "style", "length", "hair"].map((d
 
 export const EMPTY_VALUES = {
   name: "",
+  sku: "",
   description: "",
   collectionId: "",
   type: "",
@@ -22,6 +23,7 @@ export const EMPTY_VALUES = {
 export function toFormValues(product) {
   return {
     name: product.name ?? "",
+    sku: product.sku ?? "",
     description: product.description ?? "",
     collectionId: product.collectionId ?? "",
     type: product.type ?? "",
@@ -123,6 +125,7 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
 
   return {
     name: values.name.trim(),
+    sku: values.sku?.trim() || null,
     description: values.description,
     collectionId: values.collectionId,
     // A type only counts if it still belongs to the chosen category.

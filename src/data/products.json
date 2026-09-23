@@ -60,7 +60,8 @@
       "occ:evening",
       "occ:cocktail",
       "fabric:satin"
-    ]
+    ],
+    "sku": "BEL-P1"
   },
   {
     "id": "p2",
@@ -119,7 +120,8 @@
       "len:midi",
       "occ:everyday",
       "fabric:linen"
-    ]
+    ],
+    "sku": "BEL-P2"
   },
   {
     "id": "p3",
@@ -178,7 +180,8 @@
       "len:midi",
       "occ:evening",
       "fabric:velvet"
-    ]
+    ],
+    "sku": "BEL-P3"
   },
   {
     "id": "p4",
@@ -236,6 +239,7 @@
       "len:maxi",
       "occ:everyday",
       "fabric:crepe"
-    ]
+    ],
+    "sku": "BEL-P4"
   }
 ]

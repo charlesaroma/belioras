@@ -53,6 +53,10 @@ export default function ProductPageSummary({ product }) {
       <p className="mt-5 max-w-lg text-sm leading-relaxed text-espresso-soft">
         {product.description}
       </p>
+
+      {product.sku && (
+        <p className="mt-2 text-xs text-espresso-soft/70">SKU: {product.sku}</p>
+      )}
     </>
   );
 }
