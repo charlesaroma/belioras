@@ -1,6 +1,6 @@
 # 10 — Folder Structure (Where Everything Lives)
 
-**Rule:** Every file has exactly one home. Pages own their private UI; anything reused by two or more pages moves up to shared folders (`components`, `hooks`, `utils`). The admin `Dashboard/` is a self-contained app inside the repo and never reaches into storefront code; the customer-facing `customerDashboard/` deliberately does reach into it, and that difference is explained in [Two dashboards](#two-dashboards-one-rule-each) below. Before adding a file, find the folder below whose job matches it.
+**Rule:** Every file has exactly one home. Pages own their private UI; anything reused by two or more pages moves up to shared folders (`components`, `hooks`, `utils`). The admin `AdminDashboard/` is a self-contained app inside the repo and never reaches into storefront code; the customer-facing `customerDashboard/` deliberately does reach into it, and that difference is explained in [Two dashboards](#two-dashboards-one-rule-each) below. Before adding a file, find the folder below whose job matches it.
 
 This doc maps *where* things live. Naming and comment conventions are in [00](00-code-conventions.md), the dependency stack in [01](01-dependencies.md).
 
@@ -24,7 +24,7 @@ Build output, docs, and tooling configs are not application code — nothing und
 | Folder | Contents | Notes |
 | --- | --- | --- |
 | `pages/` | Route-level screens | Numbered prefixes fix nav order (below) |
-| `Dashboard/` | Admin app | Fully isolated from the storefront |
+| `AdminDashboard/` | Admin app | Fully isolated from the storefront |
 | `customerDashboard/` | Signed-in client app | Renders inside the storefront `Layout`; see below |
 | `components/` | Shared UI | Used by two or more pages |
 | `context/` | Global providers | Mounted near the app root |
@@ -61,7 +61,7 @@ Unnumbered folders exist alongside them — reached via links, footer, or accoun
 | `FAQ/` | FAQ page |
 
 The signed-in client portal is **not** in this list — it moved to the top-level
-`src/customerDashboard/`, mirroring `src/Dashboard/`. See
+`src/customerDashboard/`, mirroring `src/AdminDashboard/`. See
 [Two dashboards](#two-dashboards-one-rule-each) below and
 [11](11-client-account.md) for the portal itself.
 
@@ -87,13 +87,13 @@ home/
 - `sections/` may hold non-component helpers too (e.g. `shop/sections/constants.jsx`).
 - When a second page needs a section's piece, promote it to `src/components/storefront/` or `src/components/shared/` — never import across page folders.
 
-## `src/Dashboard/`
+## `src/AdminDashboard/`
 
 A complete admin app living beside the storefront:
 
 | Path | Role |
 | --- | --- |
-| `index.jsx` | Router/entry for the admin area |
+| `DashboardPages.jsx` | Barrel — re-exports every page under a `Dash*` name |
 | `DashboardLayout.jsx` | Sidebar + header shell |
 | `lib/constants.jsx` | Dashboard-only constants |
 | `components/` | DashHeader, DashSidebar, DashTable, SalesChart, StatCard — chrome shared by every page |
@@ -110,7 +110,9 @@ it move up by one.
 pages/
 ├── 1.overview/       DashOverview.jsx
 ├── 3.products/       DashProducts.jsx  + sections/ (productForm/: one section per step, productsTable/)
-├── 5.categories/     DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel)
+├── 4.inventory/      DashInventory.jsx + sections/ (adjust, receive and history dialogs, threshold)
+├── 5.categories/     DashCategories.jsx + sections/ (CategoriesPanel, ColoursPanel, DetailsPanel)
+├── 6.sizes/          DashSizes.jsx     + sections/ (SizesPanel, GuidesPanel, per-collection guide dialogs)
 ├── 7.mega-menu/      DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
 ├── 8.orders/         DashOrders.jsx
 ├── 9.transactions/   DashTransactions.jsx  (super-admin only)
@@ -120,9 +122,11 @@ pages/
 └── 16.settings/      DashSettings.jsx
 ```
 
-Admin pages count from 1 (the storefront and account pages count from 0).
-The gaps are the pages being added next, in their sidebar places:
-`2.reports`, `4.inventory`, `6.sizes`, `10.discounts`, `12.reviews`, `13.messages`.
+Admin pages count from 1 — and so do the customer's own account pages under
+`customerDashboard/`, below. Only the storefront's plain `src/pages/` (home,
+shop, auth, …) still counts from 0.
+The remaining gaps are pages not yet built, in their reserved sidebar places:
+`2.reports`, `10.discounts`, `12.reviews`, `13.messages`.
 
 Modals sit directly in `sections/` rather than a nested `modals/` folder —
 `sections/` already means "private to this page", and a second level said the
@@ -130,15 +134,15 @@ same thing twice.
 
 Isolation rules (binding):
 
-- `Dashboard/` never imports `src/pages/**` or `src/customerDashboard/**`.
-- The storefront never imports `src/Dashboard/**`.
+- `AdminDashboard/` never imports `src/pages/**` or `src/customerDashboard/**`.
+- The storefront never imports `src/AdminDashboard/**`.
 - Both read data through `src/services` — same mocks today, same real API later ([02](02-data-layer.md)).
 - Behavior and flows are covered in [07](07-dashboard.md).
 
 ### `src/customerDashboard/`
 
-The signed-in customer's own app, structured the same way as `Dashboard/` —
-a barrel, a layout shell, numbered page folders each owning a `sections/` —
+The signed-in customer's own app, structured the same way as `AdminDashboard/`
+— a barrel, a layout shell, numbered page folders each owning a `sections/` —
 but held to a different isolation rule. See
 [Two dashboards, one rule each](#two-dashboards-one-rule-each).
 
@@ -147,22 +151,23 @@ so the folder listing matches the left rail a customer actually sees:
 
 ```
 pages/
-├── 0.profile/    Profile.jsx
-├── 1.orders/     Orders.jsx, OrderDetail.jsx
-├── 2.wishlist/   Wishlist.jsx
-├── 3.addresses/  Addresses.jsx
-└── 4.settings/   Settings.jsx + sections/SettingsPanel.jsx
+├── 1.profile/    Profile.jsx
+├── 2.orders/     Orders.jsx, OrderDetail.jsx
+├── 3.wishlist/   Wishlist.jsx
+├── 4.addresses/  Addresses.jsx
+├── 5.settings/   Settings.jsx + sections/SettingsPanel.jsx
+└── 6.wardrobe/   Wardrobe.jsx + sections/ (WardrobeSizes, WardrobeGrid)
 ```
 
-`OrderDetail` sits inside `1.orders/` rather than taking a number of its own:
+`OrderDetail` sits inside `2.orders/` rather than taking a number of its own:
 it is the detail view of that page, not a separate destination — nothing in
 the account menu links to it directly.
 
 | Path | Role |
 | --- | --- |
-| `index.jsx` | Barrel — mirrors `Dashboard/index.jsx` |
+| `AccountPages.jsx` | Barrel — mirrors `AdminDashboard/DashboardPages.jsx` |
 | `AccountLayout.jsx` | Heading, left rail, `<Outlet/>` — the customer equivalent of `DashboardLayout.jsx` |
-| `pages/` | Profile, Orders, OrderDetail, Addresses, Wishlist, Settings |
+| `pages/` | Profile, Orders, OrderDetail, Wishlist, Addresses, Settings, Wardrobe |
 | `pages/sections/` | Per-page splits, e.g. `SettingsPanel.jsx` |
 
 Full routes, data sources and acceptance criteria are in [11](11-client-account.md).
@@ -178,7 +183,7 @@ No root-level files — everything sits in a subfolder.
 | `ui/` | Button, Field, TagInput, Dropzone, ConfirmDialog, EmptyState, StatusChip, ToastViewport, DraftDock | Storefront, account **and** Dashboard |
 | `common/` | Modal, Drawer, DropdownPill, LanguageSelector, CurrencySelector | Both |
 | `auth/` | RequireAuth route guard | Both |
-| `account/` | Avatar, OrderTimeline, accountMenuItems | `customerDashboard/`, the storefront navbar, the public order tracker, **and** the admin `Dashboard/` sidebar/Customers/Team pages |
+| `account/` | Avatar, OrderTimeline, accountMenuItems | `customerDashboard/`, the storefront navbar, the public order tracker, **and** the admin `AdminDashboard/` sidebar/Customers/Team pages |
 | `layout/` | Footer, CookieConsent, PageShell, NotFound, Forbidden, BackToTop, ScrollToTop | Storefront |
 | `layout/navbar/` | AnnouncementBar, NavLinks, NavActions, MegaMenu, MegaMenuPanel, MobileMenu, AccountMenu, SearchBar, SearchPanel, CartDrawer, Logo, barrel `index.jsx` | Storefront |
 | `search/` | ImageSearch | SearchPanel |
@@ -202,11 +207,11 @@ The entire API surface, one folder per business area: `store/` (the local conten
 
 ### `src/data/`
 
-Thirteen JSON fixtures mirroring future backend shapes. **Only services import these.**
+JSON fixtures mirroring future backend shapes. **Only services import these.**
 
 ### `src/hooks/` & `src/utils/`
 
-Hooks: `useAsyncData`, `useLocalStorage`, `useMediaQuery`. Utils: `cn`, `constants`, `filterSort`, `formatCurrency`. Both stay generic — no business logic, no knowledge of specific pages.
+Hooks: `useAsyncData`, `useLocalStorage`. Utils: `cn`, `constants`, `formatCurrency`. Both stay generic — no business logic, no knowledge of specific pages.
 
 ## Placement Rules (Binding)
 
@@ -214,20 +219,21 @@ Hooks: `useAsyncData`, `useLocalStorage`, `useMediaQuery`. Utils: `cn`, `constan
 2. Component needed by ≥ 2 pages → `src/components/…`; needed by one page → that page's `sections/`.
 3. Any network-shaped call goes through a service module — components never import `src/data` directly.
 4. Global state → `src/context`; reusable stateful logic → `src/hooks`; pure functions → `src/utils`.
-5. Admin work stays under `src/Dashboard/` end to end; customer-account work
-   stays under `src/customerDashboard/` end to end.
+5. Admin work stays under `src/AdminDashboard/` end to end; customer-account
+   work stays under `src/customerDashboard/` end to end.
 6. Styling uses palette tokens from `src/index.css` only — see [00](00-code-conventions.md) and [03](03-foundations.md).
 
 ## Two dashboards, one rule each
 
-Both admin and customer areas are top-level folders, named to match — but they
-are held to opposite isolation rules, and confusing the two is the mistake to
-avoid here.
+Both admin and customer areas are top-level folders — `AdminDashboard/` and
+`customerDashboard/`, no longer a matching pair by name, each named for its
+own domain instead. What still matters is that they are held to **opposite**
+isolation rules, and confusing the two is the mistake to avoid here.
 
-**`Dashboard/` is fully isolated.** It never imports `src/pages/**`, and the
-storefront never imports it back. It has its own chrome, its own constants,
-and reads data through the same `src/services` the storefront does — the two
-apps meet only there.
+**`AdminDashboard/` is fully isolated.** It never imports `src/pages/**`, and
+the storefront never imports it back. It has its own chrome, its own
+constants, and reads data through the same `src/services` the storefront
+does — the two apps meet only there.
 
 **`customerDashboard/` is not isolated, on purpose.** It renders inside the
 storefront's own `Layout` rather than a shell of its own, and freely imports
@@ -237,9 +243,9 @@ separate chrome would say otherwise.
 
 That difference is also why `Avatar`, `OrderTimeline` and `accountMenuItems`
 live in `src/components/account/` rather than inside `customerDashboard/`
-itself: the admin `Dashboard/` sidebar and its Customers/Team pages import
-them too, and so does the storefront navbar and the public order tracker —
-none of which are customer-dashboard pages. Nesting genuinely shared code
+itself: the admin `AdminDashboard/` sidebar and its Customers/Team pages
+import them too, and so does the storefront navbar and the public order
+tracker — none of which are customer-dashboard pages. Nesting genuinely shared code
 inside a folder named for only one of its five consumers would point the
 admin area's imports backwards through the customer's own folder. Anything
 used by two or more `customerDashboard/` pages **and nothing outside it**

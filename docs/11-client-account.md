@@ -16,29 +16,27 @@ it — and the real backend has one place to reimplement.
 
 ## Two Dashboards, One Rule Each
 
-`src/customerDashboard/` and the admin `src/Dashboard/` are named to match on purpose, and held to opposite isolation rules — see [10](10-folder-structure.md#two-dashboards-one-rule-each) for the full reasoning. In short: the admin dashboard never touches storefront code; the customer dashboard freely reuses `ProductCard`, `GridViewSwitcher`, `StatusChip` and the `ui/` primitives from it.
+`src/customerDashboard/` and the admin `src/AdminDashboard/` no longer share a matching name, but they're still held to opposite isolation rules — see [10](10-folder-structure.md#two-dashboards-one-rule-each) for the full reasoning. In short: the admin dashboard never touches storefront code; the customer dashboard freely reuses `ProductCard`, `GridViewSwitcher`, `StatusChip` and the `ui/` primitives from it.
 
-That's also why `Avatar`, `OrderTimeline` and `accountMenuItems` are **not** inside `customerDashboard/` — they live in `src/components/account/` because the admin `Dashboard/` sidebar and its Customers/Team pages import them too, alongside the storefront navbar and the public order tracker. Five consumers, only one of them a customer-dashboard page; nesting them here would point the admin area's imports backwards through the customer's own folder.
+That's also why `Avatar`, `OrderTimeline` and `accountMenuItems` are **not** inside `customerDashboard/` — they live in `src/components/account/` because the admin `AdminDashboard/` sidebar and its Customers/Team pages import them too, alongside the storefront navbar and the public order tracker. Five consumers, only one of them a customer-dashboard page; nesting them here would point the admin area's imports backwards through the customer's own folder.
 
 ## Structure
 
 ```
 src/customerDashboard/
-├── index.jsx              # Barrel — mirrors Dashboard/index.jsx
+├── AccountPages.jsx       # Barrel — mirrors AdminDashboard/DashboardPages.jsx
 ├── AccountLayout.jsx      # Heading, left rail, <Outlet/>. Owns the page's only h1
 ├── pages/
-│   ├── Profile.jsx        # Overview
-│   ├── Orders.jsx         # History list
-│   ├── OrderDetail.jsx    # One order + timeline + order again + receipt
-│   ├── Addresses.jsx      # Address book
-│   ├── Wishlist.jsx       # Saved pieces
-│   ├── Settings.jsx       # Profile, security, preferences
-│   └── sections/
-│       └── SettingsPanel.jsx  # Private to Settings
+│   ├── 1.profile/         # Overview
+│   ├── 2.orders/          # History list + one order's timeline, order again, receipt
+│   ├── 3.wishlist/        # Saved pieces
+│   ├── 4.addresses/       # Address book
+│   ├── 5.settings/        # Profile, security, preferences
+│   └── 6.wardrobe/        # What the customer owns, and their usual sizes
 
 src/components/account/    # Shared across MORE than customerDashboard alone
-├── Avatar.jsx             # Initials or photo — navbar, admin Dashboard, here
-├── OrderTimeline.jsx      # Four stages — public tracker, admin Dashboard, here
+├── Avatar.jsx             # Initials or photo — navbar, admin AdminDashboard, here
+├── OrderTimeline.jsx      # Four stages — public tracker, admin AdminDashboard, here
 └── accountMenuItems.js    # One list, rendered by AccountMenu and MobileMenu
 ```
 
@@ -51,8 +49,9 @@ All under `<RequireAuth>` — no `adminOnly`, so staff can shop as themselves. U
 | `/account` | Overview |
 | `/account/orders` | History |
 | `/account/orders/:id` | Order detail |
-| `/account/addresses` | Address book |
 | `/account/wishlist` | Saved pieces |
+| `/account/addresses` | Address book |
+| `/account/wardrobe` | What the customer owns, and their usual sizes |
 | `/account/settings` | Profile, security, preferences |
 
 `/wishlist` redirects to `/account/wishlist` — one canonical URL, with the old link kept working.
@@ -69,8 +68,9 @@ All under `<RequireAuth>` — no `adminOnly`, so staff can shop as themselves. U
 | Products | `services/catalog/productsApi` | Wishlist resolution, order thumbnails, order again |
 | Wishlist | `context/WishlistContext` | Per-account via `useScopedStorage` |
 | Addresses | `useScopedStorage("belioras:addresses", [], user.id)` | Per-account. **No seed** — it once shipped a fictional customer's Lisbon address to every new account |
-| Profile | `context/AuthContext` → `updateProfile`, `changePassword`, `verifyPassword` | |
-| Status vocabulary | `utils/orderStatus` | One definition, shared with the admin `Dashboard/` and the public tracker |
+| Wardrobe | `utils/purchaseHistory` derived from `getOrders` + `getProducts` | Nothing new is stored — pieces owned and usual sizes are computed from order history |
+| Profile | `context/auth/useAuthRealm` (customer realm) → `updateProfile`, `changePassword`, `verifyPassword` | |
+| Status vocabulary | `utils/orderStatus` | One definition, shared with the admin `AdminDashboard/` and the public tracker |
 
 ## Per-User Isolation (Binding)
 

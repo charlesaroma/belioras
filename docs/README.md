@@ -5,7 +5,7 @@ Luxury fashion & hair e-commerce frontend (Vite + React 19 + Tailwind v4 + Motio
 ## Golden Rules
 
 1. **Backend-ready**: components/contexts never import JSON directly — always via `src/services/*` (promise wrappers with `mockDelay`). Swap internals to `fetch()` later = zero component changes.
-2. **Split rule**: JSX files max ~250 lines. Page-level splits go in the page's `sections/` folder; shared/layout splits go in `src/components/`.
+2. **Split rule**: JSX files max ~250 lines (checked against the codebase — none exceed it). Page-level splits go in the page's `sections/` folder; shared/layout splits go in `src/components/`.
 3. **Comment style**: simple, minimal. `{/* Section name */}` above tags/sections. Title case, no dashes, no decoration. One-line file-top comment only when needed.
 4. **Palette**: always Belioras tokens from `src/index.css` (`gold-*`, `brown-*`, `champagne-*`, `umber-*`, `ivory-*`, `espresso`). No arbitrary hex in components — use `constants.js` maps when needed.
 5. **EU legal (non-negotiable)**: see `08-eu-legal-compliance.md`. Omnibus price, cookie consent equal-weight, GPSR records, no pre-ticked boxes, hair non-returnable, 14-day withdrawal, VAT-inclusive.
@@ -19,12 +19,13 @@ Storefront-first: everything the customer sees (layout shell → UI kit → stor
 |---|-------|-----|--------|
 | 0 | Dependencies & config | `01-dependencies.md` | done |
 | 1 | Foundations (utils, contexts, services, hooks, data) | `02-data-layer.md` + `03-foundations.md` | done |
-| 2 | Layout — storefront shell first (navbar folder, AI chat, footer, cookie, shell) | `04-layout.md` | done |
+| 2 | Layout — storefront shell first (navbar folder, footer, cookie, shell) | `04-layout.md` | done |
 | 3 | UI kit (incl. swatches) | `05-ui-kit.md` | done |
 | 4 | Storefront (home, shop, PDPs, search, checkout, auth, FAQ, legal) | `06-storefront.md` | done |
-| 5 | Dashboard (11 modules) — built last | `07-dashboard.md` | done |
+| 5 | AdminDashboard (12 modules, 2 reserved slots unbuilt) | `07-dashboard.md` | done |
 | 6 | QA & polish (a11y, responsive, lint, build, favicon) — final pass over the whole app incl. dashboard | `09-qa-polish.md` | in-progress |
 | 7 | Client account portal | `11-client-account.md` | done |
+| 8 | Folder structure reference | `10-folder-structure.md` | done |
 
 **Not done, and blocking launch:** authorization is entirely client-side. A
 forged localStorage session reaches `/dashboard/users` and every customer's
@@ -51,35 +52,39 @@ docs/
 ├── 06-storefront.md
 ├── 07-dashboard.md
 ├── 08-eu-legal-compliance.md
-└── 09-qa-polish.md
+├── 09-qa-polish.md
+├── 10-folder-structure.md
+└── 11-client-account.md
 
 src/
-├── main.jsx                 ← ok
-├── index.css                ← ok (Tailwind v4 tokens)
-├── App.jsx                  ← replace with routes
-├── utils/                   ← cn, formatCurrency, filterSort, constants
-├── hooks/                   ← useAsyncData, useLocalStorage, useMediaQuery
+├── main.jsx
+├── index.css                ← Tailwind v4 tokens
+├── App.jsx                  ← AppProviders + BrowserRouter, routes composed from
+│                               authRoutes() / dashboardRoutes() / storefrontRoutes()
+├── routes/                  ← the three route-tree builders above, one per realm
+├── utils/                   ← cn, formatCurrency, constants, faceting, catalogSort, orderStatus, …
+├── hooks/                   ← useAsyncData, useLocalStorage, useScopedStorage, …
 ├── services/                ← store/, auth/, catalog/, sales/, marketing/, content/ (see 02)
-├── context/                 ← Auth, Cart, Wishlist, Currency, Toast
+├── context/                 ← Content, Language, Currency, Auth (customer + staff realms), Cart, Wishlist, ProductDraft, Toast
 ├── components/
-│   ├── layout/              ← navbar/ (8 files), AiChat/ (3), footer, cookieConsent, ScrollToTop, NotFound
-│   ├── ui/                  ← Button, Input, Select, QuantitySelector, Modal, Drawer, Accordion, RatingStars, Badge, Skeleton, EmptyState, TrustBadges, Breadcrumbs, Swatch, SizeSwatch, SwatchGroup, SectionHeader, Newsletter, Announcement
-│   └── storefront/          ← FilterPanel, ActiveFilters, SortSelect, ProductCard, ProductGrid, FeaturedCarousel
-├── data/                    ← *.json (products, dresses, hair, accessories, newArrivals, categories, testimonials, users, orders, coupons, promotions, reviews, settings)
+│   ├── layout/              ← Footer, CookieConsent, PageShell, NotFound, Forbidden, ScrollToTop, BackToTop, navbar/, footer/
+│   ├── ui/                  ← Button, Field, Modal, Drawer, ConfirmDialog, EmptyState, StatusChip, ToastViewport, …
+│   ├── account/             ← Avatar, OrderTimeline, accountMenuItems — shared by the storefront navbar, the public tracker, and both dashboards
+│   ├── storefront/          ← ProductCard, ProductCarousel, GridViewSwitcher, size chart
+│   └── common/, auth/, shared/
+├── data/                    ← JSON fixtures per service module — products, catalogExtra, hair, accessories, categories, taxonomy, navigation, orders, coupons, reviews, settings, sizeCharts, and more (see 02)
 ├── pages/
-│   ├── 0.auth/              ← login, signup, forgotpassword
-│   ├── 1.home/sections/     ← Hero, FeaturedCategories, NewArrivals, FeaturedProducts, Testimonials, ValueProps, BrandStory
-│   ├── 2.whatsNew/sections/ ← NewArrivalsSection, CategoryShowcase
-│   ├── 3.shop/sections/     ← ProductFilters, Sidebar, MobileFilters
-│   ├── 4.dresses/           ← DressesPage (+ sections/ product grid, filters)
-│   ├── 5.hair/              ← HairPage (+ sections/)
-│   ├── 6.accessories/       ← AccessoriesPage (+ sections/)
-│   ├── search/              ← SearchPage + sections/
-│   ├── checkout/            ← CheckoutPage + sections/ (6 files)
+│   ├── 0.auth/              ← login, signup, forgot password, atelier (staff door)
+│   ├── 1.home/sections/     ← Hero, FeaturedCategories, NewArrivals, BestSellers, BrandStory, Testimonials, Instagram grid, …
+│   ├── 3.shop/              ← CatalogPage (serves New Arrivals, Dresses, Hair, Accessories and every filtered collection through splat routes) + sections/
+│   ├── product/             ← Product detail page
+│   ├── checkout/            ← CheckoutPage + sections/
 │   ├── FAQ/                 ← faq.jsx
 │   ├── customer-support/    ← about-us, contact-us, order-tracking, hair-length-guide, shoe-size-guide
-│   └── legal/               ← 5 legal pages
-└── Dashboard/               ← index + 11 modules + sections/
+│   ├── legal/               ← 5 legal pages
+│   └── newsletter/          ← confirm, unsubscribe
+├── customerDashboard/       ← the signed-in shopper's own app (see 11)
+└── AdminDashboard/          ← the admin app (see 07) — DashboardPages.jsx barrel + 12 numbered page modules
 ```
 
 ## Verifier

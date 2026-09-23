@@ -16,7 +16,7 @@
 - Cols 1-3: category children from `categoriesApi` (e.g., Dresses → Maxi, Mini, Midi, Formal, Cocktail; Hair → Brazilian, Indian, Remy, Wigs & Toupees, Bundles; Accessories → Bags, Belts, Scarves, Jewelry).
 - Col 4: Featured — 2 product cards (image, name, price) from `productsApi`.
 - A11y: `aria-haspopup="true"` + `aria-expanded` on trigger; opens on hover + focus; Escape and click-outside close; AnimatePresence 300ms fade-up; `role="menu"`-ish semantics avoided — use nav + links.
-- Public pages for categories exist: `4.dresses`, `5.hair`, `6.accessories` (route `/dresses`, `/hair`, `/accessories`).
+- Public pages for categories exist: `/dresses`, `/hair`, `/accessories` and every filtered collection under them, all served by `3.shop/CatalogPage.jsx` through splat routes rather than dedicated page folders.
 
 ### MobileMenu.jsx
 
@@ -31,12 +31,6 @@
 
 - Composes rows + mega menu + cart drawer + mobile menu; `AnnouncementProvider` logic inline in AnnouncementBar.
 
-## AI Chat — `src/components/layout/AiChat/`
-
-- `AiChatButton.jsx` — fixed bottom-right, round espresso bg, white sparkle icon, aria-label "Ask Belioras AI", badge dot when unseen. z-[60].
-- `ChatDrawer.jsx` — AnimatePresence panel (max-h 70vh): header "Belioras Assistant", message list (user right/gold, bot left/ivory), quick-reply chips (Shipping, Returns, Sizing, Hair care, Contact, GPSR/legal), typing indicator (3 dots), input + send (Enter), auto-scroll, live region for bot messages.
-- `chatResponses.js` — rule-based matcher (keyword → response+link), incl.: shipping, returns (14-day + hair non-returnable), sizing guides, hair care, order tracking (link), coupons, GPSR/manufacturer, contact; fallback apology + "contact-us" link.
-
 ## Other Layout
 
 - `footer.jsx` — 4 cols: brand blurb + socials (lucide icons), Shop links, Help links (legal pages, guides, tracking), Newsletter (email input + subscribe; success toast; no pre-ticked). Bottom: payment method icons (text badges), copyright, "Prices include VAT".
@@ -46,13 +40,12 @@
 
 ## App.jsx
 
-- `AppProviders` (Currency, Auth, Cart, Wishlist, Toast) + RouterProvider with layout route (`<Navbar/><Outlet/><Footer/><AiChat/><CookieConsent/><ScrollToTop/>`) + all routes.
+- `AppProviders` (Content, Language, Currency, Auth, Cart, Wishlist, ProductDraft, Toast) wraps `BrowserRouter`, which renders `ScrollToTop`, `DraftDock`, and `Routes` composed from `authRoutes()`, `dashboardRoutes()` and `storefrontRoutes()` (`src/routes/*.jsx`) — `storefrontRoutes()` owns the `<Navbar/><Outlet/><Footer/><CookieConsent/><BackToTop/>` layout shell.
 
 ## Acceptance
 
 - [ ] 3-row navbar visible per spec; search inline desktop, icon mobile.
 - [ ] Mega menu keyboard navigable, closes on Esc/outside; no layout shift on hover.
-- [ ] AI chat answers 6 sample questions correctly; typing indicator shows.
 - [ ] Cart drawer math correct; free-shipping threshold messaging works with EUR and USD.
 - [ ] Cookie bar: both buttons equal size/weight; reject persists choice (localStorage).
 - [ ] 404 page reachable; footer links all resolve.

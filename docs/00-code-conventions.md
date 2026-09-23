@@ -4,8 +4,8 @@ Binding rules for every file in this project.
 
 ## 1. Split Rule
 
-- **Max 150 lines per file.** If a file exceeds it, split. Applies to `.js`
-  as well as `.jsx` — a 300-line service is as hard to navigate as a 300-line
+- **Max ~250 lines per file.** If a file exceeds it, split. Applies to `.js`
+  as well as `.jsx` — a 500-line service is as hard to navigate as a 500-line
   component.
 - The number is a prompt to find the seam, not a licence to chop anywhere.
   Split where the file already changes subject: a table's columns, a modal, a
@@ -17,7 +17,7 @@ Binding rules for every file in this project.
   Example: `src/pages/1.home/` keeps `home.jsx` only; every block becomes `src/pages/1.home/sections/Hero.jsx`, `FeaturedCategories.jsx`, ...
 - Shared/layout splits go in `src/components/layout/` or `src/components/storefront/`.
 - Checkout page: `src/pages/checkout/sections/` (CheckoutSteps, ContactForm, ShippingForm, PaymentForm, OrderSummary, SuccessView).
-- Dashboard modules: `src/Dashboard/` per-module folders; large module bodies split into `sections/` or `components/` inside the module folder.
+- Dashboard modules: `src/AdminDashboard/` per-module folders; large module bodies split into `sections/` or `components/` inside the module folder.
 - Navbar: `src/components/layout/navbar/` — index.jsx (shell) + AnnouncementBar, SearchBar, MegaMenu, NavLinks, NavActions, CartDrawer, MobileMenu.
 
 ## 2. Comment Style
