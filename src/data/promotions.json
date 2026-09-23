@@ -18,13 +18,5 @@
       "key": "promo.welcome10",
       "default": "WELCOME10 — 10% off your first order"
     }
-  ],
-  "flashSale": {
-    "active": true,
-    "text": "Flash sale: 20% off the Serafina velvet — ends Sunday",
-    "productId": "p3",
-    "start": "2026-08-15T00:00:00Z",
-    "end": "2027-03-01T23:59:59Z",
-    "discountPercent": 20
-  }
+  ]
 }

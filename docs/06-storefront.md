@@ -36,7 +36,7 @@
 
 - Featured / Price low→high / high→low / Newest / Top rated — URL param `?sort=`.
 
-URL state: filters via `useSearchParams` (collection, categories, min, max, colors, sizes, sale, sort, q). `filterSort.js` applies everything; O(n) fine.
+URL state: filters via `useSearchParams` (collection, categories, min, max, colors, sizes, sale, sort, q). `utils/faceting.js`'s `applyFilters` narrows the list and `utils/catalogSort.js`'s `sortProducts` orders it; O(n) fine.
 
 ## Product Display
 

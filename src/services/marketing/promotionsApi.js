@@ -29,11 +29,3 @@ export function getTopBanner() {
     };
   });
 }
-
-export function getFlashSale() {
-  return mockApi(() =>
-    promotionsSeed.flashSale?.active && isActive(promotionsSeed.flashSale)
-      ? { ...promotionsSeed.flashSale }
-      : null
-  );
-}
