@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
 import MegaMenuTileGrid from "./MegaMenuTileGrid";
-import { COLUMN_STAGGER, ITEMS_PER_SECTION } from "./megaMenuMotion";
+import { COLUMN_STAGGER } from "./megaMenuMotion";
 
 export default function MegaMenuDesktop({ item, sections, tiles, columns, showTiles, onNavigate }) {
   return (
@@ -27,7 +27,7 @@ export default function MegaMenuDesktop({ item, sections, tiles, columns, showTi
               <h3 className="eyebrow mb-4">{section.title}</h3>
 
               <ul className="space-y-2.5">
-                {section.items.slice(0, ITEMS_PER_SECTION).map((leaf) => (
+                {section.items.map((leaf) => (
                   <li key={leaf.id}>
                     <Link
                       to={leaf.url}
@@ -44,18 +44,6 @@ export default function MegaMenuDesktop({ item, sections, tiles, columns, showTi
                     </Link>
                   </li>
                 ))}
-
-                {section.items.length > ITEMS_PER_SECTION && (
-                  <li>
-                    <Link
-                      to={item.url}
-                      onClick={onNavigate}
-                      className="inline-flex items-center gap-1 pt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gold-700 transition-colors hover:text-espresso"
-                    >
-                      +{section.items.length - ITEMS_PER_SECTION} more
-                    </Link>
-                  </li>
-                )}
               </ul>
             </motion.div>
           ))}

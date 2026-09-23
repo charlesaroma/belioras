@@ -8,10 +8,6 @@ export const SECTION_DURATION = 0.38;
 // sliding in one at a time.
 export const COLUMN_STAGGER = 0.035;
 
-// Shop carries 44 links. Showing every one turned a navigation aid into a
-// sitemap, so sections cap and link onward.
-export const ITEMS_PER_SECTION = 6;
-
 export function sectionTransition(reduceMotion) {
   return {
     height: { duration: reduceMotion ? 0 : SECTION_DURATION, ease: EASE_OUT_SOFT },
