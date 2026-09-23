@@ -123,7 +123,6 @@ export default function ProductForm() {
             spread={spread} onColorCreated={() => setRevision((n) => n + 1)}
             register={form.register} reserved={existing?.reservedCells ?? {}}
           />
-          <ProductFormDetails category={category} taxonomy={taxonomy ?? {}} tags={tags} onChange={setTags} />
         </div>
 
         {/* Stays in view beside a long form. The page scrolls inside <main>,
@@ -136,6 +135,9 @@ export default function ProductForm() {
               onChange={chooseCategory} onTypeChange={(next) => form.setValue("type", next, { shouldDirty: true })}
               onCreated={(created) => { setRevision((n) => n + 1); chooseCategory(created); }}
             />
+            {/* Right beside Category, not down in the main column — picking
+                what a piece is and what it's filed under is one flow. */}
+            <ProductFormDetails category={category} taxonomy={taxonomy ?? {}} tags={tags} onChange={setTags} />
             <ProductFormPricing register={form.register} errors={form.formState.errors} values={values} setValue={form.setValue} />
             <ProductFormLabels values={values} setValue={form.setValue} />
           </div>
