@@ -136,6 +136,7 @@ export default function OrderTrackingPage() {
 
           {order.trackingRef && (
             <p className="mt-2 text-sm text-espresso-soft">
+              {order.carrier && `${order.carrier} — `}
               Carrier reference <strong className="text-espresso">{order.trackingRef}</strong>
             </p>
           )}

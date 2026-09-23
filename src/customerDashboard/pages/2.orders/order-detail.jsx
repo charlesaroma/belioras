@@ -90,6 +90,13 @@ export default function OrderDetail() {
 
       <OrderTimeline status={order.status} />
 
+      {order.trackingRef && (
+        <p className="text-sm text-espresso-soft">
+          {order.carrier && `${order.carrier} — `}
+          Carrier reference <strong className="text-espresso">{order.trackingRef}</strong>
+        </p>
+      )}
+
       {isOffTimeline(order.status) && (
         <p className="text-sm text-espresso-soft">
           {normalizeStatus(order.status) === "refunded"

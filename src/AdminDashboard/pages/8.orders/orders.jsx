@@ -16,6 +16,7 @@ import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 import OrdersRestockDialog from "./sections/ordersTable/OrdersRestockDialog";
+import OrdersShipDialog from "./sections/ordersTable/OrdersShipDialog";
 
 const TABS = [["all", "All"], ["to-pay", "To pay"], ["to-ship", "To ship"], ["shipped", "Shipped"]];
 
@@ -69,9 +70,9 @@ export default function DashOrders() {
     [rows],
   );
 
-  const move = async (order, status, restock = false) => {
+  const move = async (order, status, { restock = false, trackingRef, carrier } = {}) => {
     try {
-      await updateOrderStatus(order.id, status, { restock, by: user?.name });
+      await updateOrderStatus(order.id, status, { restock, by: user?.name, trackingRef, carrier });
       refresh();
       const label = ORDER_STATUS[status]?.label ?? status;
       toast(restock ? `${order.id} marked ${label}. Its pieces are back in stock.` : `${order.id} marked ${label}.`, "success");
@@ -82,9 +83,12 @@ export default function DashOrders() {
 
   // A shipped order that is cancelled or refunded: were its pieces returned?
   const [restockAsk, setRestockAsk] = useState(null);
+  // Marking an order shipped: a chance to record its tracking number and carrier.
+  const [shipAsk, setShipAsk] = useState(null);
   const advance = (order, status) => {
     const units = returnableUnits(order);
     if ((status === "cancelled" || status === "refunded") && units > 0) setRestockAsk({ order, status, units });
+    else if (status === "shipped") setShipAsk({ order });
     else move(order, status);
   };
 
@@ -141,8 +145,17 @@ export default function DashOrders() {
         ask={restockAsk}
         onClose={() => setRestockAsk(null)}
         onAnswer={(restock) => {
-          move(restockAsk.order, restockAsk.status, restock);
+          move(restockAsk.order, restockAsk.status, { restock });
           setRestockAsk(null);
+        }}
+      />
+
+      <OrdersShipDialog
+        ask={shipAsk}
+        onClose={() => setShipAsk(null)}
+        onConfirm={({ trackingRef, carrier }) => {
+          move(shipAsk.order, "shipped", { trackingRef, carrier });
+          setShipAsk(null);
         }}
       />
     </div>

@@ -120,7 +120,7 @@ export function createOrder(payload) {
  * chip on two different surfaces.
  */
 
-export function updateOrderStatus(id, status, { restock = false, by = null } = {}) {
+export function updateOrderStatus(id, status, { restock = false, by = null, trackingRef, carrier } = {}) {
   return mockApi(() => {
 
     const canonical = normalizeStatus(status);
@@ -134,7 +134,14 @@ export function updateOrderStatus(id, status, { restock = false, by = null } = {
     const { changes, patch } = stockChangesForStatus(order, canonical, { restock, by });
     applyStockChanges(changes);
 
-    const updated = { ...order, ...patch, status: canonical, updatedAt: new Date().toISOString() };
+    const updated = {
+      ...order,
+      ...patch,
+      status: canonical,
+      updatedAt: new Date().toISOString(),
+      ...(trackingRef ? { trackingRef } : {}),
+      ...(carrier ? { carrier } : {}),
+    };
     setState("orders", (state) => ({
       ...state,
       items: state.items.map((o) => (o.id === id ? updated : o)),

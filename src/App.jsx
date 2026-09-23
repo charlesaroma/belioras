@@ -13,9 +13,7 @@ function App() {
     <AppProviders>
       <BrowserRouter>
         <ScrollToTop />
-        {/* Inside the router because Resume is a Link, but fed by a provider
-            that sits outside it — so the draft survives navigation while the
-            dock still renders app-wide, dashboard or storefront. */}
+        {/* Draft dock renders app-wide */}
         <DraftDock />
         <Routes>
           {authRoutes()}
