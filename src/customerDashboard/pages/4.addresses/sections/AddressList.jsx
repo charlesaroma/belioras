@@ -1,7 +1,7 @@
 /* Customer Dashboard Page: Addresses - AddressList */
-import { Check, MapPin, Plus, Trash2 } from "lucide-react";
+import { Check, MapPin, Pencil, Plus, Trash2 } from "lucide-react";
 
-export default function AddressList({ addresses, onSetDefault, onRemove, onAddFirst }) {
+export default function AddressList({ addresses, onSetDefault, onRemove, onEdit, onAddFirst }) {
   if (!addresses.length) {
     return (
       <div className="rounded-2xl border border-umber-50 bg-white px-6 py-16 text-center">
@@ -55,6 +55,14 @@ export default function AddressList({ addresses, onSetDefault, onRemove, onAddFi
                   Set default
                 </button>
               )}
+              <button
+                type="button"
+                onClick={() => onEdit(address)}
+                aria-label={`Edit address for ${address.recipient}`}
+                className="flex size-11 items-center justify-center rounded-full text-espresso-soft transition-colors hover:bg-brown-50 hover:text-gold-700"
+              >
+                <Pencil className="size-4" aria-hidden="true" />
+              </button>
               <button
                 type="button"
                 onClick={() => onRemove(address.id)}

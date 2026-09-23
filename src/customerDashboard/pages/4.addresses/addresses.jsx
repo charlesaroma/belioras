@@ -15,12 +15,40 @@ export default function Addresses() {
 
   const [addresses, setAddresses] = useScopedStorage("belioras:addresses", NO_ADDRESSES, user?.id);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
 
   const update = (field) => (event) => {
     setForm((prev) => ({ ...prev, [field]: event.target.value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+    setEditingId(null);
+    setForm(EMPTY_FORM);
+    setErrors({});
+  };
+
+  const startAdd = () => {
+    setEditingId(null);
+    setForm(EMPTY_FORM);
+    setErrors({});
+    setShowForm(true);
+  };
+
+  const startEdit = (address) => {
+    setEditingId(address.id);
+    setForm({
+      recipient: address.recipient,
+      line1: address.line1,
+      city: address.city,
+      postcode: address.postcode,
+      country: address.country,
+    });
+    setErrors({});
+    setShowForm(true);
   };
 
   const handleSubmit = (event) => {
@@ -31,16 +59,19 @@ export default function Addresses() {
       setErrors(nextErrors);
       return;
     }
-    // The first address saved becomes the default; there is nothing to choose
-    // between yet.
-    setAddresses([
-      ...addresses,
-      { ...form, id: `addr-${Date.now()}`, isDefault: addresses.length === 0 },
-    ]);
-    setForm(EMPTY_FORM);
-    setErrors({});
-    setShowForm(false);
-    toast("Address saved", "success");
+    if (editingId) {
+      setAddresses((prev) => prev.map((a) => (a.id === editingId ? { ...a, ...form } : a)));
+      toast("Address updated", "success");
+    } else {
+      // The first address saved becomes the default; there is nothing to
+      // choose between yet.
+      setAddresses((prev) => [
+        ...prev,
+        { ...form, id: `addr-${Date.now()}`, isDefault: prev.length === 0 },
+      ]);
+      toast("Address saved", "success");
+    }
+    closeForm();
   };
 
   const remove = (id) => {
@@ -64,7 +95,7 @@ export default function Addresses() {
         </div>
         <button
           type="button"
-          onClick={() => setShowForm((v) => !v)}
+          onClick={() => (showForm ? closeForm() : startAdd())}
           aria-expanded={showForm}
           className="inline-flex shrink-0 items-center gap-2 rounded-full bg-espresso px-4 py-2.5 text-sm font-medium text-ivory-50 transition-colors duration-200 hover:bg-umber-500 active:scale-[0.98]"
         >
@@ -74,14 +105,21 @@ export default function Addresses() {
       </div>
 
       {showForm ? (
-        <AddressForm form={form} errors={errors} onChange={update} onSubmit={handleSubmit} />
+        <AddressForm
+          form={form}
+          errors={errors}
+          onChange={update}
+          onSubmit={handleSubmit}
+          isEditing={Boolean(editingId)}
+        />
       ) : null}
 
       <AddressList
         addresses={addresses}
         onSetDefault={setDefault}
         onRemove={remove}
-        onAddFirst={() => setShowForm(true)}
+        onEdit={startEdit}
+        onAddFirst={startAdd}
       />
     </div>
   );

@@ -9,13 +9,13 @@ const FIELDS = [
   { name: "postcode", label: "Postcode", placeholder: "e.g. 1100-053" },
 ];
 
-export default function AddressForm({ form, errors, onChange, onSubmit }) {
+export default function AddressForm({ form, errors, onChange, onSubmit, isEditing = false }) {
   return (
     <form
       onSubmit={onSubmit}
       noValidate
       className="rounded-2xl border border-umber-50 bg-white p-5 sm:p-6"
-      aria-label="Add delivery address"
+      aria-label={isEditing ? "Edit delivery address" : "Add delivery address"}
     >
       <div className="grid gap-4 sm:grid-cols-2">
         {FIELDS.map(({ name, label, placeholder, wide }) => (
@@ -38,7 +38,7 @@ export default function AddressForm({ form, errors, onChange, onSubmit }) {
         type="submit"
         className="mt-6 inline-flex items-center gap-2 rounded-full bg-espresso px-6 py-3 text-sm font-medium text-ivory-50 transition-colors duration-200 hover:bg-umber-500 active:scale-[0.98]"
       >
-        Save address
+        {isEditing ? "Save changes" : "Save address"}
       </button>
     </form>
   );
