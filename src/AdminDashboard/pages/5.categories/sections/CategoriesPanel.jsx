@@ -18,6 +18,7 @@ import {
   updateCategory,
 } from "@/services/catalog/categoriesApi";
 import { getTaxonomy } from "@/services/catalog/navigationApi";
+import { createDetailValue } from "@/services/catalog/taxonomyApi";
 import CategoriesTree from "./CategoriesTree";
 
 export default function CategoriesPanel() {
@@ -28,7 +29,7 @@ export default function CategoriesPanel() {
   const { data: categories, loading } = useAsyncData(getCategories, [revision]);
   const { data: usage } = useAsyncData(categoryUsage, [revision]);
   const { data: types } = useAsyncData(typeUsage, [revision]);
-  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+  const { data: taxonomy, refresh: refreshTaxonomy } = useAsyncData(getTaxonomy, []);
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
   const [pendingDelete, setPendingDelete] = useState(null);
@@ -55,6 +56,12 @@ export default function CategoriesPanel() {
       return;
     }
     setPendingDelete(category);
+  };
+
+  const addDetailValue = async (dimension, name) => {
+    const value = await createDetailValue(dimension, name);
+    await refreshTaxonomy();
+    return value;
   };
 
   const confirmDelete = async () => {
@@ -110,8 +117,10 @@ export default function CategoriesPanel() {
         initial={dialog.initial}
         sizeOptions={sizeOptionsFrom(taxonomy)}
         detailOptions={detailOptionsFrom(taxonomy)}
+        taxonomy={taxonomy}
         onClose={close}
         onSave={save}
+        onAddDetailValue={addDetailValue}
       />
 
       <ConfirmDialog

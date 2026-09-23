@@ -5,6 +5,7 @@ import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
 import { useToast } from "@/context/ToastContext";
+import CategoryDetailValuesField from "./CategoryDetailValuesField";
 import CategoryTypesField from "./CategoryTypesField";
 import ChoiceChips from "./ChoiceChips";
 
@@ -23,9 +24,11 @@ export default function CategoryDialog({
   initial = null,
   sizeOptions = [],
   detailOptions = [],
+  taxonomy = null,
   sizesEditable = true,
   onClose,
   onSave,
+  onAddDetailValue,
 }) {
   const [form, setForm] = useState({
     name: initial?.name ?? "",
@@ -95,6 +98,14 @@ export default function CategoryDialog({
           selected={form.details}
           onToggle={toggle("details")}
         />
+
+        {onAddDetailValue && (
+          <CategoryDetailValuesField
+            dimensions={detailOptions.filter((d) => form.details.includes(d.id))}
+            taxonomy={taxonomy}
+            onAddValue={onAddDetailValue}
+          />
+        )}
 
         {error && (
           <p role="alert" className="border-l-2 border-error py-1 pl-3 text-[13px] text-error">
