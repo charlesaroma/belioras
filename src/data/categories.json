@@ -193,6 +193,43 @@
         "id": "belts",
         "name": "Belts"
       }
+    ],
+    "subcategories": [
+      {
+        "id": "shoes",
+        "name": "Shoes",
+        "types": [
+          { "id": "heels", "name": "Heels" }
+        ]
+      },
+      {
+        "id": "bags",
+        "name": "Bags",
+        "types": [
+          { "id": "handbags", "name": "Handbags" },
+          { "id": "clutch-bags", "name": "Clutch Bags" },
+          { "id": "shoulder-bags", "name": "Shoulder Bags" },
+          { "id": "mini-bags", "name": "Mini Bags" }
+        ]
+      },
+      {
+        "id": "jewellery",
+        "name": "Jewellery",
+        "types": [
+          { "id": "earrings", "name": "Earrings" },
+          { "id": "necklaces", "name": "Necklaces" },
+          { "id": "bracelets-bangles", "name": "Bracelets & Bangles" },
+          { "id": "rings", "name": "Rings" }
+        ]
+      },
+      {
+        "id": "other-accessories",
+        "name": "Other Accessories",
+        "types": [
+          { "id": "scarves", "name": "Scarves" },
+          { "id": "belts", "name": "Belts" }
+        ]
+      }
     ]
   }
 ]

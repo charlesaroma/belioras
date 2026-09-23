@@ -91,7 +91,14 @@ export default function CategoryDialog({
           </p>
         )}
 
-        <CategoryTypesField types={form.types} onChange={(types) => setForm((f) => ({ ...f, types }))} />
+        {/* Once a category has Subcategories, its flat Types would only
+            repeat what "Shop by Category" already lists — hidden here the
+            same way it's hidden in the Categories tree, though the field
+            (and the product form's own Type picker, which reads it
+            directly) is untouched underneath. */}
+        {form.subcategories.length === 0 && (
+          <CategoryTypesField types={form.types} onChange={(types) => setForm((f) => ({ ...f, types }))} />
+        )}
 
         <CategorySubcategoriesField
           subcategories={form.subcategories}
