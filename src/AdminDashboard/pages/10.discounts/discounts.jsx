@@ -10,6 +10,7 @@ import { useAsyncData } from "@/hooks/useAsyncData";
 import IconAction from "@/AdminDashboard/components/IconAction";
 import { STATUS_TONES } from "@/AdminDashboard/lib/constants";
 import {
+  couponUsage,
   createCoupon,
   deleteCoupon,
   getCoupons,
@@ -42,6 +43,7 @@ export default function DashDiscounts() {
   const refresh = () => setRevision((n) => n + 1);
 
   const { data: coupons, loading } = useAsyncData(getCoupons, [revision]);
+  const { data: usage } = useAsyncData(couponUsage, [revision]);
   const rows = coupons ?? [];
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
@@ -104,6 +106,9 @@ export default function DashDiscounts() {
         <ul className="divide-y divide-umber-50 border border-umber-50 bg-ivory-50">
           {rows.map((coupon) => {
             const status = statusOf(coupon);
+            const code = coupon.code.toUpperCase();
+            const uses = usage?.counts?.[code] ?? 0;
+            const collected = usage?.discount?.[code] ?? 0;
             return (
               <li key={coupon.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
                 <div className="min-w-0 flex-1">
@@ -123,6 +128,13 @@ export default function DashDiscounts() {
                   {coupon.description && (
                     <p className="mt-0.5 truncate text-[12px] text-espresso-soft">{coupon.description}</p>
                   )}
+                  <p className="mt-0.5 text-[11px] tabular-nums text-espresso-soft/70">
+                    {uses === 0
+                      ? "Not yet used"
+                      : coupon.type === "free_shipping"
+                        ? `${uses} ${uses === 1 ? "order" : "orders"} · shipping waived, not a goods discount`
+                        : `${uses} ${uses === 1 ? "order" : "orders"} · €${collected.toFixed(2)} collected`}
+                  </p>
                 </div>
 
                 <span className="shrink-0 text-[12px] tabular-nums text-espresso-soft">

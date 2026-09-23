@@ -47,6 +47,21 @@ export function getCoupons() {
   return mockApi(() => couponItems().map((c) => ({ ...c })));
 }
 
+/** How many orders redeemed each coupon, and how much discount each has given — keyed by code. */
+export function couponUsage() {
+  return mockApi(() => {
+    const counts = {};
+    const discount = {};
+    for (const order of getState("orders").items) {
+      if (!order.couponCode) continue;
+      const code = order.couponCode.toUpperCase();
+      counts[code] = (counts[code] ?? 0) + 1;
+      discount[code] = (discount[code] ?? 0) + (Number(order.discount) || 0);
+    }
+    return { counts, discount };
+  }, 0);
+}
+
 export function validateCoupon(code, subtotal = 0) {
   return mockApi(() => {
     const coupon = couponItems().find(

@@ -97,6 +97,7 @@ export function createOrder(payload) {
       name: payload.name ?? null,
       items: payload.items ?? [],
       subtotal: payload.subtotal ?? 0,
+      discount: payload.discount ?? 0,
       shipping: payload.shipping ?? 0,
       tax: payload.tax ?? 0,
       total: payload.total ?? 0,

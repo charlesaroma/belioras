@@ -20,7 +20,9 @@
     "total": 161.88,
     "status": "delivered",
     "createdAt": "2026-03-18T10:22:00Z",
-    "updatedAt": "2026-03-25T09:00:00Z"
+    "updatedAt": "2026-03-25T09:00:00Z",
+    "couponCode": "WELCOME10",
+    "discount": 12.9
   },
   {
     "id": "ORD-1002",
@@ -74,7 +76,9 @@
     "total": 344.4,
     "status": "delivered",
     "createdAt": "2026-06-08T16:45:00Z",
-    "updatedAt": "2026-06-15T12:00:00Z"
+    "updatedAt": "2026-06-15T12:00:00Z",
+    "couponCode": "SUMMER20",
+    "discount": 57.4
   },
   {
     "id": "ORD-1004",
@@ -220,7 +224,9 @@
     "total": 283.2,
     "status": "delivered",
     "createdAt": "2026-07-12T11:00:00Z",
-    "updatedAt": "2026-07-20T15:00:00Z"
+    "updatedAt": "2026-07-20T15:00:00Z",
+    "couponCode": "SUMMER20",
+    "discount": 47.2
   },
   {
     "id": "ORD-1010",
