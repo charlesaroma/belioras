@@ -19,7 +19,7 @@ import ProductPageAccordions from "../ProductPageAccordions";
 const ADDED_FEEDBACK_MS = 1800;
 
 export default function ProductBuyPanel({ product, color, onColorChange, images }) {
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
   const { has, toggle } = useWishlist();
   const { t } = useLanguage();
   const { toast } = useToast();
@@ -71,6 +71,9 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
       return;
     }
     toast(`${product.name} added to your bag.`, "success");
+    // The drawer itself is the confirmation shoppers actually look at; the
+    // toast is there for anyone who dismissed or missed it.
+    openCart();
     setAdded(true);
     setTimeout(() => setAdded(false), ADDED_FEEDBACK_MS);
   };

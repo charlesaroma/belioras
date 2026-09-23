@@ -26,7 +26,7 @@ import WardrobeGrid from "./sections/WardrobeGrid";
  */
 export default function AccountWardrobe() {
   const { user } = useCustomerAuth();
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
   const { toast } = useToast();
   const { locale } = useLanguage();
 
@@ -53,6 +53,7 @@ export default function AccountWardrobe() {
         : `${piece.name} added to your bag.`,
       added === false ? "warning" : "success",
     );
+    if (added !== false) openCart();
   };
 
   if (loading) {

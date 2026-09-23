@@ -24,7 +24,7 @@ export default function OrderDetail() {
   const { id } = useParams();
   const { format } = useCurrency();
   const { user } = useCustomerAuth();
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
   const { toast } = useToast();
 
   const {
@@ -64,7 +64,7 @@ export default function OrderDetail() {
       <div className="no-print flex flex-wrap gap-3">
         <Button
           icon={RotateCcw}
-          onClick={() => reorder({ order, catalog, addItem, toast })}
+          onClick={() => reorder({ order, catalog, addItem, toast, openCart })}
           disabled={!catalog}
         >
           Order again

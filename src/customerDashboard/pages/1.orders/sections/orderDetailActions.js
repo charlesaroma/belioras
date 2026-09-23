@@ -6,7 +6,7 @@
  * more useful than silently adding four of six things.
  */
 
-export function reorder({ order, catalog, addItem, toast }) {
+export function reorder({ order, catalog, addItem, toast, openCart }) {
   if (!catalog) return;
 
   const missing = [];
@@ -37,6 +37,7 @@ export function reorder({ order, catalog, addItem, toast }) {
       : `${added} ${added === 1 ? "piece" : "pieces"} added to your bag.`,
     missing.length ? "warning" : "success",
   );
+  openCart?.();
 }
 
 /**

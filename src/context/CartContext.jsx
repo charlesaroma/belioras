@@ -1,5 +1,5 @@
 /* Context Provider: CartContext */
-import { createContext, useCallback, useContext, useMemo } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -11,6 +11,11 @@ function clampQty(qty, stock) {
 
 export function CartProvider({ children }) {
   const [items, setItems] = useLocalStorage("belioras:cart", []);
+  // Not persisted: nobody wants the drawer to reopen on its own because it
+  // happened to be open when they last left the site.
+  const [cartOpen, setCartOpen] = useState(false);
+  const openCart = useCallback(() => setCartOpen(true), []);
+  const closeCart = useCallback(() => setCartOpen(false), []);
 
   const addItem = useCallback(
     (product, { size, color, quantity = 1, image, stock } = {}) => {
@@ -78,8 +83,8 @@ export function CartProvider({ children }) {
     const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
     const count = items.reduce((sum, i) => sum + i.quantity, 0);
-    return { items, subtotal, count, addItem, updateQty, removeItem, clear, isInCart };
-  }, [items, addItem, updateQty, removeItem, clear, isInCart]);
+    return { items, subtotal, count, addItem, updateQty, removeItem, clear, isInCart, cartOpen, openCart, closeCart };
+  }, [items, addItem, updateQty, removeItem, clear, isInCart, cartOpen, openCart, closeCart]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

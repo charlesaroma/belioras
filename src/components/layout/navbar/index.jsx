@@ -22,13 +22,12 @@ import { useMegaMenuHover } from "./useMegaMenuHover";
 export default function Navbar() {
   const version = useContentVersion();
   const { data: categories } = useAsyncData(getNavigation, [version]);
-  const { count } = useCart();
+  const { count, cartOpen, openCart, closeCart } = useCart();
   const { pathname } = useLocation();
 
   const { headerRef, isScrolled } = useNavbarChrome();
   const { menuId, setMenuId, openMenu, scheduleClose, cancelClose } = useMegaMenuHover();
 
-  const [cartOpen, setCartOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,13 +38,13 @@ export default function Navbar() {
     const onKeyDown = (e) => {
       if (e.key !== "Escape") return;
       setMenuId(null);
-      setCartOpen(false);
+      closeCart();
       setMobileOpen(false);
       setSearchOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [setMenuId]);
+  }, [setMenuId, closeCart]);
 
   useEffect(() => {
     document.body.style.overflow = cartOpen || mobileOpen ? "hidden" : "";
@@ -85,13 +84,13 @@ export default function Navbar() {
           }}
           onSearchFocus={() => setSearchOpen(true)}
           onSearchClose={() => setSearchOpen(false)}
-          onOpenCart={() => setCartOpen(true)}
+          onOpenCart={openCart}
         />
 
         <NavbarMobileRow
           cartCount={count}
           onOpenMenu={() => setMobileOpen(true)}
-          onOpenCart={() => setCartOpen(true)}
+          onOpenCart={openCart}
         />
 
         <MegaMenu
@@ -123,7 +122,7 @@ export default function Navbar() {
         onQueryChange={setSearchQuery}
       />
 
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <CartDrawer open={cartOpen} onClose={closeCart} />
     </header>
   );
 }
