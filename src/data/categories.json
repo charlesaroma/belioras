@@ -28,6 +28,78 @@
         "id": "coats-jackets",
         "name": "Coats & Jackets"
       }
+    ],
+    "subcategories": [
+      {
+        "id": "shop-by-category",
+        "name": "Shop by Category",
+        "types": [
+          { "id": "mini-dresses", "name": "Mini Dresses" },
+          { "id": "midi-dresses", "name": "Midi Dresses" },
+          { "id": "maxi-dresses", "name": "Maxi Dresses" },
+          { "id": "jumpsuits", "name": "Jumpsuits" },
+          { "id": "two-piece-sets", "name": "Two-Piece Sets" },
+          { "id": "formal-wear", "name": "Formal Wear" },
+          { "id": "coats-jackets", "name": "Coats & Jackets" }
+        ]
+      },
+      {
+        "id": "shop-by-occasion",
+        "name": "Shop by Occasion",
+        "types": [
+          { "id": "birthday-dresses", "name": "Birthday Dresses" },
+          { "id": "party-dresses", "name": "Party Dresses" },
+          { "id": "cocktail-dresses", "name": "Cocktail Dresses" },
+          { "id": "wedding-guest-dresses", "name": "Wedding Guest Dresses" },
+          { "id": "evening-dresses", "name": "Evening Dresses" },
+          { "id": "gala-dresses", "name": "Gala Dresses" },
+          { "id": "prom-dresses", "name": "Prom Dresses" },
+          { "id": "prom-gala-dresses", "name": "Prom & Gala Dresses" },
+          { "id": "formal-dresses", "name": "Formal Dresses" }
+        ]
+      },
+      {
+        "id": "shop-by-style",
+        "name": "Shop by Style",
+        "types": [
+          { "id": "bodycon-dresses", "name": "Bodycon Dresses" },
+          { "id": "one-shoulder-dresses", "name": "One-Shoulder Dresses" },
+          { "id": "off-shoulder-dresses", "name": "Off-Shoulder Dresses" },
+          { "id": "halter-neck-dresses", "name": "Halter Neck Dresses" },
+          { "id": "long-sleeve-dresses", "name": "Long-Sleeve Dresses" },
+          { "id": "backless-dresses", "name": "Backless Dresses" },
+          { "id": "embellished-dresses", "name": "Embellished Dresses" },
+          { "id": "corset-dresses", "name": "Corset Dresses" }
+        ]
+      },
+      {
+        "id": "shop-by-fabric",
+        "name": "Shop by Fabric",
+        "types": [
+          { "id": "satin-dresses", "name": "Satin Dresses" },
+          { "id": "lace-dresses", "name": "Lace Dresses" },
+          { "id": "sequin-dresses", "name": "Sequin Dresses" },
+          { "id": "mesh-dresses", "name": "Mesh Dresses" },
+          { "id": "velvet-dresses", "name": "Velvet Dresses" },
+          { "id": "chiffon-dresses", "name": "Chiffon Dresses" },
+          { "id": "bandage-dresses", "name": "Bandage Dresses" },
+          { "id": "silk-dresses", "name": "Silk Dresses" }
+        ]
+      },
+      {
+        "id": "shop-by-colour",
+        "name": "Shop by Colour",
+        "types": [
+          { "id": "black-dresses", "name": "Black Dresses" },
+          { "id": "white-dresses", "name": "White Dresses" },
+          { "id": "red-dresses", "name": "Red Dresses" },
+          { "id": "burgundy-dresses", "name": "Burgundy Dresses" },
+          { "id": "green-dresses", "name": "Green Dresses" },
+          { "id": "pink-dresses", "name": "Pink Dresses" },
+          { "id": "brown-dresses", "name": "Brown Dresses" },
+          { "id": "metallic-dresses", "name": "Metallic Dresses" }
+        ]
+      }
     ]
   },
   {

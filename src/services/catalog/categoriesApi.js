@@ -100,7 +100,7 @@ export function deleteCategory(id) {
   });
 }
 
-function clean({ name, sizes, details, types } = {}, existing = null) {
+function clean({ name, sizes, details, types, subcategories } = {}, existing = null) {
   const trimmed = String(name ?? "").trim();
   if (!trimmed) throw new ApiError("Give the category a name.", 422);
 
@@ -114,29 +114,51 @@ function clean({ name, sizes, details, types } = {}, existing = null) {
     sizes: Array.isArray(sizes) ? sizes : [],
     details: Array.isArray(details) ? details : [],
     types: cleanTypes(types, existing?.types ?? []),
+    subcategories: cleanSubcategories(subcategories, existing?.subcategories ?? []),
   };
 }
 
-/** Types keep their id when renamed; new ones get an id from their name. */
-function cleanTypes(types, previous) {
+/** A flat named list — a category's own types, or one subcategory's types.
+    Ids keep stable across a rename by matching the previous list; a name
+    repeated within the same list is rejected. */
+function cleanNamedList(list, previous, noun = "type") {
   const known = new Set(previous.map((t) => t.id));
   const names = new Set();
   const ids = new Set();
 
-  return (Array.isArray(types) ? types : []).flatMap((type) => {
-    const typeName = String(type?.name ?? "").trim();
-    if (!typeName) return [];
-    if (names.has(typeName.toLowerCase())) {
-      throw new ApiError(`${typeName} is listed twice. Each type needs its own name.`, 409);
+  return (Array.isArray(list) ? list : []).flatMap((item) => {
+    const itemName = String(item?.name ?? "").trim();
+    if (!itemName) return [];
+    if (names.has(itemName.toLowerCase())) {
+      throw new ApiError(`${itemName} is listed twice. Each ${noun} needs its own name.`, 409);
     }
-    names.add(typeName.toLowerCase());
+    names.add(itemName.toLowerCase());
 
-    let id = known.has(type.id) ? type.id : slugify(typeName) || "type";
-    for (let n = 2; ids.has(id) || (!known.has(type.id) && known.has(id)); n += 1) {
-      id = `${slugify(typeName) || "type"}-${n}`;
+    let id = known.has(item.id) ? item.id : slugify(itemName) || noun;
+    for (let n = 2; ids.has(id) || (!known.has(item.id) && known.has(id)); n += 1) {
+      id = `${slugify(itemName) || noun}-${n}`;
     }
     ids.add(id);
-    return [{ id, name: typeName }];
+    return [{ id, name: itemName }];
+  });
+}
+
+/** Types keep their id when renamed; new ones get an id from their name. */
+function cleanTypes(types, previous) {
+  return cleanNamedList(types, previous, "type");
+}
+
+/** A category's own "Shop by …" groups, each holding its own freely-named
+    types. Independent of the shared taxonomy and of Mega Menu — purely this
+    category's own breakdown of itself. */
+function cleanSubcategories(subcategories, previous) {
+  const previousById = new Map(previous.map((s) => [s.id, s]));
+  const shells = cleanNamedList(subcategories, previous, "subcategory");
+  const raw = Array.isArray(subcategories) ? subcategories.filter((s) => String(s?.name ?? "").trim()) : [];
+
+  return shells.map((shell, i) => {
+    const previousTypes = previousById.get(shell.id)?.types ?? [];
+    return { ...shell, types: cleanNamedList(raw[i]?.types, previousTypes, "type") };
   });
 }
 

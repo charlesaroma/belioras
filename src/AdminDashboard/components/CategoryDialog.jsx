@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
 import { useToast } from "@/context/ToastContext";
 import CategoryDetailValuesField from "./CategoryDetailValuesField";
+import CategorySubcategoriesField from "./CategorySubcategoriesField";
 import CategoryTypesField from "./CategoryTypesField";
 import ChoiceChips from "./ChoiceChips";
 
@@ -35,6 +36,7 @@ export default function CategoryDialog({
     sizes: initial?.sizes ?? [],
     details: initial?.details ?? [],
     types: initial?.types ?? [],
+    subcategories: initial?.subcategories ?? [],
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -90,6 +92,11 @@ export default function CategoryDialog({
         )}
 
         <CategoryTypesField types={form.types} onChange={(types) => setForm((f) => ({ ...f, types }))} />
+
+        <CategorySubcategoriesField
+          subcategories={form.subcategories}
+          onChange={(subcategories) => setForm((f) => ({ ...f, subcategories }))}
+        />
 
         <ChoiceChips
           label="Details to ask for"
