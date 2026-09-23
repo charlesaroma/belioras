@@ -40,7 +40,6 @@ function ShopHeader({ title = "All Collections", breadcrumb = [] }) {
       <h1 id="shop-title" className="font-display text-3xl text-espresso md:text-4xl">
         {title}
       </h1>
-      <span aria-hidden="true" className="mx-auto mt-4 block h-px w-12 bg-gold-500" />
     </header>
   );
 }

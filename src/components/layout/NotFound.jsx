@@ -1,7 +1,6 @@
 /* Layout Component: NotFound */
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Compass, Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Compass } from "lucide-react";
 
 const QUICK_LINKS = [
   { label: "New Arrivals", url: "/new-arrivals" },
@@ -11,15 +10,6 @@ const QUICK_LINKS = [
 ];
 
 export default function NotFound() {
-  const navigate = useNavigate();
-  const [query, setQuery] = useState("");
-
-  const submitSearch = (e) => {
-    e.preventDefault();
-    const trimmed = query.trim();
-    navigate(trimmed ? `/shop?q=${encodeURIComponent(trimmed)}` : "/shop");
-  };
-
   return (
     <section className="container-main py-20 md:py-28">
       <div className="mx-auto max-w-lg text-center">
@@ -32,24 +22,9 @@ export default function NotFound() {
           We can&rsquo;t find that page
         </h1>
         <p className="mx-auto mt-4 max-w-sm text-[15px] leading-relaxed text-espresso-soft">
-          It may have moved, or the address may no longer be current. Try searching for what you
-          were after, or pick up from one of our collections below.
+          It may have moved, or the address may no longer be current. Head back to the shop, or
+          pick up from one of our collections below.
         </p>
-
-        <form onSubmit={submitSearch} className="relative mx-auto mt-8 max-w-sm">
-          <Search
-            className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-espresso/35"
-            aria-hidden="true"
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search the collection"
-            aria-label="Search the collection"
-            className="input pl-11"
-          />
-        </form>
 
         <Link to="/shop" className="btn btn-primary btn-lg mt-8">
           Back to shop
