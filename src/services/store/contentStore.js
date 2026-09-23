@@ -30,6 +30,7 @@ import transactionsSeed from "../../data/transactionsSeed";
 import colorsSeed from "../../data/colorsSeed";
 import categoriesSeed from "../../data/categoriesSeed";
 import usersSeed from "../../data/usersSeed";
+import { couponsSeed } from "../../data/couponsSeed";
 import { campaignsSeed, newsletterSettingsSeed, subscribersSeed } from "../../data/newsletterSeed";
 
 /* KEY PREFIX */
@@ -63,6 +64,8 @@ const DOMAINS = {
   colors: { seed: colorsSeed, collection: "items" },
   categories: { seed: categoriesSeed, collection: "items" },
   orders: { seed: ordersSeed, collection: "items" },
+  // Discount codes. Global-only — no per-product/category scoping.
+  coupons: { seed: couponsSeed, collection: "items" },
   // Every change to what is on the shelf, and why. On hand itself stays on
   // each product; what open orders hold is worked out from orders.
   stockMovements: { seed: stockMovementsSeed, collection: "items" },

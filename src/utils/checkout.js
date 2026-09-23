@@ -62,18 +62,27 @@ export function computeTotals({ items = [], country, coupon = null, settings }) 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   let discount = 0;
-  if (coupon) {
-    discount = coupon.type === "percent" ? (subtotal * coupon.value) / 100 : coupon.value;
-    if (coupon.maxDiscount) discount = Math.min(discount, coupon.maxDiscount);
-    discount = Math.min(discount, subtotal);
+  if (coupon && coupon.type === "percent") {
+    discount = (subtotal * coupon.value) / 100;
+  } else if (coupon && coupon.type === "fixed") {
+    discount = coupon.value;
   }
+  if (coupon?.maxDiscount) discount = Math.min(discount, coupon.maxDiscount);
+  discount = Math.min(discount, subtotal);
 
   const goods = subtotal - discount;
 
   // The threshold is checked against what the customer actually pays for the
   // goods, so a discount can legitimately drop an order below free shipping.
-  // A zone that costs nothing (Germany) is free whatever the order.
-  const qualifiesFree = shippable && ((zone.flat ?? 0) === 0 || (zone.freeThreshold != null && goods >= zone.freeThreshold));
+  // A zone that costs nothing (Germany) is free whatever the order. A
+  // free_shipping coupon waives the zone's own cost outright rather than
+  // discounting the goods — it was previously computed as a €0 discount,
+  // which validated at checkout and then changed nothing.
+  const qualifiesFree =
+    shippable &&
+    ((zone.flat ?? 0) === 0 ||
+      (zone.freeThreshold != null && goods >= zone.freeThreshold) ||
+      coupon?.type === "free_shipping");
 
   const shipping = !shippable || qualifiesFree ? 0 : (zone.flat ?? 0);
 

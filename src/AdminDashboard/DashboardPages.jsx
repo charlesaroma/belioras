@@ -10,6 +10,7 @@ export { default as DashSizes } from "./pages/6.sizes/sizes";
 export { default as DashMegaMenu } from "./pages/7.mega-menu/mega-menu";
 export { default as DashOrders } from "./pages/8.orders/orders";
 export { default as DashTransactions } from "./pages/9.transactions/transactions";
+export { default as DashDiscounts } from "./pages/10.discounts/discounts";
 export { default as DashCustomers } from "./pages/11.customers/customers";
 export { default as DashNewsletter } from "./pages/14.newsletter/newsletter";
 export { default as DashTeam } from "./pages/15.team/team";

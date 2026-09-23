@@ -13,6 +13,7 @@ import {
   DashOrders,
   DashTransactions,
   DashCustomers,
+  DashDiscounts,
   DashNewsletter,
   DashTeam,
   DashSettings,
@@ -65,6 +66,14 @@ export default function dashboardRoutes() {
           The combined Users page was administrator-only, which locked
           staff out of the very records they were being asked to serve. */}
       <Route path="customers" element={<DashCustomers />} />
+      <Route
+        path="discounts"
+        element={
+          <RequireAuth adminOnly capability="marketing">
+            <DashDiscounts />
+          </RequireAuth>
+        }
+      />
       <Route
         path="newsletter"
         element={
