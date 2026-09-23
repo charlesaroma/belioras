@@ -130,7 +130,7 @@ export default function ProductForm() {
           <div className="space-y-4 lg:sticky lg:top-0">
             <ProductFormPublish {...actions} className="hidden lg:block" />
             <ProductFormCategory
-              categories={categories ?? []} value={values.collectionId} type={values.type} taxonomy={taxonomy ?? {}} tags={tags}
+              categories={categories ?? []} value={values.collectionId} type={values.type} tags={tags}
               onChange={chooseCategory} onTypeChange={(next) => form.setValue("type", next, { shouldDirty: true })}
               onTagsChange={setTags}
               onCreated={(created) => { setRevision((n) => n + 1); chooseCategory(created); }}

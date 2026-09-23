@@ -4,25 +4,17 @@ import { ChevronLeft, Plus } from "lucide-react";
 
 import ChoiceChips from "@/AdminDashboard/components/ChoiceChips";
 import CategoryDialog from "@/AdminDashboard/components/CategoryDialog";
-import { sizeLabel } from "@/AdminDashboard/lib/catalogOptions";
 import { createCategory } from "@/services/catalog/categoriesApi";
 import { cn } from "@/utils/cn";
 import FormSection from "./ProductFormSection";
 import { subcategoryTag } from "./productFormPayload";
-
-function sizeSummary(category, taxonomy) {
-  const sizes = category.sizes ?? [];
-  if (!sizes.length) return "One size";
-  if (sizes.length <= 2) return sizes.map((id) => sizeLabel(taxonomy, id)).join(", ");
-  return `${sizeLabel(taxonomy, sizes[0])}–${sizeLabel(taxonomy, sizes.at(-1))}`;
-}
 
 /**
  * Picking a category and what it's filed under is one flow, not two cards on
  * opposite ends of the form: the selected row expands in place to show its
  * own Subcategories (or, for a category that has none yet, its flat Types).
  */
-export default function ProductFormCategory({ categories, value, type, taxonomy, tags, onChange, onTypeChange, onTagsChange, onCreated }) {
+export default function ProductFormCategory({ categories, value, type, tags, onChange, onTypeChange, onTagsChange, onCreated }) {
   const [dialog, setDialog] = useState({ open: false, n: 0 });
   const [activeSub, setActiveSub] = useState(null);
   const close = () => setDialog((d) => ({ ...d, open: false }));
@@ -60,7 +52,6 @@ export default function ProductFormCategory({ categories, value, type, taxonomy,
                   <span aria-hidden="true" className={cn("size-2.5 rounded-full border", on ? "border-gold-400 bg-gold-400" : "border-umber-100")} />
                   {c.name}
                 </span>
-                <span className={cn("text-[11px]", on ? "text-ivory-50/60" : "text-espresso-soft")}>{sizeSummary(c, taxonomy)}</span>
               </button>
 
               {/* Picking a Subcategory narrows to just that one — the rest
