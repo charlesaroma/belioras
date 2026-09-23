@@ -15,15 +15,10 @@ export const DIMENSION_PREFIX = {
   type: "type",
   color: "color",
   size: "size",
-  fabric: "fabric",
-  occasion: "occ",
-  style: "style",
-  length: "len",
-  hair: "hair",
 };
 
 /** Human-facing labels, in the order they should appear in the panel. `type` leads, as "Shop by Category" did. */
-export const DIMENSION_ORDER = ["type", "occasion", "color", "fabric", "style", "length", "size", "hair"];
+export const DIMENSION_ORDER = ["type", "color", "size"];
 
 export function tokenFor(dimension, value) {
   return `${DIMENSION_PREFIX[dimension] ?? dimension}:${value}`;

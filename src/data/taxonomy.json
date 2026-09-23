@@ -97,243 +97,31 @@
         },
         {
           "id": "eu36",
-          "name": "EU 36 · UK 3 · US 5"
+          "name": "EU 36 \u00b7 UK 3 \u00b7 US 5"
         },
         {
           "id": "eu37",
-          "name": "EU 37 · UK 4 · US 6"
+          "name": "EU 37 \u00b7 UK 4 \u00b7 US 6"
         },
         {
           "id": "eu38",
-          "name": "EU 38 · UK 5 · US 7"
+          "name": "EU 38 \u00b7 UK 5 \u00b7 US 7"
         },
         {
           "id": "eu39",
-          "name": "EU 39 · UK 6 · US 8"
+          "name": "EU 39 \u00b7 UK 6 \u00b7 US 8"
         },
         {
           "id": "eu40",
-          "name": "EU 40 · UK 6.5 · US 9"
+          "name": "EU 40 \u00b7 UK 6.5 \u00b7 US 9"
         },
         {
           "id": "eu41",
-          "name": "EU 41 · UK 7.5 · US 10"
+          "name": "EU 41 \u00b7 UK 7.5 \u00b7 US 10"
         },
         {
           "id": "one-size",
           "name": "One Size"
-        }
-      ]
-    },
-    "fabric": {
-      "label": {
-        "en": "Fabric",
-        "fr": "Matière"
-      },
-      "values": [
-        {
-          "id": "satin",
-          "name": "Satin"
-        },
-        {
-          "id": "lace",
-          "name": "Lace"
-        },
-        {
-          "id": "sequin",
-          "name": "Sequin"
-        },
-        {
-          "id": "mesh",
-          "name": "Mesh"
-        },
-        {
-          "id": "velvet",
-          "name": "Velvet"
-        },
-        {
-          "id": "chiffon",
-          "name": "Chiffon"
-        },
-        {
-          "id": "bandage",
-          "name": "Bandage"
-        },
-        {
-          "id": "wool",
-          "name": "Wool"
-        },
-        {
-          "id": "leather",
-          "name": "Leather"
-        },
-        {
-          "id": "crepe",
-          "name": "Crepe"
-        },
-        {
-          "id": "knit",
-          "name": "Knit"
-        },
-        {
-          "id": "silk",
-          "name": "Silk"
-        },
-        {
-          "id": "linen",
-          "name": "Linen"
-        },
-        {
-          "id": "stretch",
-          "name": "Stretch"
-        }
-      ]
-    },
-    "occasion": {
-      "label": {
-        "en": "Occasion",
-        "fr": "Occasion"
-      },
-      "values": [
-        {
-          "id": "birthday",
-          "name": "Birthday"
-        },
-        {
-          "id": "party",
-          "name": "Party"
-        },
-        {
-          "id": "cocktail",
-          "name": "Cocktail"
-        },
-        {
-          "id": "wedding-guest",
-          "name": "Wedding Guest"
-        },
-        {
-          "id": "evening",
-          "name": "Evening"
-        },
-        {
-          "id": "gala",
-          "name": "Gala"
-        },
-        {
-          "id": "prom",
-          "name": "Prom"
-        },
-        {
-          "id": "formal",
-          "name": "Formal"
-        },
-        {
-          "id": "everyday",
-          "name": "Everyday"
-        }
-      ]
-    },
-    "style": {
-      "label": {
-        "en": "Style",
-        "fr": "Style"
-      },
-      "values": [
-        {
-          "id": "bodycon",
-          "name": "Bodycon"
-        },
-        {
-          "id": "one-shoulder",
-          "name": "One-Shoulder"
-        },
-        {
-          "id": "off-shoulder",
-          "name": "Off-Shoulder"
-        },
-        {
-          "id": "halter-neck",
-          "name": "Halter Neck"
-        },
-        {
-          "id": "long-sleeve",
-          "name": "Long-Sleeve"
-        },
-        {
-          "id": "backless",
-          "name": "Backless"
-        },
-        {
-          "id": "embellished",
-          "name": "Embellished"
-        },
-        {
-          "id": "corset",
-          "name": "Corset"
-        }
-      ]
-    },
-    "length": {
-      "label": {
-        "en": "Length",
-        "fr": "Longueur"
-      },
-      "values": [
-        {
-          "id": "mini",
-          "name": "Mini"
-        },
-        {
-          "id": "midi",
-          "name": "Midi"
-        },
-        {
-          "id": "maxi",
-          "name": "Maxi"
-        }
-      ]
-    },
-    "hair": {
-      "label": {
-        "en": "Hair Type",
-        "fr": "Type de Cheveux"
-      },
-      "values": [
-        {
-          "id": "straight",
-          "name": "Straight"
-        },
-        {
-          "id": "curly",
-          "name": "Curly"
-        },
-        {
-          "id": "wavy",
-          "name": "Wavy"
-        },
-        {
-          "id": "bouncy",
-          "name": "Bouncy"
-        },
-        {
-          "id": "braided",
-          "name": "Braided"
-        },
-        {
-          "id": "short",
-          "name": "Short"
-        },
-        {
-          "id": "kinky",
-          "name": "Kinky"
-        },
-        {
-          "id": "yaky",
-          "name": "Yaky"
-        },
-        {
-          "id": "locs",
-          "name": "Locs"
         }
       ]
     }

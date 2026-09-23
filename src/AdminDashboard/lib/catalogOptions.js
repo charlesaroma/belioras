@@ -1,5 +1,4 @@
 /* Catalogue Setup Options */
-import { DIMENSION_ORDER, DIMENSION_PREFIX } from "@/utils/faceting";
 
 /** Sizes a category can offer, in taxonomy order. "One size" is having none. */
 export function sizeOptionsFrom(taxonomy) {
@@ -17,17 +16,3 @@ export function familyOptionsFrom(taxonomy) {
   return (taxonomy?.color?.values ?? []).map((v) => ({ id: v.id, name: v.name, hex: v.hex }));
 }
 
-/** Extra details a category can ask for: occasion, fabric, style, length, hair. */
-export function detailOptionsFrom(taxonomy) {
-  return DIMENSION_ORDER.filter((d) => d !== "color" && d !== "size" && taxonomy?.[d]).map((d) => ({
-    id: d,
-    label: labelOf(taxonomy[d], d),
-    prefix: DIMENSION_PREFIX[d] ?? d,
-  }));
-}
-
-function labelOf(definition, id) {
-  const label = definition?.label;
-  if (typeof label === "string") return label;
-  return label?.en ?? id.charAt(0).toUpperCase() + id.slice(1);
-}

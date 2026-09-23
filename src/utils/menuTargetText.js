@@ -5,8 +5,14 @@ import { LABELS } from "./menuTargets";
 export function describeTarget(target, { categories = [], taxonomy = {}, products = [] } = {}) {
   if (!target) return "Nothing chosen";
   const categoryName = (id) => categories.find((c) => c.id === id)?.name ?? id;
-  const valueName = (dimension, id) =>
-    taxonomy[dimension]?.values?.find((v) => v.id === id)?.name ?? id;
+  const valueName = (dimension, id) => {
+    if (String(dimension).startsWith("subcat:")) {
+      const subId = dimension.slice("subcat:".length);
+      const sub = categories.find((c) => c.id === target.category)?.subcategories?.find((s) => s.id === subId);
+      return sub?.types?.find((t) => t.id === id)?.name ?? id;
+    }
+    return taxonomy[dimension]?.values?.find((v) => v.id === id)?.name ?? id;
+  };
 
   let text;
   switch (target.kind) {
@@ -51,6 +57,14 @@ export function suggestLabel(target, lookups = {}) {
   if (target?.kind === "type") {
     const category = (lookups.categories ?? []).find((c) => c.id === target.category);
     return category?.types?.find((t) => t.id === target.id)?.name ?? target.id;
+  }
+  // A subcategory filter's value names live under the category, same reason
+  // as "type" above — stripping `category` (below) would lose them.
+  if (target?.kind === "filter" && String(target.dimension).startsWith("subcat:")) {
+    const subId = target.dimension.slice("subcat:".length);
+    const category = (lookups.categories ?? []).find((c) => c.id === target.category);
+    const sub = category?.subcategories?.find((s) => s.id === subId);
+    return (target.values ?? []).map((v) => sub?.types?.find((t) => t.id === v)?.name ?? v).join(", ");
   }
   return describeTarget({ ...target, category: undefined, newOnly: undefined }, lookups);
 }

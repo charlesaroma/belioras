@@ -56,10 +56,10 @@
     "createdAt": "2026-07-18",
     "featured": true,
     "tags": [
-      "len:midi",
-      "occ:evening",
-      "occ:cocktail",
-      "fabric:satin"
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-fabric:satin-dresses"
     ],
     "sku": "BEL-P1"
   },
@@ -80,7 +80,7 @@
       "100% European flax linen"
     ],
     "care": [
-      "Machine wash 30°",
+      "Machine wash 30\u00b0",
       "Reshape while damp",
       "Iron on high heat"
     ],
@@ -117,9 +117,7 @@
     },
     "createdAt": "2026-03-06",
     "tags": [
-      "len:midi",
-      "occ:everyday",
-      "fabric:linen"
+      "subcat:shop-by-category:midi-dresses"
     ],
     "sku": "BEL-P2"
   },
@@ -177,9 +175,9 @@
     },
     "createdAt": "2026-03-20",
     "tags": [
-      "len:midi",
-      "occ:evening",
-      "fabric:velvet"
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-fabric:velvet-dresses"
     ],
     "sku": "BEL-P3"
   },
@@ -200,7 +198,7 @@
       "100% polyester crepe"
     ],
     "care": [
-      "Machine wash 30°",
+      "Machine wash 30\u00b0",
       "Hang dry"
     ],
     "colors": [
@@ -236,9 +234,7 @@
     },
     "createdAt": "2026-07-22",
     "tags": [
-      "len:maxi",
-      "occ:everyday",
-      "fabric:crepe"
+      "subcat:shop-by-category:maxi-dresses"
     ],
     "sku": "BEL-P4"
   }

@@ -44,7 +44,10 @@
     "lengthInInches": 20,
     "weight": 100,
     "createdAt": "2026-04-03",
-    "sku": "BEL-H1"
+    "sku": "BEL-H1",
+    "tags": [
+      "subcat:wigs:straight-wigs"
+    ]
   },
   {
     "id": "h2",
@@ -91,7 +94,10 @@
     "lengthInInches": 18,
     "weight": 100,
     "createdAt": "2026-07-26",
-    "sku": "BEL-H2"
+    "sku": "BEL-H2",
+    "tags": [
+      "subcat:wigs:wavy-wigs"
+    ]
   },
   {
     "id": "h3",
@@ -103,7 +109,7 @@
     "categories": [
       "wavy"
     ],
-    "description": "Juicy deep wave with defined, uniform curls. Fuller body and longer wear — a customer favourite for installs.",
+    "description": "Juicy deep wave with defined, uniform curls. Fuller body and longer wear \u2014 a customer favourite for installs.",
     "details": [
       "Deep wave pattern",
       "Uniform curl",
@@ -138,6 +144,9 @@
     "lengthInInches": 22,
     "weight": 100,
     "createdAt": "2026-04-17",
-    "sku": "BEL-H3"
+    "sku": "BEL-H3",
+    "tags": [
+      "subcat:wigs:wavy-wigs"
+    ]
   }
 ]

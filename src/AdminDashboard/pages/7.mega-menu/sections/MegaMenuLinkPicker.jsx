@@ -9,7 +9,7 @@ import { cn } from "@/utils/cn";
 import { targetExists } from "@/utils/menuTargets";
 import { describeTarget, suggestLabel } from "@/utils/menuTargetText";
 import MegaMenuOptionList from "./MegaMenuOptionList";
-import { MULTI, SCOPED, countFor, kindsFor, optionsFor, piecesText, stateFrom, targetFrom } from "./megaMenuPickerOptions";
+import { countFor, isMulti, isScoped, kindsFor, optionsFor, piecesText, stateFrom, targetFrom } from "./megaMenuPickerOptions";
 
 const TITLES = { item: ["New menu item", "What this menu item shows"], link: ["Add a link", "Change this link"] };
 
@@ -18,23 +18,33 @@ const TITLES = { item: ["New menu item", "What this menu item shows"], link: ["A
  * typed but the name, and the name is suggested. Remount with a changing `key`.
  */
 export default function MegaMenuLinkPicker({ open, mode = "link", initial = null, defaultCategory = "", lookups, addressFor, onClose, onSave }) {
-  const kinds = kindsFor(mode);
   const [state, setState] = useState(() => {
+    const initialKinds = kindsFor(mode, lookups.categories, defaultCategory);
     const s = stateFrom(initial?.target, defaultCategory);
-    return { ...s, kind: kinds.some((k) => k.id === s.kind) ? s.kind : kinds[0].id };
+    return { ...s, kind: initialKinds.some((k) => k.id === s.kind) ? s.kind : initialKinds[0].id };
   });
   const [label, setLabel] = useState(initial?.label ?? "");
   const [touched, setTouched] = useState(Boolean(initial?.label));
 
+  // A category's own Subcategories only exist within that category, so the
+  // kind list itself depends on "Only in" — recomputed live, not once at open.
+  const kinds = kindsFor(mode, lookups.categories, state.category);
+
   const target = targetFrom(state);
   const name = touched ? label : target ? suggestLabel(target, lookups) : "";
   const valid = Boolean(target && targetExists(target, lookups) && name.trim());
-  const multi = MULTI.has(state.kind);
-  const scoped = mode === "link" && SCOPED.has(state.kind);
+  const multi = isMulti(state.kind);
+  const scoped = mode === "link" && isScoped(state.kind);
   const canNewOnly = mode === "link" && !(state.kind === "label" && state.values[0] === "new");
   const total = countFor(target, lookups.products);
 
   const setKind = (kind) => setState((s) => ({ ...s, kind, values: kind === "all" ? ["all"] : [] }));
+  const setCategory = (category) =>
+    setState((s) => {
+      const nextKinds = kindsFor(mode, lookups.categories, category);
+      const kind = nextKinds.some((k) => k.id === s.kind) ? s.kind : nextKinds[0].id;
+      return { ...s, category, kind, values: kind === s.kind ? s.values : kind === "all" ? ["all"] : [] };
+    });
   const pick = (value) =>
     setState((s) => ({
       ...s,
@@ -71,16 +81,16 @@ export default function MegaMenuLinkPicker({ open, mode = "link", initial = null
         {state.kind !== "all" && (
           <div>
             <p className="input-label">{multi ? "Choose one or more" : "Choose one"}</p>
-            <MegaMenuOptionList options={optionsFor(state.kind, lookups)} selected={state.values} multi={multi} countOf={countOf} onPick={pick} />
+            <MegaMenuOptionList options={optionsFor(state.kind, { ...lookups, category: state.category })} selected={state.values} multi={multi} countOf={countOf} onPick={pick} />
           </div>
         )}
 
         {(scoped || canNewOnly) && (
           <div className="grid items-end gap-4 sm:grid-cols-2">
             {scoped && (
-              <Field label="Only in">
-                <select value={state.category} onChange={(e) => setState((s) => ({ ...s, category: e.target.value }))}>
-                  <option value="">Any category</option>
+              <Field label="Only in" helper={state.kind.startsWith("subcat:") ? "This group belongs to one category." : undefined}>
+                <select value={state.category} onChange={(e) => setCategory(e.target.value)} disabled={state.kind.startsWith("subcat:")}>
+                  {!state.kind.startsWith("subcat:") && <option value="">Any category</option>}
                   {lookups.categories.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}

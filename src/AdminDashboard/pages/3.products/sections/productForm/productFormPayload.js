@@ -1,13 +1,10 @@
 /* Product Form Payload */
-import { DIMENSION_PREFIX } from "@/utils/faceting";
 
 export const ONE_SIZE = "one-size";
 
-const DETAIL_PREFIXES = ["occasion", "fabric", "style", "length", "hair"].map((d) => DIMENSION_PREFIX[d] ?? d);
-
 /** A category's own subcategory types (Shop by Category, Shop by Fabric…)
-    are tagged the same way as a detail dimension, just scoped to the
-    category rather than the shared taxonomy: `subcat:<subcategoryId>:<typeId>`. */
+    are tagged `subcat:<subcategoryId>:<typeId>` — scoped to the category
+    that owns them, not a shared dimension. */
 export const SUBCATEGORY_PREFIX = "subcat";
 
 export function subcategoryTag(subcategoryId, typeId) {
@@ -65,12 +62,9 @@ export function stockColumns(sizes) {
   return sizes.length ? sizes : [ONE_SIZE];
 }
 
-/** Only the detail/subcategory tokens the form edits; derived tags are rebuilt on save. */
+/** Only the subcategory tokens the form edits; derived tags are rebuilt on save. */
 export function detailTags(tags) {
-  return (tags ?? []).filter((t) => {
-    const prefix = String(t).split(":")[0];
-    return DETAIL_PREFIXES.includes(prefix) || prefix === SUBCATEGORY_PREFIX;
-  });
+  return (tags ?? []).filter((t) => String(t).split(":")[0] === SUBCATEGORY_PREFIX);
 }
 
 /**
@@ -133,7 +127,6 @@ export function validateProduct({ status, category, colorIds, photos }) {
 /** The form's model -> what productsApi stores. */
 export function toPayload(values, { photos, colorIds, stock, sizes, tags, category, status }) {
   const columns = stockColumns(sizes);
-  const allowed = new Set((category?.details ?? []).map((d) => DIMENSION_PREFIX[d] ?? d));
 
   const colorways = colorIds.map((colorId) => ({
     colorId,
@@ -161,6 +154,6 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
     stock: colorways.reduce((sum, w) => sum + Object.values(w.stock).reduce((a, n) => a + n, 0), 0),
     // Blank means "use the shop's threshold".
     lowStockThreshold: `${values.lowStockThreshold ?? ""}` === "" ? null : Math.max(0, Math.floor(Number(values.lowStockThreshold))),
-    tags: detailTags(tags).filter((t) => allowed.has(t.split(":")[0]) || isValidSubcategoryTag(t, category)),
+    tags: detailTags(tags).filter((t) => isValidSubcategoryTag(t, category)),
   };
 }

@@ -45,11 +45,11 @@
     "createdAt": "2026-08-18",
     "tags": [
       "cat:dresses",
-      "len:maxi",
-      "occ:cocktail",
-      "occ:evening",
-      "style:backless",
-      "fabric:silk",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-style:backless-dresses",
+      "subcat:shop-by-fabric:silk-dresses",
       "tag:new",
       "tag:featured"
     ],
@@ -69,7 +69,7 @@
   {
     "id": "bf02",
     "slug": "rose-chiffon-midi-dress",
-    "name": "Rosé Chiffon Midi Dress",
+    "name": "Ros\u00e9 Chiffon Midi Dress",
     "price": 240,
     "originalPrice": 280,
     "collectionId": "dresses",
@@ -112,11 +112,11 @@
     "createdAt": "2026-08-16",
     "tags": [
       "cat:dresses",
-      "len:midi",
-      "occ:wedding-guest",
-      "occ:cocktail",
-      "style:off-shoulder",
-      "fabric:chiffon",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:wedding-guest-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-style:off-shoulder-dresses",
+      "subcat:shop-by-fabric:chiffon-dresses",
       "tag:new"
     ],
     "colorImages": {
@@ -178,11 +178,11 @@
     "createdAt": "2026-06-02",
     "tags": [
       "cat:dresses",
-      "len:mini",
-      "occ:party",
-      "occ:birthday",
-      "style:bodycon",
-      "fabric:bandage",
+      "subcat:shop-by-category:mini-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:birthday-dresses",
+      "subcat:shop-by-style:bodycon-dresses",
+      "subcat:shop-by-fabric:bandage-dresses",
       "tag:bestseller"
     ],
     "colorImages": {
@@ -243,11 +243,12 @@
     "createdAt": "2026-07-10",
     "tags": [
       "cat:dresses",
-      "len:maxi",
-      "occ:gala",
-      "occ:formal",
-      "style:corset",
-      "fabric:satin",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:gala-dresses",
+      "subcat:shop-by-occasion:formal-dresses",
+      "subcat:shop-by-category:formal-wear",
+      "subcat:shop-by-style:corset-dresses",
+      "subcat:shop-by-fabric:satin-dresses",
       "tag:featured"
     ],
     "colorImages": {
@@ -309,11 +310,11 @@
     "createdAt": "2026-08-12",
     "tags": [
       "cat:dresses",
-      "len:maxi",
-      "occ:prom",
-      "occ:gala",
-      "style:embellished",
-      "fabric:mesh",
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:prom-dresses",
+      "subcat:shop-by-occasion:gala-dresses",
+      "subcat:shop-by-style:embellished-dresses",
+      "subcat:shop-by-fabric:mesh-dresses",
       "tag:new"
     ],
     "colorImages": {
@@ -375,11 +376,11 @@
     "createdAt": "2026-07-04",
     "tags": [
       "cat:dresses",
-      "len:maxi",
-      "occ:wedding-guest",
-      "occ:party",
-      "style:halter-neck",
-      "fabric:chiffon"
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:wedding-guest-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-style:halter-neck-dresses",
+      "subcat:shop-by-fabric:chiffon-dresses"
     ],
     "colorImages": {
       "Forest": [
@@ -440,11 +441,11 @@
     "createdAt": "2026-05-20",
     "tags": [
       "cat:dresses",
-      "len:midi",
-      "occ:cocktail",
-      "occ:party",
-      "style:off-shoulder",
-      "fabric:satin",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:cocktail-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-style:off-shoulder-dresses",
+      "subcat:shop-by-fabric:satin-dresses",
       "tag:bestseller"
     ],
     "colorImages": {
@@ -505,11 +506,12 @@
     "createdAt": "2026-07-22",
     "tags": [
       "cat:dresses",
-      "len:midi",
-      "occ:evening",
-      "occ:formal",
-      "style:long-sleeve",
-      "fabric:velvet",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-occasion:formal-dresses",
+      "subcat:shop-by-category:formal-wear",
+      "subcat:shop-by-style:long-sleeve-dresses",
+      "subcat:shop-by-fabric:velvet-dresses",
       "tag:featured"
     ],
     "colorImages": {
@@ -532,7 +534,7 @@
     "price": 280,
     "originalPrice": null,
     "collectionId": "dresses",
-    "description": "Hand-applied champagne paillettes on stretch mesh — catches every light in the room.",
+    "description": "Hand-applied champagne paillettes on stretch mesh \u2014 catches every light in the room.",
     "details": [
       "Concealed back zip",
       "Fully lined",
@@ -570,11 +572,11 @@
     "createdAt": "2026-08-08",
     "tags": [
       "cat:dresses",
-      "len:mini",
-      "occ:party",
-      "occ:birthday",
-      "style:embellished",
-      "fabric:sequin",
+      "subcat:shop-by-category:mini-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:birthday-dresses",
+      "subcat:shop-by-style:embellished-dresses",
+      "subcat:shop-by-fabric:sequin-dresses",
       "tag:new",
       "tag:bestseller"
     ],
@@ -636,10 +638,10 @@
     "createdAt": "2026-06-15",
     "tags": [
       "cat:dresses",
-      "len:maxi",
-      "occ:wedding-guest",
-      "style:long-sleeve",
-      "fabric:lace"
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:wedding-guest-dresses",
+      "subcat:shop-by-style:long-sleeve-dresses",
+      "subcat:shop-by-fabric:lace-dresses"
     ],
     "colorImages": {
       "Ivory": [
@@ -700,10 +702,10 @@
     "createdAt": "2026-08-20",
     "tags": [
       "cat:dresses",
-      "len:midi",
-      "occ:party",
-      "style:corset",
-      "fabric:mesh",
+      "subcat:shop-by-category:midi-dresses",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-style:corset-dresses",
+      "subcat:shop-by-fabric:mesh-dresses",
       "tag:new"
     ],
     "colorImages": {
@@ -765,11 +767,10 @@
     "createdAt": "2026-07-01",
     "tags": [
       "cat:dresses",
-      "len:maxi",
-      "occ:gala",
-      "occ:evening",
-      "style:one-shoulder",
-      "fabric:crepe"
+      "subcat:shop-by-category:maxi-dresses",
+      "subcat:shop-by-occasion:gala-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-style:one-shoulder-dresses"
     ],
     "colorImages": {
       "Caramel": [
@@ -829,9 +830,7 @@
     "createdAt": "2026-06-28",
     "tags": [
       "cat:coats-jackets",
-      "occ:everyday",
-      "occ:evening",
-      "fabric:wool",
+      "subcat:shop-by-occasion:evening-dresses",
       "tag:featured",
       "tag:bestseller"
     ],
@@ -882,9 +881,7 @@
     "createdAt": "2026-05-30",
     "tags": [
       "cat:coats-jackets",
-      "occ:everyday",
-      "occ:party",
-      "fabric:leather"
+      "subcat:shop-by-occasion:party-dresses"
     ],
     "type": "coats-jackets",
     "sku": "BEL-BF14"
@@ -896,7 +893,7 @@
     "price": 220,
     "originalPrice": null,
     "collectionId": "dresses",
-    "description": "Sharp suiting lines in stretch crepe — wide leg, cinched waist, zero effort.",
+    "description": "Sharp suiting lines in stretch crepe \u2014 wide leg, cinched waist, zero effort.",
     "details": [
       "Concealed back zip",
       "Fully lined",
@@ -934,9 +931,9 @@
     "createdAt": "2026-08-19",
     "tags": [
       "cat:jumpsuits",
-      "occ:formal",
-      "occ:cocktail",
-      "fabric:crepe",
+      "subcat:shop-by-occasion:formal-dresses",
+      "subcat:shop-by-category:formal-wear",
+      "subcat:shop-by-occasion:cocktail-dresses",
       "tag:new"
     ],
     "type": "jumpsuits",
@@ -985,9 +982,9 @@
     "createdAt": "2026-07-08",
     "tags": [
       "cat:jumpsuits",
-      "occ:party",
-      "occ:evening",
-      "fabric:satin"
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:evening-dresses",
+      "subcat:shop-by-fabric:satin-dresses"
     ],
     "type": "jumpsuits",
     "sku": "BEL-BF16"
@@ -1036,9 +1033,9 @@
     "createdAt": "2026-08-21",
     "tags": [
       "cat:two-piece-sets",
-      "occ:party",
-      "occ:birthday",
-      "fabric:sequin",
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-occasion:birthday-dresses",
+      "subcat:shop-by-fabric:sequin-dresses",
       "tag:new"
     ],
     "type": "two-piece-sets",
@@ -1051,7 +1048,7 @@
     "price": 180,
     "originalPrice": null,
     "collectionId": "dresses",
-    "description": "Ribbed knit tank and matching skirt in toasted almond. Airport-to-apéro comfort.",
+    "description": "Ribbed knit tank and matching skirt in toasted almond. Airport-to-ap\u00e9ro comfort.",
     "details": [
       "Concealed back zip",
       "Fully lined",
@@ -1089,9 +1086,7 @@
     ],
     "createdAt": "2026-06-05",
     "tags": [
-      "cat:two-piece-sets",
-      "occ:everyday",
-      "fabric:knit"
+      "cat:two-piece-sets"
     ],
     "type": "two-piece-sets",
     "sku": "BEL-BF18"
@@ -1141,7 +1136,7 @@
     "createdAt": "2026-05-12",
     "tags": [
       "cat:wigs",
-      "hair:straight",
+      "subcat:wigs:straight-wigs",
       "color:black",
       "tag:bestseller"
     ],
@@ -1192,7 +1187,7 @@
     "createdAt": "2026-06-09",
     "tags": [
       "cat:wigs",
-      "hair:curly",
+      "subcat:wigs:curly-wigs",
       "color:black"
     ],
     "type": "wigs",
@@ -1243,7 +1238,7 @@
     "createdAt": "2026-08-15",
     "tags": [
       "cat:wigs",
-      "hair:wavy",
+      "subcat:wigs:wavy-wigs",
       "color:brown",
       "tag:new"
     ],
@@ -1295,7 +1290,7 @@
     "createdAt": "2026-07-14",
     "tags": [
       "cat:wigs",
-      "hair:braided",
+      "subcat:wigs:braided-wigs",
       "color:black"
     ],
     "type": "wigs",
@@ -1352,8 +1347,6 @@
     "createdAt": "2026-04-18",
     "tags": [
       "cat:heels",
-      "occ:formal",
-      "occ:party",
       "color:black",
       "tag:bestseller"
     ],
@@ -1410,8 +1403,6 @@
     "createdAt": "2026-08-17",
     "tags": [
       "cat:heels",
-      "occ:party",
-      "occ:gala",
       "color:metallic",
       "tag:new"
     ],
@@ -1465,8 +1456,6 @@
     "createdAt": "2026-05-25",
     "tags": [
       "cat:handbags",
-      "occ:everyday",
-      "occ:formal",
       "color:brown",
       "tag:featured"
     ],
@@ -1520,8 +1509,6 @@
     "createdAt": "2026-08-11",
     "tags": [
       "cat:clutch",
-      "occ:party",
-      "occ:gala",
       "color:metallic",
       "tag:new"
     ],
@@ -1574,8 +1561,6 @@
     "createdAt": "2026-08-14",
     "tags": [
       "cat:earrings",
-      "occ:party",
-      "occ:cocktail",
       "color:yellow",
       "tag:new"
     ],
@@ -1628,8 +1613,6 @@
     "createdAt": "2026-03-30",
     "tags": [
       "cat:necklaces",
-      "occ:everyday",
-      "occ:wedding-guest",
       "color:white",
       "tag:bestseller"
     ],

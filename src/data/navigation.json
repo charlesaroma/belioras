@@ -315,9 +315,9 @@
           "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop",
           "target": {
             "kind": "filter",
-            "dimension": "length",
+            "dimension": "subcat:shop-by-category",
             "values": [
-              "mini"
+              "mini-dresses"
             ],
             "category": "dresses"
           }
@@ -329,10 +329,10 @@
           "image": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=900&auto=format&fit=crop",
           "target": {
             "kind": "filter",
-            "dimension": "occasion",
+            "dimension": "subcat:shop-by-occasion",
             "values": [
-              "prom",
-              "gala"
+              "prom-dresses",
+              "gala-dresses"
             ],
             "category": "dresses"
           }
@@ -349,9 +349,9 @@
               "url": "/dresses/mini-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "length",
+                "dimension": "subcat:shop-by-category",
                 "values": [
-                  "mini"
+                  "mini-dresses"
                 ],
                 "category": "dresses"
               }
@@ -363,9 +363,9 @@
               "url": "/dresses/midi-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "length",
+                "dimension": "subcat:shop-by-category",
                 "values": [
-                  "midi"
+                  "midi-dresses"
                 ],
                 "category": "dresses"
               }
@@ -377,9 +377,9 @@
               "url": "/dresses/maxi-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "length",
+                "dimension": "subcat:shop-by-category",
                 "values": [
-                  "maxi"
+                  "maxi-dresses"
                 ],
                 "category": "dresses"
               }
@@ -413,9 +413,9 @@
               "url": "/dresses/formal-wear",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-category",
                 "values": [
-                  "formal"
+                  "formal-wear"
                 ],
                 "category": "dresses"
               }
@@ -444,9 +444,9 @@
               "url": "/dresses/birthday-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "birthday"
+                  "birthday-dresses"
                 ],
                 "category": "dresses"
               }
@@ -458,9 +458,9 @@
               "url": "/dresses/party-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "party"
+                  "party-dresses"
                 ],
                 "category": "dresses"
               }
@@ -472,9 +472,9 @@
               "url": "/dresses/cocktail-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "cocktail"
+                  "cocktail-dresses"
                 ],
                 "category": "dresses"
               }
@@ -486,9 +486,9 @@
               "url": "/dresses/wedding-guest-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "wedding-guest"
+                  "wedding-guest-dresses"
                 ],
                 "category": "dresses"
               }
@@ -500,9 +500,9 @@
               "url": "/dresses/evening-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "evening"
+                  "evening-dresses"
                 ],
                 "category": "dresses"
               }
@@ -514,9 +514,9 @@
               "url": "/dresses/gala-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "gala"
+                  "gala-dresses"
                 ],
                 "category": "dresses"
               }
@@ -528,9 +528,9 @@
               "url": "/dresses/prom-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "prom"
+                  "prom-dresses"
                 ],
                 "category": "dresses"
               }
@@ -542,10 +542,10 @@
               "url": "/dresses/prom-gala-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "prom",
-                  "gala"
+                  "prom-dresses",
+                  "gala-dresses"
                 ],
                 "category": "dresses"
               }
@@ -557,9 +557,9 @@
               "url": "/dresses/formal-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "occasion",
+                "dimension": "subcat:shop-by-occasion",
                 "values": [
-                  "formal"
+                  "formal-dresses"
                 ],
                 "category": "dresses"
               }
@@ -577,9 +577,9 @@
               "url": "/dresses/bodycon-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "bodycon"
+                  "bodycon-dresses"
                 ],
                 "category": "dresses"
               }
@@ -591,9 +591,9 @@
               "url": "/dresses/one-shoulder-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "one-shoulder"
+                  "one-shoulder-dresses"
                 ],
                 "category": "dresses"
               }
@@ -605,9 +605,9 @@
               "url": "/dresses/off-shoulder-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "off-shoulder"
+                  "off-shoulder-dresses"
                 ],
                 "category": "dresses"
               }
@@ -619,9 +619,9 @@
               "url": "/dresses/halter-neck-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "halter-neck"
+                  "halter-neck-dresses"
                 ],
                 "category": "dresses"
               }
@@ -633,9 +633,9 @@
               "url": "/dresses/long-sleeve-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "long-sleeve"
+                  "long-sleeve-dresses"
                 ],
                 "category": "dresses"
               }
@@ -647,9 +647,9 @@
               "url": "/dresses/backless-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "backless"
+                  "backless-dresses"
                 ],
                 "category": "dresses"
               }
@@ -661,9 +661,9 @@
               "url": "/dresses/embellished-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "embellished"
+                  "embellished-dresses"
                 ],
                 "category": "dresses"
               }
@@ -675,9 +675,9 @@
               "url": "/dresses/corset-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "style",
+                "dimension": "subcat:shop-by-style",
                 "values": [
-                  "corset"
+                  "corset-dresses"
                 ],
                 "category": "dresses"
               }
@@ -695,9 +695,9 @@
               "url": "/dresses/satin-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "satin"
+                  "satin-dresses"
                 ],
                 "category": "dresses"
               }
@@ -709,9 +709,9 @@
               "url": "/dresses/lace-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "lace"
+                  "lace-dresses"
                 ],
                 "category": "dresses"
               }
@@ -723,9 +723,9 @@
               "url": "/dresses/sequin-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "sequin"
+                  "sequin-dresses"
                 ],
                 "category": "dresses"
               }
@@ -737,9 +737,9 @@
               "url": "/dresses/mesh-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "mesh"
+                  "mesh-dresses"
                 ],
                 "category": "dresses"
               }
@@ -751,9 +751,9 @@
               "url": "/dresses/velvet-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "velvet"
+                  "velvet-dresses"
                 ],
                 "category": "dresses"
               }
@@ -765,9 +765,9 @@
               "url": "/dresses/chiffon-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "chiffon"
+                  "chiffon-dresses"
                 ],
                 "category": "dresses"
               }
@@ -779,9 +779,9 @@
               "url": "/dresses/bandage-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "bandage"
+                  "bandage-dresses"
                 ],
                 "category": "dresses"
               }
@@ -793,9 +793,9 @@
               "url": "/dresses/silk-dresses",
               "target": {
                 "kind": "filter",
-                "dimension": "fabric",
+                "dimension": "subcat:shop-by-fabric",
                 "values": [
-                  "silk"
+                  "silk-dresses"
                 ],
                 "category": "dresses"
               }
@@ -941,9 +941,9 @@
           "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=900&auto=format&fit=crop",
           "target": {
             "kind": "filter",
-            "dimension": "hair",
+            "dimension": "subcat:wigs",
             "values": [
-              "straight"
+              "straight-wigs"
             ],
             "category": "hair"
           }
@@ -955,9 +955,9 @@
           "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=900&auto=format&fit=crop",
           "target": {
             "kind": "filter",
-            "dimension": "hair",
+            "dimension": "subcat:wigs",
             "values": [
-              "curly"
+              "curly-wigs"
             ],
             "category": "hair"
           }
@@ -975,9 +975,9 @@
               "url": "/hair/wigs/straight",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "straight"
+                  "straight-wigs"
                 ],
                 "category": "hair"
               }
@@ -989,9 +989,9 @@
               "url": "/hair/wigs/curly",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "curly"
+                  "curly-wigs"
                 ],
                 "category": "hair"
               }
@@ -1003,9 +1003,9 @@
               "url": "/hair/wigs/wavy",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "wavy"
+                  "wavy-wigs"
                 ],
                 "category": "hair"
               }
@@ -1017,9 +1017,9 @@
               "url": "/hair/wigs/bouncy",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "bouncy"
+                  "bouncy-wigs"
                 ],
                 "category": "hair"
               }
@@ -1031,9 +1031,9 @@
               "url": "/hair/wigs/braided",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "braided"
+                  "braided-wigs"
                 ],
                 "category": "hair"
               }
@@ -1045,9 +1045,9 @@
               "url": "/hair/wigs/short",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "short"
+                  "short-wigs"
                 ],
                 "category": "hair"
               }
@@ -1059,9 +1059,9 @@
               "url": "/hair/wigs/kinky",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "kinky"
+                  "kinky-wigs"
                 ],
                 "category": "hair"
               }
@@ -1073,9 +1073,9 @@
               "url": "/hair/wigs/yaky",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "yaky"
+                  "yaky-wigs"
                 ],
                 "category": "hair"
               }
@@ -1087,7 +1087,7 @@
               "url": "/hair/wigs/locs",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
                   "locs"
                 ],

@@ -1,23 +1,18 @@
 /* Mega Menu Picker Options */
 import { LABELS, matchesTarget } from "@/utils/menuTargets";
 
-const DIMENSION_KINDS = [
-  { id: "occasion", label: "Occasion" },
-  { id: "fabric", label: "Fabric" },
-  { id: "style", label: "Style" },
-  { id: "length", label: "Length" },
-  { id: "color", label: "Colour" },
-  { id: "hair", label: "Hair texture" },
-];
+const SUBCAT_PREFIX = "subcat:";
 
-/** Filters can combine several values, such as Party or Evening. */
-export const MULTI = new Set(DIMENSION_KINDS.map((k) => k.id));
-
-/** Kinds that can be narrowed to one category. */
-export const SCOPED = new Set([...MULTI, "label"]);
+/** A category's own Subcategories, as pickable "kinds" — Shop by Category,
+    Shop by Occasion… — scoped to whichever category is currently picked in
+    "Only in". Empty until a category with Subcategories is chosen. */
+function subcategoryKinds(categories, categoryId) {
+  const category = categories.find((c) => c.id === categoryId);
+  return (category?.subcategories ?? []).map((s) => ({ id: `${SUBCAT_PREFIX}${s.id}`, label: s.name }));
+}
 
 /** A top-level item shows something broad; a link can show anything but a single product. */
-export function kindsFor(mode) {
+export function kindsFor(mode, categories = [], categoryId = "") {
   if (mode === "item") {
     return [
       { id: "all", label: "Everything" },
@@ -25,10 +20,30 @@ export function kindsFor(mode) {
       { id: "label", label: "A label" },
     ];
   }
-  return [{ id: "category", label: "Category" }, { id: "type", label: "Type" }, ...DIMENSION_KINDS, { id: "label", label: "Label" }];
+  return [
+    { id: "category", label: "Category" },
+    { id: "type", label: "Type" },
+    ...subcategoryKinds(categories, categoryId),
+    { id: "color", label: "Colour" },
+    { id: "label", label: "Label" },
+  ];
 }
 
-export function optionsFor(kind, { categories = [], taxonomy = {} }) {
+/** Filters can combine several values, such as two colours, or two types
+    within the same Subcategory. */
+export function isMulti(kind) {
+  return kind === "color" || String(kind).startsWith(SUBCAT_PREFIX);
+}
+
+/** Kinds that can be narrowed to one category. A Subcategory kind is always
+    scoped — it belongs to exactly one category by definition — so its "Only
+    in" is fixed rather than optional, but it still renders through the same
+    field. */
+export function isScoped(kind) {
+  return kind === "color" || kind === "label" || String(kind).startsWith(SUBCAT_PREFIX);
+}
+
+export function optionsFor(kind, { categories = [], taxonomy = {}, category = "" }) {
   if (kind === "category") return categories.map((c) => ({ value: c.id, name: c.name }));
   if (kind === "type") {
     return categories.flatMap((c) =>
@@ -36,6 +51,11 @@ export function optionsFor(kind, { categories = [], taxonomy = {} }) {
     );
   }
   if (kind === "label") return Object.entries(LABELS).map(([value, name]) => ({ value, name }));
+  if (String(kind).startsWith(SUBCAT_PREFIX)) {
+    const subId = kind.slice(SUBCAT_PREFIX.length);
+    const sub = categories.find((c) => c.id === category)?.subcategories?.find((s) => s.id === subId);
+    return (sub?.types ?? []).map((t) => ({ value: t.id, name: t.name }));
+  }
   return (taxonomy[kind]?.values ?? []).map((v) => ({ value: v.id, name: v.name ?? v.id, hex: v.hex }));
 }
 
@@ -53,6 +73,10 @@ export function targetFrom({ kind, values = [], category, newOnly }) {
     return { kind, category: categoryId, id, ...onlyNew };
   }
   if (kind === "label") return { kind, id: values[0], ...scope };
+  if (String(kind).startsWith(SUBCAT_PREFIX)) {
+    if (!category) return null; // a Subcategory filter is always scoped to its own category
+    return { kind: "filter", dimension: kind, values, ...scope };
+  }
   return { kind: "filter", dimension: kind, values, ...scope };
 }
 

@@ -4,9 +4,9 @@ import { slugify } from "./products/productSlug";
 import { catalogItems } from "./products/productStore";
 
 /**
- * Categories: what a piece is. Each offers a set of sizes, a set of extra
- * details (occasion, fabric…) the product form asks for, and optional types
- * within it (Accessories: Heels, Handbags…).
+ * Categories: what a piece is. Each offers a set of sizes, optional types
+ * within it (Accessories: Heels, Handbags…), and its own Subcategories —
+ * freely-named "Shop by …" groups, each holding its own types.
  *
  * Ids are fixed at creation: a category id is every product's collectionId and
  * a type id is a product's `type`, and both are filter tokens, so renaming
@@ -100,7 +100,7 @@ export function deleteCategory(id) {
   });
 }
 
-function clean({ name, sizes, details, types, subcategories } = {}, existing = null) {
+function clean({ name, sizes, types, subcategories } = {}, existing = null) {
   const trimmed = String(name ?? "").trim();
   if (!trimmed) throw new ApiError("Give the category a name.", 422);
 
@@ -112,7 +112,6 @@ function clean({ name, sizes, details, types, subcategories } = {}, existing = n
   return {
     name: trimmed,
     sizes: Array.isArray(sizes) ? sizes : [],
-    details: Array.isArray(details) ? details : [],
     types: cleanTypes(types, existing?.types ?? []),
     subcategories: cleanSubcategories(subcategories, existing?.subcategories ?? []),
   };

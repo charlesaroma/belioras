@@ -5,14 +5,14 @@ import Modal from "@/components/common/Modal";
 import Button from "@/components/ui/Button";
 import Field from "@/components/ui/Field";
 import { useToast } from "@/context/ToastContext";
-import CategoryDetailValuesField from "./CategoryDetailValuesField";
 import CategorySubcategoriesField from "./CategorySubcategoriesField";
 import CategoryTypesField from "./CategoryTypesField";
 import ChoiceChips from "./ChoiceChips";
 
 /**
- * Adds or edits one category: its name, the sizes it offers, its types and the
- * extra details the product form asks for. Remount with a changing `key` per open.
+ * Adds or edits one category: its name, the sizes it offers, its own
+ * product-taggable types, and its Subcategories. Remount with a changing
+ * `key` per open.
  *
  * `sizesEditable` is false for the quick "+ New category" shortcut inside Add
  * Product: deciding what a whole category's size range is belongs to
@@ -24,17 +24,13 @@ export default function CategoryDialog({
   open,
   initial = null,
   sizeOptions = [],
-  detailOptions = [],
-  taxonomy = null,
   sizesEditable = true,
   onClose,
   onSave,
-  onAddDetailValue,
 }) {
   const [form, setForm] = useState({
     name: initial?.name ?? "",
     sizes: initial?.sizes ?? [],
-    details: initial?.details ?? [],
     types: initial?.types ?? [],
     subcategories: initial?.subcategories ?? [],
   });
@@ -104,22 +100,6 @@ export default function CategoryDialog({
           subcategories={form.subcategories}
           onChange={(subcategories) => setForm((f) => ({ ...f, subcategories }))}
         />
-
-        <ChoiceChips
-          label="Details to ask for"
-          hint="Optional extras on the product form that help shoppers filter."
-          options={detailOptions}
-          selected={form.details}
-          onToggle={toggle("details")}
-        />
-
-        {onAddDetailValue && (
-          <CategoryDetailValuesField
-            dimensions={detailOptions.filter((d) => form.details.includes(d.id))}
-            taxonomy={taxonomy}
-            onAddValue={onAddDetailValue}
-          />
-        )}
 
         {error && (
           <p role="alert" className="border-l-2 border-error py-1 pl-3 text-[13px] text-error">

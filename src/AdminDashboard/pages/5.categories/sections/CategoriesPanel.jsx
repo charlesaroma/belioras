@@ -8,7 +8,7 @@ import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import CategoryDialog from "@/AdminDashboard/components/CategoryDialog";
 import DashListToolbar from "@/AdminDashboard/components/DashListToolbar";
-import { detailOptionsFrom, sizeOptionsFrom } from "@/AdminDashboard/lib/catalogOptions";
+import { sizeOptionsFrom } from "@/AdminDashboard/lib/catalogOptions";
 import {
   categoryUsage,
   createCategory,
@@ -18,7 +18,6 @@ import {
   updateCategory,
 } from "@/services/catalog/categoriesApi";
 import { getTaxonomy } from "@/services/catalog/navigationApi";
-import { createDetailValue } from "@/services/catalog/taxonomyApi";
 import CategoriesTree from "./CategoriesTree";
 
 export default function CategoriesPanel() {
@@ -29,7 +28,7 @@ export default function CategoriesPanel() {
   const { data: categories, loading } = useAsyncData(getCategories, [revision]);
   const { data: usage } = useAsyncData(categoryUsage, [revision]);
   const { data: types } = useAsyncData(typeUsage, [revision]);
-  const { data: taxonomy, refresh: refreshTaxonomy } = useAsyncData(getTaxonomy, []);
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
   const [pendingDelete, setPendingDelete] = useState(null);
@@ -58,12 +57,6 @@ export default function CategoriesPanel() {
     setPendingDelete(category);
   };
 
-  const addDetailValue = async (dimension, name) => {
-    const value = await createDetailValue(dimension, name);
-    await refreshTaxonomy();
-    return value;
-  };
-
   const confirmDelete = async () => {
     const category = pendingDelete;
     setPendingDelete(null);
@@ -80,7 +73,7 @@ export default function CategoriesPanel() {
     <section className="space-y-4">
       <p className="max-w-xl text-[13px] leading-relaxed text-espresso-soft">
         What a piece is. Every product belongs to one category, and the category decides which
-        sizes, types and details its product form asks for.
+        sizes it offers and what it's filed under — its own types, and its Subcategories.
       </p>
 
       <DashListToolbar
@@ -116,11 +109,8 @@ export default function CategoriesPanel() {
         open={dialog.open}
         initial={dialog.initial}
         sizeOptions={sizeOptionsFrom(taxonomy)}
-        detailOptions={detailOptionsFrom(taxonomy)}
-        taxonomy={taxonomy}
         onClose={close}
         onSave={save}
-        onAddDetailValue={addDetailValue}
       />
 
       <ConfirmDialog

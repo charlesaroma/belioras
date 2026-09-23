@@ -13,7 +13,6 @@ import { getTaxonomy } from "@/services/catalog/navigationApi";
 import { createProduct, getProduct, updateProduct } from "@/services/catalog/productsApi";
 
 import ProductFormCategory from "./sections/productForm/ProductFormCategory";
-import ProductFormDetails from "./sections/productForm/ProductFormDetails";
 import ProductFormEssentials from "./sections/productForm/ProductFormEssentials";
 import ProductFormLabels from "./sections/productForm/ProductFormLabels";
 import ProductFormPhotos from "./sections/productForm/ProductFormPhotos";
@@ -131,13 +130,11 @@ export default function ProductForm() {
           <div className="space-y-4 lg:sticky lg:top-0">
             <ProductFormPublish {...actions} className="hidden lg:block" />
             <ProductFormCategory
-              categories={categories ?? []} value={values.collectionId} type={values.type} taxonomy={taxonomy ?? {}}
+              categories={categories ?? []} value={values.collectionId} type={values.type} taxonomy={taxonomy ?? {}} tags={tags}
               onChange={chooseCategory} onTypeChange={(next) => form.setValue("type", next, { shouldDirty: true })}
+              onTagsChange={setTags}
               onCreated={(created) => { setRevision((n) => n + 1); chooseCategory(created); }}
             />
-            {/* Right beside Category, not down in the main column — picking
-                what a piece is and what it's filed under is one flow. */}
-            <ProductFormDetails category={category} taxonomy={taxonomy ?? {}} tags={tags} onChange={setTags} />
             <ProductFormPricing register={form.register} errors={form.formState.errors} values={values} setValue={form.setValue} />
             <ProductFormLabels values={values} setValue={form.setValue} />
           </div>

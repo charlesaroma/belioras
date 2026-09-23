@@ -11,12 +11,18 @@ import { DIMENSION_PREFIX } from "./faceting";
  *   { kind: "label", id: "new" | "featured" | "sale" } New arrivals
  *   { kind: "product", id }                            one piece (tiles only)
  *
+ * A "filter" target's `dimension` is either a shared taxonomy dimension
+ * (today, only "color") or `subcat:<subcategoryId>` — a category's own
+ * Subcategory, scoped by the required `category`. Either way it resolves the
+ * same way: `values` are matched against `<dimension's prefix>:<value>`
+ * tokens on the product (see DIMENSION_PREFIX and subcategoryTag).
+ *
  * Any collection target may also carry `category` (only within that category)
  * and `newOnly` (only pieces marked New). The address is generated once and
  * stored beside the target, so renaming a link never breaks a shared URL.
  */
 
-export const FILTER_DIMENSIONS = ["occasion", "fabric", "style", "length", "color", "hair"];
+export const FILTER_DIMENSIONS = ["color"];
 
 export const LABELS = {
   new: "New arrivals",
@@ -75,6 +81,12 @@ export function targetExists(target, { categories = [], taxonomy = {}, products 
     case "type":
       return Boolean(category(target.category)?.types?.some((t) => t.id === target.id));
     case "filter": {
+      if (String(target.dimension).startsWith("subcat:")) {
+        const subId = target.dimension.slice("subcat:".length);
+        const sub = category(target.category)?.subcategories?.find((s) => s.id === subId);
+        const known = new Set((sub?.types ?? []).map((t) => t.id));
+        return (target.values ?? []).length > 0 && target.values.every((v) => known.has(v));
+      }
       const known = new Set((taxonomy[target.dimension]?.values ?? []).map((v) => v.id));
       return (target.values ?? []).length > 0 && target.values.every((v) => known.has(v));
     }
