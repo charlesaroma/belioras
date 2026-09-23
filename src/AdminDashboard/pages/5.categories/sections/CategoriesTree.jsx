@@ -111,9 +111,9 @@ export default function CategoriesTree({ categories, usage, typeUsage, query, on
             </div>
 
             {open && hasChildren && (
-              <div className="space-y-3 border-t border-umber-50 px-4 py-3 pl-[3.25rem]">
+              <div className="border-t border-umber-50 px-4 py-4 pl-[3.25rem]">
                 {types.length > 0 && (
-                  <ul className="space-y-1">
+                  <ul className={cn("space-y-1", subcategories.length > 0 && "mb-5")}>
                     {types.map((type) => (
                       <li key={type.id} className="flex items-center justify-between gap-3 py-1 text-[13px]">
                         <span className="min-w-0 truncate text-espresso">{type.name}</span>
@@ -125,19 +125,28 @@ export default function CategoriesTree({ categories, usage, typeUsage, query, on
                   </ul>
                 )}
 
-                {subcategories.map((sub) => (
-                  <div key={sub.id}>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-gold-700">{sub.name}</p>
-                    <ul className="mt-1 space-y-1">
-                      {sub.types.map((type) => (
-                        <li key={type.id} className="py-0.5 text-[13px] text-espresso">
-                          {type.name}
-                        </li>
-                      ))}
-                      {sub.types.length === 0 && <li className="py-0.5 text-[13px] text-espresso-soft">No types yet</li>}
-                    </ul>
+                {/* A category can have many "Shop by …" groups (Dresses has
+                    five), each short — a single stacked column left most of
+                    a wide admin screen empty, so the groups lay out side by
+                    side and wrap, same idea as the storefront mega menu's
+                    own columns. */}
+                {subcategories.length > 0 && (
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+                    {subcategories.map((sub) => (
+                      <div key={sub.id} className="min-w-0">
+                        <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-gold-700">{sub.name}</p>
+                        <ul className="mt-1 space-y-1">
+                          {sub.types.map((type) => (
+                            <li key={type.id} className="truncate py-0.5 text-[13px] text-espresso">
+                              {type.name}
+                            </li>
+                          ))}
+                          {sub.types.length === 0 && <li className="py-0.5 text-[13px] text-espresso-soft">No types yet</li>}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             )}
           </li>
