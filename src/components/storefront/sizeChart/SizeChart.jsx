@@ -59,6 +59,7 @@ export default function SizeChart({ kind = "garment" }) {
             // The body figure explains a garment measurement. It says nothing
             // useful about a foot or a weft, so those kinds get the steps alone.
             showFigure={kind === "garment"}
+            figureSrc={charts.howToMeasure.garmentImage}
           />
         )}
       </div>

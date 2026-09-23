@@ -1,5 +1,5 @@
 {
-  "rev": 1,
+  "rev": 2,
   "garment": {
     "note": "Belioras dresses are cut with a tailored silhouette. Between sizes, we suggest the larger.",
     "rows": [
@@ -58,6 +58,7 @@
     ]
   },
   "howToMeasure": {
+    "garmentImage": "https://ik.imagekit.io/sbgenu6wj/Belioras/image.png",
     "garment": [
       { "term": "Bust", "text": "Place the tape close under the armhole and measure around the fullest part, keeping it level across the back." },
       { "term": "Waist", "text": "The narrowest part of the torso, usually just above the navel. Keep the tape snug, not tight." },

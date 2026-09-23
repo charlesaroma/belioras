@@ -20,6 +20,7 @@ export default function GarmentGuideDialog({ open, charts, onClose, onSaved }) {
   const [rows, setRows] = useState(charts?.garment.rows ?? []);
   const [intlRows, setIntlRows] = useState(charts?.international.rows ?? []);
   const [howTo, setHowTo] = useState(charts?.howToMeasure.garment ?? []);
+  const [garmentImage, setGarmentImage] = useState(charts?.howToMeasure.garmentImage ?? "");
   const [saving, setSaving] = useState(false);
 
   const save = async (e) => {
@@ -28,7 +29,7 @@ export default function GarmentGuideDialog({ open, charts, onClose, onSaved }) {
     try {
       await updateSizeChart("garment", { note, rows });
       await updateSizeChart("international", { columns: charts.international.columns, rows: intlRows });
-      await updateSizeChart("howToMeasure", { ...charts.howToMeasure, garment: howTo });
+      await updateSizeChart("howToMeasure", { ...charts.howToMeasure, garment: howTo, garmentImage });
       toast("Dresses sizing saved.", "success");
       onSaved();
     } catch (err) {
@@ -59,6 +60,14 @@ export default function GarmentGuideDialog({ open, charts, onClose, onSaved }) {
           <p className="input-label">How to measure</p>
           <GuideRowsEditor columns={HOW_TO_COLUMNS} rows={howTo} onChange={setHowTo} />
         </div>
+
+        <Field label="Model photo URL" helper="Shown beside the How to measure steps. Leave blank to show nothing.">
+          <input
+            value={garmentImage}
+            onChange={(e) => setGarmentImage(e.target.value)}
+            placeholder="https://…"
+          />
+        </Field>
 
         <div className="flex justify-end gap-2 border-t border-umber-50 pt-4">
           <Button variant="ghost" onClick={onClose}>

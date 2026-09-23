@@ -1,12 +1,12 @@
 /* Storefront Component: SizeChartHowTo */
 import SizeChartFigure from "./SizeChartFigure";
 
-export default function SizeChartHowTo({ steps, showFigure = true }) {
+export default function SizeChartHowTo({ steps, showFigure = true, figureSrc }) {
   return (
     <div className="grid gap-8 sm:grid-cols-[auto_1fr] sm:items-start">
       {showFigure && (
         <div className="mx-auto sm:mx-0">
-          <SizeChartFigure />
+          <SizeChartFigure src={figureSrc} />
         </div>
       )}
 
