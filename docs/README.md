@@ -22,7 +22,7 @@ Storefront-first: everything the customer sees (layout shell → UI kit → stor
 | 2 | Layout — storefront shell first (navbar folder, footer, cookie, shell) | `04-layout.md` | done |
 | 3 | UI kit (incl. swatches) | `05-ui-kit.md` | done |
 | 4 | Storefront (home, shop, PDPs, search, checkout, auth, FAQ, legal) | `06-storefront.md` | done |
-| 5 | AdminDashboard (12 modules, 2 reserved slots unbuilt) | `07-dashboard.md` | done |
+| 5 | AdminDashboard (14 modules, 2 reserved slots unbuilt) | `07-dashboard.md` | done |
 | 6 | QA & polish (a11y, responsive, lint, build, favicon) — final pass over the whole app incl. dashboard | `09-qa-polish.md` | in-progress |
 | 7 | Client account portal | `11-client-account.md` | done |
 | 8 | Folder structure reference | `10-folder-structure.md` | done |
@@ -84,7 +84,7 @@ src/
 │   ├── legal/               ← 5 legal pages
 │   └── newsletter/          ← confirm, unsubscribe
 ├── customerDashboard/       ← the signed-in shopper's own app (see 11)
-└── AdminDashboard/          ← the admin app (see 07) — DashboardPages.jsx barrel + 12 numbered page modules
+└── AdminDashboard/          ← the admin app (see 07) — DashboardPages.jsx barrel + 14 numbered page modules
 ```
 
 ## Verifier

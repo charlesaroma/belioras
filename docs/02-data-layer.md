@@ -33,11 +33,11 @@ services/
 | `catalogApi.js` | `getCatalog(pathname)`, `getFeaturedCollection()`, `getSiblingLeaves(pathname)` | a menu page's products |
 | `sizeChartApi.js` | `getSizeCharts()` | size reference tables |
 | `visualSearchApi.js` | `searchByImage()`, `isVisualSearchAvailable()` | products matching a photo |
-| `reviewsApi.js` | `getReviews(productId)`, `getAllReviews()` | review objects (name, rating, title, body, date, verified) |
+| `reviewsApi.js` | `getReviews(productId)`, `getRecentReviews(limit)`, `getAllReviews()`, `createReview(payload)`, `publishReview(id)`, `hideReview(id)`, `replyToReview(id, text)` | review objects (name, rating, title, body, date, verified, status, reply) — `getReviews`/`getRecentReviews` return `status: "published"` only |
 | **sales/** | | |
-| `ordersApi.js` | `createOrder(payload)`, `getOrders(userId)`, `getOrder(id)`, `updateOrderStatus(id, status)` | order with generated id + dates |
+| `ordersApi.js` | `createOrder(payload)`, `getOrders(userId)`, `getOrder(id, {userId\|email})`, `updateOrderStatus(id, status, {restock, by, trackingRef, carrier})` | order with generated id + dates; `trackingRef`/`carrier` are optional, set when an order is marked shipped |
 | `transactionsApi.js` | `getTransactions()`, `getTransactionsForOrder(orderId)` | payments and refunds |
-| `couponsApi.js` | `validateCoupon(code)`, `getCoupons()` | coupon or null |
+| `couponsApi.js` | `validateCoupon(code, subtotal)`, `getCoupons()`, `createCoupon(payload)`, `updateCoupon(id, payload)`, `deleteCoupon(id)`, `setCouponActive(id, active)` | coupon: code, type (percent/fixed/free_shipping), value, minOrderValue, maxDiscount, expiresAt, active, description — global-only, no product/category scoping |
 | `dashboardApi.js` | `getDashboardStats()`, `getRecentOrders()` | overview figures |
 | **marketing/** | | |
 | `subscribersApi.js` | `subscribe()`, `confirmSubscription(token)`, `unsubscribe(token)`, `unsubscribeByEmail()`, `getSubscription(email)`, `getSubscribers()`, `unsubscribeSubscriber(id)`, `eraseSubscriber(id)` | newsletter audience and consent |
@@ -66,9 +66,9 @@ All JSON arrays/objects, ~5-10 items each (enough to demo filters/DS):
 - `testimonials.json` — name, city, quote, rating, productUrl.
 - `users.json` — customers + `admin@belioras.com` (password `demo123`, role super-admin (see `07-dashboard.md`)) + staff role examples.
 - `orders.json` — seed orders covering all statuses (pending/paid/shipped/delivered/cancelled/refunded) for dashboard.
-- `coupons.json` — e.g. `WELCOME10` (10% min €50), `FREESHIP` (free shipping threshold).
+- `coupons.json` — e.g. `WELCOME10` (10% min €50), `FREESHIP` (free shipping threshold). Wrapped as a revisioned collection (`couponsSeed.js`) — admin-editable via `couponsApi.js`.
 - `promotions.json` — flash sale entry, top banner, popup (15% first order) with start/end.
-- `reviews.json` — per product 2-4 reviews, some "verified purchase".
+- `reviews.json` — per product 2-4 reviews, some "verified purchase". Wrapped as a revisioned collection (`reviewsSeed.js`); every seed review ships `status: "published"`. A customer submission lands `status: "pending"` via `createReview`; `getReviews`/`getRecentReviews` only ever return `published`.
 - `settings.json` — shipping zones (EU flat €5.90, free ≥ €150; UK €12; World €19), tax 20% VAT included note, announcement text, cookie banner copy, GPSR manufacturer records, support contact, social links, hero copy, value props, brand story.
 
 ## Acceptance

@@ -116,7 +116,9 @@ pages/
 ├── 7.mega-menu/      DashMegaMenu.jsx  + sections/ (item row + editor, column, link row, link and tile pickers, tree helpers)
 ├── 8.orders/         DashOrders.jsx
 ├── 9.transactions/   DashTransactions.jsx  (super-admin only)
+├── 10.discounts/     DashDiscounts.jsx + sections/ (CouponDialog)
 ├── 11.customers/     DashCustomers.jsx
+├── 12.reviews/       DashReviews.jsx   + sections/ (ReviewsDetailModal)
 ├── 14.newsletter/    DashNewsletter.jsx  + sections/ (subscribers, campaigns + editor, welcome email, email preview)
 ├── 15.team/          DashTeam.jsx
 └── 16.settings/      DashSettings.jsx
@@ -126,7 +128,7 @@ Admin pages count from 1 — and so do the customer's own account pages under
 `customerDashboard/`, below. Only the storefront's plain `src/pages/` (home,
 shop, auth, …) still counts from 0.
 The remaining gaps are pages not yet built, in their reserved sidebar places:
-`2.reports`, `10.discounts`, `12.reviews`, `13.messages`.
+`2.reports`, `13.messages`.
 
 Modals sit directly in `sections/` rather than a nested `modals/` folder —
 `sections/` already means "private to this page", and a second level said the
