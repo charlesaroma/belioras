@@ -67,7 +67,7 @@ export default function MegaMenuDesktop({ item, sections, tiles, columns, showTi
 
       {/* Gives the whole category one obvious destination — there was
           previously no way to browse a root wholesale. */}
-      <div className="mt-8 flex items-center justify-between gap-6 border-t border-umber-50/60 pt-5">
+      <div className="mt-8 border-t border-umber-50/60 pt-5">
         <Link
           to={item.url}
           onClick={onNavigate}
@@ -80,10 +80,6 @@ export default function MegaMenuDesktop({ item, sections, tiles, columns, showTi
             aria-hidden="true"
           />
         </Link>
-
-        <p className="hidden text-[11px] uppercase tracking-[0.16em] text-espresso-soft sm:block">
-          Complimentary EU shipping over &euro;150
-        </p>
       </div>
     </div>
   );
