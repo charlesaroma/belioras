@@ -53,7 +53,10 @@ export default function ProductFormCategory({ categories, value, type, taxonomy,
         })}
       </div>
 
-      {chosen?.types?.length > 0 && (
+      {/* Once a category has Subcategories, its own "Shop by Category" group
+          (rendered further down the form) already covers this same ground —
+          see the same rule in CategoryDialog and the Categories tree. */}
+      {chosen?.types?.length > 0 && !chosen?.subcategories?.length && (
         <div>
           <p className="input-label">
             Type <span className="font-normal normal-case tracking-normal text-espresso-soft">(optional)</span>

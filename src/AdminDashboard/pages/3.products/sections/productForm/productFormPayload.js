@@ -5,6 +5,23 @@ export const ONE_SIZE = "one-size";
 
 const DETAIL_PREFIXES = ["occasion", "fabric", "style", "length", "hair"].map((d) => DIMENSION_PREFIX[d] ?? d);
 
+/** A category's own subcategory types (Shop by Category, Shop by Fabric…)
+    are tagged the same way as a detail dimension, just scoped to the
+    category rather than the shared taxonomy: `subcat:<subcategoryId>:<typeId>`. */
+export const SUBCATEGORY_PREFIX = "subcat";
+
+export function subcategoryTag(subcategoryId, typeId) {
+  return `${SUBCATEGORY_PREFIX}:${subcategoryId}:${typeId}`;
+}
+
+/** Whether a `subcat:` token still points at a real subcategory type. */
+export function isValidSubcategoryTag(token, category) {
+  const [prefix, subId, typeId] = String(token).split(":");
+  if (prefix !== SUBCATEGORY_PREFIX) return false;
+  const sub = category?.subcategories?.find((s) => s.id === subId);
+  return Boolean(sub?.types?.some((t) => t.id === typeId));
+}
+
 export const EMPTY_VALUES = {
   name: "",
   sku: "",
@@ -48,9 +65,12 @@ export function stockColumns(sizes) {
   return sizes.length ? sizes : [ONE_SIZE];
 }
 
-/** Only the detail tokens the form edits; derived tags are rebuilt on save. */
+/** Only the detail/subcategory tokens the form edits; derived tags are rebuilt on save. */
 export function detailTags(tags) {
-  return (tags ?? []).filter((t) => DETAIL_PREFIXES.includes(String(t).split(":")[0]));
+  return (tags ?? []).filter((t) => {
+    const prefix = String(t).split(":")[0];
+    return DETAIL_PREFIXES.includes(prefix) || prefix === SUBCATEGORY_PREFIX;
+  });
 }
 
 /**
@@ -141,6 +161,6 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
     stock: colorways.reduce((sum, w) => sum + Object.values(w.stock).reduce((a, n) => a + n, 0), 0),
     // Blank means "use the shop's threshold".
     lowStockThreshold: `${values.lowStockThreshold ?? ""}` === "" ? null : Math.max(0, Math.floor(Number(values.lowStockThreshold))),
-    tags: detailTags(tags).filter((t) => allowed.has(t.split(":")[0])),
+    tags: detailTags(tags).filter((t) => allowed.has(t.split(":")[0]) || isValidSubcategoryTag(t, category)),
   };
 }
