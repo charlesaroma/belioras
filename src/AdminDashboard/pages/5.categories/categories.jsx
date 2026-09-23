@@ -1,19 +1,26 @@
 /* Admin Dashboard Page: Categories - categories */
 import { useState } from "react";
-import { Palette, Shapes, Tags } from "lucide-react";
+import { ListTree, Palette, Shapes, Tags } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 import CategoriesPanel from "./sections/CategoriesPanel";
 import ColoursPanel from "./sections/ColoursPanel";
 import DetailsPanel from "./sections/DetailsPanel";
+import SubcategoriesPanel from "./sections/SubcategoriesPanel";
 
 const TABS = [
   { id: "categories", label: "Categories", icon: Shapes },
+  { id: "subcategories", label: "Subcategories", icon: ListTree },
   { id: "colours", label: "Colours", icon: Palette },
   { id: "details", label: "Details", icon: Tags },
 ];
 
-const PANELS = { categories: CategoriesPanel, colours: ColoursPanel, details: DetailsPanel };
+const PANELS = {
+  categories: CategoriesPanel,
+  subcategories: SubcategoriesPanel,
+  colours: ColoursPanel,
+  details: DetailsPanel,
+};
 
 export default function DashCategories() {
   const [tab, setTab] = useState("categories");
