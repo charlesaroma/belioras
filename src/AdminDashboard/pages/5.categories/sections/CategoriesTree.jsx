@@ -53,7 +53,12 @@ export default function CategoriesTree({ categories, usage, typeUsage, query, on
     <ul className="space-y-2">
       {rows.map((category) => {
         const matches = (name) => !q || name.toLowerCase().includes(q) || category.name.toLowerCase().includes(q);
-        const types = (category.types ?? []).filter((t) => matches(t.name));
+        // Once a category has its own subcategories, its flat `types` list
+        // (still the real, product-taggable field — untouched, see
+        // CategoryDialog) would only repeat what "Shop by Category" already
+        // shows here, so this read-only tree stops listing it separately.
+        const hasSubcategories = (category.subcategories?.length ?? 0) > 0;
+        const types = hasSubcategories ? [] : (category.types ?? []).filter((t) => matches(t.name));
         const subcategories = (category.subcategories ?? [])
           .map((s) => ({ ...s, types: (s.types ?? []).filter((t) => matches(t.name)) }))
           .filter((s) => matches(s.name) || s.types.length > 0);
@@ -83,8 +88,10 @@ export default function CategoriesTree({ categories, usage, typeUsage, query, on
                   <span className="block truncate font-medium text-espresso">{category.name}</span>
                   <span className="block truncate text-[12px] text-espresso-soft">
                     {[
-                      category.types?.length ? `${category.types.length} ${category.types.length === 1 ? "type" : "types"}` : null,
-                      category.subcategories?.length
+                      !hasSubcategories && category.types?.length
+                        ? `${category.types.length} ${category.types.length === 1 ? "type" : "types"}`
+                        : null,
+                      hasSubcategories
                         ? `${category.subcategories.length} ${category.subcategories.length === 1 ? "subcategory" : "subcategories"} (${subcategoryTypeCount} types)`
                         : null,
                     ]
