@@ -114,6 +114,23 @@
         "id": "wigs",
         "name": "Wigs"
       }
+    ],
+    "subcategories": [
+      {
+        "id": "wigs",
+        "name": "Wigs",
+        "types": [
+          { "id": "straight-wigs", "name": "Straight Wigs" },
+          { "id": "curly-wigs", "name": "Curly Wigs" },
+          { "id": "wavy-wigs", "name": "Wavy Wigs" },
+          { "id": "bouncy-wigs", "name": "Bouncy Wigs" },
+          { "id": "braided-wigs", "name": "Braided Wigs" },
+          { "id": "short-wigs", "name": "Short Wigs" },
+          { "id": "kinky-wigs", "name": "Kinky Wigs" },
+          { "id": "yaky-wigs", "name": "Yaky Wigs" },
+          { "id": "locs", "name": "Locs" }
+        ]
+      }
     ]
   },
   {
