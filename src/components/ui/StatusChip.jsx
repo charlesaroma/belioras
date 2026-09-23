@@ -1,5 +1,5 @@
 /* Ui Component: StatusChip */
-import { PRODUCT_STATUS, STATUS_TONES } from "../../Dashboard/lib/constants";
+import { PRODUCT_STATUS, STATUS_TONES } from "../../AdminDashboard/lib/constants";
 import { ORDER_STATUS, normalizeStatus } from "../../utils/orderStatus";
 import { TRANSACTION_STATUS } from "../../utils/transactionStatus";
 import { CAMPAIGN_STATUS, SUBSCRIBER_STATUS } from "../../utils/newsletterStatus";

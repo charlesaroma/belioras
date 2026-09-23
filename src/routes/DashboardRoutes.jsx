@@ -16,8 +16,8 @@ import {
   DashNewsletter,
   DashTeam,
   DashSettings,
-} from "../Dashboard";
-import ProductForm from "../Dashboard/pages/3.products/product-form";
+} from "../AdminDashboard";
+import ProductForm from "../AdminDashboard/pages/3.products/product-form";
 
 export default function dashboardRoutes() {
   return (
