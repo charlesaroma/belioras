@@ -10,7 +10,7 @@ import { useAsyncData } from "../../../hooks/useAsyncData";
 import { cn } from "../../../utils/cn";
 import { sizeLabel } from "../../../utils/sizeLabel";
 
-export default function OrderSummary({ items, totals, coupon, onCoupon, disabled }) {
+export default function OrderSummary({ items, totals, coupon, onCoupon, disabled, customer }) {
   const { format } = useCurrency();
   const [code, setCode] = useState("");
   const [checking, setChecking] = useState(false);
@@ -23,7 +23,7 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
     setChecking(true);
     setError("");
     try {
-      const valid = await validateCoupon(code, totals.subtotal);
+      const valid = await validateCoupon(code, totals.subtotal, customer);
       onCoupon(valid);
       setCode("");
       toast(`${valid.code} applied to your order.`, "success");

@@ -211,6 +211,7 @@ export default function CheckoutPage() {
           totals={totals}
           coupon={coupon}
           onCoupon={setCoupon}
+          customer={{ userId: user?.id, email: watch("email") }}
           disabled={placing}
         />
       </form>

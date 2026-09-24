@@ -1,6 +1,7 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { normalizeStatus } from "../../utils/orderStatus";
+import { assertCouponRedeemable } from "./couponsApi";
 import { availabilityProblems, stockChangesForStatus } from "../catalog/inventory/orderStock";
 import { applyStockChanges } from "../catalog/inventory/stockLedger";
 
@@ -85,6 +86,11 @@ export function createOrder(payload) {
     // one since this bag was filled.
     const problems = availabilityProblems(payload.items ?? []);
     if (problems.length) throw new ApiError(problems.join(" "), 409);
+
+    // The last use of a code may have gone since it was applied.
+    if (payload.couponCode) {
+      assertCouponRedeemable(payload.couponCode, payload.subtotal ?? 0, { userId: payload.userId, email: payload.email });
+    }
 
     const now = new Date().toISOString();
 

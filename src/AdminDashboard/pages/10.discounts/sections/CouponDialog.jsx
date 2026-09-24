@@ -29,6 +29,8 @@ export default function CouponDialog({ open, initial = null, onClose, onSave }) 
     minOrderValue: initial?.minOrderValue ?? "",
     maxDiscount: initial?.maxDiscount ?? "",
     expiresAt: toDateInput(initial?.expiresAt),
+    maxUses: initial?.maxUses ?? "",
+    maxUsesPerCustomer: initial?.maxUsesPerCustomer ?? "",
     active: initial?.active ?? true,
     description: initial?.description ?? "",
   });
@@ -109,6 +111,15 @@ export default function CouponDialog({ open, initial = null, onClose, onSave }) 
         <Field label="Expires" helper="Leave blank for a code that never expires.">
           <input type="date" value={form.expiresAt} onChange={set("expiresAt")} />
         </Field>
+
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Total uses" helper="How many orders can use it in all. Blank for no limit.">
+            <input type="number" min="1" step="1" value={form.maxUses} onChange={set("maxUses")} />
+          </Field>
+          <Field label="Uses per customer" helper="Set 1 for a first-order code. Blank for no limit.">
+            <input type="number" min="1" step="1" value={form.maxUsesPerCustomer} onChange={set("maxUsesPerCustomer")} />
+          </Field>
+        </div>
 
         <Field label="Description" helper="Shown to staff only — what this coupon is for.">
           <textarea rows={2} value={form.description} onChange={set("description")} />

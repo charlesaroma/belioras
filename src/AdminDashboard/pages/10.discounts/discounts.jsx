@@ -10,14 +10,16 @@ import { useAsyncData } from "@/hooks/useAsyncData";
 import IconAction from "@/AdminDashboard/components/IconAction";
 import { STATUS_TONES } from "@/AdminDashboard/lib/constants";
 import {
-  couponUsage,
+  couponStats,
   createCoupon,
   deleteCoupon,
   getCoupons,
   setCouponActive,
   updateCoupon,
 } from "@/services/sales/couponsApi";
+import { useCurrency } from "@/context/CurrencyContext";
 import CouponDialog from "./sections/CouponDialog";
+import DiscountsSummary from "./sections/DiscountsSummary";
 
 function gives(coupon) {
   if (coupon.type === "free_shipping") return "Free shipping";
@@ -25,10 +27,11 @@ function gives(coupon) {
   return `€${coupon.value} off`;
 }
 
-function statusOf(coupon) {
+function statusOf(coupon, used = 0) {
   if (coupon.expiresAt && new Date(coupon.expiresAt).getTime() < Date.now()) {
     return { label: "Expired", tone: "neutral" };
   }
+  if (coupon.maxUses && used >= coupon.maxUses) return { label: "Fully redeemed", tone: "neutral" };
   return coupon.active ? { label: "Active", tone: "positive" } : { label: "Paused", tone: "pending" };
 }
 
@@ -43,7 +46,8 @@ export default function DashDiscounts() {
   const refresh = () => setRevision((n) => n + 1);
 
   const { data: coupons, loading } = useAsyncData(getCoupons, [revision]);
-  const { data: usage } = useAsyncData(couponUsage, [revision]);
+  const { data: stats, loading: statsLoading } = useAsyncData(couponStats, [revision]);
+  const { format } = useCurrency();
   const rows = coupons ?? [];
 
   const [dialog, setDialog] = useState({ open: false, initial: null, n: 0 });
@@ -98,6 +102,8 @@ export default function DashDiscounts() {
         </Button>
       </div>
 
+      <DiscountsSummary stats={stats} loading={statsLoading} activeCodes={rows.filter((c) => c.active).length} />
+
       {rows.length === 0 ? (
         <p className="border border-umber-50 bg-ivory-50 px-4 py-8 text-center text-[13px] text-espresso-soft">
           No coupons yet.
@@ -105,10 +111,9 @@ export default function DashDiscounts() {
       ) : (
         <ul className="divide-y divide-umber-50 border border-umber-50 bg-ivory-50">
           {rows.map((coupon) => {
-            const status = statusOf(coupon);
             const code = coupon.code.toUpperCase();
-            const uses = usage?.counts?.[code] ?? 0;
-            const collected = usage?.discount?.[code] ?? 0;
+            const mine = stats?.byCode?.[code] ?? { orders: 0, customers: 0, revenue: 0, discount: 0 };
+            const status = statusOf(coupon, mine.orders);
             return (
               <li key={coupon.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
                 <div className="min-w-0 flex-1">
@@ -129,12 +134,29 @@ export default function DashDiscounts() {
                     <p className="mt-0.5 truncate text-[12px] text-espresso-soft">{coupon.description}</p>
                   )}
                   <p className="mt-0.5 text-[11px] tabular-nums text-espresso-soft/70">
-                    {uses === 0
+                    {mine.orders === 0
                       ? "Not yet used"
-                      : coupon.type === "free_shipping"
-                        ? `${uses} ${uses === 1 ? "order" : "orders"} · shipping waived, not a goods discount`
-                        : `${uses} ${uses === 1 ? "order" : "orders"} · €${collected.toFixed(2)} collected`}
+                      : [
+                          `${mine.orders} ${mine.orders === 1 ? "order" : "orders"}`,
+                          `${mine.customers} ${mine.customers === 1 ? "customer" : "customers"}`,
+                          `${format(mine.revenue)} revenue`,
+                          coupon.type === "free_shipping" ? "shipping waived" : `${format(mine.discount)} discounted`,
+                        ].join(" · ")}
                   </p>
+                  <p className="mt-0.5 text-[11px] text-espresso-soft/70">
+                    {coupon.maxUses ? `${mine.orders} of ${coupon.maxUses} uses taken` : "Unlimited uses"}
+                    {coupon.maxUsesPerCustomer
+                      ? ` · ${coupon.maxUsesPerCustomer === 1 ? "one use" : `${coupon.maxUsesPerCustomer} uses`} per customer`
+                      : ""}
+                  </p>
+                  {coupon.maxUses > 0 && (
+                    <span aria-hidden="true" className="mt-1.5 block h-1 w-40 max-w-full bg-umber-50">
+                      <span
+                        className="block h-full bg-gold-500"
+                        style={{ width: `${Math.min(100, (mine.orders / coupon.maxUses) * 100)}%` }}
+                      />
+                    </span>
+                  )}
                 </div>
 
                 <span className="shrink-0 text-[12px] tabular-nums text-espresso-soft">
