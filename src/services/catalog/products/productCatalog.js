@@ -1,5 +1,6 @@
 /* Catalogue Reads */
 import { ApiError, mockApi } from "@/api/mock";
+import { filedUnderNames } from "../../../utils/productFiling";
 import { getState } from "../../store/contentStore";
 import { getBestSellerProductIds } from "../../sales/ordersApi";
 import { catalogItems, normalize } from "./productStore";
@@ -68,22 +69,9 @@ export function searchProducts(query) {
     const categories = getState("categories").items;
     return catalogItems()
       .filter(isLive)
-      .filter((p) => filedUnder(p, categories).concat(p.name, p.description ?? "").join(" ").toLowerCase().includes(q))
+      .filter((p) => filedUnderNames(p, categories).concat(p.name, p.description ?? "").join(" ").toLowerCase().includes(q))
       .map(normalize);
   });
-}
-
-function filedUnder(product, categories) {
-  const category = categories.find((c) => c.id === product.collectionId);
-  if (!category) return [];
-  const names = [category.name, category.types?.find((t) => t.id === product.type)?.name];
-  for (const tag of product.tags ?? []) {
-    const [prefix, subId, typeId] = String(tag).split(":");
-    if (prefix !== "subcat") continue;
-    const sub = category.subcategories?.find((s) => s.id === subId);
-    names.push(sub?.types?.find((t) => t.id === typeId)?.name);
-  }
-  return names.filter(Boolean);
 }
 
 export function getFeaturedProducts() {

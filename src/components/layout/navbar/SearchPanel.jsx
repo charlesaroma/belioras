@@ -9,6 +9,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getProducts } from "../../../services/catalog/productsApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
+import { getCategories } from "../../../services/catalog/categoriesApi";
 import { cn } from "../../../utils/cn";
 
 import SearchPanelImageSearch from "./searchPanel/SearchPanelImageSearch";
@@ -18,8 +19,11 @@ import { useSearchPanelDismiss } from "./searchPanel/useSearchPanelDismiss";
 import {
   nameSuggestions,
   searchResults,
+  shopAddress,
+  stockedCategories,
   stockedColours,
   stockedSizes,
+  typeGroups,
 } from "./searchPanel/searchPanelQuery";
 
 // A band beneath the header rather than a results page, so a shopper can look
@@ -35,8 +39,11 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
   const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
 
   const [imageSearchOpen, setImageSearchOpen] = useState(false);
+  const { data: categories } = useAsyncData(getCategories, [version]);
   const [colours, setColours] = useState([]);
   const [sizes, setSizes] = useState([]);
+  const [chosenCategories, setChosenCategories] = useState([]);
+  const [types, setTypes] = useState({});
 
   const panelRef = useRef(null);
   const inputRef = useRef(null);
@@ -49,6 +56,8 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     onQueryChange("");
     setColours([]);
     setSizes([]);
+    setChosenCategories([]);
+    setTypes({});
     onClose?.();
   }, [onClose, onQueryChange]);
 
@@ -58,19 +67,47 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
     () => stockedColours(catalog, taxonomy),
     [catalog, taxonomy],
   );
-  const sizeChips = useMemo(() => stockedSizes(catalog), [catalog]);
+  const categoryChips = useMemo(() => stockedCategories(catalog, categories ?? []), [catalog, categories]);
+  const groups = useMemo(
+    () => typeGroups(catalog, categories ?? [], chosenCategories),
+    [catalog, categories, chosenCategories],
+  );
+  const sizeChips = useMemo(() => stockedSizes(catalog, chosenCategories), [catalog, chosenCategories]);
+
+  // Only the Type choices whose group is showing count, so unticking a
+  // category also lets go of what was picked inside it.
+  const picks = useMemo(() => {
+    const live = new Set(groups.map((g) => g.dimension));
+    return {
+      colours,
+      sizes: sizes.filter((s) => sizeChips.includes(s)),
+      categories: chosenCategories,
+      types: Object.fromEntries(Object.entries(types).filter(([d]) => live.has(d))),
+    };
+  }, [colours, sizes, sizeChips, chosenCategories, types, groups]);
+
   const results = useMemo(
-    () => searchResults(catalog, trimmed, colours, sizes),
-    [catalog, trimmed, colours, sizes],
+    () => searchResults(catalog, trimmed, picks, categories ?? []),
+    [catalog, trimmed, picks, categories],
   );
   const suggestions = useMemo(() => nameSuggestions(results, trimmed), [results, trimmed]);
+  const narrowed = Boolean(
+    trimmed || picks.categories.length || picks.colours.length || picks.sizes.length || Object.values(picks.types).some((v) => v.length),
+  );
 
   const toggle = (setter) => (value) =>
     setter((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
 
+  const toggleType = (dimension, value) =>
+    setTypes((prev) => {
+      const current = prev[dimension] ?? [];
+      return { ...prev, [dimension]: current.includes(value) ? current.filter((v) => v !== value) : [...current, value] };
+    });
+
+  // Carries the choices to the shop, which understands the same filters.
   const submit = () => {
-    if (!trimmed) return;
-    navigate(`/shop?q=${encodeURIComponent(trimmed)}`);
+    if (!narrowed) return;
+    navigate(shopAddress(trimmed, picks));
     close();
   };
 
@@ -148,6 +185,13 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
 
         <div className="grid grid-cols-1 gap-8 pt-6 lg:grid-cols-[200px_1fr]">
           <SearchPanelFacets
+            taxonomy={taxonomy}
+            categoryChips={categoryChips}
+            chosenCategories={chosenCategories}
+            onToggleCategory={toggle(setChosenCategories)}
+            groups={groups}
+            types={picks.types}
+            onToggleType={toggleType}
             colourSwatches={colourSwatches}
             colours={colours}
             onToggleColour={toggle(setColours)}
@@ -159,7 +203,8 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
           <SearchPanelResults
             results={results}
             trimmed={trimmed}
-            notFound={Boolean(trimmed) && results.length === 0}
+            narrowed={narrowed}
+            notFound={narrowed && results.length === 0}
             format={format}
             onNavigate={close}
             onViewAll={submit}

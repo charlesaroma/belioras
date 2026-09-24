@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export default function SearchPanelResults({
   results,
   trimmed,
+  narrowed = Boolean(trimmed),
   notFound,
   format,
   onNavigate,
@@ -15,12 +16,12 @@ export default function SearchPanelResults({
         aria-live="polite"
         className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-espresso"
       >
-        {trimmed ? `Results for “${trimmed}”` : "Featured"}
+        {trimmed ? `Results for “${trimmed}”` : narrowed ? "Matching pieces" : "Featured"}
       </p>
 
       {notFound ? (
         <div className="flex min-h-[200px] flex-col items-center justify-center bg-ivory-500 px-6 text-center">
-          <p className="text-sm text-espresso-soft">Nothing matches “{trimmed}”.</p>
+          <p className="text-sm text-espresso-soft">{trimmed ? `Nothing matches “${trimmed}”.` : "Nothing matches those filters."}</p>
           <Link
             to="/shop"
             onClick={onNavigate}
@@ -55,13 +56,13 @@ export default function SearchPanelResults({
         </div>
       )}
 
-      {trimmed && !notFound && (
+      {narrowed && !notFound && (
         <button
           type="button"
           onClick={onViewAll}
           className="mt-8 text-[11px] uppercase tracking-widest text-gold-700 transition-colors hover:text-espresso"
         >
-          View all results for “{trimmed}” →
+          {trimmed ? `View all results for “${trimmed}” →` : "View all matching pieces →"}
         </button>
       )}
     </div>
