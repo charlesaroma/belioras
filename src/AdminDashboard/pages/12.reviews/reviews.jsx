@@ -68,7 +68,7 @@ export default function DashReviews() {
         </p>
       </div>
 
-      <div role="tablist" aria-label="Reviews by status" className="inline-flex border border-umber-50 bg-ivory-50">
+      <div role="tablist" aria-label="Reviews by status" className="flex max-w-full overflow-x-auto border border-umber-50 bg-ivory-50 sm:inline-flex">
         {tabs.map((t) => (
           <button
             key={t.value}

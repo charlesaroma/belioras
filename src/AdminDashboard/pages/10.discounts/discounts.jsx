@@ -171,7 +171,7 @@ export default function DashDiscounts() {
           {rows.length === 0 ? "No coupons yet." : "No coupons here."}
         </p>
       ) : (
-        <div className="overflow-x-auto border border-umber-50 bg-ivory-50">
+        <div className="relative overflow-x-auto border border-umber-50 bg-ivory-50">
           <table className="w-full min-w-[860px] text-[13px]">
             <thead className="border-b border-umber-50">
               <tr>

@@ -42,7 +42,7 @@ export default function DashOverview() {
     <div className="space-y-10">
       <KeyFigures stats={stats} loading={loading} format={format} locale={locale} />
       <RevenuePanel series={stats?.series} formatCompact={formatCompact} />
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-2">
         <OverviewAttention attention={stats?.attention} loading={loading} />
         <OverviewTopSellers topSellers={stats?.topSellers} format={format} loading={loading} />
       </div>

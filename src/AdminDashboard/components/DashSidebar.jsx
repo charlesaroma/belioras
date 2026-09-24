@@ -70,17 +70,17 @@ export default function DashSidebar({ isOpen, onClose, collapsed, onToggleCollap
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           className={cn(
-            "absolute right-0 top-1/2 z-10 hidden size-6 -translate-y-1/2 translate-x-1/2 items-center justify-center",
+            "absolute right-0 top-1/2 z-10 hidden size-9 -translate-y-1/2 translate-x-1/2 items-center justify-center",
             // Gold rather than the sidebar's espresso, so the tab stands apart from it.
             "liquid-hover rounded-full bg-gold-400 text-espresso shadow-md transition-colors lg:flex",
             "hover:bg-gold-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400",
             // A larger hit area than the tab itself.
-            "after:absolute after:-inset-2.5 after:content-['']",
+            "after:absolute after:-inset-2 after:content-['']",
           )}
         >
           <ChevronLeft
-            className={cn("size-3.5 transition-transform duration-300 motion-reduce:transition-none", collapsed && "rotate-180")}
-            strokeWidth={1.75}
+            className={cn("size-5 transition-transform duration-300 motion-reduce:transition-none", collapsed && "rotate-180")}
+            strokeWidth={2}
             aria-hidden="true"
           />
         </button>

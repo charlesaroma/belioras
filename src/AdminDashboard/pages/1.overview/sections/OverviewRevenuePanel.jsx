@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { cn } from "../../../../utils/cn";
 import SalesChart from "../../../components/SalesChart";
 
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 const RANGES = [
   { months: 3, label: "3 months" },
   { months: 6, label: "6 months" },
@@ -15,19 +17,33 @@ const RANGES = [
  * faintly behind so a rise or dip has something to be measured against.
  */
 export default function RevenuePanel({ series = [], formatCompact }) {
-  const ranges = RANGES.filter((r) => series.length > 3 || r.months === 3);
   const [months, setMonths] = useState(6);
-  const active = Math.min(months, Math.max(3, series.length));
 
+  // Calendar months ending at the latest one with sales, so 12 months really
+  // is twelve — months before the first order are left empty, not drawn as
+  // zero. The window before it is laid alongside, month for month.
   const data = useMemo(() => {
-    const current = series.slice(-active);
-    const before = series.slice(-active * 2, -active);
-    // Aligned from the right, so the last month meets the last month before it.
-    const offset = current.length - before.length;
-    return current.map((d, i) => ({ ...d, previous: i - offset >= 0 ? before[i - offset]?.sales ?? null : null }));
-  }, [series, active]);
+    if (!series.length) return [];
+    const byKey = new Map(series.map((d) => [d.key, d]));
+    const first = series[0].key;
+    const last = series.at(-1).key;
+    const nameOf = (key) => `${MONTH_NAMES[key % 12]}`;
+    const valueAt = (key) => (key < first ? null : byKey.get(key)?.sales ?? 0);
+    return Array.from({ length: months }, (_, i) => {
+      const key = last - months + 1 + i;
+      return {
+        key,
+        name: nameOf(key),
+        label: `${MONTH_NAMES[key % 12]} ${Math.floor(key / 12)}`,
+        sales: valueAt(key),
+        previous: valueAt(key - months),
+      };
+    });
+  }, [series, months]);
 
-  const hasPrevious = data.some((d) => d.previous !== null);
+  const hasPrevious = data.some((d) => d.previous !== null && d.previous !== undefined);
+  const ranges = RANGES;
+  const active = months;
 
   return (
     <section className="border border-umber-50 bg-ivory-50 p-6" aria-labelledby="revenue-heading">
