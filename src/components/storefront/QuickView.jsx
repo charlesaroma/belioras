@@ -79,7 +79,7 @@ function QuickViewBody({ product, onClose }) {
         )}
 
         <Link
-          to={`/product/${product.slug}${color ? `?color=${encodeURIComponent(color)}` : ""}`}
+          to={`/product/${product.slug}${color && color !== product.colors?.[0] ? `?color=${encodeURIComponent(color)}` : ""}`}
           onClick={onClose}
           className="mt-3 inline-block text-[11px] uppercase tracking-[0.18em] text-espresso underline decoration-gold-600 decoration-2 underline-offset-4 transition-colors hover:text-gold-700"
         >

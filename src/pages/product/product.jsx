@@ -54,7 +54,9 @@ export default function ProductPage() {
     setParams(
       (prev) => {
         const nextParams = new URLSearchParams(prev);
-        nextParams.set("color", next);
+        // The piece's own colour keeps the plain product link; another colour is named in it.
+        if (next === product.colors?.[0]) nextParams.delete("color");
+        else nextParams.set("color", next);
         return nextParams;
       },
       { replace: true },
