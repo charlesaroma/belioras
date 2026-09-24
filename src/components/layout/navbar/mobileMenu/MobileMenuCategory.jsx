@@ -1,5 +1,5 @@
 /* Category Accordion */
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { Plus } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
@@ -7,13 +7,21 @@ import { cn } from "../../../../utils/cn";
 import MegaMenuPanel from "../MegaMenuPanel";
 import { titleCase } from "./mobileMenuText";
 
-export default function MobileMenuCategory({ category, onClose }) {
-  const [open, setOpen] = useState(false);
-
+export default function MobileMenuCategory({ category, open, onToggle, onClose }) {
+  const ref = useRef(null);
   const reduceMotion = useReducedMotion();
+
+  // Opening one folds the previous away, which moves this row; once that has
+  // settled, bring the row it opened under back into view.
+  useEffect(() => {
+    if (!open) return undefined;
+    const id = setTimeout(() => ref.current?.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" }), 400);
+    return () => clearTimeout(id);
+  }, [open, reduceMotion]);
 
   return (
     <div
+      ref={ref}
       className={cn(
         "-mx-6 border-b border-umber-50 border-l-2 px-6 transition-colors duration-300",
         open ? "border-l-gold-500 bg-brown-50/45" : "border-l-transparent",
@@ -22,7 +30,7 @@ export default function MobileMenuCategory({ category, onClose }) {
       <button
         type="button"
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={onToggle}
         className="flex w-full items-center justify-between gap-4 py-5 text-left"
       >
         <span

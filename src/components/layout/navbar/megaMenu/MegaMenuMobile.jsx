@@ -14,9 +14,12 @@ export default function MegaMenuMobile({ item, sections, onNavigate }) {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        {sections.map((section, idx) => {
-          // First section open by default so the drawer never opens blank.
-          const isOpen = openSection === section.id || (openSection === null && idx === 0);
+        {sections.map((section) => {
+          // One column open at a time, and all of them can be closed: opening
+          // another folds the last away, so the drawer stays short and the
+          // list keeps its place. (null used to fall back to "open the
+          // first", which made that column impossible to close.)
+          const isOpen = openSection === section.id;
 
           // A lone section whose title restates the category it sits under
           // ("New Arrivals" inside New Arrivals) is a heading carrying no

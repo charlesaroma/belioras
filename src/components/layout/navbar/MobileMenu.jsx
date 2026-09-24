@@ -4,15 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { Search, X } from "lucide-react";
 
 import BrandMark from "../../shared/BrandMark";
-import { hasMegaMenu, menuLabel } from "./navbarMenu";
 import { useCustomerAuth, useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useWishlist } from "../../../context/WishlistContext";
 
-import MobileMenuCategory from "./mobileMenu/MobileMenuCategory";
+import MobileMenuNav from "./mobileMenu/MobileMenuNav";
 import MobileMenuAccount from "./mobileMenu/MobileMenuAccount";
 import MobileMenuFooter from "./mobileMenu/MobileMenuFooter";
-import { titleCase } from "./mobileMenu/mobileMenuText";
 
 // Every destination appears in exactly one place. Language, currency and the
 // cart live in the header; search lives here, so the header carries no icon
@@ -86,22 +84,7 @@ export default function MobileMenu({ open, onClose, categories, onSearchOpen }) 
                 </button>
               </div>
 
-              <nav aria-label="Categories" className="border-t border-umber-50 px-6">
-                {(categories ?? []).map((item) =>
-                  hasMegaMenu(item) ? (
-                    <MobileMenuCategory key={item.id} category={item} onClose={onClose} />
-                  ) : (
-                    <Link
-                      key={item.id}
-                      to={item.url}
-                      onClick={onClose}
-                      className="block border-b border-umber-50 py-5 font-display text-[26px] leading-none tracking-[-0.01em] text-espresso transition-colors hover:text-gold-700"
-                    >
-                      {titleCase(menuLabel(item, t))}
-                    </Link>
-                  ),
-                )}
-              </nav>
+              <MobileMenuNav categories={categories} t={t} onClose={onClose} />
 
               <MobileMenuAccount
                 user={user}

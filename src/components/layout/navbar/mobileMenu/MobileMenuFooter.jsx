@@ -1,6 +1,6 @@
 /* Identity And Sign Out */
 import { Link } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { ChevronRight, LogOut } from "lucide-react";
 
 import Avatar from "../../../account/Avatar";
 import { useCustomerSignOut } from "@/context/auth/useSignOut";
@@ -36,13 +36,24 @@ export default function MobileMenuFooter({ user, t, onClose }) {
   }
 
   return (
-    <div className="shrink-0 border-t border-umber-50 px-6 py-4">
-      <div className="flex items-center gap-3">
-        <Avatar user={user} size="sm" />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm text-espresso">{user.name ?? user.email}</p>
-          <p className="truncate text-[11px] text-espresso/40">{user.email}</p>
-        </div>
+    <div className="shrink-0 border-t border-umber-50 px-6 py-3">
+      <div className="flex items-center gap-1">
+        {/* The whole identity is one tap to the account page, which lists
+            orders, wardrobe, addresses and settings. */}
+        <Link
+          to="/account"
+          onClick={onClose}
+          className="-ml-2 flex min-h-12 min-w-0 flex-1 items-center gap-3 px-2 transition-colors hover:bg-brown-50/60"
+        >
+          <Avatar user={user} size="sm" />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm text-espresso">{user.name ?? user.email}</span>
+            <span className="block text-[11px] uppercase tracking-[0.14em] text-gold-700">
+              {t("nav.myAccount", "My account")}
+            </span>
+          </span>
+          <ChevronRight className="size-4 shrink-0 text-espresso/35" aria-hidden="true" />
+        </Link>
         <button
           type="button"
           onClick={() => {
