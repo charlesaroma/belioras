@@ -11,8 +11,56 @@ import { cn } from "../../utils/cn";
 import { imagesForColor, stockFor } from "../../utils/productColors";
 import QuickView from "./QuickView";
 
-const ACTION =
-  "flex size-11 items-center justify-center rounded-full shadow-[0_1px_3px_rgba(43,29,20,0.18),0_2px_10px_rgba(43,29,20,0.10)] backdrop-blur transition-[color,background-color,scale] duration-200 hover:text-espresso active:scale-90";
+// The springy overshoot is what makes the fill read as liquid rather than a
+// plain colour change; the same curve drives the fill, the label and the icon.
+const LIQUID = "ease-[cubic-bezier(0.34,1.56,0.64,1)]";
+
+/**
+ * A round button that, on hover or focus, swells into a pill: an espresso
+ * fill floods in from the icon's side, the label unrolls beside it, and the
+ * icon pops. Hover-capable screens only; on touch it stays a plain circle.
+ */
+function CardAction({ label, active = false, icon: Icon, iconClassName, ...props }) {
+  return (
+    <button
+      type="button"
+      {...props}
+      className={cn(
+        "group/act relative flex h-11 items-center justify-end overflow-hidden rounded-full backdrop-blur",
+        "shadow-[0_1px_3px_rgba(43,29,20,0.18),0_2px_10px_rgba(43,29,20,0.10)]",
+        "transition-[scale,box-shadow] duration-300 active:scale-90 motion-reduce:transition-none",
+        active ? "bg-espresso/80 text-gold-400" : "bg-ivory-50/80 text-espresso-soft",
+        "hover:shadow-[0_4px_14px_rgba(43,29,20,0.28)] hover:text-ivory-50 focus-visible:text-ivory-50",
+      )}
+    >
+      <span
+        aria-hidden="true"
+        className={cn(
+          "absolute inset-0 origin-right scale-x-0 rounded-full bg-espresso transition-[scale] duration-500 motion-reduce:transition-none",
+          "group-hover/act:scale-x-100 group-focus-visible/act:scale-x-100",
+          LIQUID,
+        )}
+      />
+      <span
+        className={cn(
+          "relative grid grid-cols-[0fr] transition-[grid-template-columns] duration-500 motion-reduce:transition-none",
+          "group-hover/act:grid-cols-[1fr] group-focus-visible/act:grid-cols-[1fr]",
+          LIQUID,
+        )}
+      >
+        <span className="overflow-hidden whitespace-nowrap pl-0 text-[10px] uppercase tracking-[0.2em] opacity-0 transition-[opacity,padding] duration-300 group-hover/act:pl-4 group-hover/act:opacity-100 group-focus-visible/act:pl-4 group-focus-visible/act:opacity-100">
+          {label}
+        </span>
+      </span>
+      <span className="relative flex size-11 shrink-0 items-center justify-center">
+        <Icon
+          className={cn("size-4 transition-[scale] duration-500 group-hover/act:scale-125 group-focus-visible/act:scale-125 motion-reduce:transition-none", LIQUID, iconClassName)}
+          aria-hidden="true"
+        />
+      </span>
+    </button>
+  );
+}
 
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
@@ -101,37 +149,33 @@ export default function ProductCard({ product }) {
           and stay reachable by keyboard. */}
       <div
         className={cn(
-          "absolute right-2 top-2 flex flex-col gap-2 transition-opacity duration-300",
+          "absolute right-2 top-2 flex flex-col items-end gap-2 transition-opacity duration-300",
           "md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100",
           saved && "md:opacity-100",
         )}
       >
-        <button
-          type="button"
+        <CardAction
+          icon={Heart}
+          iconClassName={saved ? "fill-current" : undefined}
+          active={saved}
+          label={saved ? "Saved" : "Save"}
+          aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name}`}
+          aria-pressed={saved}
           onClick={() => {
             toggle(id);
             toast(saved ? `${name} removed from your wishlist.` : `${name} saved to your wishlist.`, saved ? "info" : "success");
           }}
-          aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name}`}
-          aria-pressed={saved}
-          className={cn(ACTION, saved ? "bg-espresso/80 text-gold-400" : "bg-ivory-50/80 text-espresso-soft")}
-        >
-          <Heart className={cn("size-4", saved && "fill-current")} aria-hidden="true" />
-        </button>
+        />
 
-        <button type="button" onClick={openQuick} aria-label={`Quick view ${name}`} className={cn(ACTION, "bg-ivory-50/80 text-espresso-soft")}>
-          <Eye className="size-4" aria-hidden="true" />
-        </button>
+        <CardAction icon={Eye} label="Quick view" aria-label={`Quick view ${name}`} onClick={openQuick} />
 
         {!soldOut && (
-          <button
-            type="button"
-            onClick={quickAdd}
+          <CardAction
+            icon={ShoppingBag}
+            label={needsChoice ? "Choose options" : "Add to bag"}
             aria-label={needsChoice ? `Choose options for ${name}` : `Add ${name} to bag`}
-            className={cn(ACTION, "bg-ivory-50/80 text-espresso-soft")}
-          >
-            <ShoppingBag className="size-4" aria-hidden="true" />
-          </button>
+            onClick={quickAdd}
+          />
         )}
       </div>
       </div>
