@@ -20,15 +20,10 @@
       "Wipe with damp cloth",
       "Leather conditioner monthly"
     ],
-    "colors": [
-      "Chestnut",
-      "Ebony",
-      "Caramel"
-    ],
     "sizes": [
       "one-size"
     ],
-    "stock": 9,
+    "stock": 12,
     "isNew": true,
     "bestseller": true,
     "images": [
@@ -40,7 +35,30 @@
     "tags": [
       "subcat:bags:handbags"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "caramel",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ]
   },
   {
     "id": "a2",
@@ -62,15 +80,10 @@
       "Dry clean only",
       "Steam not iron"
     ],
-    "colors": [
-      "Champagne",
-      "Blush",
-      "Ebony"
-    ],
     "sizes": [
       "one-size"
     ],
-    "stock": 26,
+    "stock": 27,
     "isNew": false,
     "bestseller": false,
     "images": [
@@ -83,7 +96,30 @@
     "tags": [
       "subcat:other-accessories:scarves"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "champagne",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      },
+      {
+        "colorId": "blush",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [],
+        "stock": {
+          "one-size": 9
+        }
+      }
+    ]
   },
   {
     "id": "a3",
@@ -105,9 +141,6 @@
       "Polish with soft cloth",
       "Avoid perfume contact"
     ],
-    "colors": [
-      "Gold"
-    ],
     "sizes": [
       "one-size"
     ],
@@ -124,7 +157,16 @@
     "tags": [
       "subcat:other-accessories:belts"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 33
+        }
+      }
+    ]
   },
   {
     "id": "a4",
@@ -147,9 +189,6 @@
       "Rinse after wear",
       "Store dry"
     ],
-    "colors": [
-      "Gold"
-    ],
     "sizes": [
       "one-size"
     ],
@@ -165,6 +204,15 @@
     "tags": [
       "subcat:jewellery:earrings"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "gold",
+        "images": [],
+        "stock": {
+          "one-size": 41
+        }
+      }
+    ]
   }
 ]

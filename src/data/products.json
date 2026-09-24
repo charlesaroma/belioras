@@ -22,11 +22,6 @@
       "Cool iron reverse",
       "Store on padded hanger"
     ],
-    "colors": [
-      "Champagne",
-      "Ebony",
-      "Burgundy"
-    ],
     "sizes": [
       "xs",
       "s",
@@ -34,23 +29,12 @@
       "l",
       "xl"
     ],
-    "stock": 24,
+    "stock": 60,
     "isNew": true,
     "bestseller": true,
     "images": [
       "https://images.unsplash.com/photo-1613423755148-0ff5515d60be?q=80&w=1000&auto=format&fit=crop"
     ],
-    "colorImages": {
-      "Champagne": [
-        "https://images.unsplash.com/photo-1613423755148-0ff5515d60be?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Ebony": [
-        "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Burgundy": [
-        "https://images.unsplash.com/photo-1671437538187-be7eb01a322c?q=80&w=1000&auto=format&fit=crop"
-      ]
-    },
     "createdAt": "2026-07-18",
     "featured": true,
     "tags": [
@@ -60,7 +44,48 @@
       "subcat:shop-by-fabric:satin-dresses"
     ],
     "sku": "BEL-P1",
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "champagne",
+        "images": [
+          "https://images.unsplash.com/photo-1613423755148-0ff5515d60be?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1671437538187-be7eb01a322c?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ]
   },
   {
     "id": "p2",
@@ -83,11 +108,6 @@
       "Reshape while damp",
       "Iron on high heat"
     ],
-    "colors": [
-      "Sand",
-      "Ivory",
-      "Rosewood"
-    ],
     "sizes": [
       "xs",
       "s",
@@ -95,29 +115,59 @@
       "l",
       "xl"
     ],
-    "stock": 31,
+    "stock": 60,
     "isNew": false,
     "bestseller": true,
     "images": [
       "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
     ],
-    "colorImages": {
-      "Sand": [
-        "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Ivory": [
-        "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Rosewood": [
-        "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
-      ]
-    },
     "createdAt": "2026-03-06",
     "tags": [
       "subcat:shop-by-category:midi-dresses"
     ],
     "sku": "BEL-P2",
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "sand",
+        "images": [
+          "https://images.unsplash.com/photo-1764179690247-df7f4014def7?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ivory",
+        "images": [
+          "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "rosewood",
+        "images": [
+          "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ]
   },
   {
     "id": "p3",
@@ -140,11 +190,6 @@
       "Dry clean only",
       "Do not tumble dry"
     ],
-    "colors": [
-      "Ebony",
-      "Burgundy",
-      "Forest"
-    ],
     "sizes": [
       "xs",
       "s",
@@ -152,23 +197,12 @@
       "l",
       "xl"
     ],
-    "stock": 12,
+    "stock": 60,
     "isNew": false,
     "bestseller": false,
     "images": [
       "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
     ],
-    "colorImages": {
-      "Ebony": [
-        "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Burgundy": [
-        "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Forest": [
-        "https://images.unsplash.com/photo-1742038107091-9a7e1f01b42c?q=80&w=1000&auto=format&fit=crop"
-      ]
-    },
     "createdAt": "2026-03-20",
     "tags": [
       "subcat:shop-by-category:midi-dresses",
@@ -176,7 +210,48 @@
       "subcat:shop-by-fabric:velvet-dresses"
     ],
     "sku": "BEL-P3",
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [
+          "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "forest",
+        "images": [
+          "https://images.unsplash.com/photo-1742038107091-9a7e1f01b42c?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ]
   },
   {
     "id": "p4",
@@ -198,11 +273,6 @@
       "Machine wash 30\u00b0",
       "Hang dry"
     ],
-    "colors": [
-      "Blush",
-      "Sand",
-      "Ebony"
-    ],
     "sizes": [
       "xs",
       "s",
@@ -210,28 +280,58 @@
       "l",
       "xl"
     ],
-    "stock": 18,
+    "stock": 60,
     "isNew": true,
     "bestseller": false,
     "images": [
       "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
     ],
-    "colorImages": {
-      "Blush": [
-        "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Sand": [
-        "https://images.unsplash.com/photo-1581750340249-ea1cf6560f37?q=80&w=1000&auto=format&fit=crop"
-      ],
-      "Ebony": [
-        "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
-      ]
-    },
     "createdAt": "2026-07-22",
     "tags": [
       "subcat:shop-by-category:maxi-dresses"
     ],
     "sku": "BEL-P4",
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "blush",
+        "images": [
+          "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "sand",
+        "images": [
+          "https://images.unsplash.com/photo-1581750340249-ea1cf6560f37?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      },
+      {
+        "colorId": "ebony",
+        "images": [
+          "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
+        ],
+        "stock": {
+          "xs": 4,
+          "s": 4,
+          "m": 4,
+          "l": 4,
+          "xl": 4
+        }
+      }
+    ]
   }
 ]

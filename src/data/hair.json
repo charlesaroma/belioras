@@ -20,15 +20,10 @@
       "Low heat styling",
       "Detangle from ends"
     ],
-    "colors": [
-      "Natural Black",
-      "Chestnut",
-      "Caramel"
-    ],
     "sizes": [
       "one-size"
     ],
-    "stock": 20,
+    "stock": 21,
     "isNew": false,
     "bestseller": true,
     "images": [
@@ -43,7 +38,30 @@
     "tags": [
       "subcat:wigs:straight-wigs"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "natural-black",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      },
+      {
+        "colorId": "caramel",
+        "images": [],
+        "stock": {
+          "one-size": 7
+        }
+      }
+    ]
   },
   {
     "id": "h2",
@@ -66,15 +84,10 @@
       "Air dry or low diffuser",
       "Braid at night"
     ],
-    "colors": [
-      "Dark Brown",
-      "Chestnut",
-      "Honey Blonde"
-    ],
     "sizes": [
       "one-size"
     ],
-    "stock": 15,
+    "stock": 12,
     "isNew": true,
     "bestseller": false,
     "images": [
@@ -89,7 +102,30 @@
     "tags": [
       "subcat:wigs:wavy-wigs"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "dark-brown",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "honey-blonde",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ]
   },
   {
     "id": "h3",
@@ -112,15 +148,10 @@
       "Style with mousse",
       "Finger comb wet"
     ],
-    "colors": [
-      "Jet Black",
-      "Chestnut",
-      "Burgundy"
-    ],
     "sizes": [
       "one-size"
     ],
-    "stock": 10,
+    "stock": 12,
     "isNew": false,
     "bestseller": true,
     "images": [
@@ -135,6 +166,29 @@
     "tags": [
       "subcat:wigs:wavy-wigs"
     ],
-    "status": "active"
+    "status": "active",
+    "colorways": [
+      {
+        "colorId": "jet-black",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "chestnut",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      },
+      {
+        "colorId": "burgundy",
+        "images": [],
+        "stock": {
+          "one-size": 4
+        }
+      }
+    ]
   }
 ]

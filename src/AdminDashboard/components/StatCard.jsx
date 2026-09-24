@@ -20,7 +20,7 @@ export default function StatCard({ label, value, change, hint, icon: Icon }) {
 
       <span aria-hidden="true" className="mt-3 block h-px w-8 bg-gold-500" />
 
-      <p className="mt-4 font-display text-[34px] leading-none tracking-tight text-espresso">
+      <p className={cn("mt-4 font-display leading-none tracking-tight text-espresso", String(value).length > 9 ? "text-[28px]" : "text-[34px]")}>
         {value}
       </p>
 
