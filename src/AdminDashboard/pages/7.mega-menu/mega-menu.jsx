@@ -1,6 +1,9 @@
 /* Admin Dashboard Page: Mega-menu - mega-menu */
 import { useState } from "react";
 
+import { Save } from "lucide-react";
+
+import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { useContentVersion } from "@/context/ContentContext";
 import { useToast } from "@/context/ToastContext";
@@ -8,11 +11,12 @@ import { useAsyncData } from "@/hooks/useAsyncData";
 import { getCategories } from "@/services/catalog/categoriesApi";
 import { getNavigationForEditing, getTaxonomy, resetNavigation, updateNavigation } from "@/services/catalog/navigationApi";
 import { getProducts } from "@/services/catalog/productsApi";
+import { useDragReorder } from "../../lib/useDragReorder";
 import MegaMenuHeader from "./sections/MegaMenuHeader";
 import MegaMenuItem from "./sections/MegaMenuItem";
 import MegaMenuPickers from "./sections/MegaMenuPickers";
 import { applyPick } from "./sections/megaMenuActions";
-import { makeRootEditor } from "./sections/megaMenuEdits";
+import { makeRootEditor, reorder } from "./sections/megaMenuEdits";
 import { emptyLinks, moveRootIn, patchRootIn, removeRootIn, totalLinks } from "./sections/megaMenuTree";
 
 export default function DashMegaMenu() {
@@ -33,6 +37,8 @@ export default function DashMegaMenu() {
   const [openRoot, setOpenRoot] = useState(null);
   // `n` remounts a picker, so each opening starts from what it is editing.
   const [picker, setPicker] = useState({ request: null, n: 0 });
+
+  const rootDrag = useDragReorder((from, to) => setEdits(reorder(draft, from, to) ?? draft));
 
   const lookups = { categories: categories ?? [], taxonomy: taxonomy ?? {}, products: products ?? [] };
   const dirty = Boolean(edits) && JSON.stringify(edits) !== JSON.stringify(navigation);
@@ -93,9 +99,14 @@ export default function DashMegaMenu() {
         onSave={save}
       />
 
+      <p className="max-w-3xl text-[12px] leading-relaxed text-espresso-soft">
+        Every menu item and link is chosen from your categories, types, filters and labels, so it always leads to real
+        pieces. Addresses are created for you. Nothing changes in the shop until you press Save menu.
+      </p>
+
       <ul className="space-y-3">
         {draft.map((root, i) => (
-          <li key={root.id}>
+          <li key={root.id} {...rootDrag.rowProps(i)} className={rootDrag.over === i ? "outline outline-2 outline-gold-500/60" : undefined}>
             <MegaMenuItem
               root={root}
               index={i}
@@ -107,15 +118,31 @@ export default function DashMegaMenu() {
               editor={editorFor(root)}
               lookups={lookups}
               onPick={onPick}
+              drag={rootDrag}
             />
           </li>
         ))}
       </ul>
 
-      <p className="text-[12px] leading-relaxed text-espresso-soft">
-        Every menu item and link is chosen from your categories, types, filters and labels, so it always leads to real
-        pieces. Addresses are created for you. Nothing changes in the shop until you press Save menu.
-      </p>
+      {dirty && (
+        <div
+          role="status"
+          className="sticky bottom-0 z-20 -mx-5 flex flex-wrap items-center justify-between gap-3 border-t border-espresso/15 bg-ivory-50/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:-mx-10 lg:px-10"
+        >
+          <p className="text-[13px] text-espresso">
+            <span aria-hidden="true" className="mr-2 inline-block size-2 rounded-full bg-gold-500" />
+            You have unsaved changes. The shop isn&rsquo;t showing them yet.
+          </p>
+          <div className="flex gap-2">
+            <Button variant="ghost" onClick={() => setEdits(null)} disabled={saving}>
+              Discard
+            </Button>
+            <Button icon={Save} onClick={save} loading={saving}>
+              Save menu
+            </Button>
+          </div>
+        </div>
+      )}
 
       <MegaMenuPickers picker={picker} draft={draft} lookups={lookups} onClose={closePicker} onSave={applyResult} />
 

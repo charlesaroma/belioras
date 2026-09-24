@@ -1,14 +1,17 @@
 /* Admin Dashboard Page: Mega-menu - MegaMenuItemEditor */
 import { Plus } from "lucide-react";
 
+import MegaMenuPanel from "@/components/layout/navbar/MegaMenuPanel";
 import Field from "@/components/ui/Field";
 import { describeTarget } from "@/utils/menuTargetText";
+import { useDragReorder } from "../../../lib/useDragReorder";
 import MegaMenuColumn from "./MegaMenuColumn";
 import MegaMenuTiles from "./MegaMenuTiles";
 
 /** Everything about one menu item: its name, what it shows, its columns and tiles. */
 export default function MegaMenuItemEditor({ root, editor, lookups, onPick }) {
   const sections = root.sections ?? [];
+  const columns = useDragReorder(editor.reorderSections);
 
   return (
     <div className="space-y-6 border-t border-umber-50 px-4 py-5">
@@ -67,6 +70,7 @@ export default function MegaMenuItemEditor({ root, editor, lookups, onPick }) {
                 editor={editor}
                 lookups={lookups}
                 onPick={onPick}
+                drag={columns}
               />
             ))}
           </div>
@@ -74,6 +78,22 @@ export default function MegaMenuItemEditor({ root, editor, lookups, onPick }) {
       </div>
 
       <MegaMenuTiles root={root} editor={editor} lookups={lookups} onPick={onPick} />
+
+      {(sections.length > 0 || (root.tiles ?? []).length > 0) && (
+        <div className="space-y-2">
+          <p className="input-label mb-0">Preview</p>
+          <p className="text-[12px] text-espresso-soft">How this dropdown looks in the shop right now, including your unsaved changes.</p>
+          {/* Links here are for looking at: clicking one must not leave the dashboard. */}
+          <div
+            onClickCapture={(e) => {
+              if (e.target.closest("a")) e.preventDefault();
+            }}
+            className="overflow-hidden border border-umber-100 bg-ivory-50"
+          >
+            <MegaMenuPanel item={root} onNavigate={() => {}} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

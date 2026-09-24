@@ -19,7 +19,7 @@ export default function MegaMenuHeader({ itemCount, linkCount, dirty, saving, em
           <Button variant="secondary" icon={Plus} onClick={onAdd}>
             Add menu item
           </Button>
-          <Button icon={Save} onClick={onSave} loading={saving} disabled={!dirty} className="bg-espresso text-ivory-50 hover:bg-espresso-600">
+          <Button icon={Save} onClick={onSave} loading={saving} disabled={!dirty}>
             Save menu
           </Button>
         </div>

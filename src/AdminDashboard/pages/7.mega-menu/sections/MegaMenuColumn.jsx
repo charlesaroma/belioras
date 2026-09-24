@@ -1,20 +1,34 @@
 /* Admin Dashboard Page: Mega-menu - MegaMenuColumn */
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, Plus, Trash2 } from "lucide-react";
 
 import ConfirmDialog from "../../../../components/ui/ConfirmDialog";
+import { cn } from "@/utils/cn";
+import { useDragReorder } from "../../../lib/useDragReorder";
 import IconAction from "../../../components/IconAction";
 import MegaMenuLinkRow from "./MegaMenuLinkRow";
 
 /** One column of the dropdown: a heading and its links. */
-export default function MegaMenuColumn({ root, section, index, total, editor, lookups, onPick }) {
+export default function MegaMenuColumn({ root, section, index, total, editor, lookups, onPick, drag }) {
   const [asking, setAsking] = useState(false);
+  const links = useDragReorder((from, to) => editor.reorderItems(section.id, from, to));
   // An empty column goes at once; one holding links asks first.
   const removeColumn = () => (section.items.length ? setAsking(true) : editor.removeSection(section.id));
 
   return (
-    <section className="border border-umber-50 bg-white">
+    <section
+      {...drag.rowProps(index)}
+      className={cn("border bg-white transition-colors", drag.over === index ? "border-gold-500 bg-gold-500/5" : "border-umber-50")}
+    >
       <div className="flex items-center gap-1 border-b border-umber-50 px-3 py-2">
+        <span
+          {...drag.handleProps(index)}
+          title="Drag to reorder"
+          aria-hidden="true"
+          className="hidden cursor-grab touch-none pr-1 text-espresso/30 hover:text-espresso active:cursor-grabbing sm:block"
+        >
+          <GripVertical className="size-4" />
+        </span>
         <input
           value={section.title}
           onChange={(e) => editor.patchSection(section.id, { title: e.target.value })}
@@ -40,6 +54,7 @@ export default function MegaMenuColumn({ root, section, index, total, editor, lo
               editor={editor}
               lookups={lookups}
               onPick={onPick}
+              drag={links}
             />
           ))}
         </ul>

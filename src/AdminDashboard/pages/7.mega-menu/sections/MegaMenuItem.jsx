@@ -1,5 +1,5 @@
 /* Admin Dashboard Page: Mega-menu - MegaMenuItem */
-import { ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, Trash2 } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 import { describeTarget } from "@/utils/menuTargetText";
@@ -9,7 +9,7 @@ import { piecesText } from "./megaMenuPickerOptions";
 import { countFor } from "./megaMenuTree";
 
 /** One top-level menu item: a summary row that opens into its editor. */
-export default function MegaMenuItem({ root, index, total, open, onToggle, onMove, onRemove, editor, lookups, onPick }) {
+export default function MegaMenuItem({ root, index, total, open, onToggle, onMove, onRemove, editor, lookups, onPick, drag }) {
   const sections = root.sections ?? [];
   const links = sections.reduce((n, s) => n + s.items.length, 0);
   const shape = links
@@ -19,6 +19,14 @@ export default function MegaMenuItem({ root, index, total, open, onToggle, onMov
   return (
     <div className={cn("border bg-ivory-50 transition-colors", open ? "border-espresso/30" : "border-umber-50")}>
       <div className="flex items-center gap-2 px-4 py-3">
+        <span
+          {...drag.handleProps(index)}
+          title="Drag to reorder"
+          aria-hidden="true"
+          className="hidden cursor-grab touch-none text-espresso/30 hover:text-espresso active:cursor-grabbing sm:block"
+        >
+          <GripVertical className="size-4" />
+        </span>
         <button type="button" onClick={onToggle} aria-expanded={open} className="flex min-w-0 flex-1 items-center gap-3 text-left">
           <ChevronDown className={cn("size-4 shrink-0 text-espresso/40 transition-transform", open && "rotate-180")} aria-hidden="true" />
           <span className="min-w-0">

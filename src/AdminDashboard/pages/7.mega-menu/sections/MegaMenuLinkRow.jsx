@@ -1,5 +1,5 @@
 /* Admin Dashboard Page: Mega-menu - MegaMenuLinkRow */
-import { ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, Trash2 } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 import { describeTarget } from "@/utils/menuTargetText";
@@ -8,11 +8,22 @@ import { piecesText } from "./megaMenuPickerOptions";
 import { countFor } from "./megaMenuTree";
 
 /** One link: its name, what it shows (click to change), and how many pieces that is. */
-export default function MegaMenuLinkRow({ root, sectionId, item, index, lastIndex, editor, lookups, onPick }) {
+export default function MegaMenuLinkRow({ root, sectionId, item, index, lastIndex, editor, lookups, onPick, drag }) {
   const count = countFor(item.target, lookups.products);
 
   return (
-    <li className="flex flex-wrap items-center gap-x-3 gap-y-1.5 py-2.5">
+    <li
+      {...drag.rowProps(index)}
+      className={cn("flex flex-wrap items-center gap-x-3 gap-y-1.5 py-2.5", drag.over === index && "bg-gold-500/10")}
+    >
+      <span
+        {...drag.handleProps(index)}
+        title="Drag to reorder"
+        aria-hidden="true"
+        className="hidden cursor-grab touch-none text-espresso/30 hover:text-espresso active:cursor-grabbing sm:block"
+      >
+        <GripVertical className="size-4" />
+      </span>
       <input
         value={item.label}
         onChange={(e) => editor.patchItem(sectionId, item.id, { label: e.target.value })}

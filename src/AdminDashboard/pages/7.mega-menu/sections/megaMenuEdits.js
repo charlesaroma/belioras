@@ -3,6 +3,15 @@
  * and tiles. Each hands a patch back up, so components stay declarative.
  */
 
+/** Moves one entry to another position, the rest keeping their order. */
+export function reorder(list, from, to) {
+  if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) return null;
+  const next = [...list];
+  const [moved] = next.splice(from, 1);
+  next.splice(to, 0, moved);
+  return next;
+}
+
 function swap(list, index, delta) {
   const target = index + delta;
   if (target < 0 || target >= list.length) return null;
@@ -32,10 +41,20 @@ export function makeRootEditor(root, onPatch) {
 
     removeSection: (sectionId) => onPatch({ sections: sections.filter((s) => s.id !== sectionId) }),
 
-    /** Arrows rather than drag: they work by keyboard and on a phone. */
+    /** Arrows beside dragging: they work by keyboard and on a phone. */
     moveSection: (index, delta) => {
       const next = swap(sections, index, delta);
       if (next) onPatch({ sections: next });
+    },
+
+    reorderSections: (from, to) => {
+      const next = reorder(sections, from, to);
+      if (next) onPatch({ sections: next });
+    },
+
+    reorderItems: (sectionId, from, to) => {
+      const items = reorder(sectionById(sectionId).items, from, to);
+      if (items) patchSection(sectionId, { items });
     },
 
     patchItem: (sectionId, itemId, patch) =>
