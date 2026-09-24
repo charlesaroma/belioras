@@ -71,6 +71,40 @@ All JSON arrays/objects, ~5-10 items each (enough to demo filters/DS):
 - `reviews.json` — per product 2-4 reviews, some "verified purchase". Wrapped as a revisioned collection (`reviewsSeed.js`); every seed review ships `status: "published"`. A customer submission lands `status: "pending"` via `createReview`; `getReviews`/`getRecentReviews` only ever return `published`.
 - `settings.json` — shipping zones (EU flat €5.90, free ≥ €150; UK €12; World €19), tax 20% VAT included note, announcement text, cookie banner copy, GPSR manufacturer records, support contact, social links, hero copy, value props, brand story.
 
+## Catalogue data contract (for the backend)
+
+The shapes below are what the mock services persist and the storefront/dashboard read. A real API should return and accept the same.
+
+**Category** (`categories.json`, `categoriesApi.js`)
+
+```json
+{ "id": "dresses", "name": "Dresses", "sizes": ["xs","s"],
+  "types": [{ "id": "jumpsuits", "name": "Jumpsuits" }],
+  "subcategories": [
+    { "id": "shop-by-colour", "name": "Shop by Colour",
+      "types": [{ "id": "white-dresses", "name": "White Dresses" }] } ] }
+```
+
+Ids are assigned once and never change on rename. Removal is refused (409) while a product, or a Mega Menu link/tile, uses what would go.
+
+**Product tags** (`tags: string[]`) are `prefix:value` tokens. Written by the product form: `subcat:<subcategoryId>:<typeId>` (a category's own Subcategory type). Derived at read time (`deriveTags`): `cat:<collectionId>`, `type:<typeId>`, `tag:new|bestseller|featured`, `color:<family>`. The old shared Occasion/Fabric/Style/Length/Hair taxonomy no longer exists; `taxonomy.json` holds only `color` and `size`.
+
+**Navigation** (`navigation.json`): menu items → `sections` (columns) → `items` (links), each with `label`, `slug`, `url`, `target`, and optional `aliases` (older addresses that redirect). A link's address is always `/{item}/{column}/{link}` (`/dresses/shop-by-colour/white-dresses`), generated once and kept on rename. A `target` says what the page shows and is matched against product tags by `matchesTarget` (`utils/menuTargets.js`):
+
+| `target` | matches |
+| --- | --- |
+| `{kind:"all"}` | everything |
+| `{kind:"category", id}` | `cat:<id>` |
+| `{kind:"type", category, id}` | `cat:<category>` and `type:<id>` |
+| `{kind:"filter", dimension:"subcat:<subcategoryId>", values:[typeId…], category}` | any `subcat:<subcategoryId>:<typeId>` |
+| `{kind:"filter", dimension:"color", values:[…]}` | `color:<family>` |
+| `{kind:"label", id:"new"\|"featured"\|"sale"}` | `tag:<id>` / on sale |
+| `{kind:"product", id}` | one product (tiles only) |
+
+**Storefront routing**: there is no route per category. Fixed pages are declared in `StorefrontRoutes.jsx`; every other address falls to a catch-all that asks `getCatalog(pathname)` (`catalogApi.js`) whether the navigation tree has a node at that slug, and lists the products its `target` selects. An address not in the tree is a 404. A product page is `/product/<slug>`, the slug generated from the name on create (unique, `-2`, `-3`…) and changed only when the name changes.
+
+**Seed revisions**: each domain's seed has a `rev`. When a stored copy's `rev` differs from the seed's, the stored copy is discarded and the seed reloads; when they match, stored items win per `id`. Bump `rev` whenever a seed's shape or addresses change.
+
 ## Acceptance
 
 - [ ] `grep -r "from '../../data" src --include=*.jsx` returns nothing (components never import data).
