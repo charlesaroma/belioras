@@ -10,7 +10,7 @@ Brand-tinted admin dashboard (ivory/gold/espresso, .font-display headers). Route
 
 ## Modules
 
-Numbered by sidebar order; the gaps (`2`, `13`) are reserved slots for pages not yet built (Reports, Messages).
+Numbered by sidebar order; `13` is a reserved slot for a page not yet built (Messages).
 
 1. **Overview** (`1.overview`) — stat cards (revenue, orders, low-stock count, …) each vs. last period; a revenue panel (`OverviewRevenuePanel.jsx`, `SalesChart.jsx`) and a recent-orders table.
 2. **Products** (`3.products`) — table (thumb, name, category, price, total stock, status) with search and status tabs. The form (`/dashboard/products/new`, `/:id/edit`) walks category → name, SKU and description → colours & photos (each colour from the managed list, with its own photos; quick-add a colour) → sizes (only those the category offers) → stock per colour × size → price in € with an On sale switch → labels (New, Featured) → (the category and what it's filed under are chosen in the sidebar's Category card: pick a category and its Subcategories appear in place; pick one and only its types show, each tagged `subcat:<subcategoryId>:<typeId>`; add a type in Categories & Colours and it is pickable here on the next load). A sticky save bar: Save draft / Publish, or Unpublish / Save changes when live. Stock is stored per `colorways: [{ colorId, images[], stock: { size: n } }]`.
@@ -24,7 +24,9 @@ Numbered by sidebar order; the gaps (`2`, `13`) are reserved slots for pages not
 10. **Customers** (`11.customers`) — table (name, email, orders count, total spent, joined), row → detail view (profile card + order history).
 11. **Reviews** (`12.reviews`, content capability) — every submission lands pending; status tabs (pending/published/hidden), a detail view with publish/hide actions and a reply field shown publicly under the review once posted. Only published reviews are ever readable on the storefront.
 12. **Newsletter** (`14.newsletter`, marketing capability) — the Belioras Letter. **Subscribers**: counts, status tabs, search, CSV export with consent record, unsubscribe, erase (GDPR). **Campaigns**: subject, heading, message, featured pieces, a link, a live email preview; draft, schedule or send. **Welcome email**: on/off, its coupon code, wording. Sign-up is double opt-in (`pending` → `subscribed` via `/newsletter/confirm`); only `subscribed` addresses are ever emailed.
-13. **Team** (`15.team`) — the staff/super-admin table (name, email, role, status), role changes with a confirmation, invite.
+13. **Team & roles** (`15.team`) — **Members**: everyone with dashboard access, their role, how far it reaches, and when they last signed in. New people are *invited*: name, email and role make an account waiting for them and a one-time link (`/atelier/invite?token=…`) where they choose their own password; an email that already has a customer account is given access at once. Invitations can be copied again, renewed or withdrawn. **Roles**: editable records (`src/data/rolesSeed.js`, the `roles` domain), each giving every section (`utils/permissions.js`) *No access*, *View* or *Edit*. Administrator is locked. Starting roles: Administrator, Staff, Finance, Customer support, Content editor, Developer / IT. Rules the service enforces: nobody grants beyond their own access, changes their own role or edits the role they hold, and the last Administrator stays one; a role still held can't be deleted.
+- **Reports** (`2.reports`) — for a period (this month … all time, or custom): sales & VAT by month, orders, products, coupons, customers, and stock value today; four summary cards; each report downloads as CSV. Sales count orders paid and not refunded.
+- **Activity log** (`18.activity`) — sign-ins, failed sign-ins at the atelier door, sign-outs and every change saved in the dashboard, with who, when and what; filters by person and area; CSV export. Written by the services (`services/auth/audited.js`), not the screens.
 14. **Shipping** (`17.shipping`) — its own page rather than a panel inside Settings, since shipping is where the shop's real operational complexity lives (zones today, room for carriers and methods later). Per-zone flat rate and free-shipping threshold, edited inline; saves through the same settings document as everything else, merged section-by-section so it never touches Contact/Tax/Compliance.
 15. **Settings** (`16.settings`) — one form, several panels: Contact, Storefront (branding/announcement), Compliance (GPSR manufacturer records, legal-page text — the legal pages render straight from these settings, so an edit here is live on save).
 
@@ -42,3 +44,15 @@ Numbered by sidebar order; the gaps (`2`, `13`) are reserved slots for pages not
 - **Switches.** `Switch` is the one on/off control: green and knob-right when on. Dates are written in words (`1 Jan 2027`).
 - **Destructive actions** always ask first (`ConfirmDialog`), with Undo afterwards where the change can be reversed.
 - **Settings** announcements are a list (each with its own switch and optional dates) and feed the storefront's top bar; addresses are stored as four parts plus the joined line the legal pages print.
+
+## Permissions
+
+- The sidebar shows a section only when the signed-in role has at least View; opening one without access shows a refusal inside the shell. A role is read live, so a change applies to people already signed in.
+- View-only: the page shows a notice, the header's main action is hidden, and every write is refused by the service (`audited` checks Edit on the section before the write runs, then logs it). A real backend makes the same check server-side.
+- The Overview hides money (revenue, average order, the chart) from roles without Transactions or Reports.
+
+## Invoices and receipts
+
+- When payment is confirmed (an order leaves *To pay*), it gets the next invoice number in the year's sequence (`BEL-2026-0001`, prefix from Settings → Invoices) and a receipt to its customer.
+- `/invoice/:id` is the invoice, A4 and printable ("Print or save as PDF"); staff, or the customer whose order it is, can open it. Linked from the admin order detail and the customer's order page.
+- Email is not connected yet, so receipts (automatic, or "Resend receipt") are recorded as *queued* on the order for the backend's mailer to send. Invoices need a VAT ID in Settings → Invoices before they are valid.
