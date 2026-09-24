@@ -464,6 +464,28 @@
     background-color: #991b1b;
   }
 
+  /* The dashboard's buttons: one size, weight and spacing, with the main
+     action solid so it outranks everything around it. Scoped to the shell so
+     the storefront keeps its outlined primary. */
+  .dash-root .btn {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+  .dash-root .btn-md {
+    height: 40px;
+  }
+  .dash-root .btn-primary {
+    background-color: var(--color-espresso);
+    color: var(--color-ivory-50);
+    border-color: var(--color-espresso);
+  }
+  .dash-root .btn-primary:hover {
+    background-color: var(--color-espresso-600);
+  }
+  .dash-root .btn-primary:active {
+    background-color: var(--color-espresso-600);
+  }
+
   /* Cards */
   .card {
     background-color: var(--color-ivory-50);

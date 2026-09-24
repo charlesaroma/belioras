@@ -10,7 +10,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { cn } from "../utils/cn";
 import DashSidebar from "./components/DashSidebar";
 import DashHeader from "./components/DashHeader";
-import { DASHBOARD_NAV_ITEMS } from "./lib/constants";
+import { DASHBOARD_NAV_GROUPS, DASHBOARD_NAV_ITEMS } from "./lib/constants";
 import { HeaderSlotContext } from "./lib/headerSlot";
 
 /* IDLE TIMEOUT */
@@ -31,6 +31,16 @@ export default function DashboardLayout() {
   const segment = pathname.replace(/^\/dashboard\/?/, "").split("/")[0] || "overview";
 
   const title = DASHBOARD_NAV_ITEMS.find((item) => item.id === segment)?.label ?? "Dashboard";
+
+  // "Catalogue / Products / New": where in the dashboard this is, from the
+  // sidebar's own groups, plus the sub-page when there is one.
+  const group = DASHBOARD_NAV_GROUPS.find((g) => g.items.some((item) => item.id === segment));
+  const rest = pathname.replace(/^\/dashboard\/?/, "").split("/").slice(1);
+  const trail = [
+    group?.label,
+    ...(rest.length ? [{ label: title, to: `/dashboard/${segment}` }] : [title]),
+    rest[0] === "new" ? "New" : rest.includes("edit") ? "Edit" : null,
+  ].filter(Boolean);
 
   const onIdle = useCallback(async () => {
     await logout();
@@ -56,7 +66,7 @@ export default function DashboardLayout() {
   return (
     <div
       className={cn(
-        "min-h-dvh bg-ivory-500 transition-[padding] duration-300",
+        "dash-root min-h-dvh bg-ivory-500 transition-[padding] duration-300",
         // Mirrors the sidebar's width. The preference is held here, once, and
         // handed to the sidebar: two separate reads of the stored value did not
         // update each other, so collapsing left the content where it was until
@@ -77,7 +87,7 @@ export default function DashboardLayout() {
         `fill`). A phone keeps ordinary page scrolling.
       */}
       <div className="flex min-h-dvh flex-col lg:h-dvh">
-        <DashHeader title={title} onMenuToggle={() => setSidebarOpen(true)} actionsRef={setHeaderSlot} />
+        <DashHeader title={title} trail={trail} onMenuToggle={() => setSidebarOpen(true)} actionsRef={setHeaderSlot} />
 
         <main ref={mainRef} className="flex-1 px-5 py-8 sm:px-8 lg:min-h-0 lg:overflow-y-auto lg:px-10 lg:py-10">
           <HeaderSlotContext.Provider value={headerSlot}>

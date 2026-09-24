@@ -14,13 +14,13 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
   const { pathname } = useLocation();
 
   return (
-    <nav className="no-scrollbar flex-1 overflow-y-auto px-3 py-5" aria-label="Dashboard">
+    <nav className="no-scrollbar flex-1 overflow-y-auto px-3 py-2" aria-label="Dashboard">
       {groups.map((group) => (
-        <div key={group.id} className="mb-5 last:mb-0">
+        <div key={group.id} className="mb-2.5 last:mb-0">
           {group.label && (
             <p
               className={cn(
-                "mb-1.5 px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-ivory-50/30",
+                "mb-1 px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-ivory-50/30",
                 // Hidden rather than removed when collapsed: a screen reader
                 // still benefits from the grouping.
                 collapsed && "lg:sr-only",
@@ -30,7 +30,7 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
             </p>
           )}
 
-          <ul className="space-y-0.5">
+          <ul className="space-y-px">
             {group.items.map((item) => {
 
               const Icon = iconMap[item.icon];
@@ -50,7 +50,7 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
                     // collapsed, the title carries it instead.
                     title={collapsed ? item.label : undefined}
                     className={cn(
-                      "relative flex items-center gap-3 py-3 text-[13px] tracking-[0.04em] transition-colors",
+                      "relative flex items-center gap-3 py-[7px] text-[13px] tracking-[0.04em] transition-colors",
                       collapsed ? "px-4 lg:justify-center lg:px-0" : "px-4",
                       isActive
                         ? "text-gold-400"
