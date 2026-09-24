@@ -64,9 +64,9 @@ export default function CategorySubcategoriesField({ subcategories, onChange }) 
                   type="button"
                   aria-label={`Remove ${sub.name}`}
                   onClick={() => removeSubcategory(i)}
-                  className="flex size-10 shrink-0 items-center justify-center text-espresso/40 transition-colors hover:text-error"
+                  className="flex size-10 shrink-0 items-center justify-center rounded-full text-espresso/40 transition-colors hover:text-error liquid-hover"
                 >
-                  <X className="size-4" aria-hidden="true" />
+                  <X className="liquid-icon size-4" aria-hidden="true" />
                 </button>
               </div>
 
@@ -84,9 +84,9 @@ export default function CategorySubcategoriesField({ subcategories, onChange }) 
                         type="button"
                         aria-label={`Remove ${type.name}`}
                         onClick={() => removeType(i, ti)}
-                        className="flex size-9 shrink-0 items-center justify-center text-espresso/40 transition-colors hover:text-error"
+                        className="flex size-9 shrink-0 items-center justify-center rounded-full text-espresso/40 transition-colors hover:text-error liquid-hover"
                       >
-                        <X className="size-3.5" aria-hidden="true" />
+                        <X className="liquid-icon size-3.5" aria-hidden="true" />
                       </button>
                     </li>
                   ))}

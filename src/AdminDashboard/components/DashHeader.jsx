@@ -10,10 +10,10 @@ export default function DashHeader({ title, onMenuToggle, showMenuButton = true,
           <button
             type="button"
             onClick={onMenuToggle}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full text-espresso transition-colors hover:bg-umber-50 lg:hidden"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full text-espresso transition-colors hover:bg-umber-50 liquid-hover lg:hidden"
             aria-label="Open menu"
           >
-            <Menu className="size-5" aria-hidden="true" />
+            <Menu className="liquid-icon size-5" aria-hidden="true" />
           </button>
         )}
         <div className="min-w-0">

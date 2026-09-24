@@ -33,9 +33,9 @@ export default function DashToolbar({
             type="button"
             onClick={() => onQueryChange("")}
             aria-label="Clear search"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-espresso/35 transition-colors hover:text-espresso"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-espresso/35 transition-colors hover:text-espresso liquid-hover"
           >
-            <X className="size-4" aria-hidden="true" />
+            <X className="liquid-icon size-4" aria-hidden="true" />
           </button>
         )}
       </div>

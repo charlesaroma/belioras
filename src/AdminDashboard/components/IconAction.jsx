@@ -20,7 +20,7 @@ export default function IconAction({
       aria-label={label}
       title={label}
       className={cn(
-        "p-2 transition-[color,scale] duration-150 active:scale-90",
+        "liquid-hover rounded-full p-2 transition-[color,scale] duration-150 active:scale-90",
         disabled
           ? "cursor-not-allowed text-espresso/15"
           : destructive
@@ -29,7 +29,7 @@ export default function IconAction({
         className,
       )}
     >
-      <Icon className="size-4" strokeWidth={1.5} aria-hidden="true" />
+      <Icon className="liquid-icon size-4" strokeWidth={1.5} aria-hidden="true" />
     </button>
   );
 }

@@ -37,9 +37,9 @@ export default function CategoryTypesField({ types, onChange }) {
                 type="button"
                 aria-label={`Remove ${type.name}`}
                 onClick={() => onChange(types.filter((_, j) => j !== i))}
-                className="flex size-10 shrink-0 items-center justify-center text-espresso/40 transition-colors hover:text-error"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full text-espresso/40 transition-colors hover:text-error liquid-hover"
               >
-                <X className="size-4" aria-hidden="true" />
+                <X className="liquid-icon size-4" aria-hidden="true" />
               </button>
             </li>
           ))}

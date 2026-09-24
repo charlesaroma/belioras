@@ -86,9 +86,9 @@ export default function DashFilters({ groups, value, onChange }) {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close filters"
-                className="flex size-9 items-center justify-center text-espresso-soft transition-colors hover:text-espresso"
+                className="liquid-hover flex size-9 items-center justify-center rounded-full text-espresso-soft transition-colors hover:text-espresso"
               >
-                <X className="size-5" aria-hidden="true" />
+                <X className="liquid-icon size-5" aria-hidden="true" />
               </button>
             </div>
 

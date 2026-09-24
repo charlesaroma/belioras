@@ -72,9 +72,9 @@ export default function Modal({ open, onClose, title, width = "max-w-lg", bare =
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="absolute right-2 top-2 z-10 flex size-11 items-center justify-center rounded-full bg-ivory-50/90 text-espresso-soft shadow-[0_1px_3px_rgba(43,29,20,0.18)] transition-colors hover:text-espresso"
+              className="absolute right-2 top-2 z-10 flex size-11 items-center justify-center rounded-full bg-ivory-50/90 text-espresso-soft shadow-[0_1px_3px_rgba(43,29,20,0.18)] transition-colors hover:text-espresso liquid-hover"
             >
-              <X className="size-5" aria-hidden="true" />
+              <X className="liquid-icon size-5" aria-hidden="true" />
             </button>
           </>
         ) : (
@@ -86,9 +86,9 @@ export default function Modal({ open, onClose, title, width = "max-w-lg", bare =
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="-mr-3 flex size-11 items-center justify-center text-espresso/40 transition-colors hover:text-espresso"
+            className="liquid-hover -mr-3 flex size-11 items-center justify-center rounded-full text-espresso/40 transition-colors hover:text-espresso"
           >
-            <X className="size-5" aria-hidden="true" />
+            <X className="liquid-icon size-5" aria-hidden="true" />
           </button>
         </header>
         )}

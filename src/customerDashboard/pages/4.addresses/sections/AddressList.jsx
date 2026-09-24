@@ -59,17 +59,17 @@ export default function AddressList({ addresses, onSetDefault, onRemove, onEdit,
                 type="button"
                 onClick={() => onEdit(address)}
                 aria-label={`Edit address for ${address.recipient}`}
-                className="flex size-11 items-center justify-center rounded-full text-espresso-soft transition-colors hover:bg-brown-50 hover:text-gold-700"
+                className="flex size-11 items-center justify-center rounded-full text-espresso-soft transition-colors hover:bg-brown-50 hover:text-gold-700 liquid-hover"
               >
-                <Pencil className="size-4" aria-hidden="true" />
+                <Pencil className="liquid-icon size-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
                 onClick={() => onRemove(address.id)}
                 aria-label={`Remove address for ${address.recipient}`}
-                className="flex size-11 items-center justify-center rounded-full text-espresso-soft transition-colors hover:bg-rose-50 hover:text-rose-700"
+                className="flex size-11 items-center justify-center rounded-full text-espresso-soft transition-colors hover:bg-rose-50 hover:text-rose-700 liquid-hover"
               >
-                <Trash2 className="size-4" aria-hidden="true" />
+                <Trash2 className="liquid-icon size-4" aria-hidden="true" />
               </button>
             </div>
           </div>

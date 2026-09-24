@@ -54,9 +54,9 @@ export default function DashSidebar({ isOpen, onClose, collapsed, onToggleCollap
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="text-ivory-50/50 transition-colors hover:text-ivory-50 lg:hidden"
+            className="liquid-hover rounded-full p-1 text-ivory-50/50 transition-colors hover:text-ivory-50 lg:hidden"
           >
-            <X className="size-5" aria-hidden="true" />
+            <X className="liquid-icon size-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -72,7 +72,7 @@ export default function DashSidebar({ isOpen, onClose, collapsed, onToggleCollap
           className={cn(
             "absolute right-0 top-1/2 z-10 hidden size-6 -translate-y-1/2 translate-x-1/2 items-center justify-center",
             // Gold rather than the sidebar's espresso, so the tab stands apart from it.
-            "rounded-full bg-gold-400 text-espresso shadow-md transition-colors lg:flex",
+            "liquid-hover rounded-full bg-gold-400 text-espresso shadow-md transition-colors lg:flex",
             "hover:bg-gold-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400",
             // A larger hit area than the tab itself.
             "after:absolute after:-inset-2.5 after:content-['']",
