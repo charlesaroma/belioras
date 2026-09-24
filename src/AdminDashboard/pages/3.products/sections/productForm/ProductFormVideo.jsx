@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import { Link2, Trash2, Upload } from "lucide-react";
 
 import IconAction from "@/AdminDashboard/components/IconAction";
-import { cn } from "@/utils/cn";
 import { sizeLabel } from "@/utils/sizeLabel";
 import FormSection from "./ProductFormSection";
 
@@ -92,7 +91,7 @@ function ColourVideo({ swatch, video, poster, onChange }) {
  * A short clip of the piece on the model, per colour, and what the model
  * wears — the two things a photograph can't say: how it moves and how it fits.
  */
-export default function ProductFormVideo({ colors, colorIds, videos, onVideosChange, photos, sizes, taxonomy, register }) {
+export default function ProductFormVideo({ colors, colorIds, videos, onVideosChange, photos, sizes, taxonomy, register, models = [] }) {
   const byId = new Map(colors.map((c) => [c.id, c]));
   const firstPhoto = (colorId) => photos.find((p) => p.colorId === colorId)?.url ?? null;
 
@@ -123,19 +122,27 @@ export default function ProductFormVideo({ colors, colorIds, videos, onVideosCha
       )}
 
       <div>
-        <p className="input-label">What the model wears</p>
-        <p className="mb-3 text-[12px] text-espresso-soft">Shown under the sizes: &ldquo;Model is 175 cm tall and wears size S.&rdquo; Leave blank to hide it.</p>
+        <p className="input-label">Who wears it</p>
+        <p className="mb-3 text-[12px] text-espresso-soft">
+          Shows her card and measurements on the product page, and &ldquo;Amara is 175 cm tall and wears size S&rdquo; under the sizes.
+          Models are managed under Sizes &amp; Guides → Models.
+        </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="flex flex-col">
-            <span className="input-label">Model&rsquo;s height (cm)</span>
-            <input type="number" min="140" max="210" step="1" placeholder="175" className="input" {...register("modelHeight")} />
+            <span className="input-label">Model</span>
+            <select className="input" {...register("modelId")}>
+              <option value="">Not shown</option>
+              {models.map((m) => (
+                <option key={m.id} value={m.id}>{m.name}{m.heightCm ? ` · ${m.heightCm} cm` : ""}</option>
+              ))}
+            </select>
           </label>
           <label className="flex flex-col">
-            <span className="input-label">Size worn</span>
-            <select className={cn("input")} {...register("modelSize")}>
-              <option value="">Not shown</option>
-              {sizes.map((s) => (
-                <option key={s} value={s}>{sizeLabel(taxonomy, s)}</option>
+            <span className="input-label">Size she wears</span>
+            <select className="input" {...register("modelSize")}>
+              <option value="">Choose a size</option>
+              {(sizes.length ? sizes : ["one-size"]).map((s) => (
+                <option key={s} value={s}>{s === "one-size" ? "One size" : sizeLabel(taxonomy, s)}</option>
               ))}
             </select>
           </label>

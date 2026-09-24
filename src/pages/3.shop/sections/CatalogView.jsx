@@ -7,6 +7,7 @@ import { useContentVersion } from "../../../context/ContentContext";
 import { useFilterParams } from "../../../hooks/useFilterParams";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { getCategories } from "../../../services/catalog/categoriesApi";
+import { getModels } from "../../../services/catalog/modelsApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { applyFilters, computeFacets, priceBounds } from "../../../utils/faceting";
 import { catalogueDimensions } from "../../../utils/typeFacet";
@@ -27,6 +28,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
   const version = useContentVersion();
   const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
   const { data: categories } = useAsyncData(getCategories, [version]);
+  const { data: models } = useAsyncData(getModels, [version]);
   const { filters, activeCount, toggleValue, clearDimension, setPrice, setSale, setSort, setQuery, clearAll } =
     useFilterParams();
 
@@ -43,9 +45,11 @@ export default function CatalogView({ products, loading, error, header = {}, emp
   const facets = useMemo(() => {
     if (!taxonomy || !categories) return {};
     const { dimensions, order } = catalogueDimensions(categories, list, selectedCategories);
-    const merged = { ...dimensions, color: taxonomy.color, size: taxonomy.size };
-    return computeFacets(list, merged, filters, [...order, "color", "size"]);
-  }, [list, taxonomy, categories, filters, selectedCategories]);
+    // "Worn by": the model in the photographs — where "Shop this edit" lands.
+    const model = { label: "Worn by", values: (models ?? []).map((m) => ({ id: m.id, name: m.name })) };
+    const merged = { ...dimensions, color: taxonomy.color, size: taxonomy.size, model };
+    return computeFacets(list, merged, filters, [...order, "color", "size", "model"]);
+  }, [list, taxonomy, categories, models, filters, selectedCategories]);
 
   // Unticking a Category also drops the Subcategory choices made inside it,
   // which would otherwise linger in the address with nothing to show them.

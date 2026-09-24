@@ -36,6 +36,8 @@ function deriveTags(product, colorFamilies = []) {
   if (product.bestseller) tags.add("tag:bestseller");
   if (product.featured) tags.add("tag:featured");
   if (product.limited) tags.add("tag:limited");
+  // "Shop this edit": everything one model wears.
+  if (product.modelFit?.modelId) tags.add(`model:${product.modelFit.modelId}`);
 
   for (const size of product.sizes ?? []) tags.add(`size:${size}`);
 

@@ -28,6 +28,7 @@ import ordersSeed from "../../data/ordersSeed";
 import stockMovementsSeed from "../../data/stockMovementsSeed";
 import activitySeed from "../../data/activitySeed";
 import emailsSeed from "../../data/emailsSeed";
+import modelsSeed from "../../data/modelsSeed";
 import transactionsSeed from "../../data/transactionsSeed";
 import colorsSeed from "../../data/colorsSeed";
 import categoriesSeed from "../../data/categoriesSeed";
@@ -85,6 +86,8 @@ const DOMAINS = {
   activity: { seed: activitySeed, collection: "items" },
   // Every email the shop sends, queued for the backend mailer (notifications module).
   emails: { seed: emailsSeed, collection: "items" },
+  // The models in the photographs, with their measurements (Sizes & Guides → Models).
+  models: { seed: modelsSeed, collection: "items" },
   // The Belioras Letter: who has consented, what was sent, and the welcome email.
   subscribers: { seed: subscribersSeed, collection: "items" },
   campaigns: { seed: campaignsSeed, collection: "items" },

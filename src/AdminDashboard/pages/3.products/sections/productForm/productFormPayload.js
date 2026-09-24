@@ -1,6 +1,11 @@
 /* Product Form Payload */
 
+import { splitCare } from "@/utils/careSymbols";
+
 export const ONE_SIZE = "one-size";
+
+/** A textarea, one item per line, as a list without blanks. */
+const lines = (text) => String(text ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
 
 /** A category's own subcategory types (Shop by Category, Shop by Fabric…)
     are tagged `subcat:<subcategoryId>:<typeId>` — scoped to the category
@@ -35,8 +40,12 @@ export const EMPTY_VALUES = {
   limited: false,
   status: "draft",
   lowStockThreshold: "",
-  modelHeight: "",
+  modelId: "",
   modelSize: "",
+  details: "",
+  materials: "",
+  careSymbols: [],
+  careNotes: "",
 };
 
 export function toFormValues(product) {
@@ -57,8 +66,12 @@ export function toFormValues(product) {
     // Older products carry no status, and they are live in the shop.
     status: product.status ?? "active",
     lowStockThreshold: product.lowStockThreshold ?? "",
-    modelHeight: product.modelFit?.heightCm ?? "",
+    modelId: product.modelFit?.modelId ?? "",
     modelSize: product.modelFit?.size ?? "",
+    details: (product.details ?? []).join("\n"),
+    materials: (product.materials ?? []).join("\n"),
+    careSymbols: splitCare(product.care).symbols.map((s) => s.id),
+    careNotes: splitCare(product.care).notes.join("\n"),
   };
 }
 
@@ -175,9 +188,9 @@ export function toPayload(values, { photos, videos = {}, colorIds, stock, sizes,
     // Blank means "use the shop's threshold".
     lowStockThreshold: `${values.lowStockThreshold ?? ""}` === "" ? null : Math.max(0, Math.floor(Number(values.lowStockThreshold))),
     tags: detailTags(tags).filter((t) => isValidSubcategoryTag(t, category)),
-    modelFit:
-      Number(values.modelHeight) > 0 && values.modelSize && (sizes.includes(values.modelSize) || sizes.length === 0)
-        ? { heightCm: Math.round(Number(values.modelHeight)), size: values.modelSize }
-        : null,
+    modelFit: values.modelId && values.modelSize ? { modelId: values.modelId, size: values.modelSize } : null,
+    details: lines(values.details),
+    materials: lines(values.materials),
+    care: [...(values.careSymbols ?? []), ...lines(values.careNotes)],
   };
 }

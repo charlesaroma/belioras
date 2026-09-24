@@ -1,5 +1,7 @@
 /* Details Care And Shipping */
+import CareIcon from "../../../components/storefront/CareIcon";
 import { useLanguage } from "../../../context/LanguageContext";
+import { splitCare } from "../../../utils/careSymbols";
 
 export default function ProductPageAccordions({ product }) {
   const { t } = useLanguage();
@@ -15,12 +17,22 @@ export default function ProductPageAccordions({ product }) {
       </Accordion>
 
       {product.care?.length > 0 && (
-        <Accordion title={t("pdp.care", "Care")}>
-          <ul className="list-disc space-y-1 pl-5">
-            {product.care.map((line) => (
-              <li key={line}>{line}</li>
+        <Accordion title={t("pdp.care", "Care instructions")}>
+          <ul className="space-y-2.5">
+            {splitCare(product.care).symbols.map((s) => (
+              <li key={s.id} className="flex items-center gap-3 text-espresso">
+                <CareIcon name={s.icon} className="size-5 shrink-0" />
+                {s.label}
+              </li>
             ))}
           </ul>
+          {splitCare(product.care).notes.length > 0 && (
+            <ul className="mt-3 list-disc space-y-1 pl-5">
+              {splitCare(product.care).notes.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          )}
         </Accordion>
       )}
 

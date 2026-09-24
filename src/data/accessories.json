@@ -17,7 +17,7 @@
       "Cotton lining"
     ],
     "care": [
-      "Wipe with damp cloth",
+      "wipe-clean",
       "Leather conditioner monthly"
     ],
     "sizes": [
@@ -78,8 +78,9 @@
       "100% mulberry silk twill"
     ],
     "care": [
-      "Dry clean only",
-      "Steam not iron"
+      "dry-clean",
+      "no-bleach",
+      "steam"
     ],
     "sizes": [
       "one-size"
@@ -140,8 +141,8 @@
       "Brass, gold plated"
     ],
     "care": [
-      "Polish with soft cloth",
-      "Avoid perfume contact"
+      "polish",
+      "no-perfume"
     ],
     "sizes": [
       "one-size"

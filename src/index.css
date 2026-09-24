@@ -528,6 +528,13 @@
     transition: border-color 150ms ease, outline-color 150ms ease;
   }
 
+  /* A textarea grows with its rows, not the single-line height. */
+  textarea.input {
+    height: auto;
+    min-height: 88px;
+    line-height: 1.5;
+  }
+
   .input::placeholder {
     color: var(--color-umber-300);
   }

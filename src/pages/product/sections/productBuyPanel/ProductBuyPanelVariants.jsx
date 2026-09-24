@@ -5,6 +5,8 @@ import { sizeLabel } from "../../../../utils/sizeLabel";
 import ProductBuyPanelColors from "./ProductBuyPanelColors";
 import ProductBuyPanelSizes from "./ProductBuyPanelSizes";
 import { useUsualSize } from "./useUsualSize";
+import { useAsyncData } from "../../../../hooks/useAsyncData";
+import { getModels } from "../../../../services/catalog/modelsApi";
 
 export default function ProductBuyPanelVariants({
   product,
@@ -21,6 +23,8 @@ export default function ProductBuyPanelVariants({
 }) {
   const { t } = useLanguage();
   const usualSize = useUsualSize(product);
+  const { data: models } = useAsyncData(getModels, []);
+  const model = (models ?? []).find((m) => m.id === product.modelFit?.modelId);
 
   return (
     <>
@@ -67,9 +71,9 @@ export default function ProductBuyPanelVariants({
             unavailable={unavailable}
           />
 
-          {product.modelFit?.heightCm && product.modelFit?.size && (
+          {model && product.modelFit?.size && (
             <p className="mt-3 text-[12px] text-espresso-soft">
-              Model is {product.modelFit.heightCm} cm tall and wears size{" "}
+              {model.name} is {model.heightCm} cm tall and wears size{" "}
               <strong className="font-medium text-espresso">{sizeLabel(taxonomy, product.modelFit.size)}</strong>.
             </p>
           )}

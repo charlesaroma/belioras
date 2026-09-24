@@ -17,8 +17,8 @@
     ],
     "care": [
       "Shampoo in downward motion",
-      "Low heat styling",
-      "Detangle from ends"
+      "low-heat-styling",
+      "detangle"
     ],
     "sizes": [
       "one-size"
@@ -81,8 +81,8 @@
       "100% human Remy hair"
     ],
     "care": [
-      "Sulfate-free shampoo",
-      "Air dry or low diffuser",
+      "sulfate-free",
+      "air-dry",
       "Braid at night"
     ],
     "sizes": [

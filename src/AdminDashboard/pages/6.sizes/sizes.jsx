@@ -1,17 +1,19 @@
 /* Admin Dashboard Page: Sizes - sizes */
 import { useState } from "react";
-import { Ruler, Shirt } from "lucide-react";
+import { Ruler, Shirt, UserRound } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 import SizesPanel from "./sections/SizesPanel";
 import GuidesPanel from "./sections/GuidesPanel";
+import ModelsPanel from "./sections/ModelsPanel";
 
 const TABS = [
   { id: "sizes", label: "Sizes", icon: Ruler },
   { id: "guides", label: "Size guides", icon: Shirt },
+  { id: "models", label: "Models", icon: UserRound },
 ];
 
-const PANELS = { sizes: SizesPanel, guides: GuidesPanel };
+const PANELS = { sizes: SizesPanel, guides: GuidesPanel, models: ModelsPanel };
 
 export default function DashSizes() {
   const [tab, setTab] = useState("sizes");

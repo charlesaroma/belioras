@@ -7,6 +7,7 @@ import { sizeChartLabelFor } from "../../../../components/storefront/sizeChart/s
 import ProductBuyPanelVariants from "./ProductBuyPanelVariants";
 import ProductBuyPanelActions from "./ProductBuyPanelActions";
 import ProductPageAccordions from "../ProductPageAccordions";
+import ProductModelCard from "../ProductModelCard";
 import { useProductPurchase } from "./useProductPurchase";
 
 export default function ProductBuyPanel({ product, color, onColorChange, images }) {
@@ -42,6 +43,7 @@ export default function ProductBuyPanel({ product, color, onColorChange, images 
       />
 
       <ProductPageAccordions product={product} />
+      <ProductModelCard product={product} taxonomy={buy.taxonomy} />
 
       <Modal
         open={sizeGuideOpen}

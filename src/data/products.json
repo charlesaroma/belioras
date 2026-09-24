@@ -18,9 +18,10 @@
       "5% elastane"
     ],
     "care": [
-      "Dry clean only",
-      "Cool iron reverse",
-      "Store on padded hanger"
+      "dry-clean",
+      "no-bleach",
+      "iron-low",
+      "padded-hanger"
     ],
     "sizes": [
       "xs",
@@ -92,7 +93,7 @@
     ],
     "costPrice": 54,
     "modelFit": {
-      "heightCm": 172,
+      "modelId": "lena",
       "size": "xs"
     }
   },
@@ -113,9 +114,9 @@
       "100% European flax linen"
     ],
     "care": [
-      "Machine wash 30\u00b0",
+      "machine-30",
       "Reshape while damp",
-      "Iron on high heat"
+      "iron-high"
     ],
     "sizes": [
       "xs",
@@ -197,8 +198,9 @@
       "8% elastane"
     ],
     "care": [
-      "Dry clean only",
-      "Do not tumble dry"
+      "dry-clean",
+      "no-bleach",
+      "no-tumble"
     ],
     "sizes": [
       "xs",
@@ -262,7 +264,11 @@
         }
       }
     ],
-    "costPrice": 63
+    "costPrice": 63,
+    "modelFit": {
+      "modelId": "lena",
+      "size": "xs"
+    }
   },
   {
     "id": "p4",
@@ -281,8 +287,8 @@
       "100% polyester crepe"
     ],
     "care": [
-      "Machine wash 30\u00b0",
-      "Hang dry"
+      "machine-30",
+      "hang-dry"
     ],
     "sizes": [
       "xs",

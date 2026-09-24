@@ -9,6 +9,7 @@ import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { getCategories } from "@/services/catalog/categoriesApi";
 import { getColors } from "@/services/catalog/colorsApi";
+import { getModels } from "@/services/catalog/modelsApi";
 import { getTaxonomy } from "@/services/catalog/navigationApi";
 import { createProduct, getProduct, updateProduct } from "@/services/catalog/productsApi";
 
@@ -21,6 +22,7 @@ import ProductFormPricing from "./sections/productForm/ProductFormPricing";
 import ProductFormPublish from "./sections/productForm/ProductFormPublish";
 import SaveBar from "./sections/productForm/ProductFormSaveBar";
 import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
+import ProductFormDetailsCare from "./sections/productForm/ProductFormDetailsCare";
 import ProductFormVideo from "./sections/productForm/ProductFormVideo";
 import ProductFormVariants from "./sections/productForm/ProductFormVariants";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
@@ -39,6 +41,7 @@ export default function ProductForm() {
   const { data: categories } = useAsyncData(getCategories, [revision]);
   const { data: colors } = useAsyncData(getColors, [revision]);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+  const { data: models } = useAsyncData(getModels, []);
 
   const [photos, setPhotos] = useState([]);
   const [videos, setVideos] = useState({});
@@ -122,8 +125,9 @@ export default function ProductForm() {
           <ProductFormPhotos photos={photos} onChange={setPhotos} colors={colors ?? []} colorIds={colorIds} onImageProgress={(p) => draft.updateDraft("new-product", { progress: p })} />
           <ProductFormVideo
             colors={colors ?? []} colorIds={colorIds} videos={videos} onVideosChange={setVideos}
-            photos={photos} sizes={sizes} taxonomy={taxonomy ?? {}} register={form.register}
+            photos={photos} sizes={sizes} taxonomy={taxonomy ?? {}} register={form.register} models={models ?? []}
           />
+          <ProductFormDetailsCare register={form.register} values={values} setValue={form.setValue} />
           <ProductFormVariants
             colors={colors ?? []} colorIds={colorIds} onColorIdsChange={setColorIds}
             photos={photos} onPhotosChange={setPhotos} stock={stock} onStockChange={setStock}
