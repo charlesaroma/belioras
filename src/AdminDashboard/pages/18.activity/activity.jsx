@@ -1,5 +1,6 @@
 /* Admin Dashboard Page: Activity - activity */
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Download, History } from "lucide-react";
 
 import Button from "@/components/ui/Button";
@@ -164,7 +165,8 @@ function ActivityLog() {
 
 /** Two views: what people did in the dashboard, and the emails the shop has queued. */
 export default function DashActivity() {
-  const [view, setView] = useState("activity");
+  const [params] = useSearchParams();
+  const [view, setView] = useState(params.get("view") === "emails" ? "emails" : "activity");
   return (
     <div className="space-y-6">
       <DashTabs

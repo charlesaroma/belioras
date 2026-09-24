@@ -14,6 +14,9 @@ import { getState, setState } from "../store/contentStore";
  * The server sends; the payment provider does not. Stripe's own receipt is
  * switched off so a customer gets one Belioras email, not two.
  */
+/** False until the backend's mailer is connected; the dashboard says so while it is. */
+export const EMAIL_CONNECTED = false;
+
 export const EMAIL_TYPES = {
   "order-confirmation": { label: "Order confirmation", audience: "Customer", when: "Payment succeeded (payment provider webhook). Includes the invoice." },
   "payment-failed": { label: "Payment failed", audience: "Customer", when: "The payment provider reports a failed or expired payment." },

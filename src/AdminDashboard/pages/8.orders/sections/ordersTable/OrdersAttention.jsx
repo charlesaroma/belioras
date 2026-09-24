@@ -1,5 +1,5 @@
 /* Admin Dashboard Page: Orders - OrdersAttention */
-import { CreditCard, Mail, Truck } from "lucide-react";
+import { CreditCard, Truck } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 
@@ -26,20 +26,19 @@ const reviewButton = (onClick) => (
 );
 
 /**
- * What needs someone today, above the list: parcels to send, money not yet
- * received, and the messages waiting for email to be connected.
+ * What needs someone today, above the list: parcels to send, and payments
+ * still with the payment provider.
  */
-export default function OrdersAttention({ rows, format, onReview, queuedEmails = 0 }) {
+export default function OrdersAttention({ rows, format, onReview }) {
   const toShip = rows.filter((r) => r.status === "to-ship");
   const oldestShip = Math.max(0, ...toShip.map((r) => r.age));
   const toPay = rows.filter((r) => r.status === "to-pay");
   const owed = toPay.reduce((s, r) => s + (r.total ?? 0), 0);
   const staleUnpaid = toPay.filter((r) => r.age > 30).length;
-  const queued = queuedEmails;
   const failed = toPay.filter((r) => r.payment === "failed").length;
 
   return (
-    <div className="grid gap-3 lg:grid-cols-3">
+    <div className="grid gap-3 lg:grid-cols-2">
       <Card
         icon={Truck}
         tone="bg-gold-500/15 text-gold-800"
@@ -60,13 +59,6 @@ export default function OrdersAttention({ rows, format, onReview, queuedEmails =
             : "Nothing waiting on the payment provider"
         }
         action={toPay.length > 0 && reviewButton(() => onReview("to-pay"))}
-      />
-      <Card
-        icon={Mail}
-        tone="bg-error/10 text-error"
-        eyebrow="Email not connected"
-        title={`${queued} ${queued === 1 ? "message" : "messages"} queued`}
-        detail="Order confirmations, shipping and refund emails are queued and send once email is connected with the backend. See them all under Activity log → Email outbox."
       />
     </div>
   );

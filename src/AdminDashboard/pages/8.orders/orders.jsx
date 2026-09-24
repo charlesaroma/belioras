@@ -1,7 +1,7 @@
 /* Admin Dashboard Page: Orders - orders */
 import { useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Download, Printer, Receipt, Truck } from "lucide-react";
+import { Download, Mail, Printer, Receipt, Truck } from "lucide-react";
 
 import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useCurrency } from "../../../context/CurrencyContext";
@@ -10,7 +10,8 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { cancelOrder, getAllOrders, refundOrder, sendReceipt, updateOrderStatus } from "../../../services/sales/ordersApi";
 import { getTransactions } from "../../../services/sales/transactionsApi";
-import { getEmails } from "../../../services/notifications/emailsApi";
+import { EMAIL_CONNECTED, getEmails } from "../../../services/notifications/emailsApi";
+import { Link } from "react-router-dom";
 import { ORDER_STATUS } from "../../../utils/orderStatus";
 import Button from "../../../components/ui/Button";
 import DashHeaderActions from "../../components/DashHeaderActions";
@@ -178,7 +179,17 @@ export default function DashOrders() {
         </Button>
       </DashHeaderActions>
 
-      <OrdersAttention rows={rows} format={format} queuedEmails={(emails ?? []).filter((e) => e.status === "queued").length} onReview={(t) => { setTab(t); clearSelection(); }} />
+      {!EMAIL_CONNECTED && (emails ?? []).length > 0 && (
+        <p className="-mt-2 flex flex-wrap items-center gap-x-2 text-[12px] text-espresso-soft">
+          <Mail className="size-3.5 text-gold-700" aria-hidden="true" />
+          Email isn&rsquo;t connected yet, so customer emails are queued ({(emails ?? []).filter((e) => e.status === "queued").length}).
+          <Link to="/dashboard/activity?view=emails" className="font-semibold text-gold-800 underline underline-offset-4 hover:text-espresso">
+            View outbox
+          </Link>
+        </p>
+      )}
+
+      <OrdersAttention rows={rows} format={format} onReview={(t) => { setTab(t); clearSelection(); }} />
 
       <DashListToolbar
         tabs={tabs}
