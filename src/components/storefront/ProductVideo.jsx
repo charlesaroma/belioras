@@ -71,7 +71,7 @@ export default function ProductVideo({ video, label, className }) {
   }
 
   return (
-    <div className={cn("relative overflow-hidden bg-ivory-200", className)}>
+    <div className={cn("group/video relative overflow-hidden bg-ivory-200", className)}>
       <video
         ref={ref}
         src={near ? video.url : undefined}
@@ -90,7 +90,11 @@ export default function ProductVideo({ video, label, className }) {
         type="button"
         onClick={toggle}
         aria-label={playing ? "Pause the video" : "Play the video"}
-        className="liquid-hover absolute bottom-3 right-3 flex size-10 items-center justify-center rounded-full bg-ivory-50/85 text-espresso shadow-[0_1px_3px_rgba(43,29,20,0.18)] backdrop-blur"
+        className={cn(
+          "liquid-hover absolute bottom-3 right-3 flex size-10 items-center justify-center rounded-full bg-ivory-50/85 text-espresso shadow-[0_1px_3px_rgba(43,29,20,0.18)] backdrop-blur transition-opacity",
+          // A clean picture while it plays: the control shows on hover or focus, and always when paused or on touch.
+          playing && "md:opacity-0 md:group-hover/video:opacity-100 md:focus-visible:opacity-100",
+        )}
       >
         {playing ? <Pause className="liquid-icon size-4" aria-hidden="true" /> : <Play className="liquid-icon size-4 translate-x-px" aria-hidden="true" />}
       </button>
