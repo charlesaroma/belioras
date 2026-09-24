@@ -14,7 +14,7 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
   const { pathname } = useLocation();
 
   return (
-    <nav className="flex-1 overflow-y-auto px-3 py-5" aria-label="Dashboard">
+    <nav className="no-scrollbar flex-1 overflow-y-auto px-3 py-5" aria-label="Dashboard">
       {groups.map((group) => (
         <div key={group.id} className="mb-5 last:mb-0">
           {group.label && (
