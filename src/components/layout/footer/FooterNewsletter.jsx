@@ -85,7 +85,7 @@ export default function FooterNewsletter() {
                 type="submit"
                 disabled={busy}
                 aria-label="Subscribe to the Belioras Letter"
-                className="group/sub flex size-11 shrink-0 items-center justify-center text-ivory-50/70 transition-colors hover:text-gold-400 disabled:opacity-40"
+                className="group/sub flex size-11 shrink-0 items-center justify-center text-ivory-50/70 transition-colors hover:text-gold-400 disabled:opacity-40 liquid-hover rounded-full"
               >
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover/sub:translate-x-0.5"

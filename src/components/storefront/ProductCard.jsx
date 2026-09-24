@@ -21,7 +21,7 @@ function CardAction({ active = false, icon: Icon, iconClassName, ...props }) {
       type="button"
       {...props}
       className={cn(
-        "group/act relative flex size-11 items-center justify-center rounded-full backdrop-blur",
+        "liquid-hover group/act relative flex size-11 items-center justify-center rounded-full backdrop-blur",
         "shadow-[0_1px_3px_rgba(43,29,20,0.18),0_2px_10px_rgba(43,29,20,0.10)]",
         "transition-[scale,box-shadow] duration-300 hover:shadow-[0_4px_14px_rgba(43,29,20,0.25)] active:scale-90",
         "hover:animate-[liquid-swell_650ms_cubic-bezier(0.34,1.56,0.64,1)_forwards] focus-visible:animate-[liquid-swell_650ms_cubic-bezier(0.34,1.56,0.64,1)_forwards]",

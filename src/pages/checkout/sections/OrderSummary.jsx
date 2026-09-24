@@ -73,9 +73,9 @@ export default function OrderSummary({ items, totals, coupon, onCoupon, disabled
             type="button"
             onClick={() => onCoupon(null)}
             aria-label={`Remove coupon ${coupon.code}`}
-            className="shrink-0 text-espresso/40 transition-colors hover:text-error"
+            className="shrink-0 text-espresso/40 transition-colors hover:text-error liquid-hover rounded-full"
           >
-            <X className="size-4" aria-hidden="true" />
+            <X className="liquid-icon size-4" aria-hidden="true" />
           </button>
         </div>
       ) : (

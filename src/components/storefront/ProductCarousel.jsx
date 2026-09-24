@@ -117,11 +117,11 @@ function Arrow({ direction, onClick }) {
       className={cn(
         "absolute top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full",
         "border border-umber-50 bg-ivory-50 text-espresso-soft shadow-sm",
-        "transition-all duration-200 hover:border-espresso-300 hover:text-espresso",
+        "liquid-hover transition-colors duration-200 hover:border-espresso-300 hover:text-espresso",
         isLeft ? "-left-4 md:-left-6" : "-right-4 md:-right-6",
       )}
     >
-      <Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+      <Icon className="liquid-icon size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
     </button>
   );
 }

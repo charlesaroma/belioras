@@ -14,11 +14,11 @@ export default function NavbarMobileRow({ cartCount, onOpenMenu, onOpenCart }) {
       <div className="flex items-center justify-start">
         <button
           type="button"
-          className="flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+          className="flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70 liquid-hover"
           aria-label="Open menu"
           onClick={onOpenMenu}
         >
-          <Menu className="size-5" aria-hidden="true" />
+          <Menu className="liquid-icon size-5" aria-hidden="true" />
         </button>
       </div>
 

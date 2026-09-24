@@ -82,9 +82,9 @@ export default function ToastViewport() {
                 type="button"
                 onClick={() => dismiss(t.id)}
                 aria-label="Dismiss"
-                className="-mr-1 shrink-0 text-espresso/35 transition-colors hover:text-espresso"
+                className="-mr-1 shrink-0 text-espresso/35 transition-colors hover:text-espresso liquid-hover rounded-full"
               >
-                <X className="size-4" aria-hidden="true" />
+                <X className="liquid-icon size-4" aria-hidden="true" />
               </button>
             </motion.div>
           );

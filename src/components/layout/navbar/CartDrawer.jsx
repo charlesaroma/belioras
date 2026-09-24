@@ -68,11 +68,11 @@ export default function CartDrawer({ open, onClose }) {
               </div>
               <button
                 type="button"
-                className="flex size-10 items-center justify-center rounded-full text-espresso/60 hover:bg-espresso/5 hover:text-espresso transition-colors"
+                className="flex size-10 items-center justify-center rounded-full text-espresso/60 hover:bg-espresso/5 hover:text-espresso transition-colors liquid-hover"
                 aria-label="Close cart"
                 onClick={onClose}
               >
-                <X className="size-5" aria-hidden="true" />
+                <X className="liquid-icon size-5" aria-hidden="true" />
               </button>
             </div>
 
@@ -151,11 +151,11 @@ export default function CartDrawer({ open, onClose }) {
                       </div>
                       <button
                         type="button"
-                        className="flex size-8 shrink-0 items-center justify-center self-start rounded-full text-espresso/40 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                        className="flex size-8 shrink-0 items-center justify-center self-start rounded-full text-espresso/40 hover:bg-rose-50 hover:text-rose-600 transition-colors liquid-hover"
                         aria-label={`Remove ${item.name} from cart`}
                         onClick={() => removeItem(index)}
                       >
-                        <Trash2 className="size-4" aria-hidden="true" />
+                        <Trash2 className="liquid-icon size-4" aria-hidden="true" />
                       </button>
                     </motion.li>
                   ))}

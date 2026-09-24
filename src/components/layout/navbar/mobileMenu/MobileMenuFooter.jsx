@@ -61,7 +61,7 @@ export default function MobileMenuFooter({ user, t, onClose }) {
             signOut();
           }}
           aria-label="Sign out"
-          className="flex size-11 shrink-0 items-center justify-center text-espresso/40 transition-colors hover:text-error"
+          className="flex size-11 shrink-0 items-center justify-center text-espresso/40 transition-colors hover:text-error liquid-hover rounded-full"
         >
           <LogOut className="size-4" strokeWidth={1.5} aria-hidden="true" />
         </button>

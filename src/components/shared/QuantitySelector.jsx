@@ -13,12 +13,12 @@ export default function QuantitySelector({ value, onChange, min = 1, max = 99, d
     <div className="inline-flex items-stretch border border-umber-100 bg-ivory-50">
       <button
         type="button"
-        className={`flex ${step} items-center justify-center rounded-l-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40`}
+        className={`flex ${step} items-center justify-center rounded-l-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40 liquid-hover`}
         aria-label="Decrease quantity"
         disabled={disabled || value <= min}
         onClick={() => onChange(clamp(value - 1))}
       >
-        <Minus className="size-4" aria-hidden="true" />
+        <Minus className="liquid-icon size-4" aria-hidden="true" />
       </button>
       <output
         className="flex min-w-10 items-center justify-center text-sm font-medium tabular-nums text-espresso"
@@ -28,12 +28,12 @@ export default function QuantitySelector({ value, onChange, min = 1, max = 99, d
       </output>
       <button
         type="button"
-        className={`flex ${step} items-center justify-center rounded-r-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40`}
+        className={`flex ${step} items-center justify-center rounded-r-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40 liquid-hover`}
         aria-label="Increase quantity"
         disabled={disabled || value >= max}
         onClick={() => onChange(clamp(value + 1))}
       >
-        <Plus className="size-4" aria-hidden="true" />
+        <Plus className="liquid-icon size-4" aria-hidden="true" />
       </button>
     </div>
   );

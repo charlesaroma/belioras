@@ -85,9 +85,9 @@ export default function ShopFilterDrawer({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="-mr-3 flex size-11 items-center justify-center text-espresso/40 transition-colors hover:text-espresso"
+            className="-mr-3 flex size-11 items-center justify-center text-espresso/40 transition-colors hover:text-espresso liquid-hover rounded-full"
           >
-            <X className="size-5" aria-hidden="true" />
+            <X className="liquid-icon size-5" aria-hidden="true" />
           </button>
         </header>
 

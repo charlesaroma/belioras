@@ -45,13 +45,13 @@ export default function ProductBuyPanelActions({
         aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
         aria-pressed={saved}
         className={cn(
-          "ml-auto flex size-12 shrink-0 items-center justify-center border transition-all sm:ml-0",
+          "liquid-hover ml-auto flex size-12 shrink-0 items-center justify-center border transition-colors sm:ml-0",
           saved
             ? "border-espresso bg-espresso text-gold-400"
             : "border-umber-100 text-espresso-soft hover:border-espresso",
         )}
       >
-        <Heart className={cn("size-5", saved && "fill-current")} aria-hidden="true" />
+        <Heart className={cn("liquid-icon size-5", saved && "fill-current")} aria-hidden="true" />
       </button>
     </div>
   );
