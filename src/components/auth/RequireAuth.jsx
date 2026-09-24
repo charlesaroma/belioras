@@ -36,7 +36,7 @@ export default function RequireAuth({ children, adminOnly = false, capability = 
           // Admin-tier but short of this capability means staff; the wording
           // tells them who to ask rather than leaving them stuck.
           isAdmin
-            ? "This section is limited to administrators. Ask a Belioras administrator if you need access to it."
+            ? "Your role does not include this section. Ask a Belioras administrator if you need access to it."
             : "Your account does not have access to this section."
         }
         actions={

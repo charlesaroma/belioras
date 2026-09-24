@@ -223,7 +223,7 @@ function setCouponActive$raw(id, active) {
 }
 
 /* Recorded in the staff activity log. */
-export const createCoupon = audited("marketing", (_, r) => `Created coupon ${r.code}`, createCoupon$raw);
-export const updateCoupon = audited("marketing", (_, r) => `Updated coupon ${r.code}`, updateCoupon$raw);
-export const deleteCoupon = audited("marketing", (_, r) => `Deleted coupon ${r.code}`, deleteCoupon$raw);
-export const setCouponActive = audited("marketing", ([, on], r) => `${r.code} ${on ? "made live" : "paused"}`, setCouponActive$raw);
+export const createCoupon = audited("discounts", (_, r) => `Created coupon ${r.code}`, createCoupon$raw);
+export const updateCoupon = audited("discounts", (_, r) => `Updated coupon ${r.code}`, updateCoupon$raw);
+export const deleteCoupon = audited("discounts", (_, r) => `Deleted coupon ${r.code}`, deleteCoupon$raw);
+export const setCouponActive = audited("discounts", ([, on], r) => `${r.code} ${on ? "made live" : "paused"}`, setCouponActive$raw);

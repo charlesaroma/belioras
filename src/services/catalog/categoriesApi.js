@@ -228,6 +228,6 @@ function uniqueId(base) {
 }
 
 /* Recorded in the staff activity log. */
-export const createCategory = audited("catalogue", (_, r) => `Created category ${r.name}`, createCategory$raw);
-export const updateCategory = audited("catalogue", (_, r) => `Updated category ${r.name}`, updateCategory$raw);
-export const deleteCategory = audited("catalogue", (_, r) => `Deleted category ${r.name}`, deleteCategory$raw);
+export const createCategory = audited("categories", (_, r) => `Created category ${r.name}`, createCategory$raw);
+export const updateCategory = audited("categories", (_, r) => `Updated category ${r.name}`, updateCategory$raw);
+export const deleteCategory = audited("categories", (_, r) => `Deleted category ${r.name}`, deleteCategory$raw);

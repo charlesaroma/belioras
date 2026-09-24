@@ -1,7 +1,7 @@
 /* Customer Dashboard Page: Orders - order-detail */
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Printer, RotateCcw, X } from "lucide-react";
+import { ArrowLeft, Printer, RotateCcw, X, FileText } from "lucide-react";
 
 import Button from "../../../components/ui/Button";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog";
@@ -86,6 +86,15 @@ export default function OrderDetail() {
           <StatusChip status={order.status} />
         </div>
         <p className="mt-1 text-sm text-espresso-soft">Placed {formatDate(order.createdAt)}</p>
+        {order.invoiceNumber && (
+          <Link
+            to={`/invoice/${order.id}`}
+            className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-espresso underline decoration-gold-600 underline-offset-4 hover:text-gold-700"
+          >
+            <FileText className="size-3.5" aria-hidden="true" />
+            Invoice {order.invoiceNumber}
+          </Link>
+        )}
       </div>
 
       <OrderTimeline status={order.status} />

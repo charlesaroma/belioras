@@ -19,6 +19,8 @@ import {
   DashTeam,
   DashShipping,
   DashSettings,
+  DashReports,
+  DashActivity,
 } from "../AdminDashboard/DashboardPages";
 import ProductForm from "../AdminDashboard/pages/3.products/product-form";
 
@@ -46,62 +48,22 @@ export default function dashboardRoutes() {
       <Route path="mega-menu" element={<DashMegaMenu />} />
       <Route path="reviews" element={<DashReviews />} />
       <Route path="orders" element={<DashOrders />} />
-      {/* Finance: admins only. */}
-      <Route
-        path="transactions"
-        element={
-          <RequireAuth adminOnly capability="payments">
-            <DashTransactions />
-          </RequireAuth>
-        }
-      />
+      {/* Each section is gated by the signed-in role in DashboardLayout. */}
+      <Route path="transactions" element={<DashTransactions />} />
       {/* Staff: Users page locks them out of served records. */}
       <Route path="customers" element={<DashCustomers />} />
-      <Route
-        path="discounts"
-        element={
-          <RequireAuth adminOnly capability="marketing">
-            <DashDiscounts />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="newsletter"
-        element={
-          <RequireAuth adminOnly capability="marketing">
-            <DashNewsletter />
-          </RequireAuth>
-        }
-      />
+      <Route path="reports" element={<DashReports />} />
+      <Route path="discounts" element={<DashDiscounts />} />
+      <Route path="newsletter" element={<DashNewsletter />} />
 
       {/* Access mgmt: grant control beside delivery history, enables super-admin promote. */}
-      <Route
-        path="team"
-        element={
-          <RequireAuth adminOnly capability="team">
-            <DashTeam />
-          </RequireAuth>
-        }
-      />
+      <Route path="team" element={<DashTeam />} />
+      <Route path="activity" element={<DashActivity />} />
 
       {/* Old combined page: bookmark lands useful, not 404. */}
       <Route path="users" element={<Navigate to="/dashboard/customers" replace />} />
-      <Route
-        path="shipping"
-        element={
-          <RequireAuth adminOnly capability="settings">
-            <DashShipping />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="settings"
-        element={
-          <RequireAuth adminOnly capability="settings">
-            <DashSettings />
-          </RequireAuth>
-        }
-      />
+      <Route path="shipping" element={<DashShipping />} />
+      <Route path="settings" element={<DashSettings />} />
     </Route>
 
     {/* Main App Routes - With navbar/footer */}

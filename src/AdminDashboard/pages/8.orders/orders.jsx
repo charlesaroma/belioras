@@ -8,7 +8,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getAllOrders, returnableUnits, updateOrderStatus } from "../../../services/sales/ordersApi";
+import { getAllOrders, returnableUnits, sendReceipt, updateOrderStatus } from "../../../services/sales/ordersApi";
 import { ORDER_STATUS, normalizeStatus } from "../../../utils/orderStatus";
 import DashTable from "../../components/DashTable";
 import { usePageSize } from "../../lib/usePageSize";
@@ -25,7 +25,7 @@ export default function DashOrders() {
   const { format } = useCurrency();
   const { locale } = useLanguage();
   const { toast } = useToast();
-  const { can, user } = useStaffAuth();
+  const { can, canEdit, user } = useStaffAuth();
 
   const [revision, setRevision] = useState(0);
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
@@ -140,7 +140,17 @@ export default function DashOrders() {
         order={viewing}
         onClose={() => setViewing(null)}
         onAdvance={advance}
-        showPayments={can("payments")}
+        showPayments={can("transactions")}
+        canEdit={canEdit("orders")}
+        onSendReceipt={async (order) => {
+          try {
+            await sendReceipt(order.id);
+            refresh();
+            toast(`Receipt for ${order.id} queued to ${order.email}. It sends once email is connected.`, "success");
+          } catch (err) {
+            toast(err.message ?? "Could not queue that receipt.", "error");
+          }
+        }}
         format={format}
         dateFmt={dateFmt}
       />

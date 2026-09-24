@@ -104,6 +104,6 @@ function uniqueId(base) {
 }
 
 /* Recorded in the staff activity log. */
-export const createColor = audited("catalogue", (_, r) => `Added colour ${r.name}`, createColor$raw);
-export const updateColor = audited("catalogue", (_, r) => `Updated colour ${r.name}`, updateColor$raw);
-export const deleteColor = audited("catalogue", (_, r) => `Deleted colour ${r.name}`, deleteColor$raw);
+export const createColor = audited("categories", (_, r) => `Added colour ${r.name}`, createColor$raw);
+export const updateColor = audited("categories", (_, r) => `Updated colour ${r.name}`, updateColor$raw);
+export const deleteColor = audited("categories", (_, r) => `Deleted colour ${r.name}`, deleteColor$raw);

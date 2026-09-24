@@ -1,6 +1,7 @@
 /* Admin Dashboard Page: Overview - overview */
 import { useMemo } from "react";
 
+import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
@@ -20,6 +21,9 @@ export default function DashOverview() {
   const { data: orders } = useAsyncData(() => getRecentOrders(RECENT_ORDER_COUNT), []);
   const { format, currency } = useCurrency();
   const { locale } = useLanguage();
+  const { can } = useStaffAuth();
+  // Money is for roles that see payments or reports; the rest see the work.
+  const seesMoney = can("transactions") || can("reports");
 
   // Compact so a five-figure month does not wrap the chart's axis labels.
   const formatCompact = useMemo(() => {
@@ -40,11 +44,11 @@ export default function DashOverview() {
 
   return (
     <div className="space-y-10">
-      <KeyFigures stats={stats} loading={loading} format={format} locale={locale} />
-      <RevenuePanel series={stats?.series} formatCompact={formatCompact} />
+      <KeyFigures stats={stats} loading={loading} format={format} locale={locale} seesMoney={seesMoney} />
+      {seesMoney && <RevenuePanel series={stats?.series} formatCompact={formatCompact} />}
       <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-2">
         <OverviewAttention attention={stats?.attention} loading={loading} />
-        <OverviewTopSellers topSellers={stats?.topSellers} format={format} loading={loading} />
+        <OverviewTopSellers topSellers={stats?.topSellers} format={format} loading={loading} seesMoney={seesMoney} />
       </div>
       <RecentOrders orders={orders} format={format} dateFmt={dateFmt} />
     </div>

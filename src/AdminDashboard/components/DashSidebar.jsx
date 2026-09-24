@@ -14,7 +14,7 @@ export default function DashSidebar({ isOpen, onClose, collapsed, onToggleCollap
   // A group whose every item is out of reach for this role disappears with it.
   const groups = DASHBOARD_NAV_GROUPS.map((group) => ({
     ...group,
-    items: group.items.filter((item) => !item.capability || can(item.capability)),
+    items: group.items.filter((item) => can(item.id)),
   })).filter((group) => group.items.length > 0);
 
   return (

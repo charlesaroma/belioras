@@ -10,46 +10,50 @@ export const DASHBOARD_NAV_GROUPS = [
     id: "catalogue",
     label: "Catalogue",
     items: [
-      { id: "products", label: "Products", icon: "Package", capability: "catalog" },
+      { id: "products", label: "Products", icon: "Package" },
       // How many of each piece: on hand, held by open orders, and available.
-      { id: "inventory", label: "Inventory", icon: "Warehouse", capability: "catalog" },
-      { id: "categories", label: "Categories & Colours", icon: "Tags", capability: "content" },
-      { id: "sizes", label: "Sizes & Guides", icon: "Ruler", capability: "content" },
-      { id: "mega-menu", label: "Mega Menu", icon: "Menu", capability: "content" },
-      { id: "reviews", label: "Reviews", icon: "Star", capability: "content" },
+      { id: "inventory", label: "Inventory", icon: "Warehouse" },
+      { id: "categories", label: "Categories & Colours", icon: "Tags" },
+      { id: "sizes", label: "Sizes & Guides", icon: "Ruler" },
+      { id: "mega-menu", label: "Mega Menu", icon: "Menu" },
+      { id: "reviews", label: "Reviews", icon: "Star" },
     ],
   },
   {
     id: "sales",
     label: "Sales",
     items: [
-      { id: "orders", label: "Orders", icon: "ShoppingCart", capability: "orders" },
+      { id: "orders", label: "Orders", icon: "ShoppingCart" },
       // The money behind orders: payments, refunds and failed attempts. A
       // separate page because one order can carry several of them.
-      { id: "transactions", label: "Transactions", icon: "CreditCard", capability: "payments" },
+      { id: "transactions", label: "Transactions", icon: "CreditCard" },
       // Customers and Team were one "Users" page listing shoppers and staff in
       // the same table, with a role dropdown on every row — the control that
       // grants administrator access sitting beside a customer's delivery
       // history. Different jobs, different audiences, different permissions.
-      { id: "customers", label: "Customers", icon: "Users", capability: "orders" },
+      { id: "customers", label: "Customers", icon: "Users" },
+      // Sales, VAT, stock and coupon figures for a period, each downloadable.
+      { id: "reports", label: "Reports", icon: "FileBarChart" },
     ],
   },
   {
     id: "marketing",
     label: "Marketing",
     items: [
-      { id: "discounts", label: "Discounts", icon: "Percent", capability: "marketing" },
+      { id: "discounts", label: "Discounts", icon: "Percent" },
       // Subscribers, campaigns and the welcome email for the Belioras Letter.
-      { id: "newsletter", label: "Newsletter", icon: "Mail", capability: "marketing" },
+      { id: "newsletter", label: "Newsletter", icon: "Mail" },
     ],
   },
   {
     id: "store",
     label: "Store",
     items: [
-      { id: "team", label: "Team", icon: "ShieldCheck", capability: "team" },
-      { id: "shipping", label: "Shipping", icon: "Truck", capability: "settings" },
-      { id: "settings", label: "Settings", icon: "Settings", capability: "settings" },
+      { id: "team", label: "Team & roles", icon: "ShieldCheck" },
+      // Sign-ins and every change made in the dashboard, by whom and when.
+      { id: "activity", label: "Activity log", icon: "History" },
+      { id: "shipping", label: "Shipping", icon: "Truck" },
+      { id: "settings", label: "Settings", icon: "Settings" },
     ],
   },
 ];

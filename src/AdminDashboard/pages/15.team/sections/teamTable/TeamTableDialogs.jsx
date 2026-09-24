@@ -1,17 +1,18 @@
 /* Admin Dashboard Page: Team - TeamTableDialogs */
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Link2, Mail } from "lucide-react";
 
 import Modal from "../../../../../components/common/Modal";
 import Button from "../../../../../components/ui/Button";
 import ConfirmDialog from "../../../../../components/ui/ConfirmDialog";
 import Field from "../../../../../components/ui/Field";
 import { cn } from "../../../../../utils/cn";
-import { roleLabel } from "./teamTableRoles";
+import { reach } from "../../../../../utils/permissions";
+import { inviteUrl } from "./inviteUrl";
 
-export function RoleChangeDialog({ pending, onClose, onConfirm }) {
-
+export function RoleChangeDialog({ pending, roles, onClose, onConfirm }) {
   const removing = pending?.role === "customer";
+  const role = roles.find((r) => r.id === pending?.role);
 
   return (
     <ConfirmDialog
@@ -19,17 +20,18 @@ export function RoleChangeDialog({ pending, onClose, onConfirm }) {
       onClose={onClose}
       onConfirm={onConfirm}
       destructive={removing}
-      title={removing ? "Remove atelier access?" : "Change this role?"}
+      title={removing ? "Remove dashboard access?" : `Make ${pending?.user.name ?? "them"} ${role?.name ?? ""}?`}
       description={
         removing
           ? "They keep their account and order history, but lose the dashboard entirely."
-          : "Administrators can see and edit every order, customer and piece, and can change who else has access."
+          : role?.locked
+            ? "Administrators can see and change everything, including who else has access."
+            : role?.description
       }
       summary={
-        pending && (
-          <span>
-            <strong className="font-medium">{pending.user.name}</strong>
-            {removing ? " becomes a customer again" : ` becomes ${roleLabel(pending.role)}`}
+        pending && !removing && role && (
+          <span className="text-[12px] text-espresso-soft">
+            {role.locked ? "Every section" : reach(role).map((s) => s.label).join(" · ")}
           </span>
         )
       }
@@ -38,25 +40,46 @@ export function RoleChangeDialog({ pending, onClose, onConfirm }) {
   );
 }
 
-const ROLE_CHOICES = [
-  { value: "staff", label: "Staff", blurb: "Catalogue, orders, content and marketing." },
-  { value: "super-admin", label: "Administrator", blurb: "Everything, plus the team, payments and settings." },
-];
-
-/** A memorable-enough temporary password: three word-ish chunks and digits. */
-function temporaryPassword() {
-  const chunk = () => Math.random().toString(36).slice(2, 6);
-  return `${chunk()}-${chunk()}-${Math.floor(1000 + Math.random() * 9000)}`;
+/** A role to pick: its name, one line, and the sections it opens. */
+function RoleOption({ role, selected, onSelect }) {
+  const sections = role.locked ? null : reach(role);
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={selected}
+      onClick={onSelect}
+      className={cn(
+        "flex w-full flex-col items-start gap-1.5 border px-4 py-3 text-left transition-colors",
+        selected ? "border-espresso bg-espresso text-ivory-50" : "border-umber-100 bg-white hover:border-espresso/50",
+      )}
+    >
+      <span className="flex w-full items-center justify-between gap-2">
+        <span className="text-[14px] font-medium">{role.name}</span>
+        {selected && <Check className="size-4 text-gold-400" aria-hidden="true" />}
+      </span>
+      <span className={cn("text-[12px] leading-snug", selected ? "text-ivory-50/70" : "text-espresso-soft")}>{role.description}</span>
+      <span className="flex flex-wrap gap-1">
+        {(sections ? sections.slice(0, 4) : [{ id: "all", label: "Everything" }]).map((s) => (
+          <span key={s.id} className={cn("px-1.5 py-0.5 text-[10px] uppercase tracking-[0.08em]", selected ? "bg-ivory-50/10 text-ivory-50/80" : "bg-umber-50 text-espresso-soft")}>
+            {s.label}
+          </span>
+        ))}
+        {sections && sections.length > 4 && (
+          <span className={cn("px-1.5 py-0.5 text-[10px]", selected ? "text-ivory-50/70" : "text-espresso-soft")}>+{sections.length - 4}</span>
+        )}
+      </span>
+    </button>
+  );
 }
 
 /**
- * Add a team member directly: name, email, role and a temporary password. An
- * email that already has an account is just given access. After creating, the
- * dialog shows the sign-in details once so they can be passed on.
- * Remount with a `key` per opening.
+ * Invite someone: name, email, role. They get a link to set their own
+ * password, so nobody else ever knows it. An email that already has a
+ * customer account is simply given access. Remount with a `key` per opening.
  */
-export function AddMemberDialog({ open, onClose, onAdd }) {
-  const [form, setForm] = useState({ name: "", email: "", role: "staff", password: temporaryPassword() });
+export function AddMemberDialog({ open, roles, onClose, onAdd }) {
+  const [form, setForm] = useState({ name: "", email: "", role: roles.find((r) => r.id === "staff")?.id ?? roles[0]?.id });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(null);
@@ -68,8 +91,7 @@ export function AddMemberDialog({ open, onClose, onAdd }) {
     setSaving(true);
     setError("");
     try {
-      const result = await onAdd(form);
-      setDone({ ...result, password: form.password });
+      setDone(await onAdd(form));
     } catch (err) {
       setError(err.message ?? "Could not add that person.");
     } finally {
@@ -79,83 +101,85 @@ export function AddMemberDialog({ open, onClose, onAdd }) {
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(`Email: ${done.user.email}\nTemporary password: ${done.password}`);
+      await navigator.clipboard.writeText(inviteUrl(done.token));
       setCopied(true);
     } catch {
-      setError("Could not copy — select the details and copy them by hand.");
+      setError("Could not copy — select the link and copy it by hand.");
     }
   };
 
+  const roleName = roles.find((r) => r.id === (done?.user.role ?? form.role))?.name;
+
   return (
-    <Modal open={open} onClose={onClose} title={done ? "Team member added" : "Add a team member"} width="max-w-md">
+    <Modal open={open} onClose={onClose} title={done ? (done.invited ? "Invitation ready" : "Access given") : "Invite to the team"} width="max-w-2xl">
       {done ? (
         <div className="space-y-5">
-          <p className="text-[14px] leading-relaxed text-espresso-soft">
-            {done.created
-              ? `${done.user.name} can sign in at the atelier door now. Pass these details on — the password is shown only here.`
-              : `${done.user.name} already had an account and now has ${roleLabel(done.user.role)} access. They sign in with their own password.`}
-          </p>
-          {done.created && (
-            <dl className="space-y-2 border border-umber-50 bg-brown-50/40 px-4 py-3 text-[13px]">
-              <div className="flex justify-between gap-3"><dt className="text-espresso-soft">Email</dt><dd className="font-mono text-espresso">{done.user.email}</dd></div>
-              <div className="flex justify-between gap-3"><dt className="text-espresso-soft">Temporary password</dt><dd className="font-mono text-espresso">{done.password}</dd></div>
-            </dl>
+          <div className="flex items-start gap-4">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-success/10 text-success">
+              {done.invited ? <Mail className="size-5" aria-hidden="true" /> : <Check className="size-5" aria-hidden="true" />}
+            </span>
+            <p className="text-[14px] leading-relaxed text-espresso-soft">
+              {done.invited ? (
+                <>
+                  <strong className="font-medium text-espresso">{done.user.name}</strong> is invited as {roleName}. Send them
+                  this link: they choose their own password and can then sign in at the atelier door. It stops working once used.
+                </>
+              ) : (
+                <>
+                  <strong className="font-medium text-espresso">{done.user.name}</strong> already had a Belioras account and now has{" "}
+                  {roleName} access. They sign in at the atelier door with the password they already use.
+                </>
+              )}
+            </p>
+          </div>
+
+          {done.invited && (
+            <div className="flex items-center gap-2 border border-umber-100 bg-white p-2 pl-3">
+              <Link2 className="size-4 shrink-0 text-espresso/40" aria-hidden="true" />
+              <input readOnly value={inviteUrl(done.token)} onFocus={(e) => e.target.select()} aria-label="Invitation link" className="min-w-0 flex-1 bg-transparent font-mono text-[12px] text-espresso outline-none" />
+              <Button size="sm" variant="secondary" icon={copied ? Check : Copy} onClick={copy}>
+                {copied ? "Copied" : "Copy"}
+              </Button>
+            </div>
+          )}
+          {done.invited && (
+            <p className="text-[12px] text-espresso-soft">Once email is connected, this link is sent to {done.user.email} automatically.</p>
           )}
           {error && <p role="alert" className="text-[13px] text-error">{error}</p>}
-          <div className="flex justify-end gap-2 border-t border-umber-50 pt-4">
-            {done.created && (
-              <Button variant="secondary" icon={copied ? Check : Copy} onClick={copy}>
-                {copied ? "Copied" : "Copy details"}
-              </Button>
-            )}
+
+          <div className="flex justify-end border-t border-umber-50 pt-4">
             <Button onClick={onClose}>Done</Button>
           </div>
         </div>
       ) : (
-        <form onSubmit={submit} className="space-y-5">
-          <Field label="Name" required>
-            <input value={form.name} onChange={set("name")} autoComplete="off" autoFocus />
-          </Field>
-          <Field label="Email" required helper="If this email already has an account, it is given access and no password is set.">
-            <input type="email" value={form.email} onChange={set("email")} autoComplete="off" />
-          </Field>
+        <form onSubmit={submit} className="space-y-6">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Name" required>
+              <input value={form.name} onChange={set("name")} autoComplete="off" autoFocus placeholder="Inês Camara" />
+            </Field>
+            <Field label="Work email" required>
+              <input type="email" value={form.email} onChange={set("email")} autoComplete="off" placeholder="name@belioras.com" />
+            </Field>
+          </div>
 
           <div>
             <p className="input-label">Role</p>
-            <div role="radiogroup" aria-label="Role" className="grid gap-2">
-              {ROLE_CHOICES.map((r) => (
-                <button
-                  key={r.value}
-                  type="button"
-                  role="radio"
-                  aria-checked={form.role === r.value}
-                  onClick={() => setForm((f) => ({ ...f, role: r.value }))}
-                  className={cn(
-                    "border px-4 py-3 text-left transition-colors",
-                    form.role === r.value ? "border-espresso bg-brown-50/50" : "border-umber-100 hover:border-espresso/50",
-                  )}
-                >
-                  <span className="block text-[14px] text-espresso">{r.label}</span>
-                  <span className="block text-[12px] text-espresso-soft">{r.blurb}</span>
-                </button>
+            <div role="radiogroup" aria-label="Role" className="grid gap-2 sm:grid-cols-2">
+              {roles.map((r) => (
+                <RoleOption key={r.id} role={r} selected={form.role === r.id} onSelect={() => setForm((f) => ({ ...f, role: r.id }))} />
               ))}
             </div>
+            <p className="mt-2 text-[12px] text-espresso-soft">Roles are edited under the Roles tab. You can change someone&rsquo;s role any time.</p>
           </div>
-
-          <Field label="Temporary password" helper="At least 8 characters. They should change it after signing in.">
-            <div className="flex gap-2">
-              <input value={form.password} onChange={set("password")} className="flex-1 font-mono" autoComplete="off" />
-              <Button variant="secondary" onClick={() => setForm((f) => ({ ...f, password: temporaryPassword() }))}>
-                New
-              </Button>
-            </div>
-          </Field>
 
           {error && <p role="alert" className="border-l-2 border-error py-1 pl-3 text-[13px] text-error">{error}</p>}
 
-          <div className="flex justify-end gap-2 border-t border-umber-50 pt-4">
-            <Button variant="ghost" onClick={onClose}>Cancel</Button>
-            <Button type="submit" loading={saving}>Add to team</Button>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-umber-50 pt-4">
+            <p className="text-[12px] text-espresso-soft">They set their own password from the invitation.</p>
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={onClose}>Cancel</Button>
+              <Button type="submit" icon={Mail} loading={saving}>Create invitation</Button>
+            </div>
           </div>
         </form>
       )}

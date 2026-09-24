@@ -23,7 +23,17 @@
     "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
     "status": "to-review",
     "createdAt": "2026-03-18T10:22:00Z",
-    "updatedAt": "2026-03-25T09:00:00Z"
+    "updatedAt": "2026-03-25T09:00:00Z",
+    "invoiceNumber": "BEL-2026-0001",
+    "paidAt": "2026-03-18T10:22:00Z",
+    "receipts": [
+      {
+        "at": "2026-03-18T10:22:00Z",
+        "to": "mariana@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1002",
@@ -47,7 +57,17 @@
     "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
     "status": "to-review",
     "createdAt": "2026-04-25T14:05:00Z",
-    "updatedAt": "2026-05-02T11:30:00Z"
+    "updatedAt": "2026-05-02T11:30:00Z",
+    "invoiceNumber": "BEL-2026-0002",
+    "paidAt": "2026-04-25T14:05:00Z",
+    "receipts": [
+      {
+        "at": "2026-04-25T14:05:00Z",
+        "to": "clarisse@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1003",
@@ -81,7 +101,17 @@
     "shippingAddress": "Calle de Alcal\u00e1 42, Madrid, 28014, Spain",
     "status": "to-review",
     "createdAt": "2026-06-08T16:45:00Z",
-    "updatedAt": "2026-06-15T12:00:00Z"
+    "updatedAt": "2026-06-15T12:00:00Z",
+    "invoiceNumber": "BEL-2026-0005",
+    "paidAt": "2026-06-08T16:45:00Z",
+    "receipts": [
+      {
+        "at": "2026-06-08T16:45:00Z",
+        "to": "amaia@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1004",
@@ -105,7 +135,17 @@
     "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
     "status": "shipped",
     "createdAt": "2026-08-10T09:12:00Z",
-    "updatedAt": "2026-08-12T10:00:00Z"
+    "updatedAt": "2026-08-12T10:00:00Z",
+    "invoiceNumber": "BEL-2026-0008",
+    "paidAt": "2026-08-10T09:12:00Z",
+    "receipts": [
+      {
+        "at": "2026-08-10T09:12:00Z",
+        "to": "mariana@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1005",
@@ -137,7 +177,17 @@
     "shippingAddress": "Kantstra\u00dfe 76, Berlin, 10627, Germany",
     "status": "to-ship",
     "createdAt": "2026-08-15T19:30:00Z",
-    "updatedAt": "2026-08-15T19:32:00Z"
+    "updatedAt": "2026-08-15T19:32:00Z",
+    "invoiceNumber": "BEL-2026-0009",
+    "paidAt": "2026-08-15T19:30:00Z",
+    "receipts": [
+      {
+        "at": "2026-08-15T19:30:00Z",
+        "to": "guest@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1006",
@@ -209,7 +259,17 @@
     "shippingAddress": "Calle de Alcal\u00e1 42, Madrid, 28014, Spain",
     "status": "refunded",
     "createdAt": "2026-05-30T18:00:00Z",
-    "updatedAt": "2026-06-02T14:40:00Z"
+    "updatedAt": "2026-06-02T14:40:00Z",
+    "invoiceNumber": "BEL-2026-0004",
+    "paidAt": "2026-05-30T18:00:00Z",
+    "receipts": [
+      {
+        "at": "2026-05-30T18:00:00Z",
+        "to": "amaia@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1009",
@@ -235,7 +295,17 @@
     "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
     "status": "to-review",
     "createdAt": "2026-07-12T11:00:00Z",
-    "updatedAt": "2026-07-20T15:00:00Z"
+    "updatedAt": "2026-07-20T15:00:00Z",
+    "invoiceNumber": "BEL-2026-0006",
+    "paidAt": "2026-07-12T11:00:00Z",
+    "receipts": [
+      {
+        "at": "2026-07-12T11:00:00Z",
+        "to": "mariana@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1010",
@@ -267,7 +337,17 @@
     "shippingAddress": "Neuer Wall 30, Hamburg, 20354, Germany",
     "status": "to-ship",
     "createdAt": "2026-07-28T20:15:00Z",
-    "updatedAt": "2026-07-28T20:16:00Z"
+    "updatedAt": "2026-07-28T20:16:00Z",
+    "invoiceNumber": "BEL-2026-0007",
+    "paidAt": "2026-07-28T20:15:00Z",
+    "receipts": [
+      {
+        "at": "2026-07-28T20:15:00Z",
+        "to": "guest3@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1011",
@@ -291,7 +371,17 @@
     "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
     "status": "to-review",
     "createdAt": "2026-05-09T13:25:00Z",
-    "updatedAt": "2026-05-16T10:30:00Z"
+    "updatedAt": "2026-05-16T10:30:00Z",
+    "invoiceNumber": "BEL-2026-0003",
+    "paidAt": "2026-05-09T13:25:00Z",
+    "receipts": [
+      {
+        "at": "2026-05-09T13:25:00Z",
+        "to": "clarisse@example.com",
+        "status": "queued",
+        "auto": true
+      }
+    ]
   },
   {
     "id": "ORD-1012",

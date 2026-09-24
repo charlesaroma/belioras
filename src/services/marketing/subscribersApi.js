@@ -151,5 +151,5 @@ function eraseSubscriber$raw(id) {
 }
 
 /* Recorded in the staff activity log. */
-export const unsubscribeSubscriber = audited("marketing", ([id]) => `Unsubscribed subscriber ${id}`, unsubscribeSubscriber$raw);
-export const eraseSubscriber = audited("marketing", ([id]) => `Erased subscriber ${id}`, eraseSubscriber$raw);
+export const unsubscribeSubscriber = audited("newsletter", ([id]) => `Unsubscribed subscriber ${id}`, unsubscribeSubscriber$raw);
+export const eraseSubscriber = audited("newsletter", ([id]) => `Erased subscriber ${id}`, eraseSubscriber$raw);

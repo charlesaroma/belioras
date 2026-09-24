@@ -107,7 +107,7 @@ export function getNewsletterSettings() {
 }
 
 /** The automatic email sent once, when someone confirms their subscription. */
-export function updateWelcomeEmail(input = {}) {
+function updateWelcomeEmail$raw(input = {}) {
   return mockApi(() => {
     const welcome = {
       enabled: Boolean(input.enabled),
@@ -128,7 +128,8 @@ export function updateWelcomeEmail(input = {}) {
 }
 
 /* Recorded in the staff activity log. */
-export const saveCampaign = audited("marketing", (_, r) => `Saved campaign “${r.subject ?? "untitled"}”`, saveCampaign$raw);
-export const scheduleCampaign = audited("marketing", ([id]) => `Scheduled campaign ${id}`, scheduleCampaign$raw);
-export const sendCampaign = audited("marketing", (_, r) => `Sent campaign “${r.subject ?? ""}”`, sendCampaign$raw);
-export const deleteCampaign = audited("marketing", ([id]) => `Deleted campaign ${id}`, deleteCampaign$raw);
+export const saveCampaign = audited("newsletter", (_, r) => `Saved campaign “${r.subject ?? "untitled"}”`, saveCampaign$raw);
+export const scheduleCampaign = audited("newsletter", ([id]) => `Scheduled campaign ${id}`, scheduleCampaign$raw);
+export const sendCampaign = audited("newsletter", (_, r) => `Sent campaign “${r.subject ?? ""}”`, sendCampaign$raw);
+export const deleteCampaign = audited("newsletter", ([id]) => `Deleted campaign ${id}`, deleteCampaign$raw);
+export const updateWelcomeEmail = audited("newsletter", () => "Updated the welcome email", updateWelcomeEmail$raw);

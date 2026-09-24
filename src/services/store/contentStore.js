@@ -31,6 +31,7 @@ import transactionsSeed from "../../data/transactionsSeed";
 import colorsSeed from "../../data/colorsSeed";
 import categoriesSeed from "../../data/categoriesSeed";
 import usersSeed from "../../data/usersSeed";
+import rolesSeed from "../../data/rolesSeed";
 import { couponsSeed } from "../../data/couponsSeed";
 import { reviewsSeed } from "../../data/reviewsSeed";
 import { campaignsSeed, newsletterSettingsSeed, subscribersSeed } from "../../data/newsletterSeed";
@@ -77,6 +78,8 @@ const DOMAINS = {
   // so checkout can record a payment once a provider is connected.
   transactions: { seed: transactionsSeed, collection: "items" },
   users: { seed: usersSeed, collection: "items" },
+  // Dashboard roles and what each may see or change (Team → Roles).
+  roles: { seed: rolesSeed, collection: "items" },
   // Who did what in the dashboard, and when: sign-ins, role changes and every edit staff make.
   activity: { seed: activitySeed, collection: "items" },
   // The Belioras Letter: who has consented, what was sent, and the welcome email.

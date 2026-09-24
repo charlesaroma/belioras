@@ -1,8 +1,10 @@
 /* Admin Dashboard: DashboardLayout */
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Eye } from "lucide-react";
 
 import ConfirmDialog from "../components/ui/ConfirmDialog";
+import Forbidden from "../components/layout/Forbidden";
 import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useToast } from "../context/ToastContext";
 import { useIdleTimeout } from "../hooks/useIdleTimeout";
@@ -25,7 +27,7 @@ export default function DashboardLayout() {
   const { pathname } = useLocation();
 
   const navigate = useNavigate();
-  const { logout } = useStaffAuth();
+  const { logout, access } = useStaffAuth();
   const { toast } = useToast();
 
   const segment = pathname.replace(/^\/dashboard\/?/, "").split("/")[0] || "overview";
@@ -36,6 +38,12 @@ export default function DashboardLayout() {
   // sidebar's own groups, plus the sub-page when there is one.
   const group = DASHBOARD_NAV_GROUPS.find((g) => g.items.some((item) => item.id === segment));
   const rest = pathname.replace(/^\/dashboard\/?/, "").split("/").slice(1);
+  // What this person's role allows on this section: nothing, a look, or changes.
+  // "none" shows a refusal inside the shell; "view" shows the page with a note,
+  // no main action in the header, and every write refused by the service.
+  const level = access(segment);
+  const firstAllowed = DASHBOARD_NAV_ITEMS.find((item) => access(item.id) !== "none");
+
   const trail = [
     group?.label,
     ...(rest.length ? [{ label: title, to: `/dashboard/${segment}` }] : [title]),
@@ -90,9 +98,32 @@ export default function DashboardLayout() {
         <DashHeader title={title} trail={trail} onMenuToggle={() => setSidebarOpen(true)} actionsRef={setHeaderSlot} />
 
         <main ref={mainRef} className="flex-1 px-5 py-8 sm:px-8 lg:min-h-0 lg:overflow-y-auto lg:px-10 lg:py-10">
-          <HeaderSlotContext.Provider value={headerSlot}>
-            <Outlet />
-          </HeaderSlotContext.Provider>
+          {level === "none" ? (
+            <Forbidden
+              standalone={false}
+              title="Not part of your role"
+              message="Your role does not include this section. Ask a Belioras administrator if you need it."
+              actions={
+                firstAllowed && (
+                  <Link to={firstAllowed.id === "overview" ? "/dashboard" : `/dashboard/${firstAllowed.id}`} className="btn btn-primary btn-md">
+                    Go to {firstAllowed.label}
+                  </Link>
+                )
+              }
+            />
+          ) : (
+            <>
+              {level === "view" && (
+                <p className="mb-6 flex items-center gap-2 border border-umber-100 bg-ivory-50 px-4 py-2.5 text-[12px] text-espresso-soft">
+                  <Eye className="size-4 shrink-0 text-gold-700" aria-hidden="true" />
+                  <span><strong className="font-semibold text-espresso">View only.</strong> Your role can look at {title} but not change it.</span>
+                </p>
+              )}
+              <HeaderSlotContext.Provider value={level === "edit" ? headerSlot : null}>
+                <Outlet />
+              </HeaderSlotContext.Provider>
+            </>
+          )}
         </main>
       </div>
 

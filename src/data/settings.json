@@ -144,5 +144,11 @@
       "start": "",
       "end": ""
     }
-  ]
+  ],
+  "invoice": {
+    "prefix": "BEL",
+    "vatId": "",
+    "taxNumber": "",
+    "note": "Thank you for shopping with Belioras. Keep this invoice for your records; it is also your receipt."
+  }
 }

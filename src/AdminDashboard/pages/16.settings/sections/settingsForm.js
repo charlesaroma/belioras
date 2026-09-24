@@ -65,6 +65,10 @@ export function toFormValues(settings) {
     gpsrCity: gpsr.city,
     gpsrCountry: gpsr.country,
     gpsrEmail: settings.gpsr?.email ?? "",
+    invoicePrefix: settings.invoice?.prefix ?? "BEL",
+    invoiceVatId: settings.invoice?.vatId ?? "",
+    invoiceTaxNumber: settings.invoice?.taxNumber ?? "",
+    invoiceNote: settings.invoice?.note ?? "",
     // Stored as a fraction, edited as a percentage.
     taxRate: (settings.tax?.rate ?? 0) * 100,
     instagram: settings.social?.instagram ?? "",
@@ -105,6 +109,12 @@ export function toSettingsPayload(values) {
       email: values.gpsrEmail.trim(),
     },
     tax: { rate: Number(values.taxRate) / 100 },
+    invoice: {
+      prefix: values.invoicePrefix.trim().toUpperCase() || "BEL",
+      vatId: values.invoiceVatId.trim(),
+      taxNumber: values.invoiceTaxNumber.trim(),
+      note: values.invoiceNote.trim(),
+    },
     social: {
       instagram: values.instagram,
       pinterest: values.pinterest,

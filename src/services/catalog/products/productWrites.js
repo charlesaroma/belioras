@@ -130,7 +130,7 @@ function restoreProduct$raw(product) {
 }
 
 /* Recorded in the staff activity log. */
-export const createProduct = audited("catalogue", ([, ], r) => `Created “${r.name}”`, createProduct$raw);
-export const updateProduct = audited("catalogue", ([, patch], r) => `Updated “${r.name}”${patch?.status ? ` (${patch.status})` : ""}`, updateProduct$raw);
-export const deleteProduct = audited("catalogue", (_, r) => `Deleted “${r.name}”`, deleteProduct$raw);
-export const restoreProduct = audited("catalogue", ([p]) => `Restored “${p?.name ?? "a product"}”`, restoreProduct$raw);
+export const createProduct = audited("products", ([, ], r) => `Created “${r.name}”`, createProduct$raw);
+export const updateProduct = audited("products", ([, patch], r) => `Updated “${r.name}”${patch?.status ? ` (${patch.status})` : ""}`, updateProduct$raw);
+export const deleteProduct = audited("products", (_, r) => `Deleted “${r.name}”`, deleteProduct$raw);
+export const restoreProduct = audited("products", ([p]) => `Restored “${p?.name ?? "a product"}”`, restoreProduct$raw);

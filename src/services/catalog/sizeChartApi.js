@@ -35,5 +35,5 @@ function resetSizeCharts$raw() {
 }
 
 /* Recorded in the staff activity log. */
-export const updateSizeChart = audited("content", ([section]) => `Edited the ${section} size guide`, updateSizeChart$raw);
-export const resetSizeCharts = audited("content", () => "Reset the size guides to defaults", resetSizeCharts$raw);
+export const updateSizeChart = audited("sizes", ([section]) => `Edited the ${section} size guide`, updateSizeChart$raw);
+export const resetSizeCharts = audited("sizes", () => "Reset the size guides to defaults", resetSizeCharts$raw);

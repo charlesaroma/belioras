@@ -112,6 +112,6 @@ function replyToReview$raw(id, text) {
 }
 
 /* Recorded in the staff activity log. */
-export const publishReview = audited("content", ([id]) => `Published review ${id}`, publishReview$raw);
-export const hideReview = audited("content", ([id]) => `Hid review ${id}`, hideReview$raw);
-export const replyToReview = audited("content", ([id]) => `Replied to review ${id}`, replyToReview$raw);
+export const publishReview = audited("reviews", ([id]) => `Published review ${id}`, publishReview$raw);
+export const hideReview = audited("reviews", ([id]) => `Hid review ${id}`, hideReview$raw);
+export const replyToReview = audited("reviews", ([id]) => `Replied to review ${id}`, replyToReview$raw);

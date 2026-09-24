@@ -6,4 +6,6 @@
 // stays the public entry point.
 export { login, register, logout, requestPasswordReset } from "./authSession";
 export { getUsers, updateProfile, verifyPassword, changePassword } from "./authProfile";
-export { addTeamMember, updateUserRole } from "./authRoles";
+export {
+  acceptInvite, addTeamMember, cancelInvite, createRole, deleteRole, getInvite, getRoles, renewInvite, updateRole, updateUserRole,
+} from "./authRoles";

@@ -1,4 +1,6 @@
 /* Admin Dashboard Page: Orders - OrdersDetailModal */
+import { FileText, Send } from "lucide-react";
+
 import Button from "../../../../../components/ui/Button";
 import StatusChip from "../../../../../components/ui/StatusChip";
 import Modal from "../../../../../components/common/Modal";
@@ -12,6 +14,8 @@ export default function OrderDetailModal({
   format,
   dateFmt,
   showPayments = false,
+  canEdit = true,
+  onSendReceipt,
 }) {
 
   const transitions = order ? nextStatuses(order.status) : [];
@@ -61,9 +65,39 @@ export default function OrderDetailModal({
             <Row label="Total" value={format(order.total ?? 0)} strong />
           </dl>
 
+          <div className="border-t border-umber-50 pt-4">
+            <p className="eyebrow mb-3">Invoice and receipt</p>
+            {order.invoiceNumber ? (
+              <>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button size="sm" variant="secondary" icon={FileText} href={`/invoice/${order.id}`} target="_blank" rel="noreferrer">
+                    Invoice {order.invoiceNumber}
+                  </Button>
+                  {canEdit && (
+                    <Button size="sm" variant="secondary" icon={Send} onClick={() => onSendReceipt?.(order)}>
+                      Resend receipt
+                    </Button>
+                  )}
+                </div>
+                {(order.receipts ?? []).length > 0 && (
+                  <ul className="mt-3 space-y-1 text-[12px] text-espresso-soft">
+                    {order.receipts.map((r, i) => (
+                      <li key={`${r.at}-${i}`}>
+                        {dateFmt.format(new Date(r.at))} · to {r.to} · {r.auto ? "on payment" : "resent"} ·{" "}
+                        <span className="text-gold-800">queued until email is connected</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            ) : (
+              <p className="text-[12px] text-espresso-soft">An invoice is issued, and a receipt sent, when payment is confirmed.</p>
+            )}
+          </div>
+
           {showPayments && <OrdersPayments orderId={order.id} />}
 
-          {transitions.length > 0 ? (
+          {transitions.length > 0 && canEdit ? (
             <div className="border-t border-umber-50 pt-4">
               <p className="eyebrow mb-3">Move this order on</p>
               <div className="flex flex-wrap gap-2">

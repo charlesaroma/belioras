@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 /** The pieces that sold most in the latest month, with units and what they brought in. */
-export default function OverviewTopSellers({ topSellers, format, loading }) {
+export default function OverviewTopSellers({ topSellers, format, loading, seesMoney = true }) {
   const rows = topSellers?.rows ?? [];
 
   return (
@@ -28,7 +28,7 @@ export default function OverviewTopSellers({ topSellers, format, loading }) {
               </Link>
               <span className="shrink-0 text-right text-[12px] tabular-nums text-espresso-soft">
                 {row.units} sold
-                <span className="block text-[11px] text-espresso/45">{format(row.revenue)}</span>
+                {seesMoney && <span className="block text-[11px] text-espresso/45">{format(row.revenue)}</span>}
               </span>
             </li>
           ))}

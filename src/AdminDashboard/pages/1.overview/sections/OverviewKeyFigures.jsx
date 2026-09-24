@@ -4,17 +4,17 @@ import { AlertTriangle, ArrowRight, Package, Receipt, Users, Wallet } from "luci
 
 import StatCard from "../../../components/StatCard";
 
-export default function KeyFigures({ stats, loading, format, locale }) {
+export default function KeyFigures({ stats, loading, format, locale, seesMoney = true }) {
   return (
     <section aria-label="Key figures">
-      <div className="grid gap-px border border-umber-50 bg-umber-50 grid-cols-2 xl:grid-cols-4">
-        <StatCard
+      <div className={`grid grid-cols-2 gap-px border border-umber-50 bg-umber-50 ${seesMoney ? "xl:grid-cols-4" : ""}`}>
+        {seesMoney && <StatCard
           label="Revenue"
           value={loading ? "—" : format(stats?.revenue ?? 0)}
           change={stats?.revenueChange}
           hint="vs last month"
           icon={Wallet}
-        />
+        />}
         <StatCard
           label="Orders"
           value={loading ? "—" : (stats?.orderCount ?? 0).toLocaleString(locale)}
@@ -22,13 +22,13 @@ export default function KeyFigures({ stats, loading, format, locale }) {
           hint="vs last month"
           icon={Receipt}
         />
-        <StatCard
+        {seesMoney && <StatCard
           label="Average order"
           value={loading ? "—" : format(stats?.averageOrder ?? 0)}
           change={stats?.averageOrderChange}
           hint="vs last month"
           icon={Package}
-        />
+        />}
         <StatCard
           label="Customers"
           value={loading ? "—" : (stats?.customerCount ?? 0).toLocaleString(locale)}

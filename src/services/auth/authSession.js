@@ -3,12 +3,18 @@ import { ApiError, mockApi } from "@/api/mock";
 import { setState } from "../store/contentStore";
 import { isAdminRole } from "../../utils/roles";
 import { createToken, findByEmail, publicUser, userItems } from "./authStore";
+import { logActivity } from "./activityApi";
 
 export function login({ email, password, realm } = {}) {
   return mockApi(() => {
 
     const user = findByEmail(email);
+    if (user?.status === "invited") {
+      throw new ApiError("Finish setting up your account from the invitation link first.", 401);
+    }
     if (!user || user.password !== password) {
+      // Failed attempts at the staff door are what an IT person looks for first.
+      if (realm === "staff") logActivity({ section: "auth", summary: "Failed sign-in", actor: null, email: String(email ?? "").trim().toLowerCase(), outcome: "failed" });
       throw new ApiError("Invalid email or password.", 401);
     }
 
@@ -17,7 +23,11 @@ export function login({ email, password, realm } = {}) {
       const isStaff = isAdminRole(user.role);
 
       const wrongDoor = realm === "staff" ? !isStaff : isStaff;
-      if (wrongDoor) throw new ApiError("Invalid email or password.", 401);
+      if (wrongDoor) {
+        if (realm === "staff") logActivity({ section: "auth", summary: "Failed sign-in (not on the team)", actor: null, email: user.email, outcome: "failed" });
+        throw new ApiError("Invalid email or password.", 401);
+      }
+      if (realm === "staff") logActivity({ section: "auth", summary: "Signed in", actor: publicUser(user) });
     }
 
     return { token: createToken(user), user: publicUser(user) };

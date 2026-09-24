@@ -8,7 +8,7 @@ import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getSettings, updateSettings } from "../../../services/content/settingsApi";
 import ContactPanel from "./sections/SettingsContactPanel";
-import { AnnouncementsPanel, CookiePanel, TaxPanel } from "./sections/SettingsStorefrontPanels";
+import { AnnouncementsPanel, CookiePanel, InvoicePanel, TaxPanel } from "./sections/SettingsStorefrontPanels";
 import { GpsrPanel, SocialPanel } from "./sections/SettingsCompliancePanels";
 import { toFormValues, toSettingsPayload } from "./sections/settingsForm";
 
@@ -82,6 +82,7 @@ export default function DashSettings() {
         </section>
         <section id="checkout" aria-label="Checkout and tax" className="scroll-mt-4 space-y-5">
           <TaxPanel register={register} errors={errors} />
+          <InvoicePanel register={register} />
         </section>
         <section id="compliance" aria-label="Compliance" className="scroll-mt-4 space-y-5">
           <GpsrPanel register={register} errors={errors} />

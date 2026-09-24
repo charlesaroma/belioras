@@ -117,7 +117,7 @@ export function getLowStockThreshold() {
   return mockApi(() => lowStockThreshold(), 0);
 }
 
-export function setLowStockThreshold(value) {
+function setLowStockThreshold$raw(value) {
   return mockApi(() => {
     const n = Math.floor(Number(value));
     if (!Number.isFinite(n) || n < 0 || n > 999) throw new ApiError("Enter a whole number from 0 to 999.", 422);
@@ -129,3 +129,4 @@ export function setLowStockThreshold(value) {
 /* Recorded in the staff activity log. */
 export const adjustStock = audited("inventory", ([a]) => `Stock ${a.mode === "set" ? "count set to" : a.mode === "add" ? "added" : "removed"} ${a.quantity} (${a.reason}) for ${a.productId}`, adjustStock$raw);
 export const receiveStock = audited("inventory", ([ids, qty]) => `Received ${qty} into each of ${ids.length} variants`, receiveStock$raw);
+export const setLowStockThreshold = audited("inventory", ([v]) => `Set the low-stock level to ${v}`, setLowStockThreshold$raw);

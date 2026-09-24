@@ -30,9 +30,11 @@ export default function DashListToolbar({
     <div className="shrink-0 space-y-4">
       {actions && <DashHeaderActions>{actions}</DashHeaderActions>}
       {tabs && <DashTabs ariaLabel={tabsLabel} options={tabs} value={tab} onChange={onTabChange} />}
-      <DashToolbar query={query} onQueryChange={onQueryChange} placeholder={placeholder} filters={controls}>
-        {onPageSizeChange && <PageSizeSelect value={pageSize} onChange={onPageSizeChange} />}
-      </DashToolbar>
+      {onQueryChange && (
+        <DashToolbar query={query} onQueryChange={onQueryChange} placeholder={placeholder} filters={controls}>
+          {onPageSizeChange && <PageSizeSelect value={pageSize} onChange={onPageSizeChange} />}
+        </DashToolbar>
+      )}
       {below}
     </div>
   );

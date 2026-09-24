@@ -42,4 +42,4 @@ function updateSettings$raw(patch) {
 }
 
 /* Recorded in the staff activity log. */
-export const updateSettings = audited("settings", () => "Saved store settings", updateSettings$raw);
+export const updateSettings = audited((patch) => (Object.keys(patch ?? {}).every((k) => k === "shipping") ? "shipping" : "settings"), () => "Saved store settings", updateSettings$raw);

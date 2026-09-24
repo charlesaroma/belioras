@@ -2,7 +2,9 @@
 import { useCallback, useMemo, useState } from "react";
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { can as canWithRole, isAdminRole } from "@/utils/roles";
+import { accessFor, isAdminRole } from "@/utils/roles";
+import { getState } from "@/services/store/contentStore";
+import { logActivity } from "@/services/auth/activityApi";
 import {
   changePassword as changePasswordApi,
   login as loginApi,
@@ -25,6 +27,12 @@ import {
  * now would sign a developer out on every reload and buy nothing, because the
  * mock session is not a credential.
  */
+/** The role the account holds now, not the one it held at sign-in. */
+function liveRole(user) {
+  if (!user) return null;
+  return getState("users").items.find((u) => u.id === user.id)?.role ?? user.role;
+}
+
 export function useAuthSession({ realm, storageKey }) {
   const [session, setSession] = useLocalStorage(storageKey, null);
   const [loading, setLoading] = useState(false);
@@ -58,9 +66,10 @@ export function useAuthSession({ realm, storageKey }) {
   );
 
   const logout = useCallback(async () => {
+    if (realm === "staff" && session?.user) logActivity({ section: "auth", summary: "Signed out", actor: session.user });
     await logoutApi();
     setSession(null);
-  }, [setSession]);
+  }, [realm, session, setSession]);
 
   const userId = session?.user?.id ?? null;
 
@@ -99,7 +108,11 @@ export function useAuthSession({ realm, storageKey }) {
       // Derived once here rather than re-derived in every consumer, which is
       // how four copies of the rule appeared and one of them drifted.
       isAdmin: isAdminRole(session?.user?.role),
-      can: (capability) => canWithRole(session?.user?.role, capability),
+      // Read live on every call, so a role edited under Team applies at once —
+      // including to someone already signed in.
+      access: (section) => accessFor(liveRole(session?.user), section),
+      can: (section) => accessFor(liveRole(session?.user), section) !== "none",
+      canEdit: (section) => accessFor(liveRole(session?.user), section) === "edit",
       token: session?.token ?? null,
       loading,
       isAuthenticated: Boolean(session?.token),

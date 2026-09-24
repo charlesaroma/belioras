@@ -142,5 +142,5 @@ function menuProblem(items, lookups) {
 }
 
 /* Recorded in the staff activity log. */
-export const updateNavigation = audited("content", () => "Saved the mega menu", updateNavigation$raw);
-export const resetNavigation = audited("content", () => "Restored the original mega menu", resetNavigation$raw);
+export const updateNavigation = audited("mega-menu", () => "Saved the mega menu", updateNavigation$raw);
+export const resetNavigation = audited("mega-menu", () => "Restored the original mega menu", resetNavigation$raw);

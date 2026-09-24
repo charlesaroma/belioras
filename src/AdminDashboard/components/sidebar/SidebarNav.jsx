@@ -1,13 +1,13 @@
 /* Admin Dashboard: SidebarNav */
 import { Link, useLocation } from "react-router-dom";
 import {
-  CreditCard, LayoutDashboard, Mail, Menu, Package, Percent, Ruler, Settings, ShieldCheck, ShoppingCart, Star, Tags, Truck, Users, Warehouse,
+  CreditCard, FileBarChart, History, LayoutDashboard, Mail, Menu, Package, Percent, Ruler, Settings, ShieldCheck, ShoppingCart, Star, Tags, Truck, Users, Warehouse,
 } from "lucide-react";
 
 import { cn } from "../../../utils/cn";
 
 const iconMap = {
-  LayoutDashboard, Package, Warehouse, Tags, Ruler, Menu, Star, ShoppingCart, CreditCard, Users, Percent, Mail, ShieldCheck, Truck, Settings,
+  FileBarChart, History, LayoutDashboard, Package, Warehouse, Tags, Ruler, Menu, Star, ShoppingCart, CreditCard, Users, Percent, Mail, ShieldCheck, Truck, Settings,
 };
 
 export default function SidebarNav({ groups, collapsed, onNavigate }) {

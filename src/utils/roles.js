@@ -12,45 +12,55 @@
  * the map changes and no component does.
  */
 
+import { getState } from "../services/store/contentStore";
+import { SECTIONS, levelIn } from "./permissions";
+
 export const ROLES = {
   SUPER_ADMIN: "super-admin",
   STAFF: "staff",
   CUSTOMER: "customer",
 };
 
-/** Roles with any access to the atelier dashboard at all. */
-export const ADMIN_ROLES = new Set([ROLES.SUPER_ADMIN, ROLES.STAFF]);
-
 /**
- * Capability grants.
- *
- * Staff run the shop — catalogue, orders, content. They deliberately do not
- * hold `team` or `settings`: staff could previously open the users page and
- * promote a colleague, or an account they controlled, to super-admin. Store
- * settings are excluded for the same reason — legal entity, tax rate and the
- * published contact addresses are not day-to-day operations. So is `payments`:
- * revenue, provider fees and refunds are finance, and staff run orders without
- * needing to see the money behind them. Staff do hold `marketing`: the
- * newsletter is day-to-day work, and every address in it was given with consent.
+ * Roles are records the administrator edits (Team → Roles), each giving every
+ * dashboard section a level — see permissions.js. Anyone whose role is not
+ * "customer" and exists has some dashboard access.
  */
-
-export const CAPABILITIES = {
-  [ROLES.SUPER_ADMIN]: new Set(["catalog", "orders", "content", "marketing", "payments", "settings", "team"]),
-  [ROLES.STAFF]: new Set(["catalog", "orders", "content", "marketing"]),
-  [ROLES.CUSTOMER]: new Set(),
-};
-
-export function isAdminRole(role) {
-  return ADMIN_ROLES.has(role);
+function roleRecord(roleId) {
+  return getState("roles").items.find((r) => r.id === roleId) ?? null;
 }
 
-export function can(role, capability) {
-  return CAPABILITIES[role]?.has(capability) ?? false;
+export function isAdminRole(role) {
+  return Boolean(role) && role !== ROLES.CUSTOMER && Boolean(roleRecord(role));
+}
+
+/** "none", "view" or "edit" for one dashboard section. */
+export function accessFor(roleId, section) {
+  return levelIn(roleRecord(roleId), section);
+}
+
+export function canView(roleId, section) {
+  return accessFor(roleId, section) !== "none";
+}
+
+export function canEdit(roleId, section) {
+  return accessFor(roleId, section) === "edit";
+}
+
+/** The first section this role may open — where a sign-in lands. */
+export function firstSection(roleId) {
+  return SECTIONS.find((s) => canView(roleId, s.id))?.id ?? null;
+}
+
+export function roleName(roleId) {
+  return roleRecord(roleId)?.name ?? (roleId === ROLES.CUSTOMER ? "Customer" : roleId);
 }
 
 /** Where a person belongs when no particular destination was requested. */
 export function landingFor(user) {
-  return isAdminRole(user?.role) ? "/dashboard" : "/account";
+  if (!isAdminRole(user?.role)) return "/account";
+  const first = firstSection(user.role);
+  return !first || first === "overview" ? "/dashboard" : `/dashboard/${first}`;
 }
 
 /**

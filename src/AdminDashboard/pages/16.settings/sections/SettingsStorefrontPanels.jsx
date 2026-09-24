@@ -98,3 +98,24 @@ export function TaxPanel({ register, errors }) {
     </Panel>
   );
 }
+
+export function InvoicePanel({ register }) {
+  return (
+    <Panel title="Invoices" hint="Every paid order gets a numbered invoice, which is also the customer's receipt. These details print on it.">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Field label="Number prefix" helper="BEL → BEL-2026-0001.">
+          <input {...register("invoicePrefix")} />
+        </Field>
+        <Field label="VAT ID" helper="USt-IdNr., e.g. DE123456789.">
+          <input {...register("invoiceVatId")} />
+        </Field>
+        <Field label="Tax number" helper="Steuernummer, if you have one.">
+          <input {...register("invoiceTaxNumber")} />
+        </Field>
+      </div>
+      <Field label="Note at the foot of the invoice">
+        <textarea rows={2} {...register("invoiceNote")} className="resize-y" />
+      </Field>
+    </Panel>
+  );
+}

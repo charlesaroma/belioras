@@ -90,6 +90,6 @@ function deleteSize$raw(id) {
 }
 
 /* Recorded in the staff activity log. */
-export const createSize = audited("catalogue", ([name]) => `Added size ${name}`, createSize$raw);
-export const renameSize = audited("catalogue", ([, name]) => `Renamed a size to ${name}`, renameSize$raw);
-export const deleteSize = audited("catalogue", ([id]) => `Deleted size ${id}`, deleteSize$raw);
+export const createSize = audited("sizes", ([name]) => `Added size ${name}`, createSize$raw);
+export const renameSize = audited("sizes", ([, name]) => `Renamed a size to ${name}`, renameSize$raw);
+export const deleteSize = audited("sizes", ([id]) => `Deleted size ${id}`, deleteSize$raw);
