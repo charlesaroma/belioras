@@ -22,7 +22,8 @@ const SECTIONS = new Set(["garment", "international", "footwear", "hair", "howTo
 export function updateSizeChart(section, data) {
   return mockApi(() => {
     if (!SECTIONS.has(section)) throw new ApiError(`"${section}" is not a size chart section.`, 404);
-    setState("sizeCharts", (state) => ({ ...state, [section]: data }));
+    // Remembers when each section was last edited, for the dashboard's cards.
+    setState("sizeCharts", (state) => ({ ...state, [section]: data, updated: { ...state.updated, [section]: new Date().toISOString() } }));
     return data;
   });
 }
