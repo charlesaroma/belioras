@@ -17,6 +17,7 @@ import {
   restoreProduct,
   updateProduct,
 } from "../../../services/catalog/productsApi";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
 import DashTable from "../../components/DashTable";
 import ProductsToolbar from "./sections/productsTable/ProductsTableToolbar";
 import ViewProductModal from "./sections/productsTable/ProductsViewModal";
@@ -88,6 +89,32 @@ export default function DashProducts() {
     }
   };
 
+  const showStatus = rows.some((p) => p.status !== "active");
+
+  const [askBulkDelete, setAskBulkDelete] = useState(false);
+  const bulkDelete = async () => {
+    setAskBulkDelete(false);
+    const ids = [...selectedIds];
+    setSelectedIds([]);
+    try {
+      const removed = await Promise.all(ids.map((id) => deleteProduct(id)));
+      refresh();
+      toast(`${removed.length} ${removed.length === 1 ? "piece" : "pieces"} deleted.`, {
+        type: "success",
+        action: {
+          label: "Undo",
+          onClick: async () => {
+            await Promise.all(removed.map((r) => restoreProduct(r)));
+            refresh();
+            toast(`${removed.length} restored.`, "success");
+          },
+        },
+      });
+    } catch (err) {
+      toast(err.message ?? "Could not delete those products.", "error");
+    }
+  };
+
   const columns = useMemo(
     () =>
       buildProductColumns({
@@ -95,8 +122,9 @@ export default function DashProducts() {
         onView: setViewing,
         onEdit: (p) => navigate(`/dashboard/products/${p.id}/edit`),
         onDelete: setPendingDelete,
+        showStatus,
       }),
-    [format, navigate],
+    [format, navigate, showStatus],
   );
 
   return (
@@ -118,6 +146,7 @@ export default function DashProducts() {
       <BulkActionsBar
         count={selectedIds.length}
         onSetStatus={bulkSetStatus}
+        onDelete={() => setAskBulkDelete(true)}
         onClear={() => setSelectedIds([])}
       />
 
@@ -134,6 +163,15 @@ export default function DashProducts() {
         fill
         unit={list.visible.length === 1 ? "piece" : "pieces"}
         empty={{ icon: Package, ...emptyState(list.filtering) }}
+      />
+
+      <ConfirmDialog
+        open={askBulkDelete}
+        onClose={() => setAskBulkDelete(false)}
+        onConfirm={bulkDelete}
+        title={`Delete ${selectedIds.length} ${selectedIds.length === 1 ? "piece" : "pieces"}?`}
+        description="They are removed from the storefront immediately. You can undo this from the message that follows."
+        confirmLabel="Delete"
       />
 
       {/* Looked up in the live rows by id, so it shows the piece as it is now. */}

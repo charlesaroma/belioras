@@ -1,7 +1,7 @@
 /* Admin Dashboard Page: Products - ProductsTableBulkActions */
 import Button from "../../../../../components/ui/Button";
 
-export default function BulkActionsBar({ count, onSetStatus, onClear }) {
+export default function BulkActionsBar({ count, onSetStatus, onDelete, onClear }) {
   if (count === 0) return null;
 
   return (
@@ -13,6 +13,9 @@ export default function BulkActionsBar({ count, onSetStatus, onClear }) {
         </Button>
         <Button size="sm" variant="secondary" onClick={() => onSetStatus("draft")}>
           Move to draft
+        </Button>
+        <Button size="sm" variant="secondary" onClick={onDelete} className="text-error">
+          Delete
         </Button>
         <Button size="sm" variant="ghost" onClick={onClear}>
           Clear
