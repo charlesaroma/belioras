@@ -17,7 +17,7 @@ export default function ChoiceChips({ label, hint, options = [], selected = [], 
               aria-pressed={on}
               onClick={() => onToggle(option.id)}
               className={cn(
-                "inline-flex min-h-10 items-center gap-2 border px-3.5 text-[12px] tracking-[0.02em] transition-colors",
+                "inline-flex min-h-10 items-center gap-2 border px-3.5 text-[12px] tracking-[0.02em] transition-[color,background-color,border-color,scale] duration-150 active:scale-[0.97]",
                 on
                   ? "border-espresso bg-espresso text-ivory-50"
                   : "border-umber-100 bg-ivory-50 text-espresso-soft hover:border-espresso/50 hover:text-espresso",

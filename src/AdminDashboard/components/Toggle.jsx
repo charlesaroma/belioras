@@ -28,8 +28,8 @@ export default function Toggle({ checked, onChange, label, description }) {
       >
         <span
           className={cn(
-            "absolute top-[2px] size-[18px] transition-all duration-200",
-            checked ? "left-[22px] bg-gold-400" : "left-[2px] bg-umber-100",
+            "absolute left-[2px] top-[2px] size-[18px] transition-[translate,background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            checked ? "translate-x-5 bg-gold-400" : "translate-x-0 bg-umber-100",
           )}
         />
       </span>

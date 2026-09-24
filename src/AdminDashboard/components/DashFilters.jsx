@@ -74,8 +74,8 @@ export default function DashFilters({ groups, value, onChange }) {
             role="dialog"
             aria-label="Filters"
             className={cn(
-              "absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-ivory-50 shadow-2xl transition-transform duration-300 ease-out motion-reduce:transition-none",
-              open ? "translate-x-0" : "translate-x-full",
+              "absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-ivory-50 shadow-2xl transition-transform ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+              open ? "translate-x-0 duration-300" : "translate-x-full duration-200",
             )}
           >
             <div className="flex items-center justify-between border-b border-umber-50 px-6 py-4">

@@ -58,9 +58,9 @@ export default function Modal({ open, onClose, title, width = "max-w-lg", childr
         tabIndex={-1}
         className={cn(
           "surface-header relative w-full shadow-large outline-none",
-          "transition-all duration-300 ease-out motion-reduce:transition-none",
+          "transition-[translate,opacity] ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none",
           width,
-          open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
+          open ? "translate-y-0 opacity-100 duration-300" : "translate-y-3 opacity-0 duration-200",
         )}
       >
         <header className="flex items-center justify-between border-b border-umber-50 px-6 py-4">
