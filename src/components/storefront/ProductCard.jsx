@@ -1,6 +1,6 @@
 /* Storefront Component: ProductCard */
-import { useState } from "react";
-import { Eye, Heart, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Eye, Heart, ShoppingBag, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { useCart } from "../../context/CartContext";
@@ -8,7 +8,10 @@ import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../utils/cn";
+import { useAsyncData } from "../../hooks/useAsyncData";
+import { getTaxonomy } from "../../services/catalog/navigationApi";
 import { imagesForColor, stockFor } from "../../utils/productColors";
+import { sizeLabel } from "../../utils/sizeLabel";
 import QuickView from "./QuickView";
 
 /**
@@ -46,6 +49,53 @@ function CardAction({ active = false, icon: Icon, iconClassName, ...props }) {
   );
 }
 
+/** The sizes of one piece, over the foot of its photograph. */
+function SizeStrip({ product, onPick, onClose }) {
+  const { data: taxonomy } = useAsyncData(getTaxonomy, []);
+  const color = product.colors?.[0] ?? null;
+
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      role="group"
+      aria-label="Choose a size"
+      className="absolute inset-x-0 bottom-0 z-10 bg-ivory-50/95 p-3 backdrop-blur transition-[translate,opacity] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] starting:translate-y-full starting:opacity-0"
+    >
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-espresso">Select a size</p>
+        <button type="button" onClick={onClose} aria-label="Close size picker" className="-mr-1 flex size-8 items-center justify-center text-espresso-soft hover:text-espresso">
+          <X className="size-4" aria-hidden="true" />
+        </button>
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {product.sizes.map((size) => {
+          const out = stockFor(product, color, size) === 0;
+          return (
+            <button
+              key={size}
+              type="button"
+              disabled={out}
+              onClick={() => onPick(size)}
+              aria-label={out ? `${sizeLabel(taxonomy, size)}, sold out` : `Add size ${sizeLabel(taxonomy, size)} to bag`}
+              className={cn(
+                "flex min-h-9 min-w-9 items-center justify-center border px-2.5 text-[11px] uppercase tracking-wider transition-colors",
+                out ? "cursor-not-allowed border-umber-50 text-espresso/30 line-through" : "border-umber-100 text-espresso hover:border-espresso hover:bg-espresso hover:text-ivory-50",
+              )}
+            >
+              {sizeLabel(taxonomy, size)}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
   const { has, toggle } = useWishlist();
@@ -67,20 +117,23 @@ export default function ProductCard({ product }) {
   const [quick, setQuick] = useState({ open: false, session: 0, used: false });
   const openQuick = () => setQuick((q) => ({ open: true, session: q.session + 1, used: true }));
 
-  // A piece with one size and one colour has nothing to choose, so the bag
-  // button adds it straight away; otherwise it opens the quick view to choose.
-  const needsChoice = (product.sizes?.length ?? 0) > 1 || (product.colors?.length ?? 0) > 1;
-  const quickAdd = () => {
-    if (needsChoice) return openQuick();
+  // The bag button adds the piece as pictured (its first colour). A piece
+  // sold in several sizes asks for one first, in a strip over the photo, so
+  // nothing is added blind; the quick view stays for anyone who wants to
+  // change colour too.
+  const [picking, setPicking] = useState(false);
+  const needsSize = (product.sizes?.length ?? 0) > 1;
+  const addToBag = (size) => {
     const color = product.colors?.[0] ?? null;
-    const size = product.sizes?.[0] ?? null;
     const ok = addItem(product, {
       size, color, quantity: 1, image: imagesForColor(product, color)?.[0], stock: stockFor(product, color, size),
     });
-    if (!ok) return toast(`There is no more stock of ${name}.`, "error");
+    if (!ok) return toast(`There is no more stock of ${name} in that size.`, "error");
+    setPicking(false);
     toast(`${name} added to your bag.`, "success");
     openCart();
   };
+  const quickAdd = () => (needsSize ? setPicking((p) => !p) : addToBag(product.sizes?.[0] ?? null));
 
   return (
     <article className="group relative">
@@ -128,6 +181,8 @@ export default function ProductCard({ product }) {
           ))}
       </Link>
 
+      {picking && <SizeStrip product={product} onPick={addToBag} onClose={() => setPicking(false)} />}
+
       {/* One column of round buttons, top right: save, quick view, add to
           bag. Permanent on touch; from md up they appear on hover or focus,
           and stay reachable by keyboard. */}
@@ -155,7 +210,8 @@ export default function ProductCard({ product }) {
         {!soldOut && (
           <CardAction
             icon={ShoppingBag}
-            aria-label={needsChoice ? `Choose options for ${name}` : `Add ${name} to bag`}
+            aria-label={needsSize ? `Choose a size to add ${name}` : `Add ${name} to bag`}
+            aria-expanded={needsSize ? picking : undefined}
             onClick={quickAdd}
           />
         )}
