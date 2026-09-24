@@ -32,7 +32,7 @@ export default function PhoneField({
   const value = watch(name);
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex min-w-0 flex-col", className)}>
       <label className="input-label">
         {label}
         {required && (

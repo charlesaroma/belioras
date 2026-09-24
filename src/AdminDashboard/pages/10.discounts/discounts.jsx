@@ -153,7 +153,7 @@ export default function DashDiscounts() {
     <section className="space-y-5">
       <DashHeaderActions>
         <Button icon={Plus} size="sm" onClick={() => openDialog(null)} className="h-10">
-          Add coupon
+          Add<span className="hidden sm:inline"> coupon</span>
         </Button>
       </DashHeaderActions>
 
@@ -172,7 +172,7 @@ export default function DashDiscounts() {
         </p>
       ) : (
         <div className="relative overflow-x-auto border border-umber-50 bg-ivory-50">
-          <table className="w-full min-w-[860px] text-[13px]">
+          <table className="dash-cards w-full text-[13px] md:min-w-[860px]">
             <thead className="border-b border-umber-50">
               <tr>
                 <th scope="col" className={TH}>Code</th>
@@ -197,7 +197,7 @@ export default function DashDiscounts() {
                 ].filter(Boolean);
                 return (
                   <tr key={coupon.id} className="align-top">
-                    <td className="px-4 py-3">
+                    <td data-primary className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
                         <span className="font-mono text-[13px] font-semibold tracking-wide text-espresso">{coupon.code}</span>
                         <button
@@ -216,11 +216,11 @@ export default function DashDiscounts() {
                       </div>
                       {coupon.description && <p className="mt-0.5 max-w-[16rem] text-[12px] text-espresso-soft">{coupon.description}</p>}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 tabular-nums text-espresso">{gives(coupon, format)}</td>
-                    <td className="px-4 py-3 text-[12px] text-espresso-soft">
+                    <td data-label="Value" className="whitespace-nowrap px-4 py-3 tabular-nums text-espresso">{gives(coupon, format)}</td>
+                    <td data-label="Conditions" className="px-4 py-3 text-[12px] text-espresso-soft">
                       {conditions.length ? conditions.map((c) => <p key={c}>{c}</p>) : <span className="text-espresso/40">None</span>}
                     </td>
-                    <td className="px-4 py-3 text-[12px] tabular-nums text-espresso-soft">
+                    <td data-label="Usage" className="px-4 py-3 text-[12px] tabular-nums text-espresso-soft">
                       {mine.orders === 0 ? (
                         "Not yet used"
                       ) : (
@@ -242,7 +242,7 @@ export default function DashDiscounts() {
                         </div>
                       ) : null}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-[12px]">
+                    <td data-label="Expires" className="whitespace-nowrap px-4 py-3 text-[12px]">
                       {coupon.expiresAt ? (
                         soon ? (
                           <span className="font-medium text-warning">
@@ -256,7 +256,7 @@ export default function DashDiscounts() {
                         <span className="text-espresso-soft">No expiry</span>
                       )}
                     </td>
-                    <td className="px-4 py-3">
+                    <td data-label="Status" className="px-4 py-3">
                       {state === "live" || state === "paused" ? (
                         <Switch
                           checked={coupon.active}

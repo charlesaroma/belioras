@@ -34,7 +34,7 @@ export default function TableBody({ table, columns, loading, skeletonRows, enabl
           )}
         >
           {enableSelection && (
-            <td className="px-4 py-4" onClick={(e) => e.stopPropagation()}>
+            <td className="px-4 py-4" data-select onClick={(e) => e.stopPropagation()}>
               <input
                 type="checkbox"
                 checked={row.getIsSelected()}
@@ -46,9 +46,13 @@ export default function TableBody({ table, columns, loading, skeletonRows, enabl
             </td>
           )}
 
-          {row.getVisibleCells().map((cell) => (
+          {row.getVisibleCells().map((cell, i) => (
             <td
               key={cell.id}
+              // On a phone each row is a card: the first cell leads it and the
+              // rest carry their column's name (see .dash-cards in index.css).
+              data-primary={i === 0 ? "" : undefined}
+              data-label={i > 0 && typeof cell.column.columnDef.header === "string" ? cell.column.columnDef.header : undefined}
               className={cn(
                 "px-6 py-4 text-[13px] text-espresso",
                 cell.column.columnDef.meta?.align === "right" && "text-right",

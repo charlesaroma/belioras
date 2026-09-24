@@ -90,7 +90,7 @@ export default function DashTable({
   return (
     <div className={cn(fill && "lg:flex lg:min-h-0 lg:flex-1 lg:flex-col")}>
       <div className={cn("overflow-x-auto border border-umber-50 bg-ivory-50", fill && "lg:min-h-0 lg:flex-1 lg:overflow-y-auto")}>
-        <table className="w-full">
+        <table className="dash-cards w-full">
           <TableHead table={table} enableSelection={enableSelection} sticky={fill} />
           <TableBody
             table={table}

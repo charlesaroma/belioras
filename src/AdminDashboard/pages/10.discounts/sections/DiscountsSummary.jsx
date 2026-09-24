@@ -16,7 +16,7 @@ export default function DiscountsSummary({ stats, activeCodes, loading }) {
 
   return (
     <section aria-label="Coupon summary">
-      <div className="grid gap-px border border-umber-50 bg-umber-50 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-px border border-umber-50 bg-umber-50 grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="Redemptions"
           value={dash(String(t?.redemptions ?? 0))}

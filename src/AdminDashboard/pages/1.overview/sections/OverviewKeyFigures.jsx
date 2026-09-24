@@ -7,7 +7,7 @@ import StatCard from "../../../components/StatCard";
 export default function KeyFigures({ stats, loading, format, locale }) {
   return (
     <section aria-label="Key figures">
-      <div className="grid gap-px border border-umber-50 bg-umber-50 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-px border border-umber-50 bg-umber-50 grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="Revenue"
           value={loading ? "—" : format(stats?.revenue ?? 0)}

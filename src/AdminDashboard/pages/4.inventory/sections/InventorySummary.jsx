@@ -7,7 +7,7 @@ import StatCard from "@/AdminDashboard/components/StatCard";
 export default function InventorySummary({ summary, format, loading }) {
   const n = (v) => (loading ? "—" : v.toLocaleString());
   return (
-    <div className="grid shrink-0 gap-px bg-umber-50 sm:grid-cols-2 xl:grid-cols-5">
+    <div className="grid shrink-0 gap-px bg-umber-50 grid-cols-2 xl:grid-cols-5">
       <StatCard label="On hand" value={n(summary.onHand)} hint="units on the shelf" icon={Boxes} />
       <StatCard label="In open orders" value={n(summary.reserved)} hint="held until they ship" icon={Clock} />
       <StatCard label="Stock value" value={loading ? "—" : format(summary.value)} hint={summary.cost > 0 ? `at retail · ${format(summary.cost)} at cost` : "at retail price"} icon={Banknote} />

@@ -33,7 +33,7 @@ export default function Field({
     : children;
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex min-w-0 flex-col", className)}>
       <label htmlFor={children?.props?.id ?? id} className="input-label">
         {label}
         {required && (

@@ -749,3 +749,52 @@
   0% { opacity: 0.45; transform: scale(1); }
   100% { opacity: 0; transform: scale(1.9); }
 }
+
+/* Dashboard tables on a phone: a row becomes a card. The first cell leads it,
+   the others follow with their column's name, and the actions sit at the end.
+   Header (and with it column sorting) steps aside; search and filters remain. */
+@media (max-width: 767px) {
+  .dash-cards,
+  .dash-cards tbody {
+    display: block;
+    width: 100%;
+  }
+  .dash-cards thead {
+    display: none;
+  }
+  .dash-cards tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    padding: 14px 16px;
+  }
+  .dash-cards tbody td {
+    display: block;
+    padding: 0;
+    text-align: left;
+  }
+  .dash-cards tbody td[data-select] {
+    padding: 0;
+  }
+  .dash-cards tbody td[data-primary] {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .dash-cards tbody td[data-label]::before {
+    content: attr(data-label);
+    margin-right: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-espresso-soft);
+  }
+  .dash-cards tbody td:last-child {
+    margin-left: auto;
+  }
+  /* The selection tick and the lead cell share the first line; the rest wrap under the lead. */
+  .dash-cards tbody td[data-select] + td[data-primary] {
+    flex: 1 1 calc(100% - 40px);
+  }
+}

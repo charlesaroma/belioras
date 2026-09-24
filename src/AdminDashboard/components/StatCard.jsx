@@ -8,7 +8,7 @@ export default function StatCard({ label, value, change, hint, icon: Icon }) {
   const isPositive = hasChange && change >= 0;
 
   return (
-    <div className="group relative border border-umber-50 bg-ivory-50 p-6 transition-colors hover:border-gold-500/40">
+    <div className="group relative border border-umber-50 bg-ivory-50 p-4 transition-colors sm:p-6 hover:border-gold-500/40">
       <div className="flex items-start justify-between gap-4">
         <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-espresso-soft">
           {label}
@@ -18,9 +18,9 @@ export default function StatCard({ label, value, change, hint, icon: Icon }) {
         )}
       </div>
 
-      <span aria-hidden="true" className="mt-3 block h-px w-8 bg-gold-500" />
+      <span aria-hidden="true" className="mt-2 block h-px w-8 bg-gold-500 sm:mt-3" />
 
-      <p className={cn("mt-4 font-display leading-none tracking-tight text-espresso", String(value).length > 9 ? "text-[28px]" : "text-[34px]")}>
+      <p className={cn("mt-3 font-display sm:mt-4 leading-none tracking-tight text-espresso", String(value).length > 9 ? "text-[20px] sm:text-[28px]" : "text-[26px] sm:text-[34px]")}>
         {value}
       </p>
 
