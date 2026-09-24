@@ -11,7 +11,10 @@ const QUICK_LINKS = [
 
 export default function NotFound() {
   return (
-    <section className="container-main py-20 md:py-28">
+    <section
+      className="container-main pb-20 md:pb-28"
+      style={{ paddingTop: "calc(var(--header-height, 138px) + 3rem)" }}
+    >
       <div className="mx-auto max-w-lg text-center">
         <span className="mx-auto mb-6 flex size-12 items-center justify-center border border-umber-50 text-gold-700">
           <Compass className="size-5" strokeWidth={1.5} aria-hidden="true" />

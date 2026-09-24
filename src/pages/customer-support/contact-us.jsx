@@ -63,7 +63,7 @@ export default function ContactUsPage() {
       intro="Our client advisors help with orders, returns, sizing and styling. We reply within one working day."
       width="wide"
     >
-      <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <div className="grid gap-12 lg:grid-cols-[0.85fr_1.25fr] lg:gap-16 xl:gap-24">
         <div className="space-y-8">
           <Detail icon={Mail} title="Client care">
             <a
@@ -110,10 +110,10 @@ export default function ContactUsPage() {
           )}
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="border border-umber-50 p-6 sm:p-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="border border-umber-50 p-6 sm:p-8 lg:p-10 xl:p-12">
           <h2 className="font-display text-2xl tracking-wide text-espresso">Send a message</h2>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:mt-8 lg:gap-6">
             <Field label="Name" required error={errors.name?.message}>
               <input {...register("name", { required: "Please tell us your name." })} />
             </Field>
@@ -152,8 +152,8 @@ export default function ContactUsPage() {
               error={errors.message?.message}
             >
               <textarea
-                rows={6}
-                className="resize-y"
+                rows={8}
+                className="min-h-40 resize-y lg:min-h-56"
                 {...register("message", {
                   required: "Please tell us how we can help.",
                   minLength: { value: 10, message: "A little more detail, please." },

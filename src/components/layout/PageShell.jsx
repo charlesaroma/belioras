@@ -14,7 +14,7 @@ export default function PageShell({
       className="px-6 pb-24 md:px-10"
       style={{ paddingTop: "calc(var(--header-height, 138px) + 3rem)" }}
     >
-      <div className={cn("mx-auto", width === "prose" ? "max-w-2xl" : "max-w-[1400px]")}>
+      <div className={cn("mx-auto", width === "prose" ? "max-w-2xl" : "max-w-[1400px] 2xl:max-w-[1680px]")}>
         <header className="border-b border-umber-50 pb-8">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h1 className="mt-3 font-display text-4xl leading-tight text-espresso md:text-5xl">

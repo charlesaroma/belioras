@@ -38,20 +38,21 @@ export default function FeaturedCollectionSection() {
     >
       <Link to={data.url} className={cn("group relative grid gap-1", layout.grid)}>
         {photos.map((product) => (
-          <span key={product.id} className="block overflow-hidden bg-ivory-300">
+          <span key={product.id} className="group/photo block overflow-hidden bg-ivory-300">
             <img
               src={product.images[0]}
               alt={product.name}
               loading="lazy"
               className={cn(
-                "w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]",
+                "w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/photo:scale-[1.04]",
                 layout.photo,
               )}
             />
           </span>
         ))}
 
-        <span className="absolute inset-0 flex items-center justify-center">
+        {/* Lets the pointer reach the photo beneath, so only that photo reacts. */}
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <span className="flex flex-col items-center bg-ivory-50/90 px-8 py-5 text-center shadow-sm backdrop-blur-[2px] transition-colors group-hover:bg-ivory-50">
             <span className="mb-2 font-sans text-[10px] uppercase tracking-[0.3em] text-espresso-300">
               {t("home.featuredKicker", "Curated for you")}

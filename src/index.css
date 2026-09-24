@@ -184,6 +184,22 @@
 
 /* ---------- Base layer ---------- */
 @layer base {
+  /* The header is fixed and its height varies by breakpoint; the navbar
+     publishes it. Scrolling a focused field or an anchor into view then
+     lands below the header instead of tucked under it. */
+  html {
+    scroll-padding-top: calc(var(--header-height, 138px) + 1rem);
+  }
+
+  /* Focus scrolling only guarantees the field itself is visible, which left
+     the label above it clipped under the header. The extra margin brings the
+     label into view with it. */
+  input,
+  select,
+  textarea {
+    scroll-margin-top: 3.5rem;
+  }
+
   body {
     background-color: var(--color-ivory-500);
     color: var(--color-espresso);
