@@ -1,26 +1,32 @@
 /* Admin Dashboard Page: Settings - SettingsCompliancePanels */
 import Field from "../../../../components/ui/Field";
 import Panel from "@/AdminDashboard/components/Panel";
+import AddressFields from "./SettingsAddressFields";
 
-export default function CompliancePanels({ register, errors }) {
+export function GpsrPanel({ register, errors }) {
   return (
-    <div className="space-y-5">
-      <Panel
-        title="Product safety (GPSR)"
-        hint="EU General Product Safety Regulation requires a reachable responsible person."
-      >
-        <Field label="Manufacturer">
-          <input {...register("gpsrManufacturer")} />
-        </Field>
-        <Field label="Registered address">
-          <input {...register("gpsrAddress")} />
-        </Field>
-        <Field label="Compliance email" error={errors.gpsrEmail?.message}>
-          <input type="email" {...register("gpsrEmail")} />
-        </Field>
-      </Panel>
+    <Panel
+      title="Product safety (GPSR)"
+      hint="EU General Product Safety Regulation requires a reachable responsible person."
+    >
+      <Field label="Manufacturer">
+        <input {...register("gpsrManufacturer")} />
+      </Field>
+      <div>
+        <p className="input-label">Registered address</p>
+        <AddressFields register={register} prefix="gpsr" />
+      </div>
+      <Field label="Compliance email" error={errors.gpsrEmail?.message}>
+        <input type="email" {...register("gpsrEmail")} />
+      </Field>
+    </Panel>
+  );
+}
 
-      <Panel title="Social">
+export function SocialPanel({ register }) {
+  return (
+    <Panel title="Social">
+      <div className="grid gap-4 sm:grid-cols-3">
         <Field label="Instagram">
           <input {...register("instagram")} />
         </Field>
@@ -30,7 +36,7 @@ export default function CompliancePanels({ register, errors }) {
         <Field label="TikTok">
           <input {...register("tiktok")} />
         </Field>
-      </Panel>
-    </div>
+      </div>
+    </Panel>
   );
 }

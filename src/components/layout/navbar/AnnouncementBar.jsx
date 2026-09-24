@@ -1,4 +1,6 @@
 /* Layout Component: AnnouncementBar */
+import { Link } from "react-router-dom";
+
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useLanguage } from "../../../context/LanguageContext";
 import { getTopBanner } from "../../../services/marketing/promotionsApi";
@@ -42,7 +44,19 @@ export default function AnnouncementBar() {
                 {/* Messages are dashboard-editable content, so they carry a
                     translation key plus the authored English as the fallback.
                     The string form is still accepted while data migrates. */}
-                {typeof message === "string" ? message : t(message.key, message.default)}
+                {(() => {
+                  const text =
+                    typeof message === "string"
+                      ? message
+                      : message.key
+                        ? t(message.key, message.text ?? message.default)
+                        : message.text;
+                  return message.link ? (
+                    <Link to={message.link} className="transition-opacity hover:opacity-80">{text}</Link>
+                  ) : (
+                    text
+                  );
+                })()}
               </span>
               <span aria-hidden="true" className="text-gold-400">·</span>
             </span>

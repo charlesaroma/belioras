@@ -1,25 +1,25 @@
 {
-  "rev": 2,
+  "rev": 3,
   "shipping": {
     "zones": [
       {
         "id": "de",
         "label": "Germany",
         "flat": 0,
-        "days": "5–14 business days"
+        "days": "5\u201314 business days"
       },
       {
         "id": "eu",
         "label": "European Union",
         "flat": 9.99,
         "freeThreshold": 250,
-        "days": "5–14 business days"
+        "days": "5\u201314 business days"
       },
       {
         "id": "intl",
         "label": "International",
         "flat": 14.99,
-        "days": "7–21 business days"
+        "days": "7\u201321 business days"
       }
     ],
     "note": "Sent with DHL, tracked from our atelier."
@@ -28,27 +28,35 @@
     "rate": 0.19,
     "note": "All prices include 19% VAT."
   },
-  "announcement": {
-    "text": "Free shipping in Germany · free EU shipping over €250",
-    "link": "/shipping-policy"
-  },
   "cookieBanner": {
     "text": "We use cookies to keep the experience smooth and to understand how visitors use the site. By continuing, you accept our cookie policy.",
     "button": "I understand"
   },
   "gpsr": {
-    "manufacturer": "Belioras – Online Boutique (Belindah Ongessa)",
-    "address": "c/o flexdienst – #12271, Kurt-Schumacher-Straße 76, 67663 Kaiserslautern, Germany",
+    "manufacturer": "Belioras \u2013 Online Boutique (Belindah Ongessa)",
+    "address": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76, 67663 Kaiserslautern, Germany",
     "email": "support@belioras.com",
-    "note": "For product safety or conformity enquiries, contact our GPSR responsible person."
+    "note": "For product safety or conformity enquiries, contact our GPSR responsible person.",
+    "addressParts": {
+      "street": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76",
+      "postcode": "67663",
+      "city": "Kaiserslautern",
+      "country": "Germany"
+    }
   },
   "contact": {
     "general": "info@belioras.com",
     "support": "support@belioras.com",
     "phone": "",
-    "hours": "Monday to Friday, 9:00–18:00 CET",
-    "boutique": "c/o flexdienst – #12271, Kurt-Schumacher-Straße 76, 67663 Kaiserslautern, Germany",
-    "responseTime": "We reply within one working day."
+    "hours": "Monday to Friday, 9:00\u201318:00 CET",
+    "boutique": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76, 67663 Kaiserslautern, Germany",
+    "responseTime": "We reply within one working day.",
+    "boutiqueParts": {
+      "street": "c/o flexdienst \u2013 #12271, Kurt-Schumacher-Stra\u00dfe 76",
+      "postcode": "67663",
+      "city": "Kaiserslautern",
+      "country": "Germany"
+    }
   },
   "social": {
     "instagram": "https://instagram.com/belioras",
@@ -72,7 +80,7 @@
     {
       "icon": "truck",
       "title": "Free shipping in Germany",
-      "text": "And across the EU on orders over €250, tracked with DHL."
+      "text": "And across the EU on orders over \u20ac250, tracked with DHL."
     },
     {
       "icon": "refresh",
@@ -103,9 +111,38 @@
         "label": "Days to change your mind"
       },
       {
-        "value": "1–4",
+        "value": "1\u20134",
         "label": "Days to prepare an order"
       }
     ]
-  }
+  },
+  "announcements": [
+    {
+      "id": "an1",
+      "key": "promo.freeShipping",
+      "text": "Free shipping in Germany \u00b7 free EU shipping over \u20ac250",
+      "link": "/shipping-policy",
+      "active": true,
+      "start": "",
+      "end": ""
+    },
+    {
+      "id": "an2",
+      "key": "promo.winterStyles",
+      "text": "Up to 30% off winter styles",
+      "link": "/shop",
+      "active": true,
+      "start": "",
+      "end": ""
+    },
+    {
+      "id": "an3",
+      "key": "promo.welcome10",
+      "text": "WELCOME10 \u2014 10% off your first order",
+      "link": "",
+      "active": true,
+      "start": "",
+      "end": ""
+    }
+  ]
 }

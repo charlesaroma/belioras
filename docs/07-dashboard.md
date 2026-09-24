@@ -34,3 +34,11 @@ Numbered by sidebar order; the gaps (`2`, `13`) are reserved slots for pages not
 - [ ] Status workflow transitions enforced (no shipped→pending).
 - [ ] Every list/table with a meaningful row count has search, and status filters where the data has a status.
 - [ ] Settings' compliance panel updates the corresponding public legal page.
+## Shell conventions
+
+- **Buttons.** One size, weight and spacing (`.dash-root .btn`); the page's main action is the solid `btn-primary`, secondary actions are outlined, "View store" is a quiet link.
+- **Header.** A breadcrumb from the sidebar's own groups (Catalogue / Products / New) above the page title; a page's main action is portalled into the header with `DashHeaderActions`.
+- **Unsaved changes.** Pages that edit a draft (Mega Menu, Settings) show a sticky "You have unsaved changes · Discard · Save" bar while something differs from what is stored.
+- **Switches.** `Switch` is the one on/off control: green and knob-right when on. Dates are written in words (`1 Jan 2027`).
+- **Destructive actions** always ask first (`ConfirmDialog`), with Undo afterwards where the change can be reversed.
+- **Settings** announcements are a list (each with its own switch and optional dates) and feed the storefront's top bar; addresses are stored as four parts plus the joined line the legal pages print.

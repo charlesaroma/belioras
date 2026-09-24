@@ -44,7 +44,7 @@ export default function PhoneField({
 
       <PhoneInput
         international
-        defaultCountry="PT"
+        defaultCountry="DE"
         value={value || undefined}
         onChange={(next) => setValue(name, next ?? "", { shouldDirty: true, shouldValidate: true })}
         numberInputProps={{ "aria-label": label }}

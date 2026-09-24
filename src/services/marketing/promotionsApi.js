@@ -1,6 +1,7 @@
 import promotionsSeed from "../../data/promotions.json";
 
 import { mockApi } from "@/api/mock";
+import { getState } from "../store/contentStore";
 
 function isActive({ start, end } = {}) {
 
@@ -13,16 +14,19 @@ export function getPromotions() {
 }
 
 /**
- * The scrolling announcements are evergreen store messaging and run on their
- * own schedule. They were previously returned only while the seasonal sale
- * banner was inside its date window, so the whole ticker silently vanished the
- * day that sale expired.
+ * The scrolling announcements, as the dashboard's Settings edits them: each
+ * message has its own on/off switch and optional dates, and only those live
+ * today are shown. Evergreen store messaging runs on its own schedule; the
+ * seasonal sale banner's window has no say over it.
  */
 
 export function getTopBanner() {
   return mockApi(() => {
-    const { topBanner, announcements } = promotionsSeed;
-    if (!announcements?.length) return null;
+    const { topBanner } = promotionsSeed;
+    const announcements = (getState("settings").announcements ?? []).filter(
+      (m) => m.active && String(m.text ?? "").trim() && isActive({ start: m.start, end: m.end ? `${m.end.slice(0, 10)}T23:59:59Z` : "" }),
+    );
+    if (!announcements.length) return null;
     return {
       announcements,
       promo: topBanner && isActive(topBanner) ? topBanner : null,
