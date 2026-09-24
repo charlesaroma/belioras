@@ -29,7 +29,7 @@ export function applyPick(tree, request, result) {
       if (section.id !== sectionId) return section;
       const items = itemId
         ? section.items.map((i) => (i.id === itemId ? { ...i, label: result.label, target: result.target } : i))
-        : [...section.items, newLeaf(tree, root, result)];
+        : [...section.items, newLeaf(tree, root, section, result)];
       return { ...section, items };
     });
     return { tree: patchRootIn(tree, rootId, { sections }) };

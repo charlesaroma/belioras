@@ -17,6 +17,39 @@ function categoryItems() {
   return getState("categories").items;
 }
 
+/**
+ * The first Mega Menu link (or tile) that shows something a category edit is
+ * about to remove. The menu can only be built from what exists, so what
+ * exists can't be removed out from under it — same rule as a type still on a
+ * product.
+ *
+ * `gone` describes what is being removed: { category, type?, subcategory?, subcategoryType? }.
+ */
+function menuUsing(gone) {
+  const uses = (t) => {
+    if (!t) return false;
+    if (t.kind === "category") return t.id === gone.category && !gone.type && !gone.subcategory;
+    if (t.kind === "type") return t.category === gone.category && t.id === gone.type;
+    if (t.kind === "filter" && String(t.dimension).startsWith("subcat:") && t.category === gone.category) {
+      if (t.dimension !== `subcat:${gone.subcategory}`) return false;
+      return !gone.subcategoryType || (t.values ?? []).includes(gone.subcategoryType);
+    }
+    return false;
+  };
+  for (const root of getState("navigation").items) {
+    if (uses(root.target)) return root.label;
+    for (const section of root.sections ?? []) {
+      for (const leaf of section.items ?? []) if (uses(leaf.target)) return `${root.label} › ${leaf.label}`;
+    }
+    for (const tile of root.tiles ?? []) if (uses(tile.target)) return `${root.label} › ${tile.title}`;
+  }
+  return null;
+}
+
+function inMenuError(name, where) {
+  return new ApiError(`${name} is used by the menu (${where}). Remove or change that link in Mega Menu first.`, 409);
+}
+
 export function getCategories() {
   return mockApi(() => [...categoryItems()], 0);
 }
@@ -70,6 +103,27 @@ export function updateCategory(id, input) {
       }
     }
 
+    for (const type of existing.types ?? []) {
+      if (kept.has(type.id)) continue;
+      const where = menuUsing({ category: id, type: type.id });
+      if (where) throw inMenuError(type.name, where);
+    }
+    const nextSubs = new Map(fields.subcategories.map((s) => [s.id, s]));
+    for (const sub of existing.subcategories ?? []) {
+      const next = nextSubs.get(sub.id);
+      if (!next) {
+        const where = menuUsing({ category: id, subcategory: sub.id });
+        if (where) throw inMenuError(sub.name, where);
+        continue;
+      }
+      const stay = new Set(next.types.map((t) => t.id));
+      for (const type of sub.types ?? []) {
+        if (stay.has(type.id)) continue;
+        const where = menuUsing({ category: id, subcategory: sub.id, subcategoryType: type.id });
+        if (where) throw inMenuError(type.name, where);
+      }
+    }
+
     const updated = { ...existing, ...fields };
     setState("categories", (state) => ({
       ...state,
@@ -91,6 +145,9 @@ export function deleteCategory(id) {
         409,
       );
     }
+
+    const where = menuUsing({ category: id });
+    if (where) throw inMenuError(category.name, where);
 
     setState("categories", (state) => ({
       ...state,

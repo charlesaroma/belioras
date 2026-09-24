@@ -23,9 +23,13 @@ function findNavMatch(pathname) {
   }
 
   for (const leaf of flattenLeaves(items)) {
-    if (leaf.slug !== slug) continue;
+    // An older address (before links carried their column) still resolves,
+    // then redirects to the current one so bookmarks and shared links live on.
+    const viaAlias = leaf.slug !== slug && (leaf.aliases ?? []).includes(slug);
+    if (leaf.slug !== slug && !viaAlias) continue;
     const parent = items.find((item) => item.id === leaf.rootId);
     return {
+      redirectTo: viaAlias ? leaf.url : null,
       node: leaf,
       root: parent,
       breadcrumb: [
@@ -50,6 +54,8 @@ export function getCatalog(pathname) {
     if (!match?.node?.target) {
       return { valid: false, resolved: null, products: [], total: 0 };
     }
+
+    if (match.redirectTo) return { valid: true, redirectTo: match.redirectTo, resolved: null, products: [], total: 0 };
 
     const all = await getProducts();
     const products = all.filter((product) => matchesTarget(product, match.node.target));

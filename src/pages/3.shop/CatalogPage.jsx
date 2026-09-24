@@ -1,6 +1,6 @@
 /* Page: Shop - CatalogPage */
 import { useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
@@ -17,6 +17,8 @@ export default function CatalogPage() {
 
   const fetchCatalog = useCallback(() => getCatalog(pathname), [pathname]);
   const { data, loading, error } = useAsyncData(fetchCatalog, [pathname, version]);
+
+  if (data?.redirectTo) return <Navigate to={data.redirectTo} replace />;
 
   // Hold the previous frame while the next path resolves rather than flashing
   // a 404 between routes.

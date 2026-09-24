@@ -60,9 +60,18 @@ export function addRootIn(tree, { label, target }) {
   return [...tree, root];
 }
 
-/** A new link under an item, addressed /item/link-name, unique across the menu. */
-export function newLeaf(tree, root, { label, target }) {
-  const prefix = `${root.slug}/`;
+/** A column's address segment: from its heading, and the same wherever it is read. */
+export function sectionSlug(section) {
+  return section?.slug ?? menuSlug(section?.title || "links");
+}
+
+/**
+ * A new link, addressed /item/column/link-name — the same three layers the
+ * menu shows (Dresses › Shop by Colour › White Dresses) — unique across the
+ * menu. An existing link keeps its address when renamed or moved.
+ */
+export function newLeaf(tree, root, section, { label, target }) {
+  const prefix = `${root.slug}/${sectionSlug(section)}/`;
   const taken = new Set(
     tree.flatMap((r) => (r.sections ?? []).flatMap((s) => s.items.map((i) => i.slug)))
       .filter((slug) => slug?.startsWith(prefix))
@@ -72,8 +81,8 @@ export function newLeaf(tree, root, { label, target }) {
   return {
     id: `${root.id}-${segment}-${Date.now().toString(36)}`,
     label,
-    slug: `${root.slug}/${segment}`,
-    url: `/${root.slug}/${segment}`,
+    slug: `${prefix}${segment}`,
+    url: `/${prefix}${segment}`,
     target,
   };
 }

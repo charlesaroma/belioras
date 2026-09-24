@@ -27,7 +27,7 @@ export default function MegaMenuPickers({ picker, draft, lookups, onClose, onSav
     request?.mode === "item" && !request.rootId
       ? (name) => addRootIn(draft, { label: name }).at(-1).url
       : request?.mode === "link" && !request.itemId && root
-        ? (name) => newLeaf(draft, root, { label: name }).url
+        ? (name) => newLeaf(draft, root, (root.sections ?? []).find((s) => s.id === request.sectionId), { label: name }).url
         : null;
 
   return (
