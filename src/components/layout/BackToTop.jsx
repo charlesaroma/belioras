@@ -37,12 +37,12 @@ export default function BackToTop() {
       className={cn(
         "fixed right-4 z-[60] flex size-11 items-center justify-center rounded-full sm:right-6",
         "border border-gold-500/30 bg-espresso/90 text-gold-400 shadow-large backdrop-blur",
-        "transition-all duration-300 hover:bg-espresso hover:text-gold-300",
+        "transition-all duration-300 hover:bg-espresso hover:text-gold-300 liquid-hover",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
       )}
       style={{ bottom: "calc(1.5rem + var(--consent-bar-height, 0px))" }}
     >
-      <ArrowUp className="size-5" aria-hidden="true" />
+      <ArrowUp className="liquid-icon size-5" aria-hidden="true" />
     </button>
   );
 }
