@@ -15,6 +15,7 @@ export default function ProductBuyPanelActions({
   soldOut,
   saved,
   onToggleSaved,
+  className = "mt-8",
 }) {
   const { t } = useLanguage();
 
@@ -22,14 +23,14 @@ export default function ProductBuyPanelActions({
     // At 390px the stepper, the button and the heart left the button about
     // 100px, so "Add to bag" broke across three lines. Below sm the primary
     // action takes its own full-width row.
-    <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-5">
-      <QuantitySelector value={qty} onChange={onQtyChange} max={Math.max(maxQty ?? product.stock, 1)} />
+    <div className={cn(className, "flex flex-wrap items-center gap-3 sm:gap-5")}>
+      <QuantitySelector large value={qty} onChange={onQtyChange} max={Math.max(maxQty ?? product.stock, 1)} />
 
       <button
         type="button"
         onClick={onAdd}
         disabled={soldOut}
-        className="order-last w-full border border-espresso bg-espresso px-6 py-4 text-sm font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40 sm:order-none sm:w-auto sm:flex-1 sm:px-10"
+        className="order-last w-full border border-espresso bg-espresso px-6 h-12 text-sm font-medium uppercase tracking-[0.18em] text-ivory-50 transition-colors hover:bg-espresso-600 disabled:cursor-not-allowed disabled:opacity-40 sm:order-none sm:w-auto sm:flex-1 sm:px-10"
       >
         {soldOut
           ? t("pdp.soldOut", "Sold out")

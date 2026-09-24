@@ -29,7 +29,7 @@ export default function ProductBuyPanelVariants({
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">
             {t("pdp.selectColour", "Select colour")}
             {color && (
-              <span className="ml-2 font-normal normal-case tracking-normal text-espresso-soft">
+              <span className="ml-2 font-medium normal-case tracking-normal text-espresso">
                 {color}
               </span>
             )}

@@ -1,7 +1,9 @@
 /* Shared Component: QuantitySelector */
 import { Minus, Plus } from "lucide-react";
 
-export default function QuantitySelector({ value, onChange, min = 1, max = 99, disabled = false }) {
+export default function QuantitySelector({ value, onChange, min = 1, max = 99, disabled = false, large = false }) {
+
+  const step = large ? "size-12" : "size-10";
 
   function clamp(next) {
     return Math.min(Math.max(min, Math.floor(next)), max);
@@ -11,7 +13,7 @@ export default function QuantitySelector({ value, onChange, min = 1, max = 99, d
     <div className="inline-flex items-stretch border border-umber-100 bg-ivory-50">
       <button
         type="button"
-        className="flex size-10 items-center justify-center rounded-l-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40"
+        className={`flex ${step} items-center justify-center rounded-l-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40`}
         aria-label="Decrease quantity"
         disabled={disabled || value <= min}
         onClick={() => onChange(clamp(value - 1))}
@@ -26,7 +28,7 @@ export default function QuantitySelector({ value, onChange, min = 1, max = 99, d
       </output>
       <button
         type="button"
-        className="flex size-10 items-center justify-center rounded-r-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40"
+        className={`flex ${step} items-center justify-center rounded-r-full text-espresso transition-colors hover:text-gold-700 disabled:opacity-40`}
         aria-label="Increase quantity"
         disabled={disabled || value >= max}
         onClick={() => onChange(clamp(value + 1))}
