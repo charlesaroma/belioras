@@ -1,11 +1,13 @@
 /* Storefront Component: ProductCard */
-import { Heart } from "lucide-react";
+import { useState } from "react";
+import { Eye, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../utils/cn";
+import QuickView from "./QuickView";
 
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
@@ -22,8 +24,14 @@ export default function ProductCard({ product }) {
 
   const secondImage = images[1];
 
+  // Not mounted until first asked for: a grid holds dozens of cards, and each
+  // dialog is markup that would otherwise sit in the page for nothing.
+  const [quick, setQuick] = useState({ open: false, session: 0, used: false });
+  const openQuick = () => setQuick((q) => ({ open: true, session: q.session + 1, used: true }));
+
   return (
     <article className="group relative">
+      <div className="relative overflow-hidden">
       <Link to={`/product/${slug}`} className="block overflow-hidden bg-ivory-200">
         <div className="relative aspect-[3/4] w-full">
           <img
@@ -88,6 +96,34 @@ export default function ProductCard({ product }) {
         <Heart className={cn("size-4", saved && "fill-current")} aria-hidden="true" />
       </button>
 
+      {/* On a phone, a small always-there button; from md up, a bar that
+          rises over the foot of the photograph on hover or focus. */}
+      <button
+        type="button"
+        onClick={openQuick}
+        aria-label={`Quick view ${name}`}
+        className={cn(
+          "absolute right-2 flex size-11 items-center justify-center rounded-full bg-ivory-50/80 text-espresso-soft backdrop-blur md:hidden",
+          soldOut ? "bottom-10" : "bottom-2",
+        )}
+      >
+        <Eye className="size-4" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        onClick={openQuick}
+        aria-label={`Quick view ${name}`}
+        className={cn(
+          "absolute inset-x-0 hidden translate-y-full items-center justify-center gap-2 bg-ivory-50/95 py-3 text-[10px] uppercase tracking-[0.22em] text-espresso backdrop-blur",
+          "transition-[translate] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-ivory-50 focus-visible:translate-y-0 group-hover:translate-y-0 md:flex",
+          soldOut ? "bottom-8" : "bottom-0",
+        )}
+      >
+        <Eye className="size-3.5" aria-hidden="true" />
+        Quick view
+      </button>
+      </div>
+
       <div className="mt-3">
         <h3>
           <Link
@@ -109,6 +145,7 @@ export default function ProductCard({ product }) {
           )}
         </p>
       </div>
+      {quick.used && <QuickView product={product} open={quick.open} session={quick.session} onClose={() => setQuick((q) => ({ ...q, open: false }))} />}
     </article>
   );
 }

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { cn } from "../../../utils/cn";
 
-export default function ProductPageGallery({ images = [], name = "" }) {
+export default function ProductPageGallery({ images = [], name = "", imageClassName = "aspect-[3/4]" }) {
   const [active, setActive] = useState(0);
 
   if (!images.length) return <div className="aspect-[3/4] w-full bg-ivory-200" />;
@@ -14,7 +14,7 @@ export default function ProductPageGallery({ images = [], name = "" }) {
         <img
           src={images[active]}
           alt={name}
-          className="aspect-[3/4] h-full w-full object-cover"
+          className={cn("h-full w-full object-cover", imageClassName)}
         />
       </div>
 
