@@ -1540,5 +1540,405 @@
     "type": "necklaces",
     "sku": "BEL-BF28",
     "status": "active"
+  },
+  {
+    "id": "bf29",
+    "slug": "bouncy-curl-18-wig",
+    "name": "Bouncy Curl Wig 18\"",
+    "price": 175,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Springy, defined curls in remy human hair. HD lace front with a pre-plucked hairline.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony",
+      "Chestnut"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 10,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:bouncy-wigs",
+      "tag:new"
+    ],
+    "type": "wigs",
+    "sku": "BEL-BF29",
+    "status": "active"
+  },
+  {
+    "id": "bf30",
+    "slug": "short-bob-10-wig",
+    "name": "Short Bob Wig 10\"",
+    "price": 145,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "A blunt, chin-skimming bob in silk-pressed remy hair. Ready to wear straight from the box.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony",
+      "Caramel"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 14,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:short-wigs"
+    ],
+    "type": "wigs",
+    "sku": "BEL-BF30",
+    "status": "active"
+  },
+  {
+    "id": "bf31",
+    "slug": "kinky-curly-16-wig",
+    "name": "Kinky Curly Wig 16\"",
+    "price": 165,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Tight, natural-texture coils that blend with your own curls. Density 180%.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 9,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:kinky-wigs"
+    ],
+    "type": "wigs",
+    "sku": "BEL-BF31",
+    "status": "active"
+  },
+  {
+    "id": "bf32",
+    "slug": "yaky-straight-20-wig",
+    "name": "Yaky Straight Wig 20\"",
+    "price": 170,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "A relaxed-texture yaky straight with the softness of pressed natural hair.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony",
+      "Chestnut"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 11,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:yaky-wigs",
+      "tag:new"
+    ],
+    "type": "wigs",
+    "sku": "BEL-BF32",
+    "status": "active"
+  },
+  {
+    "id": "bf33",
+    "slug": "faux-locs-22-wig",
+    "name": "Faux Locs Wig 22\"",
+    "price": 210,
+    "originalPrice": null,
+    "collectionId": "hair",
+    "description": "Hand-finished locs on a breathable lace cap \u2014 a protective style without the install.",
+    "details": [
+      "100% Remy human hair",
+      "Pre-plucked hairline",
+      "Adjustable elastic band"
+    ],
+    "materials": [
+      "100% Remy human hair"
+    ],
+    "care": [
+      "Wash with sulphate-free shampoo",
+      "Air dry where possible",
+      "Store on a wig stand"
+    ],
+    "colors": [
+      "Ebony",
+      "Dark Brown"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 7,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:wigs:locs"
+    ],
+    "type": "wigs",
+    "sku": "BEL-BF33",
+    "status": "active"
+  },
+  {
+    "id": "bf34",
+    "slug": "soft-leather-shoulder-bag",
+    "name": "Soft Leather Shoulder Bag",
+    "price": 295,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "Slouchy full-grain leather with a chain-and-leather strap. Roomy enough for the day.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Chestnut",
+      "Ebony"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 8,
+    "isNew": true,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:bags:shoulder-bags",
+      "tag:new"
+    ],
+    "type": "shoulder",
+    "sku": "BEL-BF34",
+    "status": "active"
+  },
+  {
+    "id": "bf35",
+    "slug": "mini-saddle-bag",
+    "name": "Mini Saddle Bag",
+    "price": 260,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A compact saddle silhouette in pebbled leather, with a detachable crossbody strap.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Ebony",
+      "Chestnut"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 10,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:bags:mini-bags"
+    ],
+    "type": "mini",
+    "sku": "BEL-BF35",
+    "status": "active"
+  },
+  {
+    "id": "bf36",
+    "slug": "gold-cuff-bangle",
+    "name": "Gold Cuff Bangle",
+    "price": 95,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A sculpted open cuff in 18k gold plate. Adjusts gently to the wrist.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Gold"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 20,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:jewellery:bracelets-bangles"
+    ],
+    "type": "bracelets",
+    "sku": "BEL-BF36",
+    "status": "active"
+  },
+  {
+    "id": "bf37",
+    "slug": "signet-stacking-ring",
+    "name": "Signet Stacking Ring",
+    "price": 78,
+    "originalPrice": null,
+    "collectionId": "accessories",
+    "description": "A slim signet in 18k gold plate, made to stack with the rest of your rings.",
+    "details": [
+      "Protective dust bag included",
+      "Hand-finished edges",
+      "Made in Europe"
+    ],
+    "materials": [
+      "Full-grain leather",
+      "Gold-tone hardware"
+    ],
+    "care": [
+      "Wipe with a soft dry cloth",
+      "Avoid prolonged damp",
+      "Store in dust bag"
+    ],
+    "colors": [
+      "Gold"
+    ],
+    "sizes": [
+      "one-size"
+    ],
+    "stock": 25,
+    "isNew": false,
+    "bestseller": false,
+    "featured": false,
+    "images": [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
+    ],
+    "createdAt": "2026-09-05",
+    "tags": [
+      "subcat:jewellery:rings"
+    ],
+    "type": "rings",
+    "sku": "BEL-BF37",
+    "status": "active"
   }
 ]
