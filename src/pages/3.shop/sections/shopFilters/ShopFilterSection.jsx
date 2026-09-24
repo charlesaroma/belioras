@@ -41,7 +41,7 @@ export default function ShopFilterSection({ title, defaultOpen = false, selected
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
       >
-        <div className="min-h-0 overflow-hidden">
+        <div className="min-h-0 overflow-hidden" inert={!open || undefined}>
           <div className="pt-4">{children}</div>
         </div>
       </div>

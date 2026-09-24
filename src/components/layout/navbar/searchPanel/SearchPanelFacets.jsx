@@ -1,4 +1,5 @@
 /* Colour And Size Filters */
+import ShopFilterSection from "../../../../pages/3.shop/sections/shopFilters/ShopFilterSection";
 import { cn } from "../../../../utils/cn";
 import { sizeLabel } from "../../../../utils/sizeLabel";
 
@@ -23,10 +24,9 @@ export default function SearchPanelFacets({
   onToggleSize,
 }) {
   return (
-    <div className="flex flex-row flex-wrap gap-10 lg:flex-col lg:gap-8">
+    <div className="flex flex-col">
       {categoryChips.length > 1 && (
-        <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-espresso">Category</p>
+        <ShopFilterSection title="Category" defaultOpen selectedCount={chosenCategories.length}>
           <div className="flex flex-wrap gap-2">
             {categoryChips.map((c) => (
               <button key={c.id} type="button" aria-pressed={chosenCategories.includes(c.id)} onClick={() => onToggleCategory(c.id)} className={chip(chosenCategories.includes(c.id))}>
@@ -34,12 +34,11 @@ export default function SearchPanelFacets({
               </button>
             ))}
           </div>
-        </div>
+        </ShopFilterSection>
       )}
 
       {groups.map((group) => (
-        <div key={group.dimension}>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-espresso">{group.label}</p>
+        <ShopFilterSection key={group.dimension} title={group.label} defaultOpen={groups.length === 1} selectedCount={(types[group.dimension] ?? []).length}>
           <div className="flex flex-wrap gap-2">
             {group.values.map((v) => {
               const active = (types[group.dimension] ?? []).includes(v.id);
@@ -50,14 +49,11 @@ export default function SearchPanelFacets({
               );
             })}
           </div>
-        </div>
+        </ShopFilterSection>
       ))}
 
       {colourSwatches.length > 0 && (
-        <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-espresso">
-            Colour
-          </p>
+        <ShopFilterSection title="Colour" selectedCount={colours.length}>
           {/* The swatch stays 28px; the button around it is 44px on touch. */}
           <div className="-mx-2 flex max-w-[220px] flex-wrap lg:mx-0 lg:max-w-[180px] lg:gap-2">
             {colourSwatches.map((c) => {
@@ -85,14 +81,11 @@ export default function SearchPanelFacets({
               );
             })}
           </div>
-        </div>
+        </ShopFilterSection>
       )}
 
       {sizeChips.length > 0 && (
-        <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-espresso">
-            Size
-          </p>
+        <ShopFilterSection title="Size" selectedCount={sizes.length}>
           <div className="flex flex-wrap gap-2">
             {sizeChips.map((s) => {
               const active = sizes.includes(s);
@@ -114,7 +107,7 @@ export default function SearchPanelFacets({
               );
             })}
           </div>
-        </div>
+        </ShopFilterSection>
       )}
     </div>
   );
