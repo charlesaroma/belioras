@@ -12,6 +12,8 @@ import { cn } from "@/utils/cn";
 import DashListToolbar from "../../components/DashListToolbar";
 import DashSelect from "../../components/DashSelect";
 import DashTable from "../../components/DashTable";
+import DashTabs from "../../components/DashTabs";
+import EmailOutbox from "./sections/EmailOutbox";
 import { downloadCsv, toCsv } from "../../lib/csv";
 import { usePageSize } from "../../lib/usePageSize";
 
@@ -23,7 +25,7 @@ const AREA = Object.fromEntries([["auth", "Sign-in"], ...SECTIONS.map((s) => [s.
  * Written by the services themselves, so a change can't happen without its
  * line here.
  */
-export default function DashActivity() {
+function ActivityLog() {
   const { locale } = useLanguage();
   const { data, loading } = useAsyncData(getActivity, []);
   const entries = useMemo(() => data ?? [], [data]);
@@ -156,6 +158,25 @@ export default function DashActivity() {
             : "Sign-ins and every change saved in the dashboard appear here from now on.",
         }}
       />
+    </div>
+  );
+}
+
+/** Two views: what people did in the dashboard, and the emails the shop has queued. */
+export default function DashActivity() {
+  const [view, setView] = useState("activity");
+  return (
+    <div className="space-y-6">
+      <DashTabs
+        ariaLabel="Activity"
+        options={[
+          { value: "activity", label: "Activity" },
+          { value: "emails", label: "Email outbox" },
+        ]}
+        value={view}
+        onChange={setView}
+      />
+      {view === "activity" ? <ActivityLog /> : <EmailOutbox />}
     </div>
   );
 }

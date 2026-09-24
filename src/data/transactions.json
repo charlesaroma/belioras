@@ -166,7 +166,8 @@
     },
     "failureReason": null,
     "parentId": "txn_0008",
-    "createdAt": "2026-06-02T14:40:00Z"
+    "createdAt": "2026-06-02T14:40:00Z",
+    "reason": "Returned unworn"
   },
   {
     "id": "txn_0010",
@@ -194,7 +195,7 @@
     "providerRef": "re_3Q6wqw06Ug0WEyoagIOMke",
     "type": "refund",
     "status": "succeeded",
-    "amount": 118,
+    "amount": 94.4,
     "currency": "EUR",
     "fee": 0,
     "method": {
@@ -204,7 +205,8 @@
     },
     "failureReason": null,
     "parentId": "txn_0010",
-    "createdAt": "2026-07-22T10:05:00Z"
+    "createdAt": "2026-07-22T10:05:00Z",
+    "reason": "One of two returned"
   },
   {
     "id": "txn_0012",

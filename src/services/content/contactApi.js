@@ -1,4 +1,6 @@
 import { ApiError, mockApi } from "@/api/mock";
+import { getState } from "../store/contentStore";
+import { queueEmail } from "../notifications/emailsApi";
 
 /**
  * Contact form submission.
@@ -51,6 +53,13 @@ export function sendMessage(payload) {
       // below about delivery not being wired up.
     }
 
+    // To client care, with the shopper's address to reply to.
+    queueEmail({
+      type: "contact-received",
+      to: getState("settings").contact?.support ?? "support@belioras.com",
+      subject: `Contact form: ${entry.subject} — ${entry.name}`,
+      data: { replyTo: entry.email, message: entry.message },
+    });
     return { status: "queued", entry };
   }, 600);
 }

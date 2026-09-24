@@ -1,10 +1,13 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
-import { normalizeStatus } from "../../utils/orderStatus";
+import { nextStatuses, normalizeStatus } from "../../utils/orderStatus";
 import { assertCouponRedeemable } from "./couponsApi";
 import { availabilityProblems, stockChangesForStatus } from "../catalog/inventory/orderStock";
 import { applyStockChanges } from "../catalog/inventory/stockLedger";
 import { audited } from "../auth/audited";
+import { queueEmail } from "../notifications/emailsApi";
+import { paymentsFor, refund as refundPayment } from "./paymentsApi";
+import { returnLine } from "../catalog/inventory/orderStock";
 
 export { returnableUnits } from "../catalog/inventory/orderStock";
 export { getBestSellerProductIds } from "./orderRankings";
@@ -120,9 +123,6 @@ export function createOrder(payload) {
   }, 400);
 }
 
-/** Statuses that mean the order has been paid for. */
-const PAID = new Set(["to-ship", "shipped", "to-review", "reviewed", "refunded"]);
-
 /** The next number in this year's sequence: BEL-2026-0012. Never reused, never skipped. */
 function nextInvoiceNumber() {
   const prefix = getState("settings").invoice?.prefix || "INV";
@@ -141,13 +141,43 @@ function nextInvoiceNumber() {
  * prices, so it is worked out of them, at the rate in Settings. Readable by
  * staff, or by the customer the order belongs to.
  */
-export function getInvoice(id, as = {}) {
+export function getInvoice(id, as = {}, creditNumber = null) {
   return mockApi(async () => {
     const order = await getOrder(id, as);
     if (!order.invoiceNumber) throw new ApiError("This order has no invoice yet: one is issued when payment is confirmed.", 409);
     const settings = getState("settings");
     const rate = settings.tax?.rate ?? 0;
     const net = (gross) => Math.round((gross / (1 + rate)) * 100) / 100;
+    const seller = {
+      name: settings.gpsr?.manufacturer ?? "Belioras",
+      address: settings.gpsr?.address ?? settings.contact?.boutique ?? "",
+      email: settings.contact?.support ?? "",
+      vatId: settings.invoice?.vatId ?? "",
+      taxNumber: settings.invoice?.taxNumber ?? "",
+      note: settings.invoice?.note ?? "",
+    };
+
+    // A credit note: the refunded lines, as negatives, against the invoice it corrects.
+    if (creditNumber) {
+      const cn = (order.creditNotes ?? []).find((c) => c.number === creditNumber);
+      if (!cn) throw new ApiError("No credit note with that number on this order.", 404);
+      const lines = cn.lines.map((l) => ({ ...l, price: -(l.gross / (l.quantity || 1)), gross: -l.gross, net: -net(l.gross) }));
+      if (cn.shipping) lines.push({ name: "Shipping", quantity: 1, price: -cn.shipping, gross: -cn.shipping, net: -net(cn.shipping) });
+      const covered = lines.reduce((s, l) => s + l.gross, 0);
+      const rest = Math.round((-cn.amount - covered) * 100) / 100;
+      if (Math.abs(rest) >= 0.01) lines.push({ name: "Adjustment", quantity: 1, price: rest, gross: rest, net: net(rest) });
+      const vat = Math.round((cn.amount - net(cn.amount)) * 100) / 100;
+      return {
+        kind: "credit",
+        creditNote: cn,
+        order,
+        seller,
+        rate,
+        lines,
+        totals: { net: -net(cn.amount), vat: -vat, gross: -cn.amount },
+      };
+    }
+
     const lines = (order.items ?? []).map((i) => {
       const gross = (i.price ?? 0) * (i.quantity ?? 1);
       return { ...i, gross, net: net(gross) };
@@ -156,15 +186,9 @@ export function getInvoice(id, as = {}) {
     if (order.shipping) lines.push({ name: "Shipping", quantity: 1, price: order.shipping, gross: order.shipping, net: net(order.shipping) });
     const total = order.total ?? 0;
     return {
+      kind: "invoice",
       order,
-      seller: {
-        name: settings.gpsr?.manufacturer ?? "Belioras",
-        address: settings.gpsr?.address ?? settings.contact?.boutique ?? "",
-        email: settings.contact?.support ?? "",
-        vatId: settings.invoice?.vatId ?? "",
-        taxNumber: settings.invoice?.taxNumber ?? "",
-        note: settings.invoice?.note ?? "",
-      },
+      seller,
       rate,
       lines,
       totals: { net: Math.round((total - (order.tax ?? 0)) * 100) / 100, vat: order.tax ?? 0, gross: total },
@@ -172,84 +196,257 @@ export function getInvoice(id, as = {}) {
   }, 0);
 }
 
+const round2 = (n) => Math.round(n * 100) / 100;
+
+function writeOrder(updated) {
+  setState("orders", (state) => ({ ...state, items: state.items.map((o) => (o.id === updated.id ? updated : o)) }));
+  return updated;
+}
+
+function findOrder(id) {
+  const order = orderItems().find((o) => o.id === id);
+  if (!order) throw new ApiError("Order not found.", 404);
+  return order;
+}
+
+/* ------------------------------------------------------------ Payment ---- */
+
 /**
- * Sends the receipt again. Email is not connected yet, so it is recorded as
- * queued — the backend's mailer picks queued receipts up once it exists.
+ * Payment succeeded — what the server's payment webhook does, and the only
+ * way an order becomes paid. It gets its invoice number, once and in sequence
+ * as German invoicing requires, and the customer is sent the order
+ * confirmation with the invoice. Staff never mark an order paid.
  */
-function sendReceipt$raw(id) {
+export function confirmPayment(orderId, charge) {
+  const order = findOrder(orderId);
+  if (normalizeStatus(order.status) !== "to-pay") return order;
+  const now = new Date().toISOString();
+  const updated = writeOrder({
+    ...order,
+    status: "to-ship",
+    paidAt: now,
+    paymentMethod: charge?.method?.type ?? null,
+    invoiceNumber: order.invoiceNumber ?? nextInvoiceNumber(),
+    updatedAt: now,
+  });
+  queueEmail({
+    type: "order-confirmation",
+    to: updated.email,
+    subject: `Your Belioras order ${updated.id} is confirmed`,
+    orderId: updated.id,
+    data: { invoiceNumber: updated.invoiceNumber, total: updated.total },
+  });
+  return updated;
+}
+
+/** Payment failed or expired, as the webhook reports it: the order waits, and the customer is told. */
+export function failPayment(orderId, reason = "The payment was declined.") {
+  const order = findOrder(orderId);
+  queueEmail({ type: "payment-failed", to: order.email, subject: `Payment for your Belioras order ${order.id} didn't go through`, orderId: order.id, data: { reason } });
+  return order;
+}
+
+/* --------------------------------------------------------- Credit notes -- */
+
+function nextCreditNoteNumber() {
+  const prefix = getState("settings").invoice?.prefix || "INV";
+  const stem = `${prefix}-CN-${new Date().getFullYear()}-`;
+  const highest = orderItems()
+    .flatMap((o) => o.creditNotes ?? [])
+    .reduce((max, cn) => Math.max(max, cn.number.startsWith(stem) ? Number(cn.number.slice(stem.length)) || 0 : 0), 0);
+  return `${stem}${String(highest + 1).padStart(4, "0")}`;
+}
+
+/** What each line is worth after the order's discount, so a refund gives back what was paid for it. */
+function paidShare(order, line) {
+  const gross = (line.price ?? 0) * (line.quantity ?? 1);
+  const ratio = order.subtotal ? Math.max(0, 1 - (order.discount ?? 0) / order.subtotal) : 1;
+  return round2(gross * ratio);
+}
+
+/** What can still be refunded on an order, per line and in total, for the refund dialog. */
+export function refundQuote(order) {
+  const { charged, refunded, refundable } = paymentsFor(order.id);
+  const lines = (order.items ?? []).map((line, index) => ({
+    index,
+    name: line.name,
+    color: line.color,
+    size: line.size,
+    quantity: line.quantity ?? 1,
+    unitPaid: round2(paidShare(order, line) / (line.quantity ?? 1)),
+  }));
+  return { charged, refunded, refundable, shipping: order.shipping ?? 0, lines };
+}
+
+/**
+ * Gives money back — the whole order or part of it — and issues a credit note,
+ * since an invoice, once issued, is never edited. `lines` picks what is being
+ * refunded ([{ index, quantity }]); `amount` may override the total. Pieces
+ * that came back can go back into stock. A refund that leaves nothing paid
+ * closes the order: "cancelled" if it never shipped, "refunded" if it had.
+ */
+function applyRefund(order, { lines = [], includeShipping = false, amount = null, reason = "", restock = false, by = null, cancel = false } = {}) {
+  const { refundable } = paymentsFor(order.id);
+  if (refundable <= 0) throw new ApiError("Nothing is left to refund on this order.", 409);
+
+  const chosen = lines
+    .map(({ index, quantity }) => ({ line: order.items[index], index, quantity: Math.min(Number(quantity) || 0, order.items[index]?.quantity ?? 1) }))
+    .filter((c) => c.line && c.quantity > 0);
+  const fromLines = chosen.reduce((s, c) => s + (paidShare(order, c.line) / (c.line.quantity ?? 1)) * c.quantity, 0);
+  const suggested = round2(fromLines + (includeShipping ? order.shipping ?? 0 : 0));
+  const total = round2(amount === null || amount === "" ? suggested : Number(amount));
+
+  if (!(total > 0)) throw new ApiError("Choose what to refund, or enter an amount.", 422);
+  if (total > refundable + 0.001) throw new ApiError(`At most €${refundable.toFixed(2)} can be refunded on this order.`, 422);
+
+  const txn = refundPayment(order.id, total, reason);
+
+  // Pieces only go back on the shelf if they had left it.
+  if (restock && order.stockDeductedAt && chosen.length) {
+    const products = new Map(getState("products").items.map((p) => [p.id, p]));
+    applyStockChanges(
+      chosen
+        .filter((c) => products.has(c.line.productId))
+        .map((c) => ({ ...returnLine(order, c.line, c.quantity, by) })),
+    );
+  }
+
+  const creditNote = {
+    number: nextCreditNoteNumber(),
+    at: new Date().toISOString(),
+    amount: total,
+    reason: reason || null,
+    shipping: includeShipping ? order.shipping ?? 0 : 0,
+    lines: chosen.map((c) => ({ name: c.line.name, color: c.line.color, size: c.line.size, quantity: c.quantity, gross: round2((paidShare(order, c.line) / (c.line.quantity ?? 1)) * c.quantity) })),
+    transactionId: txn?.id ?? null,
+  };
+
+  const left = round2(refundable - total);
+  const status = normalizeStatus(order.status);
+  const nextStatus = left <= 0 || cancel ? (order.stockDeductedAt ? "refunded" : "cancelled") : status;
+  const updated = writeOrder({
+    ...order,
+    status: nextStatus,
+    creditNotes: [...(order.creditNotes ?? []), creditNote],
+    updatedAt: new Date().toISOString(),
+  });
+
+  queueEmail({
+    type: "refund",
+    to: order.email,
+    subject: `Your refund for Belioras order ${order.id}`,
+    orderId: order.id,
+    data: { amount: total, creditNote: creditNote.number },
+  });
+  if (nextStatus === "cancelled" && status !== "cancelled") {
+    queueEmail({ type: "order-cancelled", to: order.email, subject: `Your Belioras order ${order.id} is cancelled`, orderId: order.id, data: { refunded: total } });
+  }
+  return { order: updated, creditNote };
+}
+
+function refundOrder$raw(id, options = {}, by = null) {
   return mockApi(() => {
-    const order = orderItems().find((o) => o.id === id);
-    if (!order) throw new ApiError("Order not found.", 404);
-    if (!order.invoiceNumber) throw new ApiError("There is no receipt to send until payment is confirmed.", 409);
-    const updated = { ...order, receipts: [...(order.receipts ?? []), { at: new Date().toISOString(), to: order.email, status: "queued" }] };
-    setState("orders", (state) => ({ ...state, items: state.items.map((o) => (o.id === id ? updated : o)) }));
-    return updated;
+    const order = findOrder(id);
+    const status = normalizeStatus(order.status);
+    if (!["to-ship", "shipped", "to-review", "reviewed", "refunded"].includes(status)) {
+      throw new ApiError("Only a paid order can be refunded.", 409);
+    }
+    return applyRefund(order, { ...options, by });
+  });
+}
+
+/* ----------------------------------------------------------- Transitions -- */
+
+/**
+ * Cancels an order before it ships. Unpaid, it is simply cancelled; paid, the
+ * whole amount goes back first, with a credit note. Used by staff and, for
+ * their own orders, by customers.
+ */
+function cancel(order, { reason, by }) {
+  const status = normalizeStatus(order.status);
+  if (status === "to-pay") {
+    const updated = writeOrder({ ...order, status: "cancelled", cancelReason: reason ?? null, updatedAt: new Date().toISOString() });
+    queueEmail({ type: "order-cancelled", to: order.email, subject: `Your Belioras order ${order.id} is cancelled`, orderId: order.id, data: { refunded: 0 } });
+    return { order: updated, creditNote: null };
+  }
+  if (status === "to-ship") {
+    return applyRefund(order, {
+      lines: order.items.map((line, index) => ({ index, quantity: line.quantity ?? 1 })),
+      includeShipping: true,
+      reason: reason || "Order cancelled before shipping",
+      by,
+      cancel: true,
+    });
+  }
+  throw new ApiError("An order that has shipped can't be cancelled. Refund it once the pieces are back.", 409);
+}
+
+function cancelOrder$raw(id, { reason, by } = {}) {
+  return mockApi(() => cancel(findOrder(id), { reason, by }));
+}
+
+/** A customer cancelling their own order, before it ships. Ownership is checked as for reading it. */
+export function cancelMyOrder(id, as = {}) {
+  return mockApi(() => {
+    const order = findOrder(id);
+    const mine = (as.userId && order.userId === as.userId) || (as.email && order.email?.toLowerCase() === String(as.email).toLowerCase());
+    if (!mine) throw new ApiError("No order matches those details.", 404);
+    return cancel(order, { reason: "Cancelled by the customer", by: "Customer" });
   });
 }
 
 /**
- * Reminds a customer that an order is waiting for payment. Recorded as queued,
- * like receipts, until email is connected.
+ * Moves a paid order along: shipped, then delivered. Payment, cancellation and
+ * refunds each have their own flow above, so none of them can be done by
+ * setting a status.
  */
-function sendPaymentReminder$raw(id) {
+function updateOrderStatus$raw(id, status, { by = null, trackingRef, carrier } = {}) {
   return mockApi(() => {
-    const order = orderItems().find((o) => o.id === id);
-    if (!order) throw new ApiError("Order not found.", 404);
-    if (normalizeStatus(order.status) !== "to-pay") throw new ApiError("This order is already paid or closed.", 409);
-    if (!order.email) throw new ApiError("This order has no email address to remind.", 422);
-    const updated = { ...order, reminders: [...(order.reminders ?? []), { at: new Date().toISOString(), to: order.email, status: "queued" }] };
-    setState("orders", (state) => ({ ...state, items: state.items.map((o) => (o.id === id ? updated : o)) }));
-    return updated;
-  });
-}
-
-/**
- * Move an order to a new status. Admin action.
- *
- * Validates against the canonical vocabulary so a typo cannot write a status
- * nothing knows how to render — which is how `paid` ended up showing a blank
- * chip on two different surfaces.
- */
-
-function updateOrderStatus$raw(id, status, { restock = false, by = null, trackingRef, carrier } = {}) {
-  return mockApi(() => {
-
     const canonical = normalizeStatus(status);
     if (!canonical) throw new ApiError(`Unknown order status: ${status}`, 422);
+    const order = findOrder(id);
+    const from = normalizeStatus(order.status);
 
-    const order = orderItems().find((o) => o.id === id);
-    if (!order) throw new ApiError("Order not found.", 404);
+    if (canonical === "to-ship") throw new ApiError("An order is marked paid by the payment provider when payment succeeds, never by hand.", 409);
+    if (canonical === "cancelled" || canonical === "refunded") throw new ApiError("Use Cancel or Refund on the order, so the payment is handled too.", 409);
+    if (!nextStatuses(from).includes(canonical)) throw new ApiError(`An order that is ${from} can't become ${canonical}.`, 409);
 
-    // Shipping takes the pieces off the shelf; cancelling or refunding a
-    // shipped order puts them back when `restock` says they came back.
-    const { changes, patch } = stockChangesForStatus(order, canonical, { restock, by });
+    // Shipping takes the pieces off the shelf.
+    const { changes, patch } = stockChangesForStatus(order, canonical, { by });
     applyStockChanges(changes);
 
-    // Payment confirmed: the order gets its invoice number — once, and in
-    // sequence, as German invoicing requires — and a receipt to its customer.
-    const nowPaid = normalizeStatus(order.status) === "to-pay" && PAID.has(canonical) && !order.invoiceNumber;
-    const now = new Date().toISOString();
-
-    const updated = {
+    const updated = writeOrder({
       ...order,
       ...patch,
-      ...(nowPaid
-        ? { invoiceNumber: nextInvoiceNumber(), paidAt: now, receipts: [...(order.receipts ?? []), { at: now, to: order.email, status: "queued", auto: true }] }
-        : {}),
       status: canonical,
       updatedAt: new Date().toISOString(),
+      ...(canonical === "shipped" ? { shippedAt: new Date().toISOString() } : {}),
+      ...(canonical === "to-review" ? { deliveredAt: new Date().toISOString() } : {}),
       ...(trackingRef ? { trackingRef } : {}),
       ...(carrier ? { carrier } : {}),
-    };
-    setState("orders", (state) => ({
-      ...state,
-      items: state.items.map((o) => (o.id === id ? updated : o)),
-    }));
+    });
+
+    if (canonical === "shipped") {
+      queueEmail({ type: "order-shipped", to: order.email, subject: `Your Belioras order ${order.id} is on its way`, orderId: order.id, data: { carrier: updated.carrier ?? null, trackingRef: updated.trackingRef ?? null } });
+    }
+    if (canonical === "to-review") {
+      queueEmail({ type: "order-delivered", to: order.email, subject: `Your Belioras order ${order.id} has arrived`, orderId: order.id });
+    }
     return updated;
   });
 }
 
-/* Recorded in the staff activity log. */
-export const updateOrderStatus = audited("orders", ([id, status]) => `Marked order ${id} ${status}`, updateOrderStatus$raw);
-export const sendReceipt = audited("orders", ([id]) => `Resent the receipt for order ${id}`, sendReceipt$raw);
-export const sendPaymentReminder = audited("orders", ([id]) => `Sent a payment reminder for order ${id}`, sendPaymentReminder$raw);
+/** Sends the order confirmation, with its invoice, again. */
+function resendConfirmation$raw(id) {
+  return mockApi(() => {
+    const order = findOrder(id);
+    if (!order.invoiceNumber) throw new ApiError("There is nothing to resend until payment is confirmed.", 409);
+    return queueEmail({ type: "order-confirmation", to: order.email, subject: `Your Belioras order ${order.id} is confirmed`, orderId: order.id, data: { invoiceNumber: order.invoiceNumber, resent: true } });
+  });
+}
+
+/* Checked against the signed-in person's Orders access, and recorded in the activity log. */
+export const updateOrderStatus = audited("orders", ([id, status]) => `Marked order ${id} ${status === "to-review" ? "delivered" : status}`, updateOrderStatus$raw);
+export const cancelOrder = audited("orders", ([id], r) => `Cancelled order ${id}${r.creditNote ? ` and refunded €${r.creditNote.amount.toFixed(2)}` : ""}`, cancelOrder$raw);
+export const refundOrder = audited("orders", ([id], r) => `Refunded €${r.creditNote.amount.toFixed(2)} on order ${id} (${r.creditNote.number})`, refundOrder$raw);
+export const sendReceipt = audited("orders", ([id]) => `Resent the order confirmation for ${id}`, resendConfirmation$raw);

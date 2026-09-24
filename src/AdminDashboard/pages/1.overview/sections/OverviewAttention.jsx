@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const ITEMS = [
-  { key: "toPay", one: "order waiting for payment", many: "orders waiting for payment", to: "/dashboard/orders?status=to-pay" },
   { key: "toShip", one: "order paid and ready to ship", many: "orders paid and ready to ship", to: "/dashboard/orders?status=to-ship" },
   { key: "pendingReviews", one: "review waiting for approval", many: "reviews waiting for approval", to: "/dashboard/reviews?status=pending" },
 ];

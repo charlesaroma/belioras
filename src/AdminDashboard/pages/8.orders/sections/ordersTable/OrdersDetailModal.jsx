@@ -1,5 +1,7 @@
 /* Admin Dashboard Page: Orders - OrdersDetailModal */
-import { FileText, Send } from "lucide-react";
+import { FileText, Mail, Send } from "lucide-react";
+
+import { EMAIL_TYPES, emailsForOrder } from "../../../../../services/notifications/emailsApi";
 
 import Button from "../../../../../components/ui/Button";
 import StatusChip from "../../../../../components/ui/StatusChip";
@@ -16,6 +18,8 @@ export default function OrderDetailModal({
   showPayments = false,
   canEdit = true,
   onSendReceipt,
+  onCancel,
+  onRefund,
 }) {
 
   const transitions = order ? nextStatuses(order.status) : [];
@@ -66,32 +70,48 @@ export default function OrderDetailModal({
           </dl>
 
           <div className="border-t border-umber-50 pt-4">
-            <p className="eyebrow mb-3">Invoice and receipt</p>
+            <p className="eyebrow mb-3">Invoice and credit notes</p>
             {order.invoiceNumber ? (
-              <>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button size="sm" variant="secondary" icon={FileText} href={`/invoice/${order.id}`} target="_blank" rel="noreferrer">
-                    Invoice {order.invoiceNumber}
+              <div className="flex flex-wrap items-center gap-2">
+                <Button size="sm" variant="secondary" icon={FileText} href={`/invoice/${order.id}`} target="_blank" rel="noreferrer">
+                  Invoice {order.invoiceNumber}
+                </Button>
+                {(order.creditNotes ?? []).map((cn) => (
+                  <Button key={cn.number} size="sm" variant="secondary" icon={FileText} href={`/invoice/${order.id}?credit=${cn.number}`} target="_blank" rel="noreferrer">
+                    Credit note {cn.number} · {format(cn.amount)}
                   </Button>
-                  {canEdit && (
-                    <Button size="sm" variant="secondary" icon={Send} onClick={() => onSendReceipt?.(order)}>
-                      Resend receipt
-                    </Button>
-                  )}
-                </div>
-                {(order.receipts ?? []).length > 0 && (
-                  <ul className="mt-3 space-y-1 text-[12px] text-espresso-soft">
-                    {order.receipts.map((r, i) => (
-                      <li key={`${r.at}-${i}`}>
-                        {dateFmt.format(new Date(r.at))} · to {r.to} · {r.auto ? "on payment" : "resent"} ·{" "}
-                        <span className="text-gold-800">queued until email is connected</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </>
+                ))}
+              </div>
             ) : (
-              <p className="text-[12px] text-espresso-soft">An invoice is issued, and a receipt sent, when payment is confirmed.</p>
+              <p className="text-[12px] text-espresso-soft">
+                Payment pending. The payment provider confirms payment automatically; the invoice is issued then.
+              </p>
+            )}
+          </div>
+
+          <div className="border-t border-umber-50 pt-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="eyebrow">Emails to the customer</p>
+              {canEdit && order.invoiceNumber && (
+                <Button size="sm" variant="ghost" icon={Send} onClick={() => onSendReceipt?.(order)}>
+                  Resend confirmation
+                </Button>
+              )}
+            </div>
+            {emailsForOrder(order.id).length ? (
+              <ul className="space-y-1.5 text-[12px] text-espresso-soft">
+                {emailsForOrder(order.id).map((e) => (
+                  <li key={e.id} className="flex items-start gap-2">
+                    <Mail className="mt-0.5 size-3.5 shrink-0 text-espresso/40" aria-hidden="true" />
+                    <span>
+                      <span className="text-espresso">{EMAIL_TYPES[e.type]?.label ?? e.type}</span> · {dateFmt.format(new Date(e.createdAt))} · to {e.to} ·{" "}
+                      <span className="text-gold-800">queued until email is connected</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[12px] text-espresso-soft">None yet.</p>
             )}
           </div>
 
@@ -106,9 +126,13 @@ export default function OrderDetailModal({
                     key={status}
                     size="sm"
                     variant={status === "cancelled" || status === "refunded" ? "ghost" : "primary"}
-                    onClick={() => onAdvance(order, status)}
+                    onClick={() => (status === "cancelled" ? onCancel?.(order) : status === "refunded" ? onRefund?.(order) : onAdvance(order, status))}
                   >
-                    Mark {ORDER_STATUS[status]?.label ?? status}
+                    {status === "cancelled"
+                      ? order.invoiceNumber ? "Cancel and refund" : "Cancel order"
+                      : status === "refunded"
+                        ? "Refund…"
+                        : `Mark ${status === "to-review" ? "delivered" : (ORDER_STATUS[status]?.label ?? status).toLowerCase()}`}
                   </Button>
                 ))}
               </div>
@@ -116,7 +140,9 @@ export default function OrderDetailModal({
                   refunding moves money, so reversing is a correction rather
                   than a normal step and is not one click away. */}
               <p className="mt-3 text-[11px] text-espresso-soft">
-                These steps only move forward. To correct a mistake, contact client care.
+                {order.status === "to-pay"
+                  ? "Payment is confirmed by the payment provider, never by hand. An unpaid order can only be cancelled."
+                  : "These steps only move forward. Every change emails the customer."}
               </p>
             </div>
           ) : (

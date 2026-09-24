@@ -9,7 +9,10 @@ export function paymentOf(order, txns = []) {
   const charges = txns.filter((t) => t.orderId === order.id && t.type === "charge" && t.status === "succeeded");
   const paid = charges.reduce((s, t) => s + t.amount, 0);
   const refunded = txns.filter((t) => t.orderId === order.id && t.type === "refund" && t.status === "succeeded").reduce((s, t) => s + t.amount, 0);
-  if (status === "to-pay") return "unpaid";
+  if (status === "to-pay") {
+    const last = txns.filter((t) => t.orderId === order.id && t.type === "charge").at(-1);
+    return last?.status === "failed" ? "failed" : "pending";
+  }
   if (!paid && status === "cancelled") return "not-charged";
   if (refunded > 0 && refunded >= paid - 0.005) return "refunded";
   if (refunded > 0) return "part-refunded";
@@ -31,7 +34,8 @@ export function fulfilmentOf(order) {
 }
 
 export const PAYMENT = {
-  unpaid: { label: "Unpaid", tone: "pending" },
+  pending: { label: "Payment pending", tone: "pending" },
+  failed: { label: "Payment failed", tone: "negative" },
   paid: { label: "Paid", tone: "positive" },
   "part-refunded": { label: "Part refunded", tone: "progress" },
   refunded: { label: "Refunded", tone: "neutral" },
@@ -52,7 +56,6 @@ export function daysSince(iso, now = Date.now()) {
 
 /** The one thing to do next on an order, if any. */
 export function nextStepOf(row) {
-  if (row.status === "to-pay") return "remind";
   if (row.status === "to-ship") return "ship";
   if (row.status === "shipped") return "deliver";
   return null;
@@ -84,7 +87,7 @@ export function toRows(orders = [], txns = []) {
 
 export const TABS = [
   ["all", "All", () => true],
-  ["to-pay", "To pay", (r) => r.status === "to-pay"],
+  ["to-pay", "Payment pending", (r) => r.status === "to-pay"],
   ["to-ship", "To ship", (r) => r.status === "to-ship"],
   ["shipped", "Shipped", (r) => r.status === "shipped"],
   ["delivered", "Delivered", (r) => r.fulfilment === "delivered"],

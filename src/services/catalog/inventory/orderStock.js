@@ -98,3 +98,17 @@ export function returnableUnits(order) {
   if (!order || isHolding(status) || ENDED.has(status) || order.stockReturnedAt) return 0;
   return (order.items ?? []).reduce((sum, line) => sum + (Number(line.quantity) || 1), 0);
 }
+
+/** One refunded line going back on the shelf: `quantity` of it, in its colour and size. */
+export function returnLine(order, line, quantity, by = null) {
+  const product = getState("products").items.find((p) => p.id === line.productId);
+  const { byName } = colorIndex();
+  return {
+    productId: line.productId,
+    ...variantOf(product, line, byName),
+    delta: Number(quantity) || 1,
+    reason: "returned",
+    orderId: order.id,
+    by,
+  };
+}

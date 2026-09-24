@@ -29,13 +29,14 @@ const reviewButton = (onClick) => (
  * What needs someone today, above the list: parcels to send, money not yet
  * received, and the messages waiting for email to be connected.
  */
-export default function OrdersAttention({ rows, format, onReview }) {
+export default function OrdersAttention({ rows, format, onReview, queuedEmails = 0 }) {
   const toShip = rows.filter((r) => r.status === "to-ship");
   const oldestShip = Math.max(0, ...toShip.map((r) => r.age));
   const toPay = rows.filter((r) => r.status === "to-pay");
   const owed = toPay.reduce((s, r) => s + (r.total ?? 0), 0);
   const staleUnpaid = toPay.filter((r) => r.age > 30).length;
-  const queued = rows.reduce((n, r) => n + (r.receipts?.length ?? 0) + (r.reminders?.length ?? 0), 0);
+  const queued = queuedEmails;
+  const failed = toPay.filter((r) => r.payment === "failed").length;
 
   return (
     <div className="grid gap-3 lg:grid-cols-3">
@@ -51,9 +52,13 @@ export default function OrdersAttention({ rows, format, onReview }) {
       <Card
         icon={CreditCard}
         tone="bg-umber-50 text-espresso-soft"
-        eyebrow="Awaiting payment"
+        eyebrow="Payment pending"
         title={format(owed)}
-        detail={toPay.length ? `${toPay.length} ${toPay.length === 1 ? "order" : "orders"}${staleUnpaid ? ` · ${staleUnpaid} unpaid for over a month` : ""}` : "Every order is paid"}
+        detail={
+          toPay.length
+            ? `${toPay.length} ${toPay.length === 1 ? "order" : "orders"}${failed ? ` · ${failed} failed` : ""}${staleUnpaid ? ` · ${staleUnpaid} over a month old` : ""}. Confirmed automatically by the payment provider.`
+            : "Nothing waiting on the payment provider"
+        }
         action={toPay.length > 0 && reviewButton(() => onReview("to-pay"))}
       />
       <Card
@@ -61,7 +66,7 @@ export default function OrdersAttention({ rows, format, onReview }) {
         tone="bg-error/10 text-error"
         eyebrow="Email not connected"
         title={`${queued} ${queued === 1 ? "message" : "messages"} queued`}
-        detail="Receipts and payment reminders are recorded and send once email is connected with the backend. Customers get nothing until then."
+        detail="Order confirmations, shipping and refund emails are queued and send once email is connected with the backend. See them all under Activity log → Email outbox."
       />
     </div>
   );

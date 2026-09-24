@@ -2,6 +2,7 @@ import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { liveItems, removeItem } from "../store/storeCollections";
 import { audited } from "../auth/audited";
+import { queueEmail } from "../notifications/emailsApi";
 
 /**
  * The Belioras Letter's audience, with the rules an email service applies.
@@ -67,6 +68,7 @@ export function subscribe({ email, name = null, userId = null, source = "footer"
       const record = { id: `sub_${Date.now().toString(36)}`, email: value, name, userId, welcomeCode: null, welcomeSentAt: null, ...fields };
       write((list) => [...list, record]);
     }
+    queueEmail({ type: "newsletter-confirm", to: value, subject: "Confirm your subscription to the Belioras Letter", data: { token: fields.token } });
     return { status: "pending", email: value, token: fields.token };
   });
 }
@@ -93,6 +95,7 @@ export function confirmSubscription(token) {
     const code = record.welcomeSentAt ? null : welcome?.enabled ? welcome.couponCode : null;
     const at = now();
     patch(record.id, { status: "subscribed", confirmedAt: at, ...(code && { welcomeCode: code, welcomeSentAt: at }) });
+    if (welcome?.enabled) queueEmail({ type: "newsletter-welcome", to: record.email, subject: welcome.subject ?? "Welcome to the Belioras Letter", data: { couponCode: code } });
     return { email: record.email, welcomeCode: code, already: false };
   });
 }

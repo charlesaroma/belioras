@@ -21,7 +21,7 @@
 
 /** The four stages a healthy order passes through, in order. */
 export const ORDER_STAGES = [
-  { id: "to-pay", label: "To pay", blurb: "Awaiting payment." },
+  { id: "to-pay", label: "Payment", blurb: "Waiting for the payment to be confirmed." },
   { id: "to-ship", label: "To ship", blurb: "Paid, being prepared in our atelier." },
   { id: "shipped", label: "Shipped", blurb: "With the carrier." },
   { id: "to-review", label: "Delivered", blurb: "Arrived. Tell us how it wears." },
@@ -55,7 +55,7 @@ const ALIASES = {
 
 /** Labels and chip tones for every canonical status. */
 export const ORDER_STATUS = {
-  "to-pay": { label: "To pay", tone: "pending" },
+  "to-pay": { label: "Payment pending", tone: "pending" },
   "to-ship": { label: "To ship", tone: "progress" },
   shipped: { label: "Shipped", tone: "progress" },
   "to-review": { label: "Delivered", tone: "positive" },
@@ -111,8 +111,9 @@ export function statusLabel(status) {
 
 export function nextStatuses(status) {
   switch (normalizeStatus(status)) {
+    // Payment is confirmed by the payment provider, never by hand.
     case "to-pay":
-      return ["to-ship", "cancelled"];
+      return ["cancelled"];
     case "to-ship":
       return ["shipped", "cancelled"];
     case "shipped":

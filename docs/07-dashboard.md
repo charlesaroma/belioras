@@ -53,6 +53,7 @@ Numbered by sidebar order; `13` is a reserved slot for a page not yet built (Mes
 
 ## Invoices and receipts
 
-- When payment is confirmed (an order leaves *To pay*), it gets the next invoice number in the year's sequence (`BEL-2026-0001`, prefix from Settings → Invoices) and a receipt to its customer.
+- When the payment provider confirms payment (never by hand), the order gets the next invoice number in the year's sequence (`BEL-2026-0001`, prefix from Settings → Invoices) and a receipt to its customer.
 - `/invoice/:id` is the invoice, A4 and printable ("Print or save as PDF"); staff, or the customer whose order it is, can open it. Linked from the admin order detail and the customer's order page.
-- Email is not connected yet, so receipts (automatic, or "Resend receipt") are recorded as *queued* on the order for the backend's mailer to send. Invoices need a VAT ID in Settings → Invoices before they are valid.
+- Refunds (all or part, from the order) issue a credit note, `BEL-CN-2026-0001`, at `/invoice/:id?credit=…`. Cancelling a paid order refunds it in full.
+- Every email is queued in one outbox (Activity log → Email outbox) for the backend's mailer. See `12-backend-integration.md`. Invoices need a VAT ID in Settings → Invoices before they are valid.

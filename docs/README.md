@@ -25,6 +25,7 @@ Storefront-first: everything the customer sees (layout shell → UI kit → stor
 | 5 | AdminDashboard (15 modules, 2 reserved slots unbuilt) | `07-dashboard.md` | done |
 | 6 | QA & polish (a11y, responsive, lint, build, favicon) — final pass over the whole app incl. dashboard | `09-qa-polish.md` | in-progress |
 | 7 | Client account portal | `11-client-account.md` | done |
+- [12 — Backend integration: flows and contracts](12-backend-integration.md)
 | 8 | Folder structure reference | `10-folder-structure.md` | done |
 
 **Not done, and blocking launch:** authorization is entirely client-side. A

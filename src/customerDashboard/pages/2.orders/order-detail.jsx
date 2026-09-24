@@ -12,7 +12,7 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useCart } from "../../../context/CartContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getOrder, updateOrderStatus } from "../../../services/sales/ordersApi";
+import { cancelMyOrder, getOrder } from "../../../services/sales/ordersApi";
 import { getAllProducts } from "../../../services/catalog/productsApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { isOffTimeline, nextStatuses, normalizeStatus } from "../../../utils/orderStatus";
@@ -60,10 +60,10 @@ export default function OrderDetail() {
   const confirmCancel = async () => {
     setCancelling(true);
     try {
-      await updateOrderStatus(order.id, "cancelled", { by: user?.name ?? "Customer" });
+      const { creditNote } = await cancelMyOrder(order.id, { userId: user?.id });
       setCancelOpen(false);
       setRevision((n) => n + 1);
-      toast("Order cancelled.", "success");
+      toast(creditNote ? `Order cancelled. €${creditNote.amount.toFixed(2)} is on its way back to you.` : "Order cancelled.", "success");
     } catch (err) {
       toast(err.message ?? "Could not cancel that order.", "error");
     } finally {
@@ -99,6 +99,19 @@ export default function OrderDetail() {
 
       <OrderTimeline status={order.status} />
 
+      {(order.creditNotes ?? []).length > 0 && (
+        <ul className="space-y-1 text-sm text-espresso-soft">
+          {order.creditNotes.map((cn) => (
+            <li key={cn.number}>
+              Refunded {format(cn.amount)} on {formatDate(cn.at)} ·{" "}
+              <Link to={`/invoice/${order.id}?credit=${cn.number}`} className="text-gold-700 underline underline-offset-4">
+                Credit note {cn.number}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {order.trackingRef && (
         <p className="text-sm text-espresso-soft">
           {order.carrier && `${order.carrier} — `}
@@ -127,9 +140,11 @@ export default function OrderDetail() {
         >
           Order again
         </Button>
-        <Button variant="secondary" icon={Printer} onClick={() => window.print()}>
-          Receipt
-        </Button>
+        {order.invoiceNumber && (
+          <Button variant="secondary" icon={Printer} to={`/invoice/${order.id}`}>
+            Invoice
+          </Button>
+        )}
         {canCancel && (
           <Button variant="ghost" icon={X} onClick={() => setCancelOpen(true)}>
             Cancel order
@@ -143,7 +158,11 @@ export default function OrderDetail() {
         onConfirm={confirmCancel}
         loading={cancelling}
         title="Cancel this order?"
-        description="This can't be undone from here. If you've changed your mind afterwards, write to support@belioras.com."
+        description={
+          order.invoiceNumber
+            ? `You've paid for this order, so the full ${format(order.total ?? 0)} goes back to your ${order.paymentMethod === "paypal" ? "PayPal account" : "card"}. This can't be undone.`
+            : "Nothing has been charged. This can't be undone."
+        }
         confirmLabel="Cancel order"
         cancelLabel="Keep order"
       />

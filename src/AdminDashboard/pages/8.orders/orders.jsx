@@ -8,8 +8,9 @@ import { useCurrency } from "../../../context/CurrencyContext";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getAllOrders, returnableUnits, sendPaymentReminder, sendReceipt, updateOrderStatus } from "../../../services/sales/ordersApi";
+import { cancelOrder, getAllOrders, refundOrder, sendReceipt, updateOrderStatus } from "../../../services/sales/ordersApi";
 import { getTransactions } from "../../../services/sales/transactionsApi";
+import { getEmails } from "../../../services/notifications/emailsApi";
 import { ORDER_STATUS } from "../../../utils/orderStatus";
 import Button from "../../../components/ui/Button";
 import DashHeaderActions from "../../components/DashHeaderActions";
@@ -22,7 +23,7 @@ import DashTable from "../../components/DashTable";
 import { usePageSize } from "../../lib/usePageSize";
 import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
-import OrdersRestockDialog from "./sections/ordersTable/OrdersRestockDialog";
+import OrdersRefundDialog from "./sections/ordersTable/OrdersRefundDialog";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog";
 import OrdersShipDialog from "./sections/ordersTable/OrdersShipDialog";
 
@@ -37,6 +38,7 @@ export default function DashOrders() {
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
   const { data: orders, loading } = useAsyncData(getAllOrders, [revision]);
   const { data: txns } = useAsyncData(getTransactions, [revision]);
+  const { data: emails } = useAsyncData(getEmails, [revision]);
   const [params, setParams] = useSearchParams();
 
   const rows = useMemo(() => toRows(orders ?? [], txns ?? []), [orders, txns]);
@@ -84,43 +86,47 @@ export default function DashOrders() {
   const chosen = rows.filter((r) => selected.includes(r.id));
   const shippable = chosen.filter((r) => r.status === "to-ship");
 
-  const move = async (order, status, { restock = false, trackingRef, carrier } = {}) => {
+  const move = async (order, status, { trackingRef, carrier } = {}) => {
     try {
-      await updateOrderStatus(order.id, status, { restock, by: user?.name, trackingRef, carrier });
+      await updateOrderStatus(order.id, status, { by: user?.name, trackingRef, carrier });
       refresh();
-      const label = ORDER_STATUS[status]?.label ?? status;
-      toast(restock ? `${order.id} marked ${label}. Its pieces are back in stock.` : `${order.id} marked ${label}.`, "success");
+      toast(`${order.id} marked ${status === "to-review" ? "delivered" : ORDER_STATUS[status]?.label ?? status}. The customer is emailed.`, "success");
     } catch (err) {
       toast(err.message ?? "Could not update that order.", "error");
     }
   };
 
-  // A shipped order that is cancelled or refunded: were its pieces returned?
-  const [restockAsk, setRestockAsk] = useState(null);
   // Marking an order shipped: a chance to record its tracking number and carrier.
   const [shipAsk, setShipAsk] = useState(null);
-  // Cancelling or refunding an order nothing shipped for: confirm before it happens.
-  const [endAsk, setEndAsk] = useState(null);
-  const advance = (order, status) => {
-    const units = returnableUnits(order);
-    if ((status === "cancelled" || status === "refunded") && units > 0) setRestockAsk({ order, status, units });
-    else if (status === "cancelled" || status === "refunded") setEndAsk({ order, status });
-    else if (status === "shipped") setShipAsk({ order });
-    else move(order, status);
+  // Cancelling: an unpaid order just closes; a paid one is refunded in full first.
+  const [cancelAsk, setCancelAsk] = useState(null);
+  // Refunding all or part of a paid order.
+  const [refunding, setRefunding] = useState(null);
+
+  const advance = (order, status) => (status === "shipped" ? setShipAsk({ order }) : move(order, status));
+
+  const doCancel = async () => {
+    const order = cancelAsk;
+    setCancelAsk(null);
+    try {
+      const { creditNote } = await cancelOrder(order.id, { by: user?.name });
+      refresh();
+      toast(creditNote ? `${order.id} cancelled and ${format(creditNote.amount)} refunded (${creditNote.number}).` : `${order.id} cancelled.`, "success");
+    } catch (err) {
+      toast(err.message ?? "Could not cancel that order.", "error");
+    }
   };
 
-  const onNext = async (order) => {
+  const doRefund = async (options) => {
+    const { creditNote } = await refundOrder(refunding.id, options, user?.name);
+    setRefunding(null);
+    refresh();
+    toast(`${format(creditNote.amount)} refunded on ${refunding.id}. Credit note ${creditNote.number} issued and the customer emailed.`, "success");
+  };
+
+  const onNext = (order) => {
     if (order.next === "ship") return setShipAsk({ order });
     if (order.next === "deliver") return move(order, "to-review");
-    if (order.next === "remind") {
-      try {
-        await sendPaymentReminder(order.id);
-        refresh();
-        toast(`Payment reminder for ${order.id} queued to ${order.email}. It sends once email is connected.`, "success");
-      } catch (err) {
-        toast(err.message ?? "Could not queue that reminder.", "error");
-      }
-    }
   };
 
   const [bulkShipAsk, setBulkShipAsk] = useState(false);
@@ -172,7 +178,7 @@ export default function DashOrders() {
         </Button>
       </DashHeaderActions>
 
-      <OrdersAttention rows={rows} format={format} onReview={(t) => { setTab(t); clearSelection(); }} />
+      <OrdersAttention rows={rows} format={format} queuedEmails={(emails ?? []).filter((e) => e.status === "queued").length} onReview={(t) => { setTab(t); clearSelection(); }} />
 
       <DashListToolbar
         tabs={tabs}
@@ -268,47 +274,39 @@ export default function DashOrders() {
         order={viewing}
         onClose={() => setViewing(null)}
         onAdvance={advance}
+        onCancel={setCancelAsk}
+        onRefund={setRefunding}
         showPayments={can("transactions")}
         canEdit={canEdit("orders")}
         onSendReceipt={async (order) => {
           try {
             await sendReceipt(order.id);
             refresh();
-            toast(`Receipt for ${order.id} queued to ${order.email}. It sends once email is connected.`, "success");
+            toast(`Order confirmation for ${order.id} queued to ${order.email}. It sends once email is connected.`, "success");
           } catch (err) {
-            toast(err.message ?? "Could not queue that receipt.", "error");
+            toast(err.message ?? "Could not queue that email.", "error");
           }
         }}
         format={format}
         dateFmt={dateFmt}
       />
 
-      <OrdersRestockDialog
-        ask={restockAsk}
-        onClose={() => setRestockAsk(null)}
-        onAnswer={(restock) => {
-          move(restockAsk.order, restockAsk.status, { restock });
-          setRestockAsk(null);
-        }}
-      />
-
       <ConfirmDialog
-        open={Boolean(endAsk)}
-        onClose={() => setEndAsk(null)}
-        onConfirm={() => {
-          move(endAsk.order, endAsk.status);
-          setEndAsk(null);
-        }}
-        title={endAsk?.status === "refunded" ? "Refund this order?" : "Cancel this order?"}
+        open={Boolean(cancelAsk)}
+        onClose={() => setCancelAsk(null)}
+        onConfirm={doCancel}
+        title={cancelAsk?.invoiceNumber ? "Cancel and refund this order?" : "Cancel this order?"}
         description={
-          endAsk?.status === "refunded"
-            ? "The order is marked refunded. The payment itself is refunded in Transactions."
-            : "The order is marked cancelled and any stock it was holding is released. This cannot be undone."
+          cancelAsk?.invoiceNumber
+            ? `The customer paid ${format(cancelAsk.total ?? 0)}. All of it goes back to them, a credit note is issued, and they are emailed. The order's pieces are released for sale.`
+            : "Nothing was charged. The order closes, its pieces are released for sale, and the customer is emailed."
         }
-        summary={endAsk && `${endAsk.order.id} · ${endAsk.order.name ?? endAsk.order.email ?? "Guest"}`}
-        confirmLabel={endAsk?.status === "refunded" ? "Refund order" : "Cancel order"}
+        summary={cancelAsk && `${cancelAsk.id} · ${cancelAsk.name ?? cancelAsk.email ?? "Guest"}`}
+        confirmLabel={cancelAsk?.invoiceNumber ? "Cancel and refund" : "Cancel order"}
         cancelLabel="Keep order"
       />
+
+      <OrdersRefundDialog key={refunding?.id ?? "none"} order={refunding} onClose={() => setRefunding(null)} onRefund={doRefund} />
 
       <OrdersShipDialog
         ask={shipAsk}

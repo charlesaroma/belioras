@@ -13,7 +13,9 @@ import { useContentVersion } from "../../context/ContentContext";
 import { useToast } from "../../context/ToastContext";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { useScopedStorage } from "../../hooks/useScopedStorage";
-import { createOrder } from "../../services/sales/ordersApi";
+import { placeOrder as payAndPlace } from "../../services/sales/checkoutApi";
+import { PAYMENTS_SIMULATED, PAYMENT_METHODS } from "../../services/sales/paymentsApi";
+import { cn } from "../../utils/cn";
 import { getProducts } from "../../services/catalog/productsApi";
 import { getSettings } from "../../services/content/settingsApi";
 import { computeTotals, nonReturnableItems } from "../../utils/checkout";
@@ -34,6 +36,7 @@ export default function CheckoutPage() {
   const [savedAddresses] = useScopedStorage("belioras:addresses", [], user?.id);
 
   const [coupon, setCoupon] = useState(null);
+  const [method, setMethod] = useState("card");
   const [placing, setPlacing] = useState(false);
 
   const defaultAddress = savedAddresses.find((a) => a.isDefault) ?? savedAddresses[0] ?? null;
@@ -78,7 +81,7 @@ export default function CheckoutPage() {
     setPlacing(true);
     try {
 
-      const order = await createOrder({
+      const order = await payAndPlace({
         userId: user?.id ?? null,
         email: values.email.trim().toLowerCase(),
         name: values.name.trim(),
@@ -101,10 +104,10 @@ export default function CheckoutPage() {
         shippingAddress: [values.line1, values.city, values.postcode, values.country]
           .filter(Boolean)
           .join(", "),
-      });
+      }, { method });
 
       clear();
-      toast(`Order ${order.id} placed.`, "success");
+      toast(`Payment received. Order ${order.id} is confirmed.`, "success");
 
       // Signed in, they can follow it in their account; a guest gets the
       // reference on a confirmation page, since it is the only way they will
@@ -137,7 +140,7 @@ export default function CheckoutPage() {
     <PageShell
       eyebrow="Checkout"
       title="Complete your order"
-      intro="Delivery details, then confirmation. Nothing is charged on this page."
+      intro="Delivery details, then payment. Your order is confirmed the moment payment succeeds."
       width="wide"
     >
       <form
@@ -155,19 +158,31 @@ export default function CheckoutPage() {
             signedIn={Boolean(user)}
           />
 
-          {/*
-            Payment is not connected. Saying so here, above the button, is the
-            difference between a customer who knows what happens next and one
-            who thinks they have paid.
-          */}
-          <section className="border-l-2 border-gold-500 py-4 pl-5">
-            <p className="flex items-center gap-2 text-[13px] font-medium text-espresso">
-              <Lock className="size-4 text-gold-700" aria-hidden="true" />
-              Card payment is not live yet
-            </p>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-espresso-soft">
-              Your order is recorded as awaiting payment and we will email you to arrange it.
-              Nothing is charged now, and no card details are collected on this page.
+          <section aria-labelledby="payment-heading" className="border border-umber-50 bg-ivory-50 p-6">
+            <h2 id="payment-heading" className="font-display text-xl tracking-wide text-espresso">Payment</h2>
+            <div role="radiogroup" aria-label="Payment method" className="mt-4 grid gap-2 sm:grid-cols-2">
+              {PAYMENT_METHODS.map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={method === m.id}
+                  onClick={() => setMethod(m.id)}
+                  className={cn(
+                    "border px-4 py-3 text-left transition-colors",
+                    method === m.id ? "border-espresso bg-brown-50/50" : "border-umber-100 hover:border-espresso/50",
+                  )}
+                >
+                  <span className="block text-[14px] text-espresso">{m.label}</span>
+                  <span className="block text-[12px] text-espresso-soft">{m.detail}</span>
+                </button>
+              ))}
+            </div>
+            <p className="mt-4 flex items-start gap-2 text-[12px] leading-relaxed text-espresso-soft">
+              <Lock className="mt-0.5 size-3.5 shrink-0 text-gold-700" aria-hidden="true" />
+              {PAYMENTS_SIMULATED
+                ? "Test mode: the payment is simulated and nothing is charged. When payments go live you pay on Stripe's or PayPal's secure page, and card details never touch this site."
+                : "You pay on our payment provider's secure page. Card details never touch this site."}
             </p>
           </section>
 
@@ -190,7 +205,7 @@ export default function CheckoutPage() {
 
           <div className="flex flex-wrap items-center gap-4">
             <Button type="submit" size="lg" loading={placing}>
-              Place order
+              Pay {totals.shippable ? new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(totals.total) : ""} and place order
             </Button>
             <p className="text-[12px] text-espresso-soft">
               By ordering you accept our{" "}

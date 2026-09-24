@@ -26,14 +26,8 @@
     "updatedAt": "2026-03-25T09:00:00Z",
     "invoiceNumber": "BEL-2026-0001",
     "paidAt": "2026-03-18T10:22:00Z",
-    "receipts": [
-      {
-        "at": "2026-03-18T10:22:00Z",
-        "to": "mariana@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "stockDeductedAt": "2026-03-18T10:22:00Z",
+    "paymentMethod": "card"
   },
   {
     "id": "ORD-1002",
@@ -60,14 +54,8 @@
     "updatedAt": "2026-05-02T11:30:00Z",
     "invoiceNumber": "BEL-2026-0002",
     "paidAt": "2026-04-25T14:05:00Z",
-    "receipts": [
-      {
-        "at": "2026-04-25T14:05:00Z",
-        "to": "clarisse@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "stockDeductedAt": "2026-04-25T14:05:00Z",
+    "paymentMethod": "paypal"
   },
   {
     "id": "ORD-1003",
@@ -104,14 +92,8 @@
     "updatedAt": "2026-06-15T12:00:00Z",
     "invoiceNumber": "BEL-2026-0005",
     "paidAt": "2026-06-08T16:45:00Z",
-    "receipts": [
-      {
-        "at": "2026-06-08T16:45:00Z",
-        "to": "amaia@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "stockDeductedAt": "2026-06-08T16:45:00Z",
+    "paymentMethod": "card"
   },
   {
     "id": "ORD-1004",
@@ -138,14 +120,8 @@
     "updatedAt": "2026-08-12T10:00:00Z",
     "invoiceNumber": "BEL-2026-0008",
     "paidAt": "2026-08-10T09:12:00Z",
-    "receipts": [
-      {
-        "at": "2026-08-10T09:12:00Z",
-        "to": "mariana@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "stockDeductedAt": "2026-08-10T09:12:00Z",
+    "paymentMethod": "apple_pay"
   },
   {
     "id": "ORD-1005",
@@ -180,14 +156,7 @@
     "updatedAt": "2026-08-15T19:32:00Z",
     "invoiceNumber": "BEL-2026-0009",
     "paidAt": "2026-08-15T19:30:00Z",
-    "receipts": [
-      {
-        "at": "2026-08-15T19:30:00Z",
-        "to": "guest@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "paymentMethod": "card"
   },
   {
     "id": "ORD-1006",
@@ -262,14 +231,27 @@
     "updatedAt": "2026-06-02T14:40:00Z",
     "invoiceNumber": "BEL-2026-0004",
     "paidAt": "2026-05-30T18:00:00Z",
-    "receipts": [
+    "creditNotes": [
       {
-        "at": "2026-05-30T18:00:00Z",
-        "to": "amaia@example.com",
-        "status": "queued",
-        "auto": true
+        "number": "BEL-CN-2026-0001",
+        "at": "2026-06-02T14:40:00Z",
+        "amount": 148.99,
+        "reason": "Returned unworn",
+        "shipping": 9.99,
+        "lines": [
+          {
+            "name": "Indian Remy Body Wave 18\"",
+            "color": "Honey Blonde",
+            "size": "one-size",
+            "quantity": 1,
+            "gross": 139.0
+          }
+        ],
+        "transactionId": "txn_0009"
       }
-    ]
+    ],
+    "stockDeductedAt": "2026-05-30T18:00:00Z",
+    "paymentMethod": "card"
   },
   {
     "id": "ORD-1009",
@@ -298,14 +280,27 @@
     "updatedAt": "2026-07-20T15:00:00Z",
     "invoiceNumber": "BEL-2026-0006",
     "paidAt": "2026-07-12T11:00:00Z",
-    "receipts": [
+    "creditNotes": [
       {
-        "at": "2026-07-12T11:00:00Z",
-        "to": "mariana@example.com",
-        "status": "queued",
-        "auto": true
+        "number": "BEL-CN-2026-0002",
+        "at": "2026-07-22T10:05:00Z",
+        "amount": 94.4,
+        "reason": "One of two returned",
+        "shipping": 0,
+        "lines": [
+          {
+            "name": "Camille Pleated Maxi Dress",
+            "color": "Blush",
+            "size": "xl",
+            "quantity": 1,
+            "gross": 94.4
+          }
+        ],
+        "transactionId": "txn_0011"
       }
-    ]
+    ],
+    "stockDeductedAt": "2026-07-12T11:00:00Z",
+    "paymentMethod": "card"
   },
   {
     "id": "ORD-1010",
@@ -340,14 +335,7 @@
     "updatedAt": "2026-07-28T20:16:00Z",
     "invoiceNumber": "BEL-2026-0007",
     "paidAt": "2026-07-28T20:15:00Z",
-    "receipts": [
-      {
-        "at": "2026-07-28T20:15:00Z",
-        "to": "guest3@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "paymentMethod": "paypal"
   },
   {
     "id": "ORD-1011",
@@ -374,14 +362,8 @@
     "updatedAt": "2026-05-16T10:30:00Z",
     "invoiceNumber": "BEL-2026-0003",
     "paidAt": "2026-05-09T13:25:00Z",
-    "receipts": [
-      {
-        "at": "2026-05-09T13:25:00Z",
-        "to": "clarisse@example.com",
-        "status": "queued",
-        "auto": true
-      }
-    ]
+    "stockDeductedAt": "2026-05-09T13:25:00Z",
+    "paymentMethod": "card"
   },
   {
     "id": "ORD-1012",

@@ -27,6 +27,7 @@ import catalogSeed from "../../data/catalogSeed";
 import ordersSeed from "../../data/ordersSeed";
 import stockMovementsSeed from "../../data/stockMovementsSeed";
 import activitySeed from "../../data/activitySeed";
+import emailsSeed from "../../data/emailsSeed";
 import transactionsSeed from "../../data/transactionsSeed";
 import colorsSeed from "../../data/colorsSeed";
 import categoriesSeed from "../../data/categoriesSeed";
@@ -82,6 +83,8 @@ const DOMAINS = {
   roles: { seed: rolesSeed, collection: "items" },
   // Who did what in the dashboard, and when: sign-ins, role changes and every edit staff make.
   activity: { seed: activitySeed, collection: "items" },
+  // Every email the shop sends, queued for the backend mailer (notifications module).
+  emails: { seed: emailsSeed, collection: "items" },
   // The Belioras Letter: who has consented, what was sent, and the welcome email.
   subscribers: { seed: subscribersSeed, collection: "items" },
   campaigns: { seed: campaignsSeed, collection: "items" },

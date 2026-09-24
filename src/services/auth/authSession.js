@@ -4,6 +4,7 @@ import { setState } from "../store/contentStore";
 import { isAdminRole } from "../../utils/roles";
 import { createToken, findByEmail, publicUser, userItems } from "./authStore";
 import { logActivity } from "./activityApi";
+import { queueEmail } from "../notifications/emailsApi";
 
 export function login({ email, password, realm } = {}) {
   return mockApi(() => {
@@ -58,6 +59,7 @@ export function register({ name, email, password } = {}) {
     };
 
     setState("users", (state) => ({ ...state, items: [...state.items, user] }));
+    queueEmail({ type: "welcome", to: user.email, subject: "Welcome to Belioras", data: { name: user.name } });
     return { token: createToken(user), user: publicUser(user) };
   });
 }
@@ -71,6 +73,14 @@ export function logout() {
  * such user" here would turn the reset form into the customer-list oracle the
  * signup form is already careful not to be.
  */
-export function requestPasswordReset() {
-  return mockApi(() => null, 600);
+export function requestPasswordReset(input) {
+  const email = typeof input === "string" ? input : input?.email;
+  return mockApi(() => {
+    // Sent only when the account exists; the answer is the same either way.
+    const user = findByEmail(email);
+    if (user && user.status !== "invited") {
+      queueEmail({ type: "password-reset", to: user.email, subject: "Reset your Belioras password", data: { expiresInMinutes: 60 } });
+    }
+    return null;
+  }, 600);
 }

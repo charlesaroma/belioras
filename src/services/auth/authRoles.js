@@ -7,6 +7,7 @@ import { slugify } from "../catalog/products/productSlug";
 import { findByEmail, publicUser, userItems } from "./authStore";
 import { audited } from "./audited";
 import { currentActor } from "./activityApi";
+import { queueEmail } from "../notifications/emailsApi";
 
 /**
  * Who is on the team, what each role may do, and how people join.
@@ -171,6 +172,7 @@ function addTeamMember$raw({ name, email, role = ROLES.STAFF } = {}) {
       createdAt: new Date().toISOString().slice(0, 10),
     };
     writeUsers((items) => [...items, user]);
+    queueEmail({ type: "team-invitation", to: user.email, subject: "You're invited to the Belioras atelier", data: { token: user.inviteToken, role: roleName(role), invitedBy: user.invitedBy } });
     return { user: publicUser(user), invited: true, token: user.inviteToken };
   });
 }
@@ -182,6 +184,7 @@ function renewInvite$raw(id) {
     if (!user || user.status !== "invited") throw new ApiError("That invitation is no longer open.", 404);
     const updated = { ...user, inviteToken: inviteToken(), invitedAt: new Date().toISOString() };
     writeUsers((items) => items.map((u) => (u.id === id ? updated : u)));
+    queueEmail({ type: "team-invitation", to: user.email, subject: "Your new Belioras atelier invitation", data: { token: updated.inviteToken, role: roleName(user.role), renewed: true } });
     return { user: publicUser(updated), token: updated.inviteToken };
   });
 }

@@ -1,6 +1,6 @@
 /* Page: Invoice */
 import { useMemo } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Loader2, Printer } from "lucide-react";
 
 import BrandMark from "../../components/shared/BrandMark";
@@ -20,13 +20,15 @@ const date = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", y
  */
 export default function InvoicePage() {
   const { id } = useParams();
+  const [params] = useSearchParams();
+  const credit = params.get("credit");
   const staff = useStaffAuth();
   const customer = useCustomerAuth();
   const as = useMemo(
     () => (staff.isAuthenticated ? { staff: true } : { userId: customer.user?.id, email: customer.user?.email }),
     [staff.isAuthenticated, customer.user?.id, customer.user?.email],
   );
-  const { data, loading, error } = useAsyncData(() => getInvoice(id, as), [id, as]);
+  const { data, loading, error } = useAsyncData(() => getInvoice(id, as, credit), [id, as, credit]);
   const back = staff.isAuthenticated ? `/dashboard/orders?order=${id}` : `/account/orders/${id}`;
 
   if (loading) {
@@ -42,7 +44,8 @@ export default function InvoicePage() {
     );
   }
 
-  const { order, seller, lines, totals, rate } = data;
+  const { order, seller, lines, totals, rate, kind, creditNote } = data;
+  const isCredit = kind === "credit";
   const pct = `${Math.round(rate * 1000) / 10}%`;
 
   return (
@@ -70,11 +73,14 @@ export default function InvoicePage() {
             </p>
           </div>
           <div className="text-right">
-            <h1 className="font-display text-3xl tracking-wide">Invoice</h1>
+            <h1 className="font-display text-3xl tracking-wide">{isCredit ? "Credit note" : "Invoice"}</h1>
             <dl className="mt-3 space-y-0.5 text-[12px]">
-              <div><dt className="inline text-espresso-soft">Invoice no. </dt><dd className="inline font-medium tabular-nums">{order.invoiceNumber}</dd></div>
-              <div><dt className="inline text-espresso-soft">Date of issue </dt><dd className="inline">{date.format(new Date(order.paidAt ?? order.createdAt))}</dd></div>
-              <div><dt className="inline text-espresso-soft">Delivery date </dt><dd className="inline">{date.format(new Date(order.createdAt))}</dd></div>
+              {isCredit && (
+                <div><dt className="inline text-espresso-soft">Credit note no. </dt><dd className="inline font-medium tabular-nums">{creditNote.number}</dd></div>
+              )}
+              <div><dt className="inline text-espresso-soft">{isCredit ? "Corrects invoice " : "Invoice no. "}</dt><dd className={isCredit ? "inline tabular-nums" : "inline font-medium tabular-nums"}>{order.invoiceNumber}</dd></div>
+              <div><dt className="inline text-espresso-soft">Date of issue </dt><dd className="inline">{date.format(new Date(isCredit ? creditNote.at : order.paidAt ?? order.createdAt))}</dd></div>
+              {!isCredit && <div><dt className="inline text-espresso-soft">Delivery date </dt><dd className="inline">{date.format(new Date(order.createdAt))}</dd></div>}
               <div><dt className="inline text-espresso-soft">Order </dt><dd className="inline tabular-nums">{order.id}</dd></div>
             </dl>
           </div>
@@ -91,9 +97,14 @@ export default function InvoicePage() {
               <span className="text-espresso-soft">{order.email}</span>
             </p>
           </div>
-          {order.status === "refunded" && (
+          {isCredit && creditNote.reason && (
+            <p className="self-start border border-umber-100 bg-brown-50/40 px-4 py-3 text-[12px] text-espresso-soft">
+              Reason: {creditNote.reason}
+            </p>
+          )}
+          {!isCredit && (order.creditNotes ?? []).length > 0 && (
             <p className="self-start border border-error/30 bg-error/5 px-4 py-3 text-[12px] text-error">
-              This order was refunded in full. A credit note cancels this invoice.
+              {order.creditNotes.length === 1 ? "A credit note" : `${order.creditNotes.length} credit notes`} ({order.creditNotes.map((c) => c.number).join(", ")}) correct this invoice.
             </p>
           )}
         </section>
@@ -114,7 +125,7 @@ export default function InvoicePage() {
                 <td className="py-3 pr-4">
                   {line.name}
                   {(line.size || line.color) && (
-                    <span className="block text-[11px] text-espresso-soft">{[line.color, line.size && `Size ${String(line.size).toUpperCase()}`].filter(Boolean).join(" · ")}</span>
+                    <span className="block text-[11px] text-espresso-soft">{[line.color, line.size && (line.size === "one-size" ? "One size" : `Size ${String(line.size).toUpperCase()}`)].filter(Boolean).join(" · ")}</span>
                   )}
                 </td>
                 <td className="py-3 pr-4 text-right tabular-nums">{line.quantity ?? 1}</td>
@@ -129,11 +140,15 @@ export default function InvoicePage() {
         <dl className="ml-auto mt-6 w-full max-w-xs space-y-1.5 text-[13px]">
           <div className="flex justify-between"><dt className="text-espresso-soft">Net amount</dt><dd className="tabular-nums">{eur.format(totals.net)}</dd></div>
           <div className="flex justify-between"><dt className="text-espresso-soft">VAT {pct}</dt><dd className="tabular-nums">{eur.format(totals.vat)}</dd></div>
-          <div className="flex justify-between border-t border-umber-100 pt-2 text-[15px] font-semibold"><dt>Total paid</dt><dd className="tabular-nums">{eur.format(totals.gross)}</dd></div>
+          <div className="flex justify-between border-t border-umber-100 pt-2 text-[15px] font-semibold"><dt>{isCredit ? "Total refunded" : "Total paid"}</dt><dd className="tabular-nums">{eur.format(totals.gross)}</dd></div>
         </dl>
 
         <footer data-print className="mt-12 space-y-2 border-t border-umber-100 pt-6 text-[11px] leading-relaxed text-espresso-soft">
-          {seller.note && <p>{seller.note}</p>}
+          {isCredit ? (
+            <p>This credit note reduces invoice {order.invoiceNumber} by the amount above. The refund goes back to the original payment method.</p>
+          ) : (
+            seller.note && <p>{seller.note}</p>
+          )}
           <p>
             {seller.vatId ? `VAT ID ${seller.vatId}` : "VAT ID: not yet set in Settings"}
             {seller.taxNumber && ` · Tax number ${seller.taxNumber}`}

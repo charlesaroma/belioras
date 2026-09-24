@@ -4,6 +4,7 @@ import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { liveItems, removeItem } from "../store/storeCollections";
 import { audited } from "../auth/audited";
+import { queueEmail } from "../notifications/emailsApi";
 
 /**
  * Campaigns: one-off emails to every confirmed subscriber. Draft, then
@@ -90,6 +91,10 @@ function sendCampaign$raw(id) {
     assertReady(campaign);
     const recipients = audience();
     if (!recipients) throw new ApiError("There are no confirmed subscribers to send to yet.", 422);
+    // One email per confirmed subscriber, each with its own unsubscribe link.
+    for (const s of getState("subscribers").items.filter((x) => x.status === "subscribed")) {
+      queueEmail({ type: "campaign", to: s.email, subject: campaign.subject, data: { campaignId: campaign.id, unsubscribeToken: s.token } });
+    }
     return replace({ ...campaign, status: "sent", sentAt: now(), sendAt: null, recipients, updatedAt: now() });
   });
 }

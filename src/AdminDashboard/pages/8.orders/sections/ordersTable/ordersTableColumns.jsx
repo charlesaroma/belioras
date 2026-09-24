@@ -4,7 +4,6 @@ import OrdersPill from "./OrdersPill";
 import { FULFILMENT, PAYMENT } from "./ordersRows";
 
 const NEXT = {
-  remind: { label: "Send reminder", primary: false },
   ship: { label: "Mark shipped", primary: true },
   deliver: { label: "Mark delivered", primary: false },
 };
@@ -46,7 +45,7 @@ export function buildOrderColumns({ format, dateFmt, canEdit, onNext }) {
       meta: { align: "right" },
       cell: ({ row: r }) => {
         const o = r.original;
-        const waiting = o.status === "to-pay" ? `Unpaid ${o.age} days` : o.status === "to-ship" ? `Waiting ${o.age} days` : null;
+        const waiting = o.status === "to-ship" ? `Waiting ${o.age} days` : null;
         return (
           <div className="text-right">
             <p className="tabular-nums text-espresso">{format(o.total)}</p>
