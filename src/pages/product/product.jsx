@@ -70,8 +70,7 @@ export default function ProductPage() {
       <ProductPageHeader product={product} />
 
       <div className="grid gap-12 lg:grid-cols-2">
-        {/* Keyed by colour so the thumbnail strip starts again at the first
-            photograph of the new colourway. */}
+      {/* Gallery thumbnail strip keyed by colour */}
         <ProductPageGallery
           key={`${product.id}:${color}`}
           images={images}
@@ -80,9 +79,7 @@ export default function ProductPage() {
 
         <div>
           <ProductPageSummary product={product} />
-          {/* Keyed by product id so navigating from one piece to another
-              remounts it — colour, size and quantity reset because the
-              component is new, not because an effect cleared them. */}
+      {/* Buy panel keyed by product id */}
           <ProductBuyPanel
             key={product.id}
             product={product}

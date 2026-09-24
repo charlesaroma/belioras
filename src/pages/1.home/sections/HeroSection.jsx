@@ -73,11 +73,7 @@ export default function HeroSection() {
             className={cn('h-full', 'w-full', 'object-cover')}
             style={{ objectPosition: slide.objectPosition }}
           />
-          {/*
-            Weighted to the bottom, where the type sits, and kept light across
-            the top so the navbar still reads against the photograph rather
-            than against a wash.
-          */}
+          {/* Gradient weighted for navbar readability */}
           <div
             aria-hidden="true"
             className={cn('absolute', 'inset-0', 'bg-gradient-to-b', 'from-espresso/45', 'via-espresso/10', 'to-espresso/75')}
