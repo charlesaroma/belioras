@@ -50,7 +50,7 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
                     // collapsed, the title carries it instead.
                     title={collapsed ? item.label : undefined}
                     className={cn(
-                      "relative flex items-center gap-3 py-[7px] text-[13px] tracking-[0.04em] transition-colors",
+                      "liquid-row relative flex items-center gap-3 py-[7px] text-[13px] tracking-[0.04em] transition-colors",
                       collapsed ? "px-4 lg:justify-center lg:px-0" : "px-4",
                       isActive
                         ? "text-gold-400"
@@ -60,7 +60,7 @@ export default function SidebarNav({ groups, collapsed, onNavigate }) {
                     {isActive && (
                       <span aria-hidden="true" className="absolute inset-y-2 left-0 w-px bg-gold-500" />
                     )}
-                    <Icon className="size-[18px] shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                    <Icon className="liquid-glyph size-[18px] shrink-0" strokeWidth={1.5} aria-hidden="true" />
                     <span className={cn(collapsed && "lg:hidden")}>{item.label}</span>
                   </Link>
                 </li>

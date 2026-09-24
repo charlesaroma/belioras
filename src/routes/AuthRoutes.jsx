@@ -7,6 +7,7 @@ import ForgotPasswordPage from "../pages/0.auth/customer/forgotpassword";
 import AtelierLoginPage from "../pages/0.auth/admin/atelier";
 import AtelierInvitePage from "../pages/0.auth/admin/atelierInvite";
 import InvoicePage from "../pages/invoice/InvoicePage";
+import PackingSlipsPage from "../pages/invoice/PackingSlipsPage";
 
 // Full screen, returned as a fragment so App keeps one <Routes>.
 export default function authRoutes() {
@@ -24,6 +25,7 @@ export default function authRoutes() {
 
         {/* An order's invoice, full screen so it prints clean. The page checks who may read it. */}
         <Route path="/invoice/:id" element={<InvoicePage />} />
+        <Route path="/packing-slips" element={<PackingSlipsPage />} />
     </>
   );
 }

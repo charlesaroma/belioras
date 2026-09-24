@@ -2,7 +2,8 @@
 import { useEffect } from "react";
 
 /**
- * Plays the liquid press on whichever `.liquid-hover` button is pressed, by
+ * Plays the liquid press on whichever `.liquid-hover` button (or `.liquid-row`
+ * link, whose icon takes it) is pressed, by
  * mouse, finger or keyboard. CSS alone can't: `:active` lasts only as long as
  * the press, which on a phone is too short for the animation to be seen. One
  * listener for the whole app; renders nothing.
@@ -10,14 +11,14 @@ import { useEffect } from "react";
 export default function LiquidPress() {
   useEffect(() => {
     const press = (target) => {
-      const el = target instanceof Element ? target.closest(".liquid-hover") : null;
+      const el = target instanceof Element ? target.closest(".liquid-hover, .liquid-row") : null;
       if (!el || el.disabled) return;
       el.classList.remove("is-pressed");
       // Reading layout restarts the animation when the same button is pressed again.
       void el.offsetWidth;
       el.classList.add("is-pressed");
       const done = () => el.classList.remove("is-pressed");
-      el.addEventListener("animationend", done, { once: true });
+      (el.classList.contains("liquid-row") ? el.querySelector(".liquid-glyph") ?? el : el).addEventListener("animationend", done, { once: true });
       setTimeout(done, 700);
     };
     const onPointer = (e) => press(e.target);

@@ -758,6 +758,25 @@
   100% { transform: scale(1, 1); }
 }
 
+/* A row (a sidebar link) whose icon, marked .liquid-glyph, takes the drop on
+   hover and the press on click or tap — the row itself stays still. */
+@media (hover: hover) {
+  .liquid-row:hover .liquid-glyph,
+  .liquid-row:focus-visible .liquid-glyph {
+    animation: liquid-swell 650ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
+.liquid-row.is-pressed .liquid-glyph {
+  animation: liquid-press 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .liquid-row .liquid-glyph,
+  .liquid-row:hover .liquid-glyph,
+  .liquid-row.is-pressed .liquid-glyph {
+    animation: none;
+  }
+}
+
 /* Product-card action buttons: a drop swelling and settling, and its ripple. */
 @keyframes liquid-swell {
   0% { transform: scale(1, 1); }

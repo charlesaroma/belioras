@@ -188,6 +188,22 @@ function sendReceipt$raw(id) {
 }
 
 /**
+ * Reminds a customer that an order is waiting for payment. Recorded as queued,
+ * like receipts, until email is connected.
+ */
+function sendPaymentReminder$raw(id) {
+  return mockApi(() => {
+    const order = orderItems().find((o) => o.id === id);
+    if (!order) throw new ApiError("Order not found.", 404);
+    if (normalizeStatus(order.status) !== "to-pay") throw new ApiError("This order is already paid or closed.", 409);
+    if (!order.email) throw new ApiError("This order has no email address to remind.", 422);
+    const updated = { ...order, reminders: [...(order.reminders ?? []), { at: new Date().toISOString(), to: order.email, status: "queued" }] };
+    setState("orders", (state) => ({ ...state, items: state.items.map((o) => (o.id === id ? updated : o)) }));
+    return updated;
+  });
+}
+
+/**
  * Move an order to a new status. Admin action.
  *
  * Validates against the canonical vocabulary so a typo cannot write a status
@@ -236,3 +252,4 @@ function updateOrderStatus$raw(id, status, { restock = false, by = null, trackin
 /* Recorded in the staff activity log. */
 export const updateOrderStatus = audited("orders", ([id, status]) => `Marked order ${id} ${status}`, updateOrderStatus$raw);
 export const sendReceipt = audited("orders", ([id]) => `Resent the receipt for order ${id}`, sendReceipt$raw);
+export const sendPaymentReminder = audited("orders", ([id]) => `Sent a payment reminder for order ${id}`, sendPaymentReminder$raw);

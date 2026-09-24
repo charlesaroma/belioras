@@ -25,11 +25,11 @@ export default function SidebarFooter({ user, collapsed }) {
         onClick={signOut}
         title={collapsed ? "Sign out" : undefined}
         className={cn(
-          "flex w-full items-center gap-2.5 py-2.5 text-[12px] uppercase tracking-[0.14em] text-ivory-50/55 transition-colors hover:bg-ivory-50/5 hover:text-ivory-50",
+          "liquid-row flex w-full items-center gap-2.5 py-2.5 text-[12px] uppercase tracking-[0.14em] text-ivory-50/55 transition-colors hover:bg-ivory-50/5 hover:text-ivory-50",
           collapsed ? "px-4 lg:justify-center lg:px-0" : "px-4",
         )}
       >
-        <LogOut className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+        <LogOut className="liquid-glyph size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
         <span className={cn(collapsed && "lg:hidden")}>Sign out</span>
       </button>
     </div>
