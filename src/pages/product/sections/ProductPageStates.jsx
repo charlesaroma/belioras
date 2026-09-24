@@ -1,6 +1,7 @@
 /* Loading And Not Found */
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import Seo from "../../../components/seo/Seo";
 
 export function ProductPageLoading() {
   return (
@@ -22,6 +23,7 @@ export function ProductPageNotFound() {
       // so without this it sat flush under the fixed navbar.
       style={{ paddingTop: "calc(var(--header-height, 138px) + 4rem)" }}
     >
+      <Seo title="Piece not found | Belioras" noindex />
       <h1 className="font-display text-3xl text-espresso">Piece not found</h1>
       <p className="mt-3 text-sm text-espresso-soft">
         It may have sold out or been retired from the collection.

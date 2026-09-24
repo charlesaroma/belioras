@@ -7,6 +7,9 @@ import { useAsyncData } from "../../hooks/useAsyncData";
 import { useContentVersion } from "../../context/ContentContext";
 import { getCatalog } from "../../services/catalog/catalogApi";
 import NotFound from "../../components/layout/NotFound";
+import Seo from "../../components/seo/Seo";
+import { SITE_URL } from "../../seo/head";
+import { catalogSeo } from "../../seo/seo";
 
 import CatalogView from "./sections/CatalogView";
 
@@ -27,6 +30,11 @@ export default function CatalogPage() {
   const resolved = data?.resolved;
 
   return (
+    <>
+    {resolved && (
+      // Filters and sort live in the query string; the page itself is the path.
+      <Seo {...catalogSeo(SITE_URL, { path: pathname.replace(/\/+$/, ""), label: resolved.label, trail: resolved.breadcrumb })} />
+    )}
     <CatalogView
       products={data?.products}
       loading={loading}
@@ -57,5 +65,6 @@ export default function CatalogPage() {
         ) : null
       }
     />
+    </>
   );
 }

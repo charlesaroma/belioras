@@ -1,10 +1,13 @@
 /* Page: Product */
-import { useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { usePreloadImages } from "../../hooks/usePreloadImages";
 import { getProduct, getProductsByCollection } from "../../services/catalog/productsApi";
+import { getCategories } from "../../services/catalog/categoriesApi";
+import Seo from "../../components/seo/Seo";
+import { SITE_URL } from "../../seo/head";
+import { productSeo, titleCase } from "../../seo/seo";
 import { colorFromParam, imagesForColor, videoForColor } from "../../utils/productColors";
 
 import ProductPageGallery from "./sections/ProductPageGallery";
@@ -28,11 +31,7 @@ export default function ProductPage() {
     [product?.collectionId],
   );
 
-  // Syncing the document title is a genuine external-system effect. The
-  // variant state this used to reset alongside it lives in a keyed child.
-  useEffect(() => {
-    if (product) document.title = `${product.name} | Belioras`;
-  }, [product]);
+  const { data: categories } = useAsyncData(getCategories, []);
 
   usePreloadImages(
     Object.values(product?.colorImages ?? {})
@@ -42,6 +41,18 @@ export default function ProductPage() {
 
   if (loading) return <ProductPageLoading />;
   if (error || !product) return <ProductPageNotFound />;
+
+  const categoryName = categories?.find((c) => c.id === product.collectionId)?.name;
+  const seo = productSeo(SITE_URL, product, {
+    // Every colour's photos: search shows whichever suits the query.
+    images: [...(product.images ?? []), ...Object.values(product.colorImages ?? {}).flat()],
+    available: product.stock ?? 0,
+    category: product.collectionId
+      ? { label: categoryName ?? titleCase(product.collectionId), url: `/${product.collectionId}` }
+      : null,
+    rating: product.rating,
+    reviewCount: product.reviewCount,
+  });
 
   const suggestions = (related ?? []).filter((p) => p.id !== product.id).slice(0, RELATED_COUNT);
 
@@ -69,6 +80,7 @@ export default function ProductPage() {
       // with a fallback for the first paint before the observer reports.
       style={{ paddingTop: "calc(var(--header-height, 138px) + 2rem)" }}
     >
+      <Seo {...seo} />
       <ProductPageHeader product={product} />
 
       <div className="grid gap-12 lg:grid-cols-2">
