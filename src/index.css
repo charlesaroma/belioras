@@ -357,16 +357,20 @@
      hero and collection imagery, where neither black nor white alone holds
      enough contrast. */
   .glass {
+    background-color: rgba(254, 254, 254, 0.7);
     background-color: color-mix(in srgb, var(--color-ivory-50) 70%, transparent);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(254, 254, 254, 0.3);
     border: 1px solid color-mix(in srgb, var(--color-ivory-50) 30%, transparent);
   }
 
   .glass-dark {
+    background-color: rgba(18, 7, 0, 0.45);
     background-color: color-mix(in srgb, var(--color-espresso) 45%, transparent);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(254, 254, 254, 0.15);
     border: 1px solid color-mix(in srgb, var(--color-ivory-50) 15%, transparent);
     color: var(--color-ivory-50);
   }
@@ -480,6 +484,7 @@
 
   .card-featured {
     background-color: var(--color-ivory-50);
+    border: 1px solid rgba(217, 177, 102, 0.4);
     border: 1px solid color-mix(in srgb, var(--color-gold-500) 40%, transparent);
     border-radius: var(--radius-lg);
     padding: 28px;
@@ -510,6 +515,7 @@
   }
 
   .input:focus {
+    outline: 2px solid rgba(217, 177, 102, 0.25);
     outline: 2px solid color-mix(in srgb, var(--color-gold-500) 25%, transparent);
     border-color: var(--color-brown-500);
   }
@@ -562,6 +568,7 @@
   }
 
   .phone-field .PhoneInputInput:focus {
+    outline: 2px solid rgba(217, 177, 102, 0.25);
     outline: 2px solid color-mix(in srgb, var(--color-gold-500) 25%, transparent);
     border-color: var(--color-brown-500);
   }
@@ -579,6 +586,7 @@
   }
 
   .phone-field .PhoneInputCountrySelect:focus + .PhoneInputCountryIcon {
+    outline: 2px solid rgba(217, 177, 102, 0.25);
     outline: 2px solid color-mix(in srgb, var(--color-gold-500) 25%, transparent);
   }
 
