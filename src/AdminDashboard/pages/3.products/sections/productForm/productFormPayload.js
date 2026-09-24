@@ -31,6 +31,8 @@ export const EMPTY_VALUES = {
   costPrice: "",
   isNew: true,
   featured: false,
+  bestseller: false,
+  limited: false,
   status: "draft",
   lowStockThreshold: "",
 };
@@ -48,6 +50,8 @@ export function toFormValues(product) {
     costPrice: product.costPrice ?? "",
     isNew: Boolean(product.isNew),
     featured: Boolean(product.featured),
+    bestseller: Boolean(product.bestseller),
+    limited: Boolean(product.limited),
     // Older products carry no status, and they are live in the shop.
     status: product.status ?? "active",
     lowStockThreshold: product.lowStockThreshold ?? "",
@@ -150,6 +154,8 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
     originalPrice: values.onSale && values.originalPrice ? Number(values.originalPrice) : null,
     isNew: Boolean(values.isNew),
     featured: Boolean(values.featured),
+    bestseller: Boolean(values.bestseller),
+    limited: Boolean(values.limited),
     status,
     colorways,
     sizes: sizes.length ? sizes : [ONE_SIZE],

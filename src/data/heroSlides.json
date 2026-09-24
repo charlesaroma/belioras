@@ -1,5 +1,5 @@
 {
-  "rev": 2,
+  "rev": 3,
   "autoplayMs": 6000,
   "slides": [
     {
@@ -45,14 +45,14 @@
     {
       "id": "new-season",
       "active": true,
-      "seasonLabel": "Winter Edit",
+      "seasonLabel": "New In",
       "image": "https://ik.imagekit.io/sbgenu6wj/Belioras/Home/belioras-hero-2.jpeg?tr=w-2000,q-75,f-auto",
       "objectPosition": "50% 20%",
       "title": [
-        "New Season,",
+        "New Pieces,",
         "New Statement."
       ],
-      "subtitle": "Considered pieces for every occasion \u2014 the Winter Edit is here.",
+      "subtitle": "Considered pieces for every occasion, newly arrived from the atelier.",
       "primaryCta": {
         "label": "Shop New In",
         "to": "/new-arrivals"

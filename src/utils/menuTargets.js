@@ -27,6 +27,8 @@ export const FILTER_DIMENSIONS = ["color"];
 export const LABELS = {
   new: "New arrivals",
   featured: "Featured",
+  bestseller: "Best sellers",
+  limited: "Limited releases",
   sale: "On sale",
 };
 

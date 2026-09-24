@@ -35,6 +35,7 @@ function deriveTags(product, colorFamilies = []) {
   if (product.isNew) tags.add("tag:new");
   if (product.bestseller) tags.add("tag:bestseller");
   if (product.featured) tags.add("tag:featured");
+  if (product.limited) tags.add("tag:limited");
 
   for (const size of product.sizes ?? []) tags.add(`size:${size}`);
 

@@ -1,18 +1,8 @@
 {
-  "topBanner": {
-    "text": "Winter Sale — up to 30% off selected styles",
-    "link": "/collection/evening",
-    "start": "2026-01-06T00:00:00Z",
-    "end": "2027-03-01T23:59:59Z"
-  },
   "announcements": [
     {
       "key": "promo.freeShipping",
       "default": "Free shipping in Germany · free EU shipping over €250"
-    },
-    {
-      "key": "promo.winterStyles",
-      "default": "Up to 30% off winter styles"
     },
     {
       "key": "promo.welcome10",

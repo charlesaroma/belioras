@@ -1,5 +1,5 @@
 {
-  "rev": 6,
+  "rev": 7,
   "items": [
     {
       "id": "new-arrivals",
@@ -35,35 +35,114 @@
       ],
       "sections": [
         {
-          "id": "new-arrivals-s1",
-          "title": "Just In",
+          "id": "new-arrivals-latest",
+          "title": "Latest Arrivals",
           "items": [
             {
-              "id": "new-arrivals-catalog",
-              "label": "New Arrivals Catalog",
-              "slug": "new-arrivals/just-in/new-arrivals-catalog",
-              "url": "/new-arrivals/just-in/new-arrivals-catalog",
+              "id": "na-all",
+              "label": "All New Arrivals",
+              "slug": "new-arrivals/latest-arrivals/all-new-arrivals",
+              "url": "/new-arrivals/latest-arrivals/all-new-arrivals",
               "target": {
                 "kind": "label",
                 "id": "new"
               },
               "aliases": [
+                "new-arrivals/just-in/new-arrivals-catalog",
                 "new-arrivals/catalog"
               ]
             },
             {
-              "id": "new-arrivals-collections",
-              "label": "Featured Collections",
-              "slug": "new-arrivals/just-in/featured-collections",
-              "url": "/new-arrivals/just-in/featured-collections",
+              "id": "na-featured",
+              "label": "Featured",
+              "slug": "new-arrivals/latest-arrivals/featured",
+              "url": "/new-arrivals/latest-arrivals/featured",
               "target": {
                 "kind": "label",
-                "id": "featured",
-                "newOnly": true
+                "id": "featured"
               },
               "aliases": [
+                "new-arrivals/just-in/featured-collections",
                 "new-arrivals/collections"
               ]
+            },
+            {
+              "id": "na-best-sellers",
+              "label": "Best Sellers",
+              "slug": "new-arrivals/latest-arrivals/best-sellers",
+              "url": "/new-arrivals/latest-arrivals/best-sellers",
+              "target": {
+                "kind": "label",
+                "id": "bestseller"
+              }
+            },
+            {
+              "id": "na-limited",
+              "label": "Limited Releases",
+              "slug": "new-arrivals/latest-arrivals/limited-releases",
+              "url": "/new-arrivals/latest-arrivals/limited-releases",
+              "target": {
+                "kind": "label",
+                "id": "limited"
+              }
+            }
+          ]
+        },
+        {
+          "id": "new-arrivals-hair",
+          "title": "Hair",
+          "items": [
+            {
+              "id": "na-hair-all",
+              "label": "Full Collection",
+              "slug": "new-arrivals/hair/full-collection",
+              "url": "/new-arrivals/hair/full-collection",
+              "target": {
+                "kind": "category",
+                "id": "hair"
+              }
+            },
+            {
+              "id": "na-hair-straight",
+              "label": "Signature Straight",
+              "slug": "new-arrivals/hair/signature-straight",
+              "url": "/new-arrivals/hair/signature-straight",
+              "target": {
+                "kind": "filter",
+                "dimension": "subcat:wigs",
+                "values": [
+                  "straight-wigs"
+                ],
+                "category": "hair"
+              }
+            },
+            {
+              "id": "na-hair-curly",
+              "label": "Signature Curly",
+              "slug": "new-arrivals/hair/signature-curly",
+              "url": "/new-arrivals/hair/signature-curly",
+              "target": {
+                "kind": "filter",
+                "dimension": "subcat:wigs",
+                "values": [
+                  "curly-wigs"
+                ],
+                "category": "hair"
+              }
+            },
+            {
+              "id": "na-hair-braided",
+              "label": "Signature Braided",
+              "slug": "new-arrivals/hair/signature-braided",
+              "url": "/new-arrivals/hair/signature-braided",
+              "target": {
+                "kind": "filter",
+                "dimension": "subcat:wigs",
+                "values": [
+                  "braided-wigs"
+                ],
+                "category": "hair"
+              }
             }
           ]
         }
@@ -172,6 +251,22 @@
               ]
             },
             {
+              "id": "shop-dresses",
+              "label": "Dresses",
+              "slug": "shop/clothing/dresses",
+              "url": "/shop/clothing/dresses",
+              "target": {
+                "kind": "filter",
+                "dimension": "subcat:shop-by-category",
+                "values": [
+                  "mini-dresses",
+                  "midi-dresses",
+                  "maxi-dresses"
+                ],
+                "category": "dresses"
+              }
+            },
+            {
               "id": "shop-jumpsuits",
               "label": "Jumpsuits",
               "slug": "shop/clothing/jumpsuits",
@@ -231,57 +326,6 @@
               "aliases": [
                 "shop/all-hair"
               ]
-            },
-            {
-              "id": "shop-straight-wigs",
-              "label": "Straight Wigs",
-              "slug": "shop/hair/straight-wigs",
-              "url": "/shop/hair/straight-wigs",
-              "target": {
-                "kind": "filter",
-                "dimension": "subcat:wigs",
-                "values": [
-                  "straight-wigs"
-                ],
-                "category": "hair"
-              },
-              "aliases": [
-                "shop/straight-wigs"
-              ]
-            },
-            {
-              "id": "shop-curly-wigs",
-              "label": "Curly Wigs",
-              "slug": "shop/hair/curly-wigs",
-              "url": "/shop/hair/curly-wigs",
-              "target": {
-                "kind": "filter",
-                "dimension": "subcat:wigs",
-                "values": [
-                  "curly-wigs"
-                ],
-                "category": "hair"
-              },
-              "aliases": [
-                "shop/curly-wigs"
-              ]
-            },
-            {
-              "id": "shop-braided-wigs",
-              "label": "Braided Wigs",
-              "slug": "shop/hair/braided-wigs",
-              "url": "/shop/hair/braided-wigs",
-              "target": {
-                "kind": "filter",
-                "dimension": "subcat:wigs",
-                "values": [
-                  "braided-wigs"
-                ],
-                "category": "hair"
-              },
-              "aliases": [
-                "shop/braided-wigs"
-              ]
             }
           ],
           "title": "Hair"
@@ -290,15 +334,23 @@
           "id": "shop-accessories",
           "items": [
             {
-              "id": "shop-all-accessories-jewellery",
-              "label": "All Accessories & Jewellery",
-              "slug": "shop/accessories/all-accessories-and-jewellery",
-              "url": "/shop/accessories/all-accessories-and-jewellery",
+              "id": "shop-jewellery",
+              "label": "Jewellery",
+              "slug": "shop/accessories/jewellery",
+              "url": "/shop/accessories/jewellery",
               "target": {
-                "kind": "category",
-                "id": "accessories"
+                "kind": "filter",
+                "dimension": "subcat:jewellery",
+                "values": [
+                  "earrings",
+                  "necklaces",
+                  "bracelets-bangles",
+                  "rings"
+                ],
+                "category": "accessories"
               },
               "aliases": [
+                "shop/accessories/all-accessories-and-jewellery",
                 "shop/all-accessories-jewellery"
               ]
             },
@@ -308,9 +360,15 @@
               "slug": "shop/accessories/bags",
               "url": "/shop/accessories/bags",
               "target": {
-                "kind": "type",
-                "category": "accessories",
-                "id": "handbags"
+                "kind": "filter",
+                "dimension": "subcat:bags",
+                "values": [
+                  "handbags",
+                  "clutch-bags",
+                  "shoulder-bags",
+                  "mini-bags"
+                ],
+                "category": "accessories"
               },
               "aliases": [
                 "shop/bags"
@@ -328,20 +386,6 @@
               },
               "aliases": [
                 "shop/heels"
-              ]
-            },
-            {
-              "id": "shop-earrings",
-              "label": "Earrings",
-              "slug": "shop/accessories/earrings",
-              "url": "/shop/accessories/earrings",
-              "target": {
-                "kind": "type",
-                "category": "accessories",
-                "id": "earrings"
-              },
-              "aliases": [
-                "shop/earrings"
               ]
             }
           ],
@@ -1153,7 +1197,9 @@
                 "category": "hair"
               },
               "aliases": [
-                "hair/wigs/straight"
+                "hair/wigs/straight",
+                "shop/hair/straight-wigs",
+                "shop/straight-wigs"
               ]
             },
             {
@@ -1170,7 +1216,9 @@
                 "category": "hair"
               },
               "aliases": [
-                "hair/wigs/curly"
+                "hair/wigs/curly",
+                "shop/hair/curly-wigs",
+                "shop/curly-wigs"
               ]
             },
             {
@@ -1221,7 +1269,9 @@
                 "category": "hair"
               },
               "aliases": [
-                "hair/wigs/braided"
+                "hair/wigs/braided",
+                "shop/hair/braided-wigs",
+                "shop/braided-wigs"
               ]
             },
             {
@@ -1419,7 +1469,9 @@
                 "id": "earrings"
               },
               "aliases": [
-                "accessories/jewelry/earrings"
+                "accessories/jewelry/earrings",
+                "shop/accessories/earrings",
+                "shop/earrings"
               ]
             },
             {

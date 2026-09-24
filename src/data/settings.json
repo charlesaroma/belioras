@@ -1,5 +1,5 @@
 {
-  "rev": 3,
+  "rev": 4,
   "shipping": {
     "zones": [
       {
@@ -122,15 +122,6 @@
       "key": "promo.freeShipping",
       "text": "Free shipping in Germany \u00b7 free EU shipping over \u20ac250",
       "link": "/shipping-policy",
-      "active": true,
-      "start": "",
-      "end": ""
-    },
-    {
-      "id": "an2",
-      "key": "promo.winterStyles",
-      "text": "Up to 30% off winter styles",
-      "link": "/shop",
       "active": true,
       "start": "",
       "end": ""

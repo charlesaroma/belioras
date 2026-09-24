@@ -14,7 +14,7 @@ export default function CollectionStatementSection() {
       {/* Container and rhythm match the prototype rather than the site's
           default section spacing, so the block sits exactly as reviewed. */}
       <div className="mx-auto max-w-[87.5rem] px-6 py-20 text-center md:px-10 md:py-28">
-        <p className="eyebrow">{t("home.heroKicker", "Autumn / Winter 2026 Collection")}</p>
+        <p className="eyebrow">{t("home.heroKicker", "The Belioras Collection")}</p>
 
         <h2
           id="collection-statement"

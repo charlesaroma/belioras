@@ -359,7 +359,8 @@
         }
       }
     ],
-    "costPrice": 202
+    "costPrice": 202,
+    "limited": true
   },
   {
     "id": "bf05",
@@ -1071,7 +1072,8 @@
         }
       }
     ],
-    "costPrice": 143
+    "costPrice": 143,
+    "limited": true
   },
   {
     "id": "bf13",
@@ -1670,7 +1672,8 @@
         }
       }
     ],
-    "costPrice": 88
+    "costPrice": 88,
+    "limited": true
   },
   {
     "id": "bf23",
@@ -1914,7 +1917,8 @@
         }
       }
     ],
-    "costPrice": 63
+    "costPrice": 63,
+    "limited": true
   },
   {
     "id": "bf27",
