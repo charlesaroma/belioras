@@ -12,6 +12,7 @@ export function useProductDraftSync({
   draft,
   reset,
   setPhotos,
+  setVideos,
   setColorIds,
   setStock,
   setSizes,
@@ -28,12 +29,13 @@ export function useProductDraftSync({
     reset(toFormValues(existing));
     const model = toFormModel(existing);
     setPhotos(model.photos);
+    setVideos(model.videos);
     setColorIds(model.colorIds);
     setStock(model.stock);
     setSizes(offeredSizes(existing.sizes));
     setTags(detailTags(existing.tags));
     setSpread(model.spread);
-  }, [existing, reset, setPhotos, setColorIds, setStock, setSizes, setTags, setSpread]);
+  }, [existing, reset, setPhotos, setVideos, setColorIds, setStock, setSizes, setTags, setSpread]);
 
   // A ref, not state: it only guards the one-time restore, and effects run in
   // declaration order, so the mirror below already sees it as true on mount.
@@ -52,6 +54,7 @@ export function useProductDraftSync({
     const all = saved.photos ?? [];
     const usable = all.filter((p) => p.url && !p.url.startsWith("blob:"));
     setPhotos(usable);
+    setVideos(Object.fromEntries(Object.entries(saved.videos ?? {}).filter(([, v]) => v?.url && !v.url.startsWith("blob:"))));
     setColorIds(saved.colorIds ?? []);
     setStock(saved.stock ?? {});
     setSizes(saved.sizes ?? []);
@@ -64,7 +67,7 @@ export function useProductDraftSync({
         "warning",
       );
     }
-  }, [isEdit, draftFor, reset, setPhotos, setColorIds, setStock, setSizes, setTags, toast]);
+  }, [isEdit, draftFor, reset, setPhotos, setVideos, setColorIds, setStock, setSizes, setTags, toast]);
 
   /* Side Effect */
   useEffect(() => {

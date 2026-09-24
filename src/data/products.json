@@ -57,6 +57,10 @@
           "m": 4,
           "l": 4,
           "xl": 4
+        },
+        "video": {
+          "url": "https://assets.mixkit.co/videos/805/805-720.mp4",
+          "poster": "https://assets.mixkit.co/videos/805/805-thumb-720-0.jpg"
         }
       },
       {
@@ -86,7 +90,11 @@
         }
       }
     ],
-    "costPrice": 54
+    "costPrice": 54,
+    "modelFit": {
+      "heightCm": 172,
+      "size": "xs"
+    }
   },
   {
     "id": "p2",

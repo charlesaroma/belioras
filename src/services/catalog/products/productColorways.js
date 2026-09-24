@@ -56,6 +56,8 @@ export function expandColorways(product) {
     colorImages: Object.fromEntries(
       ways.filter((w) => w.images?.length).map((w) => [w.name, w.images]),
     ),
+    // A short clip of the piece on the model, per colour: { url, poster }.
+    colorVideos: Object.fromEntries(ways.filter((w) => w.video?.url).map((w) => [w.name, w.video])),
     inventory: tracked ? Object.fromEntries(ways.map((w) => [w.name, w.stock ?? {}])) : null,
     stock: tracked ? ways.reduce((sum, w) => sum + sumStock(w.stock), 0) : (product.stock ?? 0),
     images: product.images?.length

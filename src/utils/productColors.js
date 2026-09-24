@@ -13,6 +13,15 @@ export function imagesForColor(product, color) {
   return own?.length ? own : (product?.images ?? []);
 }
 
+/**
+ * The chosen colour's clip of the piece on the model, or null. Never another
+ * colour's: a red dress moving under "Ebony" would mislead.
+ */
+export function videoForColor(product, color) {
+  const videos = product?.colorVideos ?? {};
+  return (color ? videos[color] : Object.values(videos)[0]) ?? null;
+}
+
 /** The colour named in the URL if this product offers it, else its first. */
 export function colorFromParam(product, param) {
   const colors = product?.colors ?? [];

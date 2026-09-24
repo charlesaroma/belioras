@@ -12,7 +12,7 @@ import { useProductPurchase } from "../../pages/product/sections/productBuyPanel
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { getSettings } from "../../services/content/settingsApi";
 import { cn } from "../../utils/cn";
-import { imagesForColor } from "../../utils/productColors";
+import { imagesForColor, videoForColor } from "../../utils/productColors";
 
 /**
  * The piece in a dialog, without leaving the page: photos, colour, size and
@@ -60,7 +60,7 @@ function QuickViewBody({ product, onClose }) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 md:gap-10">
-      <ProductPageGallery key={color} imageClassName="aspect-square md:aspect-[3/4]" images={images} name={color ? `${product.name} in ${color}` : product.name} />
+      <ProductPageGallery key={color} imageClassName="aspect-square md:aspect-[3/4]" images={images} video={videoForColor(product, color)} name={color ? `${product.name} in ${color}` : product.name} />
 
       <div className="min-w-0 md:pr-6">
         <p className="font-display text-2xl leading-tight text-espresso md:pr-8">{product.name}</p>

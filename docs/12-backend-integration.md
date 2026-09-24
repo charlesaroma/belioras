@@ -70,3 +70,9 @@ Today each flow calls `notifications/emailsApi.queueEmail({ type, to, subject, o
 - **Stock:** placed orders hold stock; shipping deducts it; refunds with "back on the shelf" return it. Every change goes through `inventory/stockLedger.applyStockChanges`, which writes a movement row. Keep that ledger on the server.
 - **Coupons:** `assertCouponRedeemable` runs twice, at "Apply" and again when the order is placed. It covers expiry, minimum order, total uses and uses per customer. Cancelled and refunded orders give a use back.
 - **Reports** (`reportsApi.getReports(period)`) are read-only aggregates. Move them to server queries once the data is there.
+
+## Product video
+
+- Each colourway may carry `video: { url, poster }`, and the product carries `modelFit: { heightCm, size }`. The storefront reads them through `productColorways.expandColorways` (`colorVideos`) and `utils/productColors.videoForColor`.
+- Uploads in the product form are held in the browser for now. With the backend, `POST /media/videos` stores the file with the photos (ImageKit, Mux or Cloudinary), transcodes it to web MP4 (about 720p, under 5 MB), and returns the `url` and a `poster`.
+- The sample clips come from Mixkit's free library (Mixkit licence, commercial use allowed). Re-host them on your own media storage before launch rather than linking to Mixkit's servers.

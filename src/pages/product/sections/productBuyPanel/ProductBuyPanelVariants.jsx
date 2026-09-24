@@ -67,6 +67,13 @@ export default function ProductBuyPanelVariants({
             unavailable={unavailable}
           />
 
+          {product.modelFit?.heightCm && product.modelFit?.size && (
+            <p className="mt-3 text-[12px] text-espresso-soft">
+              Model is {product.modelFit.heightCm} cm tall and wears size{" "}
+              <strong className="font-medium text-espresso">{sizeLabel(taxonomy, product.modelFit.size)}</strong>.
+            </p>
+          )}
+
           {/* What they took last time, from their own orders. Only shown when
               this piece is actually offered in that size. */}
           {usualSize && !size && (

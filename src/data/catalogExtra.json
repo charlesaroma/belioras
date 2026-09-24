@@ -332,6 +332,10 @@
           "s": 4,
           "m": 4,
           "l": 4
+        },
+        "video": {
+          "url": "https://assets.mixkit.co/videos/18208/18208-720.mp4",
+          "poster": "https://assets.mixkit.co/videos/18208/18208-thumb-720-0.jpg"
         }
       },
       {
@@ -360,7 +364,11 @@
       }
     ],
     "costPrice": 202,
-    "limited": true
+    "limited": true,
+    "modelFit": {
+      "heightCm": 175,
+      "size": "s"
+    }
   },
   {
     "id": "bf05",

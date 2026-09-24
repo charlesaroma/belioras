@@ -21,6 +21,7 @@ import ProductFormPricing from "./sections/productForm/ProductFormPricing";
 import ProductFormPublish from "./sections/productForm/ProductFormPublish";
 import SaveBar from "./sections/productForm/ProductFormSaveBar";
 import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
+import ProductFormVideo from "./sections/productForm/ProductFormVideo";
 import ProductFormVariants from "./sections/productForm/ProductFormVariants";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
 import { EMPTY_VALUES, toPayload, validateProduct } from "./sections/productForm/productFormPayload";
@@ -40,6 +41,7 @@ export default function ProductForm() {
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const [photos, setPhotos] = useState([]);
+  const [videos, setVideos] = useState({});
   const [colorIds, setColorIds] = useState([]);
   const [stock, setStock] = useState({});
   const [sizes, setSizes] = useState([]);
@@ -53,11 +55,11 @@ export default function ProductForm() {
 
   // The Blob serialises to {} and only wastes storage quota, so it is left out.
   const draftPhotos = photos.map(({ id: photoId, url, name, colorId }) => ({ id: photoId, url, name, colorId }));
-  const snapshot = JSON.stringify({ values, colorIds, stock, sizes, tags, photos: draftPhotos });
+  const snapshot = JSON.stringify({ values, colorIds, stock, sizes, tags, photos: draftPhotos, videos });
 
   useProductDraftSync({
     isEdit, existing, draft, reset: form.reset, snapshot, toast,
-    setPhotos, setColorIds, setStock, setSizes, setTags, setSpread,
+    setPhotos, setVideos, setColorIds, setStock, setSizes, setTags, setSpread,
   });
 
   // Sizes and a type the new category does not offer are dropped rather than kept hidden.
@@ -75,7 +77,7 @@ export default function ProductForm() {
           toast(problem, "error");
           return;
         }
-        const payload = toPayload(formValues, { photos, colorIds, stock, sizes, tags, category, status });
+        const payload = toPayload(formValues, { photos, videos, colorIds, stock, sizes, tags, category, status });
         try {
           const saved = isEdit ? await updateProduct(id, payload) : await createProduct(payload);
           if (!isEdit) draft.clearDraft("new-product");
@@ -92,6 +94,7 @@ export default function ProductForm() {
     draft.clearDraft("new-product");
     form.reset(EMPTY_VALUES);
     [setPhotos, setColorIds, setSizes, setTags].forEach((set) => set([]));
+    setVideos({});
     setStock({});
   };
 
@@ -117,6 +120,10 @@ export default function ProductForm() {
         <div className="min-w-0 space-y-4">
           <ProductFormEssentials register={form.register} errors={form.formState.errors} />
           <ProductFormPhotos photos={photos} onChange={setPhotos} colors={colors ?? []} colorIds={colorIds} onImageProgress={(p) => draft.updateDraft("new-product", { progress: p })} />
+          <ProductFormVideo
+            colors={colors ?? []} colorIds={colorIds} videos={videos} onVideosChange={setVideos}
+            photos={photos} sizes={sizes} taxonomy={taxonomy ?? {}} register={form.register}
+          />
           <ProductFormVariants
             colors={colors ?? []} colorIds={colorIds} onColorIdsChange={setColorIds}
             photos={photos} onPhotosChange={setPhotos} stock={stock} onStockChange={setStock}

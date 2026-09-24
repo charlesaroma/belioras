@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useAsyncData } from "../../hooks/useAsyncData";
 import { usePreloadImages } from "../../hooks/usePreloadImages";
 import { getProduct, getProductsByCollection } from "../../services/catalog/productsApi";
-import { colorFromParam, imagesForColor } from "../../utils/productColors";
+import { colorFromParam, imagesForColor, videoForColor } from "../../utils/productColors";
 
 import ProductPageGallery from "./sections/ProductPageGallery";
 import ProductPageHeader from "./sections/ProductPageHeader";
@@ -74,6 +74,7 @@ export default function ProductPage() {
         <ProductPageGallery
           key={`${product.id}:${color}`}
           images={images}
+          video={videoForColor(product, color)}
           name={color ? `${product.name} in ${color}` : product.name}
         />
 

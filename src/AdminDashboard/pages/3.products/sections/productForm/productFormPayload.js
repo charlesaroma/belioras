@@ -35,6 +35,8 @@ export const EMPTY_VALUES = {
   limited: false,
   status: "draft",
   lowStockThreshold: "",
+  modelHeight: "",
+  modelSize: "",
 };
 
 export function toFormValues(product) {
@@ -55,6 +57,8 @@ export function toFormValues(product) {
     // Older products carry no status, and they are live in the shop.
     status: product.status ?? "active",
     lowStockThreshold: product.lowStockThreshold ?? "",
+    modelHeight: product.modelFit?.heightCm ?? "",
+    modelSize: product.modelFit?.size ?? "",
   };
 }
 
@@ -110,8 +114,11 @@ export function toFormModel(product) {
     return urls.map((url) => ({ id: `${w.colorId}:${url}`, url, colorId: w.colorId }));
   });
 
+  const videos = Object.fromEntries(ways.filter((w) => w.video?.url).map((w) => [w.colorId, w.video]));
+
   return {
     photos,
+    videos,
     colorIds: ways.map((w) => w.colorId),
     stock,
     spread: !tracked && ways.length > 0 && total > 0,
@@ -131,12 +138,16 @@ export function validateProduct({ status, category, colorIds, photos }) {
 }
 
 /** The form's model -> what productsApi stores. */
-export function toPayload(values, { photos, colorIds, stock, sizes, tags, category, status }) {
+export function toPayload(values, { photos, videos = {}, colorIds, stock, sizes, tags, category, status }) {
   const columns = stockColumns(sizes);
 
   const colorways = colorIds.map((colorId) => ({
     colorId,
     images: photos.filter((p) => p.colorId === colorId).map((p) => p.url),
+    // The still defaults to this colour's first photo.
+    ...(videos[colorId]?.url
+      ? { video: { url: videos[colorId].url, poster: videos[colorId].poster ?? photos.find((p) => p.colorId === colorId)?.url ?? null } }
+      : {}),
     stock: Object.fromEntries(
       columns.map((size) => [size, Math.max(0, Math.floor(Number(stock[colorId]?.[size]) || 0))]),
     ),
@@ -164,5 +175,9 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
     // Blank means "use the shop's threshold".
     lowStockThreshold: `${values.lowStockThreshold ?? ""}` === "" ? null : Math.max(0, Math.floor(Number(values.lowStockThreshold))),
     tags: detailTags(tags).filter((t) => isValidSubcategoryTag(t, category)),
+    modelFit:
+      Number(values.modelHeight) > 0 && values.modelSize && (sizes.includes(values.modelSize) || sizes.length === 0)
+        ? { heightCm: Math.round(Number(values.modelHeight)), size: values.modelSize }
+        : null,
   };
 }
