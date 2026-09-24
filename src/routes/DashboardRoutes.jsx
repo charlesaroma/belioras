@@ -25,12 +25,7 @@ import ProductForm from "../AdminDashboard/pages/3.products/product-form";
 export default function dashboardRoutes() {
   return (
     <>
-    {/*
-      Guarded. The component existed and was written for exactly this,
-      but was never applied — so the admin area, including customer
-      names, emails and order totals, was reachable by anyone who typed
-      the URL on the deployed site.
-    */}
+    {/* Guarded: RequireAuth — the admin area was reachable by anyone with the URL before this existed. */}
     <Route
       path="/dashboard"
       element={
@@ -41,22 +36,17 @@ export default function dashboardRoutes() {
     >
       <Route index element={<DashOverview />} />
       <Route path="products" element={<DashProducts />} />
-      {/* The product form is a page, not a modal: it is long enough that
-          a 90vh box scrolling internally was the wrong container, and a
-          route makes an edit linkable and refresh-safe. */}
+      {/* Product form is a page — linkable and refresh-safe, not a modal. */}
       <Route path="products/new" element={<ProductForm />} />
       <Route path="products/:id/edit" element={<ProductForm />} />
       <Route path="inventory" element={<DashInventory />} />
       <Route path="categories" element={<DashCategories />} />
       <Route path="sizes" element={<DashSizes />} />
-      {/* The navigation tree gets its own section: it is the structure
-          shoppers move through, not the vocabulary pieces are tagged
-          with, and the two were conflated under Categories. */}
+      {/* Nav tree is the structural grouping shoppers move through — distinct from category vocabulary; previously conflated under Categories. */}
       <Route path="mega-menu" element={<DashMegaMenu />} />
       <Route path="reviews" element={<DashReviews />} />
       <Route path="orders" element={<DashOrders />} />
-      {/* Finance, so administrators only: staff run orders but do not see
-          revenue, provider fees or refunds. */}
+      {/* Finance: administrators only. */}
       <Route
         path="transactions"
         element={
@@ -65,9 +55,7 @@ export default function dashboardRoutes() {
           </RequireAuth>
         }
       />
-      {/* Staff handle orders, so they need the customers behind them.
-          The combined Users page was administrator-only, which locked
-          staff out of the very records they were being asked to serve. */}
+      {/* Staff need the customers behind them — the combined Users page locked them out of the very records they served. */}
       <Route path="customers" element={<DashCustomers />} />
       <Route
         path="discounts"
@@ -86,13 +74,7 @@ export default function dashboardRoutes() {
         }
       />
 
-      {/*
-        Access management is its own job, and an administrator's. It used
-        to share a table with customers, so the control that grants
-        administrator rights sat beside a shopper's delivery history —
-        and staff could promote a colleague, or an account they
-        controlled, to super-admin.
-      */}
+      {/* Access management is a job for administrators — the grant control used to sit beside a shopper's delivery history, so staff could promote an account to super-admin. */}
       <Route
         path="team"
         element={
@@ -102,8 +84,7 @@ export default function dashboardRoutes() {
         }
       />
 
-      {/* The old combined page, kept so a bookmark still lands somewhere
-          useful rather than on a 404. */}
+      {/* The old combined page, kept so a bookmark lands somewhere useful rather than on a 404. */}
       <Route path="users" element={<Navigate to="/dashboard/customers" replace />} />
       <Route
         path="shipping"

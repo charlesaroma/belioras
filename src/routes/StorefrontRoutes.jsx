@@ -44,15 +44,9 @@ export default function storefrontRoutes() {
       <Route path="/shop" element={<ShopPage />} />
 
       <Route path="/product/:slug" element={<ProductPage />} />
-      {/*
-        One results surface. /shop already filters on ?q= and carries the
-        facets, sort and density a results page needs; /search was a stub
-        that printed the term and no products. Redirecting rather than
-        deleting keeps any existing link or bookmark working.
-      */}
+      {/* One results surface — /shop already filters on ?q=; /search printed the term and no products, so redirecting keeps old links working. */}
       <Route path="/search" element={<SearchRedirect />} />
-      {/* Guest checkout by design — requiring registration before a
-          first purchase is a well-known way to lose the purchase. */}
+      {/* Guest checkout by design — demanding registration before a first purchase is a tried way to lose it. */}
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/checkout/confirmed/:id" element={<CheckoutConfirmation />} />
 
@@ -62,13 +56,7 @@ export default function storefrontRoutes() {
       <Route path="/order-tracking" element={<OrderTrackingPage />} />
       <Route path="/hair-length-guide" element={<HairLengthGuidePage />} />
       <Route path="/shoe-size-guide" element={<ShoeSizeGuidePage />} />
-      {/*
-        The account tree. Every one of these pages was written and none
-        were routed, so /account — which NavActions, MobileMenu, the
-        post-login redirect and RequireAuth's own non-admin fallback all
-        point at — resolved to NotFound. A customer who signed in was
-        sent straight to a 404.
-      */}
+      {/* The account tree — every page was written but none routed, so /account dumped a signed-in customer on a 404. */}
       <Route
         path="/account"
         element={
@@ -86,8 +74,7 @@ export default function storefrontRoutes() {
         <Route path="settings" element={<AccountSettings />} />
       </Route>
 
-      {/* One canonical URL for saved pieces. The header heart and any
-          existing bookmark keep working. */}
+      {/* One canonical URL for saved pieces — header heart and existing bookmarks keep working. */}
       <Route path="/wishlist" element={<Navigate to="/account/wishlist" replace />} />
 
       <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
@@ -100,12 +87,9 @@ export default function storefrontRoutes() {
       <Route path="/newsletter/confirm" element={<NewsletterConfirmPage />} />
       <Route path="/newsletter/unsubscribe" element={<NewsletterUnsubscribePage />} />
 
-      {/*
-        Every other address is a menu page or nothing. Menu items and links
-        are added in the dashboard, so their addresses cannot be listed here;
-        CatalogPage looks the path up in the menu and renders NotFound when it
-        is not there. Every specific route above still wins.
-      */}
+      {/* Catch-all — menu pages are added in the dashboard, so their addresses
+          can't be listed here; CatalogPage renders NotFound for unknown ones,
+          and every specific route above still wins. */}
       <Route path="*" element={<CatalogPage />} />
     </Route>
     </>
