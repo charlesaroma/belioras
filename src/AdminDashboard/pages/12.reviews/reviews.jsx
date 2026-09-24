@@ -1,5 +1,6 @@
 /* Admin Dashboard Page: Reviews - reviews */
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
@@ -33,7 +34,8 @@ export default function DashReviews() {
     return (id) => map.get(id) ?? id;
   }, [products]);
 
-  const [tab, setTab] = useState("all");
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState(() => (TABS.some(([value]) => value === params.get("status")) ? params.get("status") : "all"));
   const [viewing, setViewing] = useState(null);
 
   const rows = reviews ?? [];

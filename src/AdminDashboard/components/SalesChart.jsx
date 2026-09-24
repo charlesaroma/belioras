@@ -2,6 +2,7 @@
 import {
   Area,
   AreaChart,
+  Line,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -48,7 +49,21 @@ export default function SalesChart({ data, formatValue }) {
               fontSize: 12,
             }}
             labelStyle={{ color: "#d9b166", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: 10 }}
-            formatter={(value) => [formatValue ? formatValue(value) : value, "Revenue"]}
+            formatter={(value, name) => [formatValue ? formatValue(value) : value, name === "previous" ? "Previous period" : "Revenue"]}
+            labelFormatter={(label, payload) => payload?.[0]?.payload?.label ?? label}
+          />
+
+          <Line
+            type="monotone"
+            dataKey="previous"
+            stroke="#120700"
+            strokeOpacity={0.35}
+            strokeWidth={1.25}
+            strokeDasharray="4 4"
+            dot={false}
+            activeDot={false}
+            connectNulls
+            isAnimationActive={false}
           />
 
           <Area

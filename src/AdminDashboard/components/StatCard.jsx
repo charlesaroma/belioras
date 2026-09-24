@@ -29,11 +29,7 @@ export default function StatCard({ label, value, change, hint, icon: Icon }) {
           <span className={cn("font-medium tabular-nums", isPositive ? "text-success" : "text-error")}>
             {isPositive ? "↑" : "↓"} {Math.abs(change).toFixed(1)}%
           </span>
-        ) : (
-          // No prior period to compare against — saying "0%" would be a claim
-          // the data does not support.
-          <span className="text-espresso/30">—</span>
-        )}
+        ) : null}
         {hint && <span className="text-espresso/40">{hint}</span>}
       </div>
     </div>

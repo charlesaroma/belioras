@@ -57,7 +57,7 @@ export default function DashOrders() {
     );
 
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState(() => (TABS.some(([value]) => value === params.get("status")) ? params.get("status") : "all"));
   const [pageSize, setPageSize] = usePageSize("orders");
 
   const visible = useMemo(

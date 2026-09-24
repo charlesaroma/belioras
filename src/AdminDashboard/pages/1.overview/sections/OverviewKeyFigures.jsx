@@ -1,6 +1,6 @@
 /* Admin Dashboard Page: Overview - OverviewKeyFigures */
 import { Link } from "react-router-dom";
-import { ArrowRight, Package, Receipt, Users, Wallet } from "lucide-react";
+import { AlertTriangle, ArrowRight, Package, Receipt, Users, Wallet } from "lucide-react";
 
 import StatCard from "../../../components/StatCard";
 
@@ -25,12 +25,14 @@ export default function KeyFigures({ stats, loading, format, locale }) {
         <StatCard
           label="Average order"
           value={loading ? "—" : format(stats?.averageOrder ?? 0)}
+          change={stats?.averageOrderChange}
+          hint="vs last month"
           icon={Package}
         />
         <StatCard
           label="Customers"
           value={loading ? "—" : (stats?.customerCount ?? 0).toLocaleString(locale)}
-          hint={`${stats?.productCount ?? 0} pieces live`}
+          hint={loading ? undefined : `${stats?.newCustomers ?? 0} new this month`}
           icon={Users}
         />
       </div>
@@ -38,10 +40,19 @@ export default function KeyFigures({ stats, loading, format, locale }) {
       {stats?.lowStockCount > 0 && (
         <Link
           to="/dashboard/inventory?level=low"
-          className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-gold-700 transition-colors hover:text-espresso"
+          className="mt-4 flex items-center gap-3 border border-gold-500/40 bg-gold-500/10 px-4 py-3 text-[13px] text-espresso transition-colors hover:border-gold-500"
         >
-          {stats.lowStockCount} {stats.lowStockCount === 1 ? "piece is" : "pieces are"} low on stock
-          <ArrowRight className="size-3.5" aria-hidden="true" />
+          <AlertTriangle className="size-4 shrink-0 text-gold-700" strokeWidth={1.75} aria-hidden="true" />
+          <span className="flex-1">
+            <strong className="font-semibold">
+              {stats.lowStockCount} {stats.lowStockCount === 1 ? "piece is" : "pieces are"} low on stock.
+            </strong>{" "}
+            Restock before they sell out.
+          </span>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-gold-800">
+            Review
+            <ArrowRight className="size-3.5" aria-hidden="true" />
+          </span>
         </Link>
       )}
     </section>

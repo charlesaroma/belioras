@@ -8,6 +8,8 @@ import { getDashboardStats, getRecentOrders } from "../../../services/sales/dash
 
 import KeyFigures from "./sections/OverviewKeyFigures";
 import RevenuePanel from "./sections/OverviewRevenuePanel";
+import OverviewAttention from "./sections/OverviewAttention";
+import OverviewTopSellers from "./sections/OverviewTopSellers";
 import RecentOrders from "./sections/overviewTable/OverviewRecentOrders";
 
 /* RECENT ORDER COUNT */
@@ -40,6 +42,10 @@ export default function DashOverview() {
     <div className="space-y-10">
       <KeyFigures stats={stats} loading={loading} format={format} locale={locale} />
       <RevenuePanel series={stats?.series} formatCompact={formatCompact} />
+      <div className="grid gap-6 lg:grid-cols-2">
+        <OverviewAttention attention={stats?.attention} loading={loading} />
+        <OverviewTopSellers topSellers={stats?.topSellers} format={format} loading={loading} />
+      </div>
       <RecentOrders orders={orders} format={format} dateFmt={dateFmt} />
     </div>
   );
