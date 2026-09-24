@@ -6,7 +6,7 @@ import { useStaffAuth } from "@/context/auth/useAuthRealm";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
-import { getUsers, updateUserRole } from "../../../services/auth/authApi";
+import { addTeamMember, getUsers, updateUserRole } from "../../../services/auth/authApi";
 import DashTable from "../../components/DashTable";
 import { usePageSize } from "../../lib/usePageSize";
 import { roleLabel } from "./sections/teamTable/teamTableRoles";
@@ -26,8 +26,7 @@ export default function DashTeam() {
 
   const [query, setQuery] = useState("");
   const [pendingRole, setPendingRole] = useState(null);
-  const [promoting, setPromoting] = useState(false);
-  const [promoteEmail, setPromoteEmail] = useState("");
+  const [addOpen, setAddOpen] = useState({ open: false, n: 0 });
 
   const team = useMemo(
     () => (users ?? []).filter((u) => u.role === "super-admin" || u.role === "staff"),
@@ -56,28 +55,14 @@ export default function DashTeam() {
     }
   };
 
-  const promote = async () => {
-
-    const match = (users ?? []).find(
-      (u) => u.email.toLowerCase() === promoteEmail.trim().toLowerCase(),
+  const add = async (form) => {
+    const result = await addTeamMember(form, signedIn);
+    refresh();
+    toast(
+      result.created ? `${result.user.name} was added as ${roleLabel(result.user.role)}.` : `${result.user.name} now has ${roleLabel(result.user.role)} access.`,
+      "success",
     );
-    if (!match) {
-      toast("No account with that email.", "error");
-      return;
-    }
-    if (match.role !== "customer") {
-      toast(`${match.name} is already on the team.`, "info");
-      return;
-    }
-    try {
-      await updateUserRole(match.id, "staff", signedIn);
-      refresh();
-      setPromoting(false);
-      setPromoteEmail("");
-      toast(`${match.name} was added as Staff.`, "success");
-    } catch (err) {
-      toast(err.message ?? "Could not add that person.", "error");
-    }
+    return result;
   };
 
   const [pageSize, setPageSize] = usePageSize("team");
@@ -97,7 +82,7 @@ export default function DashTeam() {
       <TeamToolbar
         query={query}
         onQueryChange={setQuery}
-        onAddExisting={() => setPromoting(true)}
+        onAdd={() => setAddOpen((d) => ({ open: true, n: d.n + 1 }))}
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
       />
@@ -115,9 +100,9 @@ export default function DashTeam() {
       />
 
       <p className="text-[11px] leading-relaxed text-espresso-soft">
-        Staff run the shop — catalogue, orders and content. Administrators additionally manage the
-        team and store settings. Accounts are never created here; a person registers as a customer
-        first and is then given access.
+        Staff run the shop — catalogue, orders, content and marketing. Administrators additionally
+        manage the team, payments and store settings. Add someone here with a temporary password,
+        or give an existing customer account access by entering its email.
       </p>
 
       <RoleChangeDialog
@@ -127,14 +112,10 @@ export default function DashTeam() {
       />
 
       <AddMemberDialog
-        open={promoting}
-        email={promoteEmail}
-        onEmailChange={setPromoteEmail}
-        onClose={() => {
-          setPromoting(false);
-          setPromoteEmail("");
-        }}
-        onConfirm={promote}
+        key={addOpen.n}
+        open={addOpen.open}
+        onClose={() => setAddOpen((d) => ({ ...d, open: false }))}
+        onAdd={add}
       />
     </div>
   );

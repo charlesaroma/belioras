@@ -1,5 +1,6 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, resetDomain, setState } from "../store/contentStore";
+import { audited } from "../auth/audited";
 
 /**
  * The size reference tables.
@@ -19,7 +20,7 @@ export function getSizeCharts() {
 const SECTIONS = new Set(["garment", "international", "footwear", "hair", "howToMeasure"]);
 
 /** Replaces one whole section — "garment", "international", "footwear", "hair" or "howToMeasure". */
-export function updateSizeChart(section, data) {
+function updateSizeChart$raw(section, data) {
   return mockApi(() => {
     if (!SECTIONS.has(section)) throw new ApiError(`"${section}" is not a size chart section.`, 404);
     // Remembers when each section was last edited, for the dashboard's cards.
@@ -29,6 +30,10 @@ export function updateSizeChart(section, data) {
 }
 
 /** Discards every edit and returns to the shipped tables. */
-export function resetSizeCharts() {
+function resetSizeCharts$raw() {
   return mockApi(() => structuredClone(resetDomain("sizeCharts")));
 }
+
+/* Recorded in the staff activity log. */
+export const updateSizeChart = audited("content", ([section]) => `Edited the ${section} size guide`, updateSizeChart$raw);
+export const resetSizeCharts = audited("content", () => "Reset the size guides to defaults", resetSizeCharts$raw);

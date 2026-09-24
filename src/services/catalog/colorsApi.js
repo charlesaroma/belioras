@@ -3,6 +3,7 @@ import { getState, setState } from "../store/contentStore";
 import { colorIndex, colorwaysOf } from "./products/productColorways";
 import { slugify } from "./products/productSlug";
 import { catalogItems } from "./products/productStore";
+import { audited } from "../auth/audited";
 
 /**
  * The colour list: a boutique name, a swatch, and the shop filter family.
@@ -36,7 +37,7 @@ export function colorUsage() {
   }, 0);
 }
 
-export function createColor(input) {
+function createColor$raw(input) {
   return mockApi(() => {
     const fields = clean(input);
     const color = { id: uniqueId(slugify(fields.name)), ...fields };
@@ -45,7 +46,7 @@ export function createColor(input) {
   });
 }
 
-export function updateColor(id, input) {
+function updateColor$raw(id, input) {
   return mockApi(() => {
     const existing = colorItems().find((c) => c.id === id);
     if (!existing) throw new ApiError("That colour no longer exists.", 404);
@@ -58,7 +59,7 @@ export function updateColor(id, input) {
   });
 }
 
-export function deleteColor(id) {
+function deleteColor$raw(id) {
   return mockApi(() => {
     const color = colorItems().find((c) => c.id === id);
     if (!color) throw new ApiError("That colour no longer exists.", 404);
@@ -101,3 +102,8 @@ function uniqueId(base) {
   for (let n = 2; taken.has(id); n += 1) id = `${root}-${n}`;
   return id;
 }
+
+/* Recorded in the staff activity log. */
+export const createColor = audited("catalogue", (_, r) => `Added colour ${r.name}`, createColor$raw);
+export const updateColor = audited("catalogue", (_, r) => `Updated colour ${r.name}`, updateColor$raw);
+export const deleteColor = audited("catalogue", (_, r) => `Deleted colour ${r.name}`, deleteColor$raw);

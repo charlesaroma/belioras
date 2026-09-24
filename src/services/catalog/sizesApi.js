@@ -2,6 +2,7 @@ import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { slugify } from "./products/productSlug";
 import { catalogItems } from "./products/productStore";
+import { audited } from "../auth/audited";
 
 /**
  * The size list — XS, EU 38, One Size — that a category offers from
@@ -44,7 +45,7 @@ export function sizeUsage() {
   }, 0);
 }
 
-export function createSize(name) {
+function createSize$raw(name) {
   return mockApi(() => {
     const trimmed = String(name ?? "").trim();
     if (!trimmed) throw new ApiError("Give it a name.", 422);
@@ -58,7 +59,7 @@ export function createSize(name) {
   });
 }
 
-export function renameSize(id, name) {
+function renameSize$raw(id, name) {
   return mockApi(() => {
     const trimmed = String(name ?? "").trim();
     if (!trimmed) throw new ApiError("Give it a name.", 422);
@@ -69,7 +70,7 @@ export function renameSize(id, name) {
   });
 }
 
-export function deleteSize(id) {
+function deleteSize$raw(id) {
   return mockApi(() => {
     const current = sizeValues();
     const value = current.find((v) => v.id === id);
@@ -87,3 +88,8 @@ export function deleteSize(id) {
     return value;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const createSize = audited("catalogue", ([name]) => `Added size ${name}`, createSize$raw);
+export const renameSize = audited("catalogue", ([, name]) => `Renamed a size to ${name}`, renameSize$raw);
+export const deleteSize = audited("catalogue", ([id]) => `Deleted size ${id}`, deleteSize$raw);

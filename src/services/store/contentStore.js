@@ -26,6 +26,7 @@ import sizeChartsSeed from "../../data/sizeCharts.json";
 import catalogSeed from "../../data/catalogSeed";
 import ordersSeed from "../../data/ordersSeed";
 import stockMovementsSeed from "../../data/stockMovementsSeed";
+import activitySeed from "../../data/activitySeed";
 import transactionsSeed from "../../data/transactionsSeed";
 import colorsSeed from "../../data/colorsSeed";
 import categoriesSeed from "../../data/categoriesSeed";
@@ -76,6 +77,8 @@ const DOMAINS = {
   // so checkout can record a payment once a provider is connected.
   transactions: { seed: transactionsSeed, collection: "items" },
   users: { seed: usersSeed, collection: "items" },
+  // Who did what in the dashboard, and when: sign-ins, role changes and every edit staff make.
+  activity: { seed: activitySeed, collection: "items" },
   // The Belioras Letter: who has consented, what was sent, and the welcome email.
   subscribers: { seed: subscribersSeed, collection: "items" },
   campaigns: { seed: campaignsSeed, collection: "items" },

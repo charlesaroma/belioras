@@ -4,6 +4,7 @@ import { normalizeStatus } from "../../utils/orderStatus";
 import { assertCouponRedeemable } from "./couponsApi";
 import { availabilityProblems, stockChangesForStatus } from "../catalog/inventory/orderStock";
 import { applyStockChanges } from "../catalog/inventory/stockLedger";
+import { audited } from "../auth/audited";
 
 export { returnableUnits } from "../catalog/inventory/orderStock";
 export { getBestSellerProductIds } from "./orderRankings";
@@ -127,7 +128,7 @@ export function createOrder(payload) {
  * chip on two different surfaces.
  */
 
-export function updateOrderStatus(id, status, { restock = false, by = null, trackingRef, carrier } = {}) {
+function updateOrderStatus$raw(id, status, { restock = false, by = null, trackingRef, carrier } = {}) {
   return mockApi(() => {
 
     const canonical = normalizeStatus(status);
@@ -156,3 +157,6 @@ export function updateOrderStatus(id, status, { restock = false, by = null, trac
     return updated;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const updateOrderStatus = audited("orders", ([id, status]) => `Marked order ${id} ${status}`, updateOrderStatus$raw);

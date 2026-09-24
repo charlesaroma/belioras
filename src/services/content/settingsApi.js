@@ -1,5 +1,6 @@
 import { mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
+import { audited } from "../auth/audited";
 
 /**
  * Store settings.
@@ -22,7 +23,7 @@ export function getSettings() {
  * omits a section leaves it intact.
  */
 
-export function updateSettings(patch) {
+function updateSettings$raw(patch) {
   return mockApi(() => {
 
     const next = setState("settings", (state) => {
@@ -39,3 +40,6 @@ export function updateSettings(patch) {
     return structuredClone(next);
   });
 }
+
+/* Recorded in the staff activity log. */
+export const updateSettings = audited("settings", () => "Saved store settings", updateSettings$raw);

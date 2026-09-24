@@ -5,6 +5,7 @@ import { getState, setState } from "../../store/contentStore";
 import { colorIndex, colorwaysOf } from "../products/productColorways";
 import { applyStockChanges, movementsFor, REASONS } from "./stockLedger";
 import { ANY, isTracked, onHandOf, reservedUnits, variantKey } from "./variants";
+import { audited } from "../../auth/audited";
 
 export { REASONS };
 
@@ -73,7 +74,7 @@ export function getInventory() {
  * Changes one variant's on hand. `mode` is "add", "remove" or "set". On hand
  * may not drop below what open orders already hold: those pieces are promised.
  */
-export function adjustStock({ productId, colorId = ANY, size = ANY, mode, quantity, reason, note, by }) {
+function adjustStock$raw({ productId, colorId = ANY, size = ANY, mode, quantity, reason, note, by }) {
   return mockApi(() => {
     const product = getState("products").items.find((p) => p.id === productId);
     if (!product) throw new ApiError("That piece no longer exists.", 404);
@@ -95,7 +96,7 @@ export function adjustStock({ productId, colorId = ANY, size = ANY, mode, quanti
 }
 
 /** "Receive stock" for several variants at once: the same number added to each. */
-export function receiveStock(variantIds, quantity, { reason = "received", note, by } = {}) {
+function receiveStock$raw(variantIds, quantity, { reason = "received", note, by } = {}) {
   return mockApi(() => {
     const qty = Math.floor(Number(quantity));
     if (!(qty > 0)) throw new ApiError("Enter how many pieces arrived, as a whole number.", 422);
@@ -124,3 +125,7 @@ export function setLowStockThreshold(value) {
     return n;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const adjustStock = audited("inventory", ([a]) => `Stock ${a.mode === "set" ? "count set to" : a.mode === "add" ? "added" : "removed"} ${a.quantity} (${a.reason}) for ${a.productId}`, adjustStock$raw);
+export const receiveStock = audited("inventory", ([ids, qty]) => `Received ${qty} into each of ${ids.length} variants`, receiveStock$raw);

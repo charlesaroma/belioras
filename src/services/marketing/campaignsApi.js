@@ -3,6 +3,7 @@ import couponsSeed from "../../data/coupons.json";
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { liveItems, removeItem } from "../store/storeCollections";
+import { audited } from "../auth/audited";
 
 /**
  * Campaigns: one-off emails to every confirmed subscriber. Draft, then
@@ -49,7 +50,7 @@ export function getAudienceSize() {
   return mockApi(() => audience(), 0);
 }
 
-export function saveCampaign(input = {}) {
+function saveCampaign$raw(input = {}) {
   return mockApi(() => {
     const fields = {
       subject: text(input.subject),
@@ -69,7 +70,7 @@ export function saveCampaign(input = {}) {
   });
 }
 
-export function scheduleCampaign(id, sendAt) {
+function scheduleCampaign$raw(id, sendAt) {
   return mockApi(() => {
     const campaign = find(id);
     assertReady(campaign);
@@ -83,7 +84,7 @@ export function unscheduleCampaign(id) {
   return mockApi(() => replace({ ...find(id), status: "draft", sendAt: null, updatedAt: now() }));
 }
 
-export function sendCampaign(id) {
+function sendCampaign$raw(id) {
   return mockApi(() => {
     const campaign = find(id);
     assertReady(campaign);
@@ -93,7 +94,7 @@ export function sendCampaign(id) {
   });
 }
 
-export function deleteCampaign(id) {
+function deleteCampaign$raw(id) {
   return mockApi(() => {
     const campaign = find(id);
     removeItem("campaigns", id);
@@ -125,3 +126,9 @@ export function updateWelcomeEmail(input = {}) {
     return welcome;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const saveCampaign = audited("marketing", (_, r) => `Saved campaign “${r.subject ?? "untitled"}”`, saveCampaign$raw);
+export const scheduleCampaign = audited("marketing", ([id]) => `Scheduled campaign ${id}`, scheduleCampaign$raw);
+export const sendCampaign = audited("marketing", (_, r) => `Sent campaign “${r.subject ?? ""}”`, sendCampaign$raw);
+export const deleteCampaign = audited("marketing", ([id]) => `Deleted campaign ${id}`, deleteCampaign$raw);

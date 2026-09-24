@@ -2,6 +2,7 @@ import { ApiError, mockApi } from "@/api/mock";
 import { getState, resetDomain, setState } from "../store/contentStore";
 import { catalogItems, normalize } from "./products/productStore";
 import { RESERVED_SLUGS, matchesTarget, targetExists } from "../../utils/menuTargets";
+import { audited } from "../auth/audited";
 
 /**
  * The menu tree and product taxonomy.
@@ -73,7 +74,7 @@ export function resolveTile(tile, products = []) {
  * The whole tree at once: the menu is one ordered structure, and a reorder
  * touches every sibling anyway.
  */
-export function updateNavigation(items) {
+function updateNavigation$raw(items) {
   return mockApi(() => {
     const problem = menuProblem(items, {
       categories: getState("categories").items,
@@ -88,7 +89,7 @@ export function updateNavigation(items) {
 }
 
 /** Restore the shipped menu, discarding every dashboard edit. */
-export function resetNavigation() {
+function resetNavigation$raw() {
   return mockApi(() => resetDomain("navigation").items);
 }
 
@@ -139,3 +140,7 @@ function menuProblem(items, lookups) {
 
   return null;
 }
+
+/* Recorded in the staff activity log. */
+export const updateNavigation = audited("content", () => "Saved the mega menu", updateNavigation$raw);
+export const resetNavigation = audited("content", () => "Restored the original mega menu", resetNavigation$raw);

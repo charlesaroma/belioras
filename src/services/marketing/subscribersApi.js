@@ -1,6 +1,7 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { liveItems, removeItem } from "../store/storeCollections";
+import { audited } from "../auth/audited";
 
 /**
  * The Belioras Letter's audience, with the rules an email service applies.
@@ -130,7 +131,7 @@ export function getSubscribers() {
 }
 
 /** From the dashboard: stops all email to this person straight away. */
-export function unsubscribeSubscriber(id) {
+function unsubscribeSubscriber$raw(id) {
   return mockApi(() => {
     const record = items().find((s) => s.id === id);
     if (!record) throw new ApiError("That subscriber no longer exists.", 404);
@@ -140,7 +141,7 @@ export function unsubscribeSubscriber(id) {
 }
 
 /** A GDPR erasure: the address and its consent record are deleted entirely. */
-export function eraseSubscriber(id) {
+function eraseSubscriber$raw(id) {
   return mockApi(() => {
     const record = items().find((s) => s.id === id);
     if (!record) throw new ApiError("That subscriber no longer exists.", 404);
@@ -148,3 +149,7 @@ export function eraseSubscriber(id) {
     return record;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const unsubscribeSubscriber = audited("marketing", ([id]) => `Unsubscribed subscriber ${id}`, unsubscribeSubscriber$raw);
+export const eraseSubscriber = audited("marketing", ([id]) => `Erased subscriber ${id}`, eraseSubscriber$raw);

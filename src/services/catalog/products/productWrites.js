@@ -5,6 +5,7 @@ import { recordMovements } from "../inventory/stockLedger";
 import { stockDiff } from "../inventory/stockDiff";
 import { slugify } from "./productSlug";
 import { catalogItems, normalize } from "./productStore";
+import { audited } from "../../auth/audited";
 
 function nextProductId(items) {
 
@@ -26,7 +27,7 @@ function uniqueSlug(items, base, ignoreId = null) {
   return `${base}-${n}`;
 }
 
-export function createProduct(input) {
+function createProduct$raw(input) {
   return mockApi(() => {
 
     const name = String(input.name ?? "").trim();
@@ -58,7 +59,7 @@ export function createProduct(input) {
   });
 }
 
-export function updateProduct(id, patch) {
+function updateProduct$raw(id, patch) {
   return mockApi(() => {
 
     const items = catalogItems();
@@ -101,7 +102,7 @@ export function updateProduct(id, patch) {
   });
 }
 
-export function deleteProduct(id) {
+function deleteProduct$raw(id) {
   return mockApi(() => {
 
     const existing = catalogItems().find((p) => p.id === id);
@@ -117,7 +118,7 @@ export function deleteProduct(id) {
 }
 
 /** Re-inserts a deleted product, for the Undo action on the delete toast. */
-export function restoreProduct(product) {
+function restoreProduct$raw(product) {
   return mockApi(() => {
     setState("products", (state) =>
       state.items.some((p) => p.id === product.id)
@@ -127,3 +128,9 @@ export function restoreProduct(product) {
     return normalize(product);
   });
 }
+
+/* Recorded in the staff activity log. */
+export const createProduct = audited("catalogue", ([, ], r) => `Created “${r.name}”`, createProduct$raw);
+export const updateProduct = audited("catalogue", ([, patch], r) => `Updated “${r.name}”${patch?.status ? ` (${patch.status})` : ""}`, updateProduct$raw);
+export const deleteProduct = audited("catalogue", (_, r) => `Deleted “${r.name}”`, deleteProduct$raw);
+export const restoreProduct = audited("catalogue", ([p]) => `Restored “${p?.name ?? "a product"}”`, restoreProduct$raw);

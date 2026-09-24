@@ -1,6 +1,7 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { normalizeStatus } from "../../utils/orderStatus";
+import { audited } from "../auth/audited";
 
 const TYPES = new Set(["percent", "fixed", "free_shipping"]);
 
@@ -155,7 +156,7 @@ export function validateCoupon(code, subtotal = 0, customer = null) {
   return mockApi(() => ({ ...assertCouponRedeemable(code, subtotal, customer) }));
 }
 
-export function createCoupon(payload) {
+function createCoupon$raw(payload) {
   return mockApi(() => {
     const { code, type, value } = validate(payload);
     const coupon = {
@@ -175,7 +176,7 @@ export function createCoupon(payload) {
   });
 }
 
-export function updateCoupon(id, payload) {
+function updateCoupon$raw(id, payload) {
   return mockApi(() => {
     const current = couponItems();
     const existing = current.find((c) => c.id === id);
@@ -200,7 +201,7 @@ export function updateCoupon(id, payload) {
 }
 
 /** An order's couponCode is a historical string, not a live reference — deleting a coupon never touches past orders. */
-export function deleteCoupon(id) {
+function deleteCoupon$raw(id) {
   return mockApi(() => {
     const current = couponItems();
     const coupon = current.find((c) => c.id === id);
@@ -210,7 +211,7 @@ export function deleteCoupon(id) {
   });
 }
 
-export function setCouponActive(id, active) {
+function setCouponActive$raw(id, active) {
   return mockApi(() => {
     const current = couponItems();
     const existing = current.find((c) => c.id === id);
@@ -220,3 +221,9 @@ export function setCouponActive(id, active) {
     return updated;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const createCoupon = audited("marketing", (_, r) => `Created coupon ${r.code}`, createCoupon$raw);
+export const updateCoupon = audited("marketing", (_, r) => `Updated coupon ${r.code}`, updateCoupon$raw);
+export const deleteCoupon = audited("marketing", (_, r) => `Deleted coupon ${r.code}`, deleteCoupon$raw);
+export const setCouponActive = audited("marketing", ([, on], r) => `${r.code} ${on ? "made live" : "paused"}`, setCouponActive$raw);

@@ -1,5 +1,6 @@
 import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
+import { audited } from "../auth/audited";
 
 function reviewItems() {
   return getState("reviews").items;
@@ -76,7 +77,7 @@ export function createReview({ productId, userId, rating, title, body, name }) {
   });
 }
 
-export function publishReview(id) {
+function publishReview$raw(id) {
   return mockApi(() => {
     const current = reviewItems();
     const existing = current.find((r) => r.id === id);
@@ -87,7 +88,7 @@ export function publishReview(id) {
   });
 }
 
-export function hideReview(id) {
+function hideReview$raw(id) {
   return mockApi(() => {
     const current = reviewItems();
     const existing = current.find((r) => r.id === id);
@@ -98,7 +99,7 @@ export function hideReview(id) {
   });
 }
 
-export function replyToReview(id, text) {
+function replyToReview$raw(id, text) {
   return mockApi(() => {
     const current = reviewItems();
     const existing = current.find((r) => r.id === id);
@@ -109,3 +110,8 @@ export function replyToReview(id, text) {
     return updated;
   });
 }
+
+/* Recorded in the staff activity log. */
+export const publishReview = audited("content", ([id]) => `Published review ${id}`, publishReview$raw);
+export const hideReview = audited("content", ([id]) => `Hid review ${id}`, hideReview$raw);
+export const replyToReview = audited("content", ([id]) => `Replied to review ${id}`, replyToReview$raw);

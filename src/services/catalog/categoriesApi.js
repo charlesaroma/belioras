@@ -2,6 +2,7 @@ import { ApiError, mockApi } from "@/api/mock";
 import { getState, setState } from "../store/contentStore";
 import { slugify } from "./products/productSlug";
 import { catalogItems } from "./products/productStore";
+import { audited } from "../auth/audited";
 
 /**
  * Categories: what a piece is. Each offers a set of sizes, optional types
@@ -76,7 +77,7 @@ export function typeUsage() {
   }, 0);
 }
 
-export function createCategory(input) {
+function createCategory$raw(input) {
   return mockApi(() => {
     const fields = clean(input);
     const category = { id: uniqueId(slugify(fields.name)), ...fields };
@@ -85,7 +86,7 @@ export function createCategory(input) {
   });
 }
 
-export function updateCategory(id, input) {
+function updateCategory$raw(id, input) {
   return mockApi(() => {
     const existing = categoryItems().find((c) => c.id === id);
     if (!existing) throw new ApiError("That category no longer exists.", 404);
@@ -133,7 +134,7 @@ export function updateCategory(id, input) {
   });
 }
 
-export function deleteCategory(id) {
+function deleteCategory$raw(id) {
   return mockApi(() => {
     const category = categoryItems().find((c) => c.id === id);
     if (!category) throw new ApiError("That category no longer exists.", 404);
@@ -225,3 +226,8 @@ function uniqueId(base) {
   for (let n = 2; taken.has(id); n += 1) id = `${root}-${n}`;
   return id;
 }
+
+/* Recorded in the staff activity log. */
+export const createCategory = audited("catalogue", (_, r) => `Created category ${r.name}`, createCategory$raw);
+export const updateCategory = audited("catalogue", (_, r) => `Updated category ${r.name}`, updateCategory$raw);
+export const deleteCategory = audited("catalogue", (_, r) => `Deleted category ${r.name}`, deleteCategory$raw);
