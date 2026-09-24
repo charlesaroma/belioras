@@ -84,7 +84,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
       {routeIsEmpty && emptyState ? (
         emptyState
       ) : (
-        <div className="mx-auto max-w-[1400px] px-6 pb-24 pt-8 md:px-10">
+        <div className="mx-auto max-w-[87.5rem] px-6 pb-24 pt-8 md:px-10">
           <div className="min-w-0">
               {/* The inner group could not wrap, so at 390px it overflowed a
                   342px row and justify-end pushed the sort control off the

@@ -10,7 +10,7 @@ export default function FeaturedCategoriesSection() {
   const tiles = loading ? Array.from({ length: 3 }, (_, i) => ({ id: `skeleton-${i}` })) : collections ?? [];
 
   return (
-    <section aria-label="Shop by category" className="mx-auto max-w-[1400px] px-6 py-16 md:px-10">
+    <section aria-label="Shop by category" className="mx-auto max-w-[87.5rem] px-6 py-16 md:px-10">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {tiles.map((collection) =>
           collection.slug ? (

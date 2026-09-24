@@ -191,6 +191,21 @@
     scroll-padding-top: calc(var(--header-height, 138px) + 1rem);
   }
 
+  /* Big monitors and TVs: everything is sized in rem, so scaling the root
+     grows type, spacing and the rem-based content widths together instead of
+     leaving a narrow column of small text in the middle of a huge screen. */
+  @media (min-width: 2200px) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+
+  @media (min-width: 3000px) {
+    html {
+      font-size: 125%;
+    }
+  }
+
   /* Focus scrolling only guarantees the field itself is visible, which left
      the label above it clipped under the header. The extra margin brings the
      label into view with it. */

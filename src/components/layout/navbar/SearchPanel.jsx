@@ -87,7 +87,7 @@ export default function SearchPanel({ open, onClose, query, onQueryChange }) {
       )}
       style={{ top: "var(--header-height, 138px)" }}
     >
-      <div className="mx-auto max-w-[1400px] px-6 py-8 lg:px-10">
+      <div className="mx-auto max-w-[87.5rem] px-6 py-8 lg:px-10">
         <div className="flex items-center gap-4">
           {/* The navbar carries the field at lg and up; duplicating it here
               would put two search boxes on screen at once. */}

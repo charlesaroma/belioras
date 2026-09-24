@@ -118,8 +118,7 @@ export default function HeroSection() {
               </p>
             )}
 
-            {/* One destination, stated as a line of type. A pair of filled
-                buttons made the fold read like a landing page. */}
+            {/* One destination — landing page fold. */}
             {slide.primaryCta && (
               <Link
                 to={slide.primaryCta.to}

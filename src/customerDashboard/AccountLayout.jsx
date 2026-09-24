@@ -24,7 +24,7 @@ export default function AccountLayout() {
       className="px-6 pb-24 md:px-10"
       style={{ paddingTop: "calc(var(--header-height, 138px) + 2.5rem)" }}
     >
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-[87.5rem]">
         <header className="border-b border-umber-50 pb-6">
           <p className="eyebrow">Your account</p>
           <h1 className="mt-2 font-display text-4xl leading-tight text-espresso md:text-5xl">

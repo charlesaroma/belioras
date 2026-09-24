@@ -33,7 +33,7 @@ export default function FeaturedCollectionSection() {
 
   return (
     <section
-      className="mx-auto max-w-[1400px] px-6 py-10 md:px-10"
+      className="mx-auto max-w-[87.5rem] px-6 py-10 md:px-10"
       aria-labelledby="featured-collection-heading"
     >
       <Link to={data.url} className={cn("group relative grid gap-1", layout.grid)}>

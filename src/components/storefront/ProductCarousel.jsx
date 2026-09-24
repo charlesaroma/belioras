@@ -48,7 +48,7 @@ export default function ProductCarousel({ title, products, loading, ctaLabel, ct
   const headingId = `${title.replace(/\s+/g, "-").toLowerCase()}-heading`;
 
   return (
-    <section className="mx-auto max-w-[1400px] px-6 py-16 md:px-10" aria-labelledby={headingId}>
+    <section className="mx-auto max-w-[87.5rem] px-6 py-16 md:px-10" aria-labelledby={headingId}>
       <div className="mb-10 text-center">
         <h2 id={headingId} className="font-display text-3xl text-espresso">
           {title}

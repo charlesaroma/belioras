@@ -13,7 +13,7 @@ export default function CollectionStatementSection() {
     <section className="bg-ivory-50" aria-labelledby="collection-statement">
       {/* Container and rhythm match the prototype rather than the site's
           default section spacing, so the block sits exactly as reviewed. */}
-      <div className="mx-auto max-w-[1400px] px-6 py-20 text-center md:px-10 md:py-28">
+      <div className="mx-auto max-w-[87.5rem] px-6 py-20 text-center md:px-10 md:py-28">
         <p className="eyebrow">{t("home.heroKicker", "Autumn / Winter 2026 Collection")}</p>
 
         <h2
