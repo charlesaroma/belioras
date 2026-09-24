@@ -12,7 +12,7 @@ import { imagesForColor, stockFor } from "../../utils/productColors";
 import QuickView from "./QuickView";
 
 const ACTION =
-  "flex size-11 items-center justify-center rounded-full backdrop-blur transition-[color,background-color,scale] duration-200 hover:text-espresso active:scale-90";
+  "flex size-11 items-center justify-center rounded-full shadow-[0_1px_3px_rgba(43,29,20,0.18),0_2px_10px_rgba(43,29,20,0.10)] backdrop-blur transition-[color,background-color,scale] duration-200 hover:text-espresso active:scale-90";
 
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
