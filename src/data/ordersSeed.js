@@ -11,6 +11,6 @@ import orders from "./orders.json";
  * `let orders = [...seed]` and vanished on reload.
  */
 export default {
-  rev: 1,
+  rev: 2,
   items: orders,
 };

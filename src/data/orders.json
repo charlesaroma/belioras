@@ -14,15 +14,16 @@
         "color": "Champagne"
       }
     ],
-    "subtotal": 129,
-    "shipping": 5.9,
-    "tax": 26.98,
-    "total": 161.88,
-    "status": "delivered",
-    "createdAt": "2026-03-18T10:22:00Z",
-    "updatedAt": "2026-03-25T09:00:00Z",
+    "subtotal": 129.0,
+    "discount": 12.9,
+    "shipping": 9.99,
+    "tax": 20.13,
+    "total": 126.09,
     "couponCode": "WELCOME10",
-    "discount": 12.9
+    "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
+    "status": "to-review",
+    "createdAt": "2026-03-18T10:22:00Z",
+    "updatedAt": "2026-03-25T09:00:00Z"
   },
   {
     "id": "ORD-1002",
@@ -39,11 +40,12 @@
         "color": "Chestnut"
       }
     ],
-    "subtotal": 159,
-    "shipping": 5.9,
-    "tax": 32.98,
-    "total": 197.88,
-    "status": "delivered",
+    "subtotal": 159.0,
+    "shipping": 9.99,
+    "tax": 26.98,
+    "total": 168.99,
+    "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
+    "status": "to-review",
     "createdAt": "2026-04-25T14:05:00Z",
     "updatedAt": "2026-05-02T11:30:00Z"
   },
@@ -70,15 +72,16 @@
         "color": "Chestnut"
       }
     ],
-    "subtotal": 287,
-    "shipping": 0,
-    "tax": 57.4,
-    "total": 344.4,
-    "status": "delivered",
-    "createdAt": "2026-06-08T16:45:00Z",
-    "updatedAt": "2026-06-15T12:00:00Z",
+    "subtotal": 287.0,
+    "discount": 57.4,
+    "shipping": 9.99,
+    "tax": 38.25,
+    "total": 239.59,
     "couponCode": "SUMMER20",
-    "discount": 57.4
+    "shippingAddress": "Calle de Alcal\u00e1 42, Madrid, 28014, Spain",
+    "status": "to-review",
+    "createdAt": "2026-06-08T16:45:00Z",
+    "updatedAt": "2026-06-15T12:00:00Z"
   },
   {
     "id": "ORD-1004",
@@ -95,10 +98,11 @@
         "color": "Chestnut"
       }
     ],
-    "subtotal": 179,
-    "shipping": 5.9,
-    "tax": 36.98,
-    "total": 221.88,
+    "subtotal": 179.0,
+    "shipping": 9.99,
+    "tax": 30.17,
+    "total": 188.99,
+    "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
     "status": "shipped",
     "createdAt": "2026-08-10T09:12:00Z",
     "updatedAt": "2026-08-12T10:00:00Z"
@@ -126,11 +130,12 @@
         "color": "Gold"
       }
     ],
-    "subtotal": 188,
+    "subtotal": 188.0,
     "shipping": 0,
-    "tax": 37.6,
-    "total": 225.6,
-    "status": "paid",
+    "tax": 30.02,
+    "total": 188.0,
+    "shippingAddress": "Kantstra\u00dfe 76, Berlin, 10627, Germany",
+    "status": "to-ship",
     "createdAt": "2026-08-15T19:30:00Z",
     "updatedAt": "2026-08-15T19:32:00Z"
   },
@@ -149,11 +154,12 @@
         "color": "Burgundy"
       }
     ],
-    "subtotal": 149,
-    "shipping": 5.9,
-    "tax": 30.98,
-    "total": 185.88,
-    "status": "pending",
+    "subtotal": 149.0,
+    "shipping": 0,
+    "tax": 23.79,
+    "total": 149.0,
+    "shippingAddress": "Maximilianstra\u00dfe 9, Munich, 80539, Germany",
+    "status": "to-pay",
     "createdAt": "2026-08-19T08:47:00Z",
     "updatedAt": "2026-08-19T08:47:00Z"
   },
@@ -172,10 +178,11 @@
         "color": "Gold"
       }
     ],
-    "subtotal": 79,
-    "shipping": 5.9,
-    "tax": 16.98,
-    "total": 101.88,
+    "subtotal": 79.0,
+    "shipping": 9.99,
+    "tax": 14.21,
+    "total": 88.99,
+    "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
     "status": "cancelled",
     "createdAt": "2026-06-20T12:10:00Z",
     "updatedAt": "2026-06-21T09:15:00Z"
@@ -195,10 +202,11 @@
         "color": "Honey Blonde"
       }
     ],
-    "subtotal": 139,
-    "shipping": 5.9,
-    "tax": 28.98,
-    "total": 173.88,
+    "subtotal": 139.0,
+    "shipping": 9.99,
+    "tax": 23.79,
+    "total": 148.99,
+    "shippingAddress": "Calle de Alcal\u00e1 42, Madrid, 28014, Spain",
     "status": "refunded",
     "createdAt": "2026-05-30T18:00:00Z",
     "updatedAt": "2026-06-02T14:40:00Z"
@@ -218,15 +226,16 @@
         "color": "Blush"
       }
     ],
-    "subtotal": 236,
-    "shipping": 0,
-    "tax": 47.2,
-    "total": 283.2,
-    "status": "delivered",
-    "createdAt": "2026-07-12T11:00:00Z",
-    "updatedAt": "2026-07-20T15:00:00Z",
+    "subtotal": 236.0,
+    "discount": 47.2,
+    "shipping": 9.99,
+    "tax": 31.74,
+    "total": 198.79,
     "couponCode": "SUMMER20",
-    "discount": 47.2
+    "shippingAddress": "Rua Augusta 118, Lisbon, 1100-053, Portugal",
+    "status": "to-review",
+    "createdAt": "2026-07-12T11:00:00Z",
+    "updatedAt": "2026-07-20T15:00:00Z"
   },
   {
     "id": "ORD-1010",
@@ -251,11 +260,12 @@
         "color": "Champagne"
       }
     ],
-    "subtotal": 228,
+    "subtotal": 228.0,
     "shipping": 0,
-    "tax": 45.6,
-    "total": 273.6,
-    "status": "paid",
+    "tax": 36.4,
+    "total": 228.0,
+    "shippingAddress": "Neuer Wall 30, Hamburg, 20354, Germany",
+    "status": "to-ship",
     "createdAt": "2026-07-28T20:15:00Z",
     "updatedAt": "2026-07-28T20:16:00Z"
   },
@@ -274,11 +284,12 @@
         "color": "Rosewood"
       }
     ],
-    "subtotal": 98,
-    "shipping": 5.9,
-    "tax": 20.78,
-    "total": 124.68,
-    "status": "delivered",
+    "subtotal": 98.0,
+    "shipping": 9.99,
+    "tax": 17.24,
+    "total": 107.99,
+    "shippingAddress": "14 Rue de Rivoli, Paris, 75004, France",
+    "status": "to-review",
     "createdAt": "2026-05-09T13:25:00Z",
     "updatedAt": "2026-05-16T10:30:00Z"
   },
@@ -297,11 +308,12 @@
         "color": "Gold"
       }
     ],
-    "subtotal": 59,
-    "shipping": 5.9,
-    "tax": 12.98,
-    "total": 77.88,
-    "status": "pending",
+    "subtotal": 59.0,
+    "shipping": 0,
+    "tax": 9.42,
+    "total": 59.0,
+    "shippingAddress": "Schadowstra\u00dfe 55, D\u00fcsseldorf, 40212, Germany",
+    "status": "to-pay",
     "createdAt": "2026-08-20T07:40:00Z",
     "updatedAt": "2026-08-20T07:40:00Z"
   }

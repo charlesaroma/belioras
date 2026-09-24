@@ -13,7 +13,7 @@ import { useCart } from "../../../context/CartContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getOrder, updateOrderStatus } from "../../../services/sales/ordersApi";
-import { getProducts } from "../../../services/catalog/productsApi";
+import { getAllProducts } from "../../../services/catalog/productsApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { isOffTimeline, nextStatuses, normalizeStatus } from "../../../utils/orderStatus";
 
@@ -41,7 +41,7 @@ export default function OrderDetail() {
     error,
   } = useAsyncData(() => getOrder(id, { userId: user?.id }), [id, user?.id, revision]);
 
-  const { data: catalog } = useAsyncData(getProducts, []);
+  const { data: catalog } = useAsyncData(getAllProducts, []);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const thumbnails = Object.fromEntries(

@@ -2,7 +2,7 @@
 import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useAsyncData } from "../../../../hooks/useAsyncData";
 import { getOrders } from "../../../../services/sales/ordersApi";
-import { getProducts } from "../../../../services/catalog/productsApi";
+import { getAllProducts } from "../../../../services/catalog/productsApi";
 import { ownedPieces, usualSizeFor } from "../../../../utils/purchaseHistory";
 
 /**
@@ -25,7 +25,7 @@ export function useUsualSize(product) {
     () => (isAuthenticated ? getOrders(user?.id) : Promise.resolve([])),
     [isAuthenticated, user?.id],
   );
-  const { data: catalog } = useAsyncData(getProducts, []);
+  const { data: catalog } = useAsyncData(getAllProducts, []);
 
   if (!isAuthenticated || !product?.collectionId) return null;
 

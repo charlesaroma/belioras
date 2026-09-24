@@ -6,9 +6,9 @@
     "providerRef": "pi_3QQGkm6aeqYowY0ugi0eWg",
     "type": "charge",
     "status": "succeeded",
-    "amount": 161.88,
+    "amount": 126.09,
     "currency": "EUR",
-    "fee": 2.68,
+    "fee": 2.14,
     "method": {
       "type": "card",
       "brand": "visa",
@@ -25,9 +25,9 @@
     "providerRef": "4UYJ2CSSWEWL0SSN0",
     "type": "charge",
     "status": "succeeded",
-    "amount": 197.88,
+    "amount": 168.99,
     "currency": "EUR",
-    "fee": 5.28,
+    "fee": 4.56,
     "method": {
       "type": "paypal"
     },
@@ -42,7 +42,7 @@
     "providerRef": "pi_3Q6uMeuWq8CCOKqYekK8YY",
     "type": "charge",
     "status": "failed",
-    "amount": 344.4,
+    "amount": 239.59,
     "currency": "EUR",
     "fee": 0,
     "method": {
@@ -61,9 +61,9 @@
     "providerRef": "pi_3QoIeAwI6EE0kE0K80EiIS",
     "type": "charge",
     "status": "succeeded",
-    "amount": 344.4,
+    "amount": 239.59,
     "currency": "EUR",
-    "fee": 5.42,
+    "fee": 3.84,
     "method": {
       "type": "card",
       "brand": "visa",
@@ -80,9 +80,9 @@
     "providerRef": "pi_3QwMGogMwcyyoU2Q0sSg4Q",
     "type": "charge",
     "status": "succeeded",
-    "amount": 221.88,
+    "amount": 188.99,
     "currency": "EUR",
-    "fee": 3.58,
+    "fee": 3.08,
     "method": {
       "type": "apple_pay",
       "brand": "mastercard",
@@ -99,9 +99,9 @@
     "providerRef": "pi_3QEAUyG4camEaAYMiwyeAe",
     "type": "charge",
     "status": "succeeded",
-    "amount": 225.6,
+    "amount": 188.0,
     "currency": "EUR",
-    "fee": 3.63,
+    "fee": 3.07,
     "method": {
       "type": "card",
       "brand": "amex",
@@ -118,7 +118,7 @@
     "providerRef": "pi_3QMEokKaa2Ci2iSEkMO88Y",
     "type": "charge",
     "status": "failed",
-    "amount": 185.88,
+    "amount": 149.0,
     "currency": "EUR",
     "fee": 0,
     "method": {
@@ -137,9 +137,9 @@
     "providerRef": "pi_3QKsSa46G6iMkIQmYIi0ei",
     "type": "charge",
     "status": "succeeded",
-    "amount": 173.88,
+    "amount": 148.99,
     "currency": "EUR",
-    "fee": 2.86,
+    "fee": 2.48,
     "method": {
       "type": "card",
       "brand": "visa",
@@ -156,7 +156,7 @@
     "providerRef": "re_3Q2ACwwoQMAeWGGAeuYGo4",
     "type": "refund",
     "status": "succeeded",
-    "amount": 173.88,
+    "amount": 148.99,
     "currency": "EUR",
     "fee": 0,
     "method": {
@@ -175,9 +175,9 @@
     "providerRef": "pi_3QS60aaQKEmQcOImWMeyys",
     "type": "charge",
     "status": "succeeded",
-    "amount": 283.2,
+    "amount": 198.79,
     "currency": "EUR",
-    "fee": 4.5,
+    "fee": 3.23,
     "method": {
       "type": "card",
       "brand": "mastercard",
@@ -213,9 +213,9 @@
     "providerRef": "G24GAGC88C06USYG4",
     "type": "charge",
     "status": "succeeded",
-    "amount": 273.6,
+    "amount": 228.0,
     "currency": "EUR",
-    "fee": 7.16,
+    "fee": 6.03,
     "method": {
       "type": "paypal"
     },
@@ -230,9 +230,9 @@
     "providerRef": "pi_3QWgW6Sc4kyAImqAsiYwam",
     "type": "charge",
     "status": "succeeded",
-    "amount": 124.68,
+    "amount": 107.99,
     "currency": "EUR",
-    "fee": 2.12,
+    "fee": 1.87,
     "method": {
       "type": "card",
       "brand": "visa",
@@ -249,7 +249,7 @@
     "providerRef": "pi_3Q0yuQGYCkMEyAaUgiWUOy",
     "type": "charge",
     "status": "pending",
-    "amount": 77.88,
+    "amount": 59.0,
     "currency": "EUR",
     "fee": 0,
     "method": {

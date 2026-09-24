@@ -8,7 +8,7 @@ import { useWishlist } from "../../../context/WishlistContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { useScopedStorage } from "../../../hooks/useScopedStorage";
 import { getOrders } from "../../../services/sales/ordersApi";
-import { getProducts } from "../../../services/catalog/productsApi";
+import { getAllProducts } from "../../../services/catalog/productsApi";
 
 import ProfileHeader from "./sections/ProfileHeader";
 import LatestOrder from "./sections/ProfileLatestOrder";
@@ -27,7 +27,7 @@ export default function Profile() {
     () => getOrders(user?.id),
     [user?.id],
   );
-  const { data: products } = useAsyncData(getProducts, []);
+  const { data: products } = useAsyncData(getAllProducts, []);
   const [addresses] = useScopedStorage("belioras:addresses", [], user?.id);
 
   const latest = [...(orders ?? [])].sort(

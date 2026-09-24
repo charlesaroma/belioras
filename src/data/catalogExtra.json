@@ -37,8 +37,6 @@
     "isNew": true,
     "bestseller": false,
     "featured": true,
-    "rating": 4.6,
-    "reviewCount": 34,
     "images": [
       "https://images.unsplash.com/photo-1489924124654-85017dad789d?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -64,7 +62,8 @@
         "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF01"
+    "sku": "BEL-BF01",
+    "status": "active"
   },
   {
     "id": "bf02",
@@ -104,8 +103,6 @@
     "isNew": true,
     "bestseller": false,
     "featured": true,
-    "rating": 4.5,
-    "reviewCount": 96,
     "images": [
       "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -130,7 +127,8 @@
         "https://images.unsplash.com/photo-1606489236892-ed5989dd023a?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF02"
+    "sku": "BEL-BF02",
+    "status": "active"
   },
   {
     "id": "bf03",
@@ -170,8 +168,6 @@
     "isNew": false,
     "bestseller": true,
     "featured": false,
-    "rating": 4.7,
-    "reviewCount": 55,
     "images": [
       "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -196,7 +192,8 @@
         "https://images.unsplash.com/photo-1746816884746-d983fc68d64c?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF03"
+    "sku": "BEL-BF03",
+    "status": "active"
   },
   {
     "id": "bf04",
@@ -235,8 +232,6 @@
     "isNew": false,
     "bestseller": false,
     "featured": true,
-    "rating": 4.9,
-    "reviewCount": 90,
     "images": [
       "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -252,17 +247,18 @@
       "tag:featured"
     ],
     "colorImages": {
-      "Rosewood": [
-        "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
-      ],
       "Burgundy": [
         "https://images.unsplash.com/photo-1558513248-f87da9f8fe92?q=80&w=1000&auto=format&fit=crop"
       ],
       "Ebony": [
         "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
+      ],
+      "Scarlet": [
+        "https://images.unsplash.com/photo-1761405378448-0cd27844e22f?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF04"
+    "sku": "BEL-BF04",
+    "status": "active"
   },
   {
     "id": "bf05",
@@ -302,8 +298,6 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.1,
-    "reviewCount": 97,
     "images": [
       "https://images.unsplash.com/photo-1775036190857-58dd37bb686b?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -328,7 +322,8 @@
         "https://images.unsplash.com/photo-1551621955-fa07d4b1376b?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF05"
+    "sku": "BEL-BF05",
+    "status": "active"
   },
   {
     "id": "bf06",
@@ -368,8 +363,6 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.2,
-    "reviewCount": 25,
     "images": [
       "https://images.unsplash.com/photo-1649109668399-f2aa27708952?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -393,7 +386,8 @@
         "https://images.unsplash.com/photo-1752836094346-3922ee986d04?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF06"
+    "sku": "BEL-BF06",
+    "status": "active"
   },
   {
     "id": "bf07",
@@ -433,8 +427,6 @@
     "isNew": false,
     "bestseller": true,
     "featured": false,
-    "rating": 5,
-    "reviewCount": 13,
     "images": [
       "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -459,7 +451,8 @@
         "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF07"
+    "sku": "BEL-BF07",
+    "status": "active"
   },
   {
     "id": "bf08",
@@ -498,8 +491,6 @@
     "isNew": false,
     "bestseller": false,
     "featured": true,
-    "rating": 4.4,
-    "reviewCount": 10,
     "images": [
       "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -525,7 +516,8 @@
         "https://images.unsplash.com/photo-1768853932212-2b16d6d35715?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF08"
+    "sku": "BEL-BF08",
+    "status": "active"
   },
   {
     "id": "bf09",
@@ -564,8 +556,6 @@
     "isNew": true,
     "bestseller": true,
     "featured": true,
-    "rating": 4.1,
-    "reviewCount": 68,
     "images": [
       "https://images.unsplash.com/photo-1599459183200-59c7687a0275?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -591,7 +581,8 @@
         "https://images.unsplash.com/photo-1769458711025-b5fc150b60ac?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF09"
+    "sku": "BEL-BF09",
+    "status": "active"
   },
   {
     "id": "bf10",
@@ -630,8 +621,6 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.9,
-    "reviewCount": 80,
     "images": [
       "https://images.unsplash.com/photo-1616348490852-d80c545b4f79?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -654,7 +643,8 @@
         "https://images.unsplash.com/photo-1704775991534-563c1d548f88?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF10"
+    "sku": "BEL-BF10",
+    "status": "active"
   },
   {
     "id": "bf11",
@@ -694,8 +684,6 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.7,
-    "reviewCount": 13,
     "images": [
       "https://images.unsplash.com/photo-1569530593433-77299d056539?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -719,7 +707,8 @@
         "https://images.unsplash.com/photo-1675294292199-aac27f952585?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF11"
+    "sku": "BEL-BF11",
+    "status": "active"
   },
   {
     "id": "bf12",
@@ -759,8 +748,6 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.6,
-    "reviewCount": 52,
     "images": [
       "https://images.unsplash.com/photo-1677715156741-b7af71207c4d?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -783,7 +770,8 @@
         "https://images.unsplash.com/photo-1641521119204-ca47d21ed8eb?q=80&w=1000&auto=format&fit=crop"
       ]
     },
-    "sku": "BEL-BF12"
+    "sku": "BEL-BF12",
+    "status": "active"
   },
   {
     "id": "bf13",
@@ -821,22 +809,20 @@
     "isNew": false,
     "bestseller": true,
     "featured": true,
-    "rating": 4.2,
-    "reviewCount": 88,
     "images": [
       "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-06-28",
     "tags": [
-      "cat:coats-jackets",
       "subcat:shop-by-occasion:evening-dresses",
       "tag:featured",
       "tag:bestseller",
       "subcat:shop-by-category:coats-jackets"
     ],
     "type": "coats-jackets",
-    "sku": "BEL-BF13"
+    "sku": "BEL-BF13",
+    "status": "active"
   },
   {
     "id": "bf14",
@@ -873,20 +859,18 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.1,
-    "reviewCount": 80,
     "images": [
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-05-30",
     "tags": [
-      "cat:coats-jackets",
       "subcat:shop-by-occasion:party-dresses",
       "subcat:shop-by-category:coats-jackets"
     ],
     "type": "coats-jackets",
-    "sku": "BEL-BF14"
+    "sku": "BEL-BF14",
+    "status": "active"
   },
   {
     "id": "bf15",
@@ -924,15 +908,12 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.1,
-    "reviewCount": 10,
     "images": [
       "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-19",
     "tags": [
-      "cat:jumpsuits",
       "subcat:shop-by-occasion:formal-dresses",
       "subcat:shop-by-category:formal-wear",
       "subcat:shop-by-occasion:cocktail-dresses",
@@ -940,7 +921,8 @@
       "subcat:shop-by-category:jumpsuits"
     ],
     "type": "jumpsuits",
-    "sku": "BEL-BF15"
+    "sku": "BEL-BF15",
+    "status": "active"
   },
   {
     "id": "bf16",
@@ -976,22 +958,20 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.7,
-    "reviewCount": 74,
     "images": [
       "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-07-08",
     "tags": [
-      "cat:jumpsuits",
       "subcat:shop-by-occasion:party-dresses",
       "subcat:shop-by-occasion:evening-dresses",
       "subcat:shop-by-fabric:satin-dresses",
       "subcat:shop-by-category:jumpsuits"
     ],
     "type": "jumpsuits",
-    "sku": "BEL-BF16"
+    "sku": "BEL-BF16",
+    "status": "active"
   },
   {
     "id": "bf17",
@@ -1028,15 +1008,12 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.9,
-    "reviewCount": 81,
     "images": [
       "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-21",
     "tags": [
-      "cat:two-piece-sets",
       "subcat:shop-by-occasion:party-dresses",
       "subcat:shop-by-occasion:birthday-dresses",
       "subcat:shop-by-fabric:sequin-dresses",
@@ -1044,7 +1021,8 @@
       "subcat:shop-by-category:two-piece-sets"
     ],
     "type": "two-piece-sets",
-    "sku": "BEL-BF17"
+    "sku": "BEL-BF17",
+    "status": "active"
   },
   {
     "id": "bf18",
@@ -1083,19 +1061,17 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.8,
-    "reviewCount": 74,
     "images": [
       "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-06-05",
     "tags": [
-      "cat:two-piece-sets",
       "subcat:shop-by-category:two-piece-sets"
     ],
     "type": "two-piece-sets",
-    "sku": "BEL-BF18"
+    "sku": "BEL-BF18",
+    "status": "active"
   },
   {
     "id": "bf19",
@@ -1104,10 +1080,6 @@
     "price": 190,
     "originalPrice": null,
     "collectionId": "hair",
-    "categories": [
-      "wigs",
-      "straight"
-    ],
     "description": "100% remy human hair, silk-pressed finish. HD lace front with pre-plucked hairline and 13x4 parting space.",
     "details": [
       "100% Remy human hair",
@@ -1133,21 +1105,19 @@
     "isNew": false,
     "bestseller": true,
     "featured": false,
-    "rating": 4,
-    "reviewCount": 38,
     "images": [
       "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-05-12",
     "tags": [
-      "cat:wigs",
       "subcat:wigs:straight-wigs",
       "color:black",
       "tag:bestseller"
     ],
     "type": "wigs",
-    "sku": "BEL-BF19"
+    "sku": "BEL-BF19",
+    "status": "active"
   },
   {
     "id": "bf20",
@@ -1156,10 +1126,6 @@
     "price": 175,
     "originalPrice": null,
     "collectionId": "hair",
-    "categories": [
-      "wigs",
-      "curly"
-    ],
     "description": "Defined deep curls with springy bounce. Transparent 4x4 closure, 180% density.",
     "details": [
       "100% Remy human hair",
@@ -1184,20 +1150,18 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.2,
-    "reviewCount": 67,
     "images": [
       "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-06-09",
     "tags": [
-      "cat:wigs",
       "subcat:wigs:curly-wigs",
       "color:black"
     ],
     "type": "wigs",
-    "sku": "BEL-BF20"
+    "sku": "BEL-BF20",
+    "status": "active"
   },
   {
     "id": "bf21",
@@ -1206,10 +1170,6 @@
     "price": 185,
     "originalPrice": 210,
     "collectionId": "hair",
-    "categories": [
-      "wigs",
-      "wavy"
-    ],
     "description": "Soft S-waves with volume that holds. Glueless cap design with combs and elastic band.",
     "details": [
       "100% Remy human hair",
@@ -1235,21 +1195,19 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.4,
-    "reviewCount": 34,
     "images": [
       "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-15",
     "tags": [
-      "cat:wigs",
       "subcat:wigs:wavy-wigs",
       "color:brown",
       "tag:new"
     ],
     "type": "wigs",
-    "sku": "BEL-BF21"
+    "sku": "BEL-BF21",
+    "status": "active"
   },
   {
     "id": "bf22",
@@ -1258,10 +1216,6 @@
     "price": 210,
     "originalPrice": null,
     "collectionId": "hair",
-    "categories": [
-      "wigs",
-      "braided"
-    ],
     "description": "Hand-braided knotless box braids on a breathable cap. Six hours of braiding, saved in one step.",
     "details": [
       "100% Remy human hair",
@@ -1287,20 +1241,18 @@
     "isNew": false,
     "bestseller": false,
     "featured": false,
-    "rating": 4.8,
-    "reviewCount": 36,
     "images": [
       "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-07-14",
     "tags": [
-      "cat:wigs",
       "subcat:wigs:braided-wigs",
       "color:black"
     ],
     "type": "wigs",
-    "sku": "BEL-BF22"
+    "sku": "BEL-BF22",
+    "status": "active"
   },
   {
     "id": "bf23",
@@ -1309,11 +1261,6 @@
     "price": 225,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "heels",
-      "formal",
-      "party"
-    ],
     "description": "95mm stiletto in mirror-polished patent leather with cushioned insole.",
     "details": [
       "Protective dust bag included",
@@ -1344,21 +1291,19 @@
     "isNew": false,
     "bestseller": true,
     "featured": false,
-    "rating": 4.9,
-    "reviewCount": 58,
     "images": [
       "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-04-18",
     "tags": [
-      "cat:heels",
       "color:black",
       "tag:bestseller",
       "subcat:shoes:heels"
     ],
     "type": "heels",
-    "sku": "BEL-BF23"
+    "sku": "BEL-BF23",
+    "status": "active"
   },
   {
     "id": "bf24",
@@ -1367,11 +1312,6 @@
     "price": 195,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "heels",
-      "party",
-      "gala"
-    ],
     "description": "Barely-there straps in liquid metal leather. 85mm heel with padded footbed.",
     "details": [
       "Protective dust bag included",
@@ -1401,21 +1341,19 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.2,
-    "reviewCount": 49,
     "images": [
       "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-17",
     "tags": [
-      "cat:heels",
       "color:metallic",
       "tag:new",
       "subcat:shoes:heels"
     ],
     "type": "heels",
-    "sku": "BEL-BF24"
+    "sku": "BEL-BF24",
+    "status": "active"
   },
   {
     "id": "bf25",
@@ -1424,11 +1362,6 @@
     "price": 340,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "handbags",
-      "everyday",
-      "formal"
-    ],
     "description": "Pebbled calf leather with gold-tone hardware and suede lining. Fits an iPhone Plus.",
     "details": [
       "Protective dust bag included",
@@ -1455,21 +1388,19 @@
     "isNew": false,
     "bestseller": false,
     "featured": true,
-    "rating": 4.6,
-    "reviewCount": 45,
     "images": [
       "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-05-25",
     "tags": [
-      "cat:handbags",
       "color:brown",
       "tag:featured",
       "subcat:bags:handbags"
     ],
     "type": "handbags",
-    "sku": "BEL-BF25"
+    "sku": "BEL-BF25",
+    "status": "active"
   },
   {
     "id": "bf26",
@@ -1478,11 +1409,6 @@
     "price": 150,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "clutch",
-      "party",
-      "gala"
-    ],
     "description": "Faceted crystals set on satin, with detachable chain strap for hands-free moments.",
     "details": [
       "Protective dust bag included",
@@ -1509,21 +1435,19 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.3,
-    "reviewCount": 83,
     "images": [
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-11",
     "tags": [
-      "cat:clutch",
       "color:metallic",
       "tag:new",
       "subcat:bags:clutch-bags"
     ],
     "type": "clutch",
-    "sku": "BEL-BF26"
+    "sku": "BEL-BF26",
+    "status": "active"
   },
   {
     "id": "bf27",
@@ -1532,11 +1456,6 @@
     "price": 85,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "earrings",
-      "party",
-      "cocktail"
-    ],
     "description": "Sculpted drops in 18k gold plate. Featherweight despite the drama.",
     "details": [
       "Protective dust bag included",
@@ -1562,21 +1481,19 @@
     "isNew": true,
     "bestseller": false,
     "featured": false,
-    "rating": 4.6,
-    "reviewCount": 39,
     "images": [
       "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-08-14",
     "tags": [
-      "cat:earrings",
       "color:yellow",
       "tag:new",
       "subcat:jewellery:earrings"
     ],
     "type": "earrings",
-    "sku": "BEL-BF27"
+    "sku": "BEL-BF27",
+    "status": "active"
   },
   {
     "id": "bf28",
@@ -1585,11 +1502,6 @@
     "price": 120,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "necklaces",
-      "everyday",
-      "wedding-guest"
-    ],
     "description": "A single baroque freshwater pearl suspended on a fine cable chain.",
     "details": [
       "Protective dust bag included",
@@ -1615,20 +1527,18 @@
     "isNew": false,
     "bestseller": true,
     "featured": false,
-    "rating": 4.7,
-    "reviewCount": 60,
     "images": [
       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop"
     ],
     "createdAt": "2026-03-30",
     "tags": [
-      "cat:necklaces",
       "color:white",
       "tag:bestseller",
       "subcat:jewellery:necklaces"
     ],
     "type": "necklaces",
-    "sku": "BEL-BF28"
+    "sku": "BEL-BF28",
+    "status": "active"
   }
 ]

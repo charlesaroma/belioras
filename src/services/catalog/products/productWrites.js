@@ -48,7 +48,6 @@ export function createProduct(input) {
       images: input.images ?? [],
       ...(Array.isArray(input.colorways) ? {} : { colors: input.colors ?? [] }),
       sizes: input.sizes ?? [],
-      categories: input.categories ?? [],
       status: input.status ?? "draft",
       createdAt: new Date().toISOString(),
     };

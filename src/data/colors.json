@@ -8,7 +8,7 @@
   {
     "id": "jet-black",
     "name": "Jet Black",
-    "hex": "#120700",
+    "hex": "#1C1A19",
     "family": "black"
   },
   {
@@ -50,7 +50,7 @@
   {
     "id": "platinum",
     "name": "Platinum",
-    "hex": "#E6CB98",
+    "hex": "#E5E4E2",
     "family": "metallic"
   },
   {
@@ -62,7 +62,7 @@
   {
     "id": "gold",
     "name": "Gold",
-    "hex": "#D9B166",
+    "hex": "#C9A84C",
     "family": "metallic"
   },
   {

@@ -1,28 +1,4 @@
 /**
- * The catalog predates the dimensioned taxonomy and carries a flat
- * `categories[]` of ten values. These map each onto the token vocabulary so the
- * mega menu resolves against existing products without rewriting the fixtures.
- *
- * Once products carry real `tags[]`, this map and the derivation in
- * productsApi.normalize() can both be deleted.
- */
-
-/* LEGACY CATEGORY TOKENS */
-export const LEGACY_CATEGORY_TOKENS = {
-  midi: "len:midi",
-  maxi: "len:maxi",
-  mini: "len:mini",
-  evening: "occ:evening",
-  everyday: "occ:everyday",
-  straight: "hair:straight",
-  wavy: "hair:wavy",
-  bags: "cat:bags",
-  scarves: "cat:scarves",
-  belts: "cat:belts",
-  jewelry: "cat:jewelry",
-};
-
-/**
  * Catalog colours are display names ("Ebony", "Champagne"); the taxonomy keys
  * on swatch ids. This maps one to the other so `/shop/color/black` matches.
  */

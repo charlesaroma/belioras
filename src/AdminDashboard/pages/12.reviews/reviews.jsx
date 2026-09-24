@@ -5,7 +5,7 @@ import { useToast } from "@/context/ToastContext";
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { STATUS_TONES } from "@/AdminDashboard/lib/constants";
 import { cn } from "@/utils/cn";
-import { getProducts } from "@/services/catalog/productsApi";
+import { getAllProducts } from "@/services/catalog/productsApi";
 import { getAllReviews, hideReview, publishReview, replyToReview } from "@/services/catalog/reviewsApi";
 import RatingStars from "@/components/shared/RatingStars";
 import ReviewsDetailModal from "./sections/reviewsTable/ReviewsDetailModal";
@@ -26,7 +26,7 @@ export default function DashReviews() {
   const refresh = () => setRevision((n) => n + 1);
 
   const { data: reviews, loading } = useAsyncData(getAllReviews, [revision]);
-  const { data: products } = useAsyncData(getProducts, []);
+  const { data: products } = useAsyncData(getAllProducts, []);
 
   const productName = useMemo(() => {
     const map = new Map((products ?? []).map((p) => [p.id, p.name]));

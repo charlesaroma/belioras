@@ -9,6 +9,6 @@ import colors from "./colors.json";
  * product keeps its swatch and its filter.
  */
 export default {
-  rev: 2,
+  rev: 3,
   items: colors,
 };

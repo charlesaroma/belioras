@@ -1,5 +1,4 @@
 /* Slug And Tag Derivation */
-import { LEGACY_CATEGORY_TOKENS } from "../../../utils/constants";
 
 const LIGATURES = {
   œ: "oe",
@@ -37,14 +36,7 @@ function deriveTags(product, colorFamilies = []) {
   if (product.bestseller) tags.add("tag:bestseller");
   if (product.featured) tags.add("tag:featured");
 
-  for (const category of product.categories ?? []) {
-
-    const token = LEGACY_CATEGORY_TOKENS[category];
-    if (token) tags.add(token);
-    // Keep the raw value too, so a menu leaf whose slug already matches a
-    // category (e.g. jumpsuits) resolves without a map entry.
-    tags.add(`cat:${category}`);
-  }
+  for (const size of product.sizes ?? []) tags.add(`size:${size}`);
 
   for (const family of colorFamilies) tags.add(`color:${family}`);
 

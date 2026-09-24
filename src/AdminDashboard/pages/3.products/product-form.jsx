@@ -33,7 +33,7 @@ export default function ProductForm() {
 
   // Bumped after a colour or category is created from inside the form.
   const [revision, setRevision] = useState(0);
-  const { data: existing, loading } = useAsyncData(() => (isEdit ? getProduct(id) : Promise.resolve(null)), [id]);
+  const { data: existing, loading } = useAsyncData(() => (isEdit ? getProduct(id, { includeDrafts: true }) : Promise.resolve(null)), [id]);
   const { data: categories } = useAsyncData(getCategories, [revision]);
   const { data: colors } = useAsyncData(getColors, [revision]);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);

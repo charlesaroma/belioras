@@ -7,12 +7,6 @@
  * **VAT is inclusive**, which is what EU consumer law requires of a price shown
  * to a shopper and what settings.tax.note says. So the tax figure, at the rate
  * in settings, is *extracted* from the subtotal for the receipt, not added on top.
- *
- * Worth flagging: the seeded orders in orders.json were built the other way —
- * subtotal + shipping + tax = total, with tax added at 20% of the two. Those
- * fixtures overstate what a customer would actually have paid. New orders are
- * calculated correctly; the old ones are left as they are rather than silently
- * rewriting history that Belioras may have reconciled against.
  */
 
 /**

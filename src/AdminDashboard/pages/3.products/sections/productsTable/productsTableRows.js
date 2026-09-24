@@ -12,7 +12,7 @@ export function toRows(products, categories = [], lowStock) {
   const names = new Map((categories ?? []).map((c) => [c.id, c.name]));
   return (products ?? []).map((p) => ({
     ...p,
-    status: p.stock === 0 ? "out_of_stock" : (p.status ?? "active"),
+    status: p.status !== "draft" && p.stock === 0 ? "out_of_stock" : (p.status ?? "active"),
     category: names.get(p.collectionId) ?? p.collectionId ?? "—",
     level: stockLevel(p.stock, thresholdFor(p, lowStock)),
   }));

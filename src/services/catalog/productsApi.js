@@ -5,6 +5,7 @@
 // public entry point, so nothing that imports the catalogue had to change.
 export {
   getProducts,
+  getAllProducts,
   getProduct,
   getProductsByCollection,
   getNewArrivals,

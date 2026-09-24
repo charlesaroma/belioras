@@ -1,6 +1,6 @@
 import { mockApi } from "@/api/mock";
 import { getAllOrders } from "./ordersApi";
-import { getProducts } from "../catalog/productsApi";
+import { getAllProducts } from "../catalog/productsApi";
 import { lowStockThreshold } from "../catalog/inventory/inventoryApi";
 import { stockLevel, thresholdFor } from "../../utils/stockLevel";
 
@@ -21,7 +21,7 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 
 export function getDashboardStats() {
   return mockApi(async () => {
-    const [orders, products] = await Promise.all([getAllOrders(), getProducts()]);
+    const [orders, products] = await Promise.all([getAllOrders(), getAllProducts()]);
 
     const live = orders.filter((o) => o.status !== "cancelled");
 

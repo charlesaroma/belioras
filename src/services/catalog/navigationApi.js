@@ -14,7 +14,7 @@ import { RESERVED_SLUGS, matchesTarget, targetExists } from "../../utils/menuTar
 /** The menu as the storefront renders it, with each tile's link and photo filled in. */
 export function getNavigation() {
   return mockApi(() => {
-    const products = catalogItems().map(normalize);
+    const products = catalogItems().map(normalize).filter((p) => p.status === "active");
     return getState("navigation").items.map((root) =>
       root.tiles?.length ? { ...root, tiles: root.tiles.map((tile) => resolveTile(tile, products)) } : root,
     );

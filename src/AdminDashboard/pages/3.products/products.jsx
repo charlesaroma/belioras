@@ -13,7 +13,7 @@ import { useProductsList } from "./sections/productsTable/useProductsList";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import {
   deleteProduct,
-  getProducts,
+  getAllProducts,
   restoreProduct,
   updateProduct,
 } from "../../../services/catalog/productsApi";
@@ -36,7 +36,7 @@ export default function DashProducts() {
 
   const refresh = useCallback(() => setRevision((n) => n + 1), []);
 
-  const { data: products, loading } = useAsyncData(getProducts, [revision]);
+  const { data: products, loading } = useAsyncData(getAllProducts, [revision]);
   const { data: categories } = useAsyncData(getCategories, []);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
   const [viewing, setViewing] = useState(null);

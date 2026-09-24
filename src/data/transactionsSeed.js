@@ -10,6 +10,6 @@ import transactions from "./transactions.json";
  * followed up. Amounts are major units in the currency charged, like orders.
  */
 export default {
-  rev: 1,
+  rev: 2,
   items: transactions,
 };

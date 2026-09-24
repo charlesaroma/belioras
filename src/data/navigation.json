@@ -1,5 +1,5 @@
 {
-  "rev": 5,
+  "rev": 6,
   "items": [
     {
       "id": "new-arrivals",
@@ -14,9 +14,9 @@
           "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop",
           "target": {
             "kind": "filter",
-            "dimension": "length",
+            "dimension": "subcat:shop-by-category",
             "values": [
-              "mini"
+              "mini-dresses"
             ],
             "category": "dresses"
           }
@@ -87,10 +87,10 @@
           "image": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=900&auto=format&fit=crop",
           "target": {
             "kind": "filter",
-            "dimension": "occasion",
+            "dimension": "subcat:shop-by-occasion",
             "values": [
-              "prom",
-              "gala"
+              "prom-dresses",
+              "gala-dresses"
             ],
             "category": "dresses"
           }
@@ -239,9 +239,9 @@
               "url": "/shop/hair/straight-wigs",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "straight"
+                  "straight-wigs"
                 ],
                 "category": "hair"
               },
@@ -256,9 +256,9 @@
               "url": "/shop/hair/curly-wigs",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "curly"
+                  "curly-wigs"
                 ],
                 "category": "hair"
               },
@@ -273,9 +273,9 @@
               "url": "/shop/hair/braided-wigs",
               "target": {
                 "kind": "filter",
-                "dimension": "hair",
+                "dimension": "subcat:wigs",
                 "values": [
-                  "braided"
+                  "braided-wigs"
                 ],
                 "category": "hair"
               },

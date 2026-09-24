@@ -9,7 +9,7 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { useToast } from "../../../context/ToastContext";
 import { useAsyncData } from "../../../hooks/useAsyncData";
 import { getOrders } from "../../../services/sales/ordersApi";
-import { getProducts } from "../../../services/catalog/productsApi";
+import { getAllProducts } from "../../../services/catalog/productsApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { ownedPieces, usualSizes } from "../../../utils/purchaseHistory";
 
@@ -32,7 +32,7 @@ export default function AccountWardrobe() {
   const { locale } = useLanguage();
 
   const { data: orders, loading } = useAsyncData(() => getOrders(user?.id), [user?.id]);
-  const { data: catalog } = useAsyncData(getProducts, []);
+  const { data: catalog } = useAsyncData(getAllProducts, []);
   const { data: taxonomy } = useAsyncData(getTaxonomy, []);
 
   const pieces = useMemo(() => ownedPieces(orders, catalog), [orders, catalog]);

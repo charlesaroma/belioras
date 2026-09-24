@@ -6,9 +6,6 @@
     "price": 189,
     "originalPrice": 229,
     "collectionId": "accessories",
-    "categories": [
-      "bags"
-    ],
     "description": "Structured full-grain leather shopper with gold hardware and inner zip pocket. Fits a 13\" laptop with room to spare.",
     "details": [
       "Full-grain leather",
@@ -34,8 +31,6 @@
     "stock": 9,
     "isNew": true,
     "bestseller": true,
-    "rating": 4.9,
-    "reviewCount": 22,
     "images": [
       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -44,7 +39,8 @@
     "sku": "BEL-A1",
     "tags": [
       "subcat:bags:handbags"
-    ]
+    ],
+    "status": "active"
   },
   {
     "id": "a2",
@@ -53,9 +49,6 @@
     "price": 69,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "scarves"
-    ],
     "description": "Hand-rolled edge silk twill scarf in a bespoke Belioras print. Wear at the neck, in the hair, or on the handle of your bag.",
     "details": [
       "90x90cm",
@@ -80,8 +73,6 @@
     "stock": 26,
     "isNew": false,
     "bestseller": false,
-    "rating": 4.6,
-    "reviewCount": 14,
     "images": [
       "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -91,7 +82,8 @@
     "sku": "BEL-A2",
     "tags": [
       "subcat:other-accessories:scarves"
-    ]
+    ],
+    "status": "active"
   },
   {
     "id": "a3",
@@ -100,9 +92,6 @@
     "price": 79,
     "originalPrice": 99,
     "collectionId": "accessories",
-    "categories": [
-      "belts"
-    ],
     "description": "Sculptural gold-tone chain belt that cinches dresses and trousers alike. Adjustable, weighty, quietly loud.",
     "details": [
       "Gold-tone",
@@ -125,8 +114,6 @@
     "stock": 33,
     "isNew": true,
     "bestseller": false,
-    "rating": 4.5,
-    "reviewCount": 9,
     "images": [
       "https://images.unsplash.com/photo-1627483262268-9c2b5b2834b5?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -136,7 +123,8 @@
     "sku": "BEL-A3",
     "tags": [
       "subcat:other-accessories:belts"
-    ]
+    ],
+    "status": "active"
   },
   {
     "id": "a4",
@@ -145,9 +133,6 @@
     "price": 59,
     "originalPrice": null,
     "collectionId": "accessories",
-    "categories": [
-      "jewelry"
-    ],
     "description": "Polished gold-tone hoops with a featherweight core. Everyday heirlooms that close flush and stay put.",
     "details": [
       "Gold-tone",
@@ -171,8 +156,6 @@
     "stock": 41,
     "isNew": false,
     "bestseller": true,
-    "rating": 4.8,
-    "reviewCount": 18,
     "images": [
       "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=1000&auto=format&fit=crop"
     ],
@@ -181,6 +164,7 @@
     "sku": "BEL-A4",
     "tags": [
       "subcat:jewellery:earrings"
-    ]
+    ],
+    "status": "active"
   }
 ]

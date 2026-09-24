@@ -110,3 +110,15 @@ Ids are assigned once and never change on rename. Removal is refused (409) while
 - [ ] `grep -r "from '../../data" src --include=*.jsx` returns nothing (components never import data).
 - [ ] Auth service validates against users.json and returns token+user; wrong password rejects with `ApiError`.
 - [ ] Orders service persists created order into an in-memory store (module-level array) so checkout → dashboard demo works.
+## Consistency rules (checked across storefront, customer and admin dashboards)
+
+One fact lives in one place, and everything else derives from it. These are what the seed files and the services enforce, and what a backend must keep true.
+
+- **Visibility.** A product's `status` is `active` or `draft` (absent means `active`, and `normalize` fills it in). Storefront reads (`getProducts`, `getProduct`, search, best sellers, menu pages, the Featured Collection, tiles) return live pieces only, so an unpublished piece has no page and appears nowhere. The dashboard and order history read `getAllProducts` / `getProduct(id, { includeDrafts: true })`, since an order must still name a piece that was later unpublished.
+- **Ratings.** `rating` and `reviewCount` are not stored on a product. `normalize` computes them from *published* reviews, so publishing or hiding a review in the dashboard changes the product and the "Top rated" sort together.
+- **Tags.** Products store only the Subcategory tokens (`subcat:<subId>:<typeId>`) plus `type`/`collectionId`; `cat:`, `type:`, `size:`, `color:` and `tag:` tokens are derived in `deriveTags`. The old `categories[]` list and its `len:`/`occ:`/`hair:` tokens are gone; a menu link on a retired dimension is a data error (the seed audit lists it).
+- **Sizes.** A product's sizes come from its category's `sizes` (Accessories includes `one-size` for bags and jewellery); the storefront Size filter reads the derived `size:` tokens.
+- **Money.** Prices include VAT (`settings.tax`). An order is `subtotal − discount + shipping = total`, `tax` is *extracted* from `total`, the coupon rules are those in `coupons`, and shipping comes from the delivery country's zone in `settings.shipping`. A transaction's charge equals its order's total; a refund never exceeds it. Order statuses are stored in the canonical vocabulary (`to-pay`, `to-ship`, `shipped`, `to-review`, `cancelled`, `refunded`).
+- **Colours.** Product colours are names from `colors.json`, and `colorImages` keys must be among the product's colours.
+
+When a seed changes shape, bump its `rev` (see the seed `rev` rule above) so stored copies reload.
