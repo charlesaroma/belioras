@@ -30,11 +30,11 @@ export default function NavbarMobileRow({ cartCount, onOpenMenu, onOpenCart }) {
         <LanguageSelector />
         <button
           type="button"
-          className="relative flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+          className="relative flex size-11 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70 liquid-hover"
           aria-label={`Open cart, ${cartCount} items`}
           onClick={onOpenCart}
         >
-          <ShoppingBag className="size-5" aria-hidden="true" />
+          <ShoppingBag className="liquid-icon size-5" aria-hidden="true" />
           {cartCount > 0 && (
             <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-gold-500 text-[10px] font-semibold text-espresso">
               {cartCount}

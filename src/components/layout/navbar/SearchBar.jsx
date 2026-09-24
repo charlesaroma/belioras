@@ -73,10 +73,10 @@ export default function SearchBar({ value, onChange, onFocus, onSubmit }) {
         />
         <button
           type="submit"
-          className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center justify-center p-2 text-current opacity-70 transition-opacity hover:opacity-100"
+          className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center justify-center p-2 text-current opacity-70 transition-opacity hover:opacity-100 liquid-hover"
           aria-label="Search"
         >
-          <Search className="size-4" aria-hidden="true" />
+          <Search className="liquid-icon size-4" aria-hidden="true" />
         </button>
       </div>
     </form>

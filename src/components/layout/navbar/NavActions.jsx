@@ -14,7 +14,7 @@ import { cn } from "../../../utils/cn";
 
 /* ICON BUTTON */
 const ICON_BUTTON =
-  "relative flex size-10 items-center justify-center rounded-full text-current transition-all hover:scale-110 hover:text-gold-700 cursor-pointer";
+  "relative flex size-10 items-center justify-center rounded-full text-current transition-colors hover:text-gold-700 cursor-pointer liquid-hover";
 
 const BADGE =
   "absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-gold-500 text-[10px] font-semibold text-espresso";
@@ -43,7 +43,7 @@ export default function NavActions({ onCartOpen }) {
         title={t("nav.wishlist", "Wishlist")}
       >
         <Heart
-          className={cn("size-5", wishlistCount > 0 && "fill-gold-500 text-gold-500")}
+          className={cn("liquid-icon size-5", wishlistCount > 0 && "fill-gold-500 text-gold-500")}
           aria-hidden="true"
         />
         {wishlistCount > 0 && <span className={BADGE}>{wishlistCount}</span>}
@@ -54,10 +54,10 @@ export default function NavActions({ onCartOpen }) {
       ) : (
         <Link
           to="/login"
-          className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70"
+          className="flex size-10 items-center justify-center rounded-full text-current transition-opacity hover:opacity-70 liquid-hover"
           aria-label={t("auth.signIn", "Sign in")}
         >
-          <User className="size-5" aria-hidden="true" />
+          <User className="liquid-icon size-5" aria-hidden="true" />
         </Link>
       )}
 
@@ -67,7 +67,7 @@ export default function NavActions({ onCartOpen }) {
         aria-label={t("cart.open", `Open cart, ${count} items`, { count })}
         onClick={onCartOpen}
       >
-        <ShoppingBag className="size-5" aria-hidden="true" />
+        <ShoppingBag className="liquid-icon size-5" aria-hidden="true" />
         {count > 0 && (
           <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} key={count} className={BADGE}>
             {count}

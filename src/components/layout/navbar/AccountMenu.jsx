@@ -80,7 +80,7 @@ export default function AccountMenu() {
         aria-expanded={isOpen}
         aria-controls={isOpen ? menuId : undefined}
         aria-label={t("nav.account", "Account")}
-        className="transition-opacity hover:opacity-80"
+        className="rounded-full transition-opacity hover:opacity-80 liquid-hover"
       >
         <Avatar user={user} />
       </button>
