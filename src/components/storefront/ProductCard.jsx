@@ -1,18 +1,24 @@
 /* Storefront Component: ProductCard */
 import { useState } from "react";
-import { Eye, Heart } from "lucide-react";
+import { Eye, Heart, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { useCart } from "../../context/CartContext";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useToast } from "../../context/ToastContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../utils/cn";
+import { imagesForColor, stockFor } from "../../utils/productColors";
 import QuickView from "./QuickView";
+
+const ACTION =
+  "flex size-11 items-center justify-center rounded-full backdrop-blur transition-[color,background-color,scale] duration-200 hover:text-espresso active:scale-90";
 
 export default function ProductCard({ product }) {
   const { format } = useCurrency();
   const { has, toggle } = useWishlist();
   const { toast } = useToast();
+  const { addItem, openCart } = useCart();
 
   const { id, slug, name, price, originalPrice, images = [], isNew, stock = 0 } = product;
 
@@ -28,6 +34,21 @@ export default function ProductCard({ product }) {
   // dialog is markup that would otherwise sit in the page for nothing.
   const [quick, setQuick] = useState({ open: false, session: 0, used: false });
   const openQuick = () => setQuick((q) => ({ open: true, session: q.session + 1, used: true }));
+
+  // A piece with one size and one colour has nothing to choose, so the bag
+  // button adds it straight away; otherwise it opens the quick view to choose.
+  const needsChoice = (product.sizes?.length ?? 0) > 1 || (product.colors?.length ?? 0) > 1;
+  const quickAdd = () => {
+    if (needsChoice) return openQuick();
+    const color = product.colors?.[0] ?? null;
+    const size = product.sizes?.[0] ?? null;
+    const ok = addItem(product, {
+      size, color, quantity: 1, image: imagesForColor(product, color)?.[0], stock: stockFor(product, color, size),
+    });
+    if (!ok) return toast(`There is no more stock of ${name}.`, "error");
+    toast(`${name} added to your bag.`, "success");
+    openCart();
+  };
 
   return (
     <article className="group relative">
@@ -75,53 +96,44 @@ export default function ProductCard({ product }) {
           ))}
       </Link>
 
-      <button
-        type="button"
-        onClick={() => {
-          toggle(id);
-          toast(saved ? `${name} removed from your wishlist.` : `${name} saved to your wishlist.`, saved ? "info" : "success");
-        }}
-        aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name}`}
-        aria-pressed={saved}
+      {/* One column of round buttons, top right: save, quick view, add to
+          bag. Permanent on touch; from md up they appear on hover or focus,
+          and stay reachable by keyboard. */}
+      <div
         className={cn(
-          "absolute right-2 top-2 flex size-11 items-center justify-center rounded-full backdrop-blur",
-          "transition-all duration-300",
-          saved ? "bg-espresso/80 text-gold-400" : "bg-ivory-50/80 text-espresso-soft",
-          // Revealed on hover at desktop widths, permanent on touch, and always
-          // present once focused so the keyboard never loses it.
-          "md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100",
+          "absolute right-2 top-2 flex flex-col gap-2 transition-opacity duration-300",
+          "md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100",
           saved && "md:opacity-100",
         )}
       >
-        <Heart className={cn("size-4", saved && "fill-current")} aria-hidden="true" />
-      </button>
+        <button
+          type="button"
+          onClick={() => {
+            toggle(id);
+            toast(saved ? `${name} removed from your wishlist.` : `${name} saved to your wishlist.`, saved ? "info" : "success");
+          }}
+          aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name}`}
+          aria-pressed={saved}
+          className={cn(ACTION, saved ? "bg-espresso/80 text-gold-400" : "bg-ivory-50/80 text-espresso-soft")}
+        >
+          <Heart className={cn("size-4", saved && "fill-current")} aria-hidden="true" />
+        </button>
 
-      {/* On a phone, a small always-there button; from md up, a bar that
-          rises over the foot of the photograph on hover or focus. */}
-      <button
-        type="button"
-        onClick={openQuick}
-        aria-label={`Quick view ${name}`}
-        className={cn(
-          "absolute right-2 flex size-11 items-center justify-center rounded-full bg-ivory-50/80 text-espresso-soft backdrop-blur md:hidden",
-          soldOut ? "bottom-10" : "bottom-2",
+        <button type="button" onClick={openQuick} aria-label={`Quick view ${name}`} className={cn(ACTION, "bg-ivory-50/80 text-espresso-soft")}>
+          <Eye className="size-4" aria-hidden="true" />
+        </button>
+
+        {!soldOut && (
+          <button
+            type="button"
+            onClick={quickAdd}
+            aria-label={needsChoice ? `Choose options for ${name}` : `Add ${name} to bag`}
+            className={cn(ACTION, "bg-ivory-50/80 text-espresso-soft")}
+          >
+            <ShoppingBag className="size-4" aria-hidden="true" />
+          </button>
         )}
-      >
-        <Eye className="size-4" aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        onClick={openQuick}
-        aria-label={`Quick view ${name}`}
-        className={cn(
-          "absolute inset-x-0 hidden translate-y-full items-center justify-center gap-2 bg-ivory-50/95 py-3 text-[10px] uppercase tracking-[0.22em] text-espresso backdrop-blur",
-          "transition-[translate] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-ivory-50 focus-visible:translate-y-0 group-hover:translate-y-0 md:flex",
-          soldOut ? "bottom-8" : "bottom-0",
-        )}
-      >
-        <Eye className="size-3.5" aria-hidden="true" />
-        Quick view
-      </button>
+      </div>
       </div>
 
       <div className="mt-3">
