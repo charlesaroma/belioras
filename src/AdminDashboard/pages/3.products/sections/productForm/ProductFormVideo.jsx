@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import { Link2, Trash2, Upload } from "lucide-react";
 
 import IconAction from "@/AdminDashboard/components/IconAction";
-import { sizeLabel } from "@/utils/sizeLabel";
 import FormSection from "./ProductFormSection";
 
 const ACCEPT = "video/mp4,video/webm,video/quicktime";
@@ -88,16 +87,16 @@ function ColourVideo({ swatch, video, poster, onChange }) {
 }
 
 /**
- * A short clip of the piece on the model, per colour, and what the model
- * wears — the two things a photograph can't say: how it moves and how it fits.
+ * Optional: a short clip of the piece on the model, per colour — what a
+ * photograph can't say, how it moves. A piece can have photos only.
  */
-export default function ProductFormVideo({ colors, colorIds, videos, onVideosChange, photos, sizes, taxonomy, register, models = [] }) {
+export default function ProductFormVideo({ colors, colorIds, videos, onVideosChange, photos }) {
   const byId = new Map(colors.map((c) => [c.id, c]));
   const firstPhoto = (colorId) => photos.find((p) => p.colorId === colorId)?.url ?? null;
 
   return (
     <FormSection
-      title="Video on the model"
+      title="Video (optional)"
       hint="Optional. A 6 to 15 second silent clip per colour, portrait (3:4 or 9:16). It sits second in the gallery, after the lead photo, and uses that colour's first photo as its still."
     >
       {colorIds.length === 0 ? (
@@ -121,33 +120,6 @@ export default function ProductFormVideo({ colors, colorIds, videos, onVideosCha
         </div>
       )}
 
-      <div>
-        <p className="input-label">Who wears it</p>
-        <p className="mb-3 text-[12px] text-espresso-soft">
-          Shows her card and measurements on the product page, and &ldquo;Amara is 175 cm tall and wears size S&rdquo; under the sizes.
-          Models are managed under Sizes &amp; Guides → Models.
-        </p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label className="flex flex-col">
-            <span className="input-label">Model</span>
-            <select className="input" {...register("modelId")}>
-              <option value="">Not shown</option>
-              {models.map((m) => (
-                <option key={m.id} value={m.id}>{m.name}{m.heightCm ? ` · ${m.heightCm} cm` : ""}</option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col">
-            <span className="input-label">Size she wears</span>
-            <select className="input" {...register("modelSize")}>
-              <option value="">Choose a size</option>
-              {(sizes.length ? sizes : ["one-size"]).map((s) => (
-                <option key={s} value={s}>{s === "one-size" ? "One size" : sizeLabel(taxonomy, s)}</option>
-              ))}
-            </select>
-          </label>
-        </div>
-      </div>
     </FormSection>
   );
 }

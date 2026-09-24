@@ -23,6 +23,7 @@ import ProductFormPublish from "./sections/productForm/ProductFormPublish";
 import SaveBar from "./sections/productForm/ProductFormSaveBar";
 import FormSkeleton from "./sections/productForm/ProductFormSkeleton";
 import ProductFormDetailsCare from "./sections/productForm/ProductFormDetailsCare";
+import ProductFormModel from "./sections/productForm/ProductFormModel";
 import ProductFormVideo from "./sections/productForm/ProductFormVideo";
 import ProductFormVariants from "./sections/productForm/ProductFormVariants";
 import { useProductDraftSync } from "./sections/productForm/useProductFormDraftSync";
@@ -125,8 +126,9 @@ export default function ProductForm() {
           <ProductFormPhotos photos={photos} onChange={setPhotos} colors={colors ?? []} colorIds={colorIds} onImageProgress={(p) => draft.updateDraft("new-product", { progress: p })} />
           <ProductFormVideo
             colors={colors ?? []} colorIds={colorIds} videos={videos} onVideosChange={setVideos}
-            photos={photos} sizes={sizes} taxonomy={taxonomy ?? {}} register={form.register} models={models ?? []}
+            photos={photos}
           />
+          <ProductFormModel register={form.register} models={models ?? []} sizes={sizes} taxonomy={taxonomy ?? {}} />
           <ProductFormDetailsCare register={form.register} values={values} setValue={form.setValue} />
           <ProductFormVariants
             colors={colors ?? []} colorIds={colorIds} onColorIdsChange={setColorIds}
