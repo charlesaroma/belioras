@@ -36,7 +36,7 @@ export function filterGroups(rows, { categories = [], colors = [], format }) {
     options.map((o) => ({ ...o, count: count((r) => test(r, o.value)) })).filter((o) => o.count > 0);
 
   const types = categories.flatMap((c) =>
-    (c.types ?? []).map((t) => ({ value: `${c.id}:${t.id}`, label: `${c.name} · ${t.name}` })),
+    (c.types ?? []).map((t) => ({ value: `${c.id}:${t.id}`, label: `${c.name} · ${t.name}`, shortLabel: t.name, section: c.name })),
   );
   const money = (n) => format(n).replace(/[.,]00(?=\D*$)/, "");
   const bandLabel = ({ min, max }) =>

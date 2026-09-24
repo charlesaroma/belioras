@@ -1,50 +1,32 @@
 /* Admin Dashboard: DashFilters */
-import { useEffect, useId, useRef, useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 
 import { cn } from "../../utils/cn";
 
 /**
- * A "Filters" button and the panel it opens: groups of checkboxes, several
+ * A "Filters" button and the drawer it slides in from the right: groups of checkboxes, several
  * values allowed per group. `value` is `{ [groupId]: string[] }`; an empty or
  * missing group filters nothing. `onChange` is called like a state setter, with
  * a value or a function of the latest value. Pair with DashFilterChips.
+ *
+ * An option may carry `section` (a sub-heading it is listed under, so labels
+ * need not repeat it) and `shortLabel` (what shows in the panel; `label` stays
+ * the full name used by the chips).
  */
 export default function DashFilters({ groups, value, onChange }) {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef(null);
-  const buttonRef = useRef(null);
   const panelId = useId();
   const active = groups.reduce((n, g) => n + (value[g.id]?.length ?? 0), 0);
+  const [query, setQuery] = useState("");
 
-  const [place, setPlace] = useState(null);
-
-  // Placed against the screen, not the button: anchored at the button's left
-  // edge it ran past the right of the screen whenever the button sat right of
-  // centre, and the whole page scrolled sideways. Kept 16px inside both edges.
+  /* Side Effect */
   useEffect(() => {
     if (!open) return undefined;
-    const measure = () => {
-      const rect = buttonRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      const width = Math.min(window.innerWidth - 32, 640);
-      const left = Math.min(Math.max(16, rect.left), window.innerWidth - width - 16);
-      setPlace({ top: rect.bottom + 8, left, width, maxHeight: Math.max(240, window.innerHeight - rect.bottom - 24) });
-    };
-    measure();
-    const onDown = (e) => !rootRef.current?.contains(e.target) && setOpen(false);
     const onKey = (e) => e.key === "Escape" && setOpen(false);
-    document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
-    window.addEventListener("resize", measure);
-    // Capture: the dashboard scrolls inside <main>, not the window.
-    document.addEventListener("scroll", measure, true);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-      window.removeEventListener("resize", measure);
-      document.removeEventListener("scroll", measure, true);
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
   // A function of the latest filters, so quick successive ticks all count.
@@ -55,12 +37,19 @@ export default function DashFilters({ groups, value, onChange }) {
       return { ...latest, [group]: next };
     });
 
+  const q = query.trim().toLowerCase();
+  const shown = groups
+    .map((g) => ({ ...g, options: g.options.filter((o) => !q || `${o.label} ${o.shortLabel ?? ""}`.toLowerCase().includes(q)) }))
+    .filter((g) => g.options.length > 0);
+
   return (
-    <div ref={rootRef} className="relative">
+    <>
       <button
-        ref={buttonRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setQuery("");
+          setOpen(true);
+        }}
         aria-expanded={open}
         aria-controls={panelId}
         className={cn(
@@ -73,53 +62,115 @@ export default function DashFilters({ groups, value, onChange }) {
         {active > 0 && <span className="tabular-nums opacity-70">{active}</span>}
       </button>
 
-      {open && place && (
-        <div
-          id={panelId}
-          style={{ top: place.top, left: place.left, width: place.width }}
-          className="fixed z-40 flex flex-col border border-umber-100 bg-ivory-50 shadow-lg"
-        >
-          <div style={{ maxHeight: place.maxHeight - 60 }} className="grid gap-6 overflow-y-auto p-5 sm:grid-cols-2">
-            {groups.map((group) => (
-              <fieldset key={group.id} className="min-w-0">
-                <legend className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-espresso-soft">
-                  {group.label}
-                </legend>
-                <div className="space-y-0.5">
-                  {group.options.map((option) => (
-                    <label key={option.value} className="flex min-h-9 cursor-pointer items-center gap-2.5 px-1 text-[13px] text-espresso hover:bg-brown-50">
-                      <input
-                        type="checkbox"
-                        checked={(value[group.id] ?? []).includes(option.value)}
-                        onChange={() => toggle(group.id, option.value)}
-                        className="size-3.5 accent-espresso"
-                      />
-                      {option.swatch && (
-                        <span aria-hidden="true" className="size-3 shrink-0 border border-umber-100" style={{ backgroundColor: option.swatch }} />
-                      )}
-                      <span className="min-w-0 flex-1 truncate">{option.label}</span>
-                      {option.count !== undefined && <span className="tabular-nums text-[11px] text-espresso-soft">{option.count}</span>}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-            ))}
-          </div>
-          <div className="flex justify-between gap-3 border-t border-umber-50 px-5 py-3">
-            <button
-              type="button"
-              onClick={() => onChange({})}
-              disabled={!active}
-              className="text-[11px] uppercase tracking-[0.14em] text-espresso-soft transition-colors hover:text-espresso disabled:opacity-40"
-            >
-              Clear all
-            </button>
-            <button type="button" onClick={() => setOpen(false)} className="btn btn-sm btn-primary">
-              Done
-            </button>
-          </div>
-        </div>
+      {createPortal(
+        <div className={cn("fixed inset-0 z-50", !open && "pointer-events-none")} inert={!open}>
+          <div
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+            className={cn("absolute inset-0 bg-espresso/40 transition-opacity duration-200", open ? "opacity-100" : "opacity-0")}
+          />
+          <aside
+            id={panelId}
+            role="dialog"
+            aria-label="Filters"
+            className={cn(
+              "absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-ivory-50 shadow-2xl transition-transform duration-300 ease-out motion-reduce:transition-none",
+              open ? "translate-x-0" : "translate-x-full",
+            )}
+          >
+            <div className="flex items-center justify-between border-b border-umber-50 px-6 py-4">
+              <h2 className="font-display text-lg tracking-wide text-espresso">
+                Filters{active > 0 && <span className="ml-2 text-[12px] tabular-nums text-gold-700">{active} chosen</span>}
+              </h2>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close filters"
+                className="flex size-9 items-center justify-center text-espresso-soft transition-colors hover:text-espresso"
+              >
+                <X className="size-5" aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="border-b border-umber-50 px-6 py-3">
+              <label className="flex items-center gap-2 border border-umber-100 bg-white px-3">
+                <Search className="size-3.5 text-espresso-soft" aria-hidden="true" />
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Find a filter"
+                  aria-label="Find a filter"
+                  className="h-9 w-full bg-transparent text-[13px] outline-none placeholder:text-espresso-soft"
+                />
+              </label>
+            </div>
+
+            <div className="flex-1 space-y-7 overflow-y-auto px-6 py-5">
+              {shown.length === 0 && <p className="text-[13px] text-espresso-soft">Nothing matches “{query}”.</p>}
+              {shown.map((group) => {
+                const picked = value[group.id]?.length ?? 0;
+                let section = null;
+                return (
+                  <fieldset key={group.id} className="min-w-0">
+                    <legend className="mb-2 flex w-full items-center justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-espresso-soft">
+                      {group.label}
+                      {picked > 0 && <span className="tabular-nums text-gold-700">{picked} chosen</span>}
+                    </legend>
+                    <div className="space-y-0.5">
+                      {group.options.map((option) => {
+                        const on = (value[group.id] ?? []).includes(option.value);
+                        const heading = option.section && option.section !== section ? option.section : null;
+                        section = option.section ?? section;
+                        return (
+                          <div key={option.value}>
+                            {heading && (
+                              <p className="mb-0.5 mt-3 px-1 text-[11px] font-medium tracking-wide text-espresso first:mt-0">{heading}</p>
+                            )}
+                            <label
+                              className={cn(
+                                "flex min-h-10 cursor-pointer items-center gap-2.5 px-1 text-[13px] text-espresso transition-colors hover:bg-brown-50",
+                                on && "bg-brown-50/70 font-medium",
+                                option.section && "pl-3",
+                              )}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={on}
+                                onChange={() => toggle(group.id, option.value)}
+                                className="size-3.5 accent-espresso"
+                              />
+                              {option.swatch && (
+                                <span aria-hidden="true" className="size-3 shrink-0 border border-umber-100" style={{ backgroundColor: option.swatch }} />
+                              )}
+                              <span className="min-w-0 flex-1 truncate">{option.shortLabel ?? option.label}</span>
+                              {option.count !== undefined && <span className="tabular-nums text-[11px] text-espresso-soft">{option.count}</span>}
+                            </label>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </fieldset>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center justify-between gap-3 border-t border-umber-50 px-6 py-4">
+              <button
+                type="button"
+                onClick={() => onChange({})}
+                disabled={!active}
+                className="text-[11px] uppercase tracking-[0.14em] text-espresso-soft transition-colors hover:text-espresso disabled:opacity-40"
+              >
+                Clear all
+              </button>
+              <button type="button" onClick={() => setOpen(false)} className="btn btn-md btn-primary">
+                Done
+              </button>
+            </div>
+          </aside>
+        </div>,
+        document.body,
       )}
-    </div>
+    </>
   );
 }
