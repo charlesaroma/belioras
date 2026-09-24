@@ -22,14 +22,14 @@ export default function Toggle({ checked, onChange, label, description }) {
       <span
         aria-hidden="true"
         className={cn(
-          "relative mt-0.5 h-6 w-11 shrink-0 border transition-colors",
-          checked ? "border-espresso bg-espresso" : "border-umber-100 bg-ivory-50",
+          "relative mt-0.5 h-6 w-11 shrink-0 rounded-full transition-colors duration-200",
+          checked ? "bg-success" : "bg-umber-100",
         )}
       >
         <span
           className={cn(
-            "absolute left-[2px] top-[2px] size-[18px] transition-[translate,background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            checked ? "translate-x-5 bg-gold-400" : "translate-x-0 bg-umber-100",
+            "absolute left-[3px] top-[3px] size-[18px] rounded-full bg-white shadow-sm transition-[translate] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            checked ? "translate-x-5" : "translate-x-0",
           )}
         />
       </span>
