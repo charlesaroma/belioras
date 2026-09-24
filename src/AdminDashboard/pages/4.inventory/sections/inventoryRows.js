@@ -67,10 +67,11 @@ export function inventorySummary(rows) {
       onHand: s.onHand + r.onHand,
       reserved: s.reserved + r.reserved,
       value: s.value + r.onHand * r.price,
+      cost: s.cost + r.onHand * (r.cost ?? 0),
       low: s.low + (r.level === "low" ? 1 : 0),
       out: s.out + (r.level === "out" ? 1 : 0),
     }),
-    { onHand: 0, reserved: 0, value: 0, low: 0, out: 0 },
+    { onHand: 0, reserved: 0, value: 0, cost: 0, low: 0, out: 0 },
   );
 }
 

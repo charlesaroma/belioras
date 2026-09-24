@@ -3,13 +3,14 @@ import { History, Package, SlidersHorizontal } from "lucide-react";
 
 import StatusChip from "@/components/ui/StatusChip";
 import IconAction from "@/AdminDashboard/components/IconAction";
+import InventoryOnHandCell from "./InventoryOnHandCell";
 import { cn } from "@/utils/cn";
 import { ANY, variantLabel } from "../inventoryRows";
 
 const NUMBER = { meta: { align: "right" } };
 const count = (className) => ({ getValue }) => <span className={cn("tabular-nums", className)}>{getValue()}</span>;
 
-export function buildInventoryColumns({ taxonomy, onAdjust, onHistory }) {
+export function buildInventoryColumns({ taxonomy, onAdjust, onHistory, by, onSaved }) {
   return [
     {
       // Name, colour and size in one value, so search finds "Aurora champagne".
@@ -40,7 +41,7 @@ export function buildInventoryColumns({ taxonomy, onAdjust, onHistory }) {
         );
       },
     },
-    { accessorKey: "onHand", header: "On hand", ...NUMBER, cell: count("text-espresso") },
+    { accessorKey: "onHand", header: "On hand", ...NUMBER, cell: ({ row }) => <InventoryOnHandCell row={row.original} by={by} onSaved={onSaved} /> },
     { accessorKey: "reserved", header: "In open orders", ...NUMBER, cell: count("text-espresso-soft") },
     {
       accessorKey: "available",

@@ -51,8 +51,8 @@ export default function DashInventory() {
   const summary = useMemo(() => inventorySummary(all), [all]);
   const dateFmt = useMemo(() => new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }), [locale]);
   const columns = useMemo(
-    () => buildInventoryColumns({ taxonomy, onAdjust: setAdjusting, onHistory: setHistory }),
-    [taxonomy],
+    () => buildInventoryColumns({ taxonomy, onAdjust: setAdjusting, onHistory: setHistory, by: user?.name, onSaved: refresh }),
+    [taxonomy, user?.name, refresh],
   );
 
   const clearSelection = () => {

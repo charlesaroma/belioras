@@ -31,6 +31,7 @@ export function getInventory() {
         name: product.name,
         slug: product.slug,
         price: Number(product.price) || 0,
+        cost: Number(product.costPrice) || 0,
         collectionId: product.collectionId,
         threshold: thresholdFor(product, shop),
       };

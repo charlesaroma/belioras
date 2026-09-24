@@ -58,7 +58,8 @@
           "one-size": 4
         }
       }
-    ]
+    ],
+    "costPrice": 79
   },
   {
     "id": "a2",
@@ -119,7 +120,8 @@
           "one-size": 9
         }
       }
-    ]
+    ],
+    "costPrice": 29
   },
   {
     "id": "a3",
@@ -166,7 +168,8 @@
           "one-size": 33
         }
       }
-    ]
+    ],
+    "costPrice": 33
   },
   {
     "id": "a4",
@@ -213,6 +216,7 @@
           "one-size": 41
         }
       }
-    ]
+    ],
+    "costPrice": 25
   }
 ]

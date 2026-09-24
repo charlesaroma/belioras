@@ -35,7 +35,7 @@ export default function ProductFormPricing({ register, errors, values, setValue 
   const percentOff = values.onSale && price > 0 && was > price ? Math.round((1 - price / was) * 100) : null;
 
   return (
-    <FormSection title="Price" hint="In euros; shoppers see their own currency.">
+    <FormSection title="Price" hint="In euros; shoppers see their own currency. Cost is for your stock value only, never shown.">
       <div className="grid gap-4">
         <MoneyInput
           id="price"
@@ -46,6 +46,13 @@ export default function ProductFormPricing({ register, errors, values, setValue 
             required: "Add a price.",
             min: { value: 0.01, message: "The price has to be above zero." },
           })}
+        />
+        <MoneyInput
+          id="costPrice"
+          label="Cost (optional)"
+          placeholder="58"
+          error={errors.costPrice?.message}
+          registration={register("costPrice", { min: { value: 0, message: "The cost cannot be negative." } })}
         />
         {values.onSale && (
           <MoneyInput

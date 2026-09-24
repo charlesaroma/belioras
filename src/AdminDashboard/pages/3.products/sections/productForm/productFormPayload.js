@@ -28,6 +28,7 @@ export const EMPTY_VALUES = {
   price: "",
   onSale: false,
   originalPrice: "",
+  costPrice: "",
   isNew: true,
   featured: false,
   status: "draft",
@@ -44,6 +45,7 @@ export function toFormValues(product) {
     price: product.price ?? "",
     onSale: Boolean(product.originalPrice && product.originalPrice > product.price),
     originalPrice: product.originalPrice ?? "",
+    costPrice: product.costPrice ?? "",
     isNew: Boolean(product.isNew),
     featured: Boolean(product.featured),
     // Older products carry no status, and they are live in the shop.
@@ -144,6 +146,7 @@ export function toPayload(values, { photos, colorIds, stock, sizes, tags, catego
     // A type only counts if it still belongs to the chosen category.
     type: category?.types?.some((t) => t.id === values.type) ? values.type : null,
     price: Number(values.price),
+    costPrice: values.costPrice === "" || values.costPrice == null ? null : Number(values.costPrice),
     originalPrice: values.onSale && values.originalPrice ? Number(values.originalPrice) : null,
     isNew: Boolean(values.isNew),
     featured: Boolean(values.featured),

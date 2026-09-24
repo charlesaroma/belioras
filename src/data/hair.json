@@ -61,7 +61,8 @@
           "one-size": 7
         }
       }
-    ]
+    ],
+    "costPrice": 67
   },
   {
     "id": "h2",
@@ -125,7 +126,8 @@
           "one-size": 4
         }
       }
-    ]
+    ],
+    "costPrice": 58
   },
   {
     "id": "h3",
@@ -189,6 +191,7 @@
           "one-size": 4
         }
       }
-    ]
+    ],
+    "costPrice": 75
   }
 ]
