@@ -12,6 +12,7 @@
 
 /** Taxonomy dimension id → token prefix used on products. */
 export const DIMENSION_PREFIX = {
+  category: "cat",
   type: "type",
   color: "color",
   size: "size",
@@ -76,12 +77,12 @@ export function applyFilters(products, { dimensions, price, onSale, query }) {
  * are alternatives, not additions.
  */
 
-export function computeFacets(products, taxonomy, activeFilters) {
+export function computeFacets(products, taxonomy, activeFilters, order = DIMENSION_ORDER) {
   const { dimensions, price, onSale, query } = activeFilters;
 
   const facets = {};
 
-  for (const dimension of DIMENSION_ORDER) {
+  for (const dimension of order) {
 
     const definition = taxonomy?.[dimension];
     if (!definition?.values?.length) continue;

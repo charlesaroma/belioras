@@ -832,7 +832,8 @@
       "cat:coats-jackets",
       "subcat:shop-by-occasion:evening-dresses",
       "tag:featured",
-      "tag:bestseller"
+      "tag:bestseller",
+      "subcat:shop-by-category:coats-jackets"
     ],
     "type": "coats-jackets",
     "sku": "BEL-BF13"
@@ -881,7 +882,8 @@
     "createdAt": "2026-05-30",
     "tags": [
       "cat:coats-jackets",
-      "subcat:shop-by-occasion:party-dresses"
+      "subcat:shop-by-occasion:party-dresses",
+      "subcat:shop-by-category:coats-jackets"
     ],
     "type": "coats-jackets",
     "sku": "BEL-BF14"
@@ -934,7 +936,8 @@
       "subcat:shop-by-occasion:formal-dresses",
       "subcat:shop-by-category:formal-wear",
       "subcat:shop-by-occasion:cocktail-dresses",
-      "tag:new"
+      "tag:new",
+      "subcat:shop-by-category:jumpsuits"
     ],
     "type": "jumpsuits",
     "sku": "BEL-BF15"
@@ -984,7 +987,8 @@
       "cat:jumpsuits",
       "subcat:shop-by-occasion:party-dresses",
       "subcat:shop-by-occasion:evening-dresses",
-      "subcat:shop-by-fabric:satin-dresses"
+      "subcat:shop-by-fabric:satin-dresses",
+      "subcat:shop-by-category:jumpsuits"
     ],
     "type": "jumpsuits",
     "sku": "BEL-BF16"
@@ -1036,7 +1040,8 @@
       "subcat:shop-by-occasion:party-dresses",
       "subcat:shop-by-occasion:birthday-dresses",
       "subcat:shop-by-fabric:sequin-dresses",
-      "tag:new"
+      "tag:new",
+      "subcat:shop-by-category:two-piece-sets"
     ],
     "type": "two-piece-sets",
     "sku": "BEL-BF17"
@@ -1086,7 +1091,8 @@
     ],
     "createdAt": "2026-06-05",
     "tags": [
-      "cat:two-piece-sets"
+      "cat:two-piece-sets",
+      "subcat:shop-by-category:two-piece-sets"
     ],
     "type": "two-piece-sets",
     "sku": "BEL-BF18"
@@ -1348,7 +1354,8 @@
     "tags": [
       "cat:heels",
       "color:black",
-      "tag:bestseller"
+      "tag:bestseller",
+      "subcat:shoes:heels"
     ],
     "type": "heels",
     "sku": "BEL-BF23"
@@ -1404,7 +1411,8 @@
     "tags": [
       "cat:heels",
       "color:metallic",
-      "tag:new"
+      "tag:new",
+      "subcat:shoes:heels"
     ],
     "type": "heels",
     "sku": "BEL-BF24"
@@ -1457,7 +1465,8 @@
     "tags": [
       "cat:handbags",
       "color:brown",
-      "tag:featured"
+      "tag:featured",
+      "subcat:bags:handbags"
     ],
     "type": "handbags",
     "sku": "BEL-BF25"
@@ -1510,7 +1519,8 @@
     "tags": [
       "cat:clutch",
       "color:metallic",
-      "tag:new"
+      "tag:new",
+      "subcat:bags:clutch-bags"
     ],
     "type": "clutch",
     "sku": "BEL-BF26"
@@ -1562,7 +1572,8 @@
     "tags": [
       "cat:earrings",
       "color:yellow",
-      "tag:new"
+      "tag:new",
+      "subcat:jewellery:earrings"
     ],
     "type": "earrings",
     "sku": "BEL-BF27"
@@ -1614,7 +1625,8 @@
     "tags": [
       "cat:necklaces",
       "color:white",
-      "tag:bestseller"
+      "tag:bestseller",
+      "subcat:jewellery:necklaces"
     ],
     "type": "necklaces",
     "sku": "BEL-BF28"

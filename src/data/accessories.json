@@ -41,7 +41,10 @@
     ],
     "isNonReturnable": false,
     "createdAt": "2026-07-30",
-    "sku": "BEL-A1"
+    "sku": "BEL-A1",
+    "tags": [
+      "subcat:bags:handbags"
+    ]
   },
   {
     "id": "a2",
@@ -85,7 +88,10 @@
     "isNonReturnable": true,
     "createdAt": "2026-05-01",
     "type": "scarves",
-    "sku": "BEL-A2"
+    "sku": "BEL-A2",
+    "tags": [
+      "subcat:other-accessories:scarves"
+    ]
   },
   {
     "id": "a3",
@@ -127,7 +133,10 @@
     "isNonReturnable": false,
     "createdAt": "2026-08-02",
     "type": "belts",
-    "sku": "BEL-A3"
+    "sku": "BEL-A3",
+    "tags": [
+      "subcat:other-accessories:belts"
+    ]
   },
   {
     "id": "a4",
@@ -169,6 +178,9 @@
     ],
     "isNonReturnable": true,
     "createdAt": "2026-05-15",
-    "sku": "BEL-A4"
+    "sku": "BEL-A4",
+    "tags": [
+      "subcat:jewellery:earrings"
+    ]
   }
 ]

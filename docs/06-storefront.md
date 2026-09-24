@@ -36,7 +36,7 @@
 
 - Featured / Price low→high / high→low / Newest / Top rated — URL param `?sort=`.
 
-URL state: filters via `useSearchParams` (collection, categories, min, max, colors, sizes, sale, sort, q). `utils/faceting.js`'s `applyFilters` narrows the list and `utils/catalogSort.js`'s `sortProducts` orders it; O(n) fine.
+URL state: filters via `useSearchParams`, one param per filter (`?category=accessories&subcat:bags=handbags,clutch-bags&color=black&min=…&max=…&sale=1&sort=…&q=…`); values within a filter are OR, filters together are AND. The panel follows the dashboard's Category → Subcategory → Type tree for the pieces in view (`utils/typeFacet.js`): a page of one category (Dresses) shows that category's Subcategories, each a filter listing its Types; a mixed page (Shop, New Arrivals) offers Category first and reveals a category's Subcategories once it is ticked; a category with no Subcategories falls back to its flat Types. Colour and size follow from the taxonomy. Choices with no pieces are left out. `utils/faceting.js`'s `applyFilters` narrows the list and `utils/catalogSort.js`'s `sortProducts` orders it; O(n) fine.
 
 ## Product Display
 

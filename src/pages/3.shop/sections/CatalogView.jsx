@@ -9,7 +9,7 @@ import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { getCategories } from "../../../services/catalog/categoriesApi";
 import { getTaxonomy } from "../../../services/catalog/navigationApi";
 import { applyFilters, computeFacets, priceBounds } from "../../../utils/faceting";
-import { typeDimension } from "../../../utils/typeFacet";
+import { catalogueDimensions } from "../../../utils/typeFacet";
 import { sortProducts } from "../../../utils/catalogSort";
 import { DEFAULT_COLUMNS, isValidColumns } from "../../../utils/gridColumns";
 import GridViewSwitcher from "../../../components/storefront/GridViewSwitcher";
@@ -27,13 +27,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
   const version = useContentVersion();
   const { data: taxonomy } = useAsyncData(getTaxonomy, [version]);
   const { data: categories } = useAsyncData(getCategories, [version]);
-  // "type" (Jumpsuits, Heels…) has no fixed taxonomy entry — each category
-  // defines its own — so it is assembled here rather than stored.
-  const enrichedTaxonomy = useMemo(
-    () => (taxonomy ? { ...taxonomy, type: typeDimension(categories) } : taxonomy),
-    [taxonomy, categories],
-  );
-  const { filters, activeCount, toggleValue, setPrice, setSale, setSort, setQuery, clearAll } =
+  const { filters, activeCount, toggleValue, clearDimension, setPrice, setSale, setSort, setQuery, clearAll } =
     useFilterParams();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -43,10 +37,25 @@ export default function CatalogView({ products, loading, error, header = {}, emp
 
   const bounds = useMemo(() => priceBounds(list), [list]);
 
-  const facets = useMemo(
-    () => (enrichedTaxonomy ? computeFacets(list, enrichedTaxonomy, filters) : {}),
-    [list, enrichedTaxonomy, filters],
-  );
+  // Category, Subcategory and Type filters come from the categories the page's
+  // products belong to; colour and size from the shared taxonomy.
+  const selectedCategories = filters.dimensions.category;
+  const facets = useMemo(() => {
+    if (!taxonomy || !categories) return {};
+    const { dimensions, order } = catalogueDimensions(categories, list, selectedCategories);
+    const merged = { ...dimensions, color: taxonomy.color, size: taxonomy.size };
+    return computeFacets(list, merged, filters, [...order, "color", "size"]);
+  }, [list, taxonomy, categories, filters, selectedCategories]);
+
+  // Unticking a Category also drops the Subcategory choices made inside it,
+  // which would otherwise linger in the address with nothing to show them.
+  const toggle = (dimension, value) => {
+    const leaving = dimension === "category" && (selectedCategories ?? []).includes(value);
+    if (leaving) {
+      for (const sub of categories?.find((c) => c.id === value)?.subcategories ?? []) clearDimension(`subcat:${sub.id}`);
+    }
+    toggleValue(dimension, value);
+  };
 
   const searchActive = Boolean(filters.query);
 
@@ -64,7 +73,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
     filters,
     priceBounds: bounds,
     activeCount,
-    onToggle: toggleValue,
+    onToggle: toggle,
     onPriceChange: (value) => setPrice(value, bounds),
     onSaleChange: setSale,
     onClearAll: clearAll,
@@ -122,7 +131,7 @@ export default function CatalogView({ products, loading, error, header = {}, emp
                   <ActiveFilters
                     facets={facets}
                     filters={filters}
-                    onToggle={toggleValue}
+                    onToggle={toggle}
                     onClearPrice={() => setPrice(bounds, bounds)}
                     onSaleChange={setSale}
                     onClearQuery={() => setQuery("")}
