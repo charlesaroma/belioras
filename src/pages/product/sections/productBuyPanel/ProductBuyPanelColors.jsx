@@ -27,14 +27,15 @@ export default function ProductBuyPanelColors({
             aria-label={name}
             title={name}
             onClick={() => onChange(name)}
-            className="flex size-11 items-center justify-center"
+            // The swatch takes the liquid swell on hover and the press on tap.
+            className="liquid-row flex size-11 items-center justify-center"
           >
             <span
               className={cn(
-                "size-6 rounded-full border transition-all duration-150",
+                "liquid-glyph size-6 rounded-full border transition-[box-shadow,border-color] duration-150",
                 selected
                   ? "border-transparent ring-2 ring-espresso ring-offset-2 ring-offset-ivory-50"
-                  : "border-umber-100 hover:scale-110",
+                  : "border-umber-100",
               )}
               style={{ backgroundColor: swatches[name] ?? "#ccc" }}
             />
