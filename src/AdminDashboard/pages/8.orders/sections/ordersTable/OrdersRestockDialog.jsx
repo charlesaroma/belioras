@@ -16,7 +16,7 @@ export default function OrdersRestockDialog({ ask, onAnswer, onClose }) {
       onCancel={() => onAnswer(false)}
       destructive={false}
       title="Did the pieces come back?"
-      description={ask && `${ask.order.id} was shipped with ${units} ${units === 1 ? "piece" : "pieces"}. Return them to stock only if they are back on the shelf.`}
+      description={ask && `Marking ${ask.order.id} ${ask.status}. It was shipped with ${units} ${units === 1 ? "piece" : "pieces"}. Return them to stock only if they are back on the shelf.`}
       confirmLabel={`Return ${units} to stock`}
       cancelLabel="Leave stock as it is"
     />

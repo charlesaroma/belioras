@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { useCustomerAuth } from "@/context/auth/useAuthRealm";
 import { useScopedStorage } from "../../../hooks/useScopedStorage";
 import { useToast } from "../../../context/ToastContext";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
 import AddressForm from "./sections/AddressForm";
 import AddressList from "./sections/AddressList";
 import { EMPTY_FORM, NO_ADDRESSES, validateAddress } from "./sections/addressesRules";
@@ -14,6 +15,7 @@ export default function Addresses() {
   const { toast } = useToast();
 
   const [addresses, setAddresses] = useScopedStorage("belioras:addresses", NO_ADDRESSES, user?.id);
+  const [pendingRemove, setPendingRemove] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
@@ -117,9 +119,22 @@ export default function Addresses() {
       <AddressList
         addresses={addresses}
         onSetDefault={setDefault}
-        onRemove={remove}
+        onRemove={(id) => setPendingRemove(addresses.find((a) => a.id === id) ?? null)}
         onEdit={startEdit}
         onAddFirst={startAdd}
+      />
+
+      <ConfirmDialog
+        open={Boolean(pendingRemove)}
+        onClose={() => setPendingRemove(null)}
+        onConfirm={() => {
+          remove(pendingRemove.id);
+          setPendingRemove(null);
+        }}
+        title="Remove this address?"
+        description="It will no longer be offered at checkout. Orders already placed are not affected."
+        summary={pendingRemove && `${pendingRemove.recipient}, ${pendingRemove.line1}, ${pendingRemove.city}`}
+        confirmLabel="Remove"
       />
     </div>
   );

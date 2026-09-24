@@ -12,6 +12,7 @@ import { getColors } from "@/services/catalog/colorsApi";
 import { getTaxonomy } from "@/services/catalog/navigationApi";
 import { createProduct, getProduct, updateProduct } from "@/services/catalog/productsApi";
 
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ProductFormCategory from "./sections/productForm/ProductFormCategory";
 import ProductFormEssentials from "./sections/productForm/ProductFormEssentials";
 import ProductFormLabels from "./sections/productForm/ProductFormLabels";
@@ -44,6 +45,7 @@ export default function ProductForm() {
   const [sizes, setSizes] = useState([]);
   const [tags, setTags] = useState([]);
   const [spread, setSpread] = useState(false);
+  const [askDiscard, setAskDiscard] = useState(false);
 
   const form = useForm({ defaultValues: EMPTY_VALUES });
   const values = form.watch();
@@ -96,7 +98,7 @@ export default function ProductForm() {
   if (isEdit && loading) return <FormSkeleton />;
 
   const actions = { isEdit, status: values.status, submitting: form.formState.isSubmitting,
-    hasDraft: !isEdit && Boolean(draft.draftFor("new-product")), onDiscardDraft: discardDraft, onSave: save };
+    hasDraft: !isEdit && Boolean(draft.draftFor("new-product")), onDiscardDraft: () => setAskDiscard(true), onSave: save };
 
   return (
     <div className="space-y-5">
@@ -142,6 +144,19 @@ export default function ProductForm() {
       </div>
 
       <SaveBar {...actions} className="lg:hidden" />
+
+      <ConfirmDialog
+        open={askDiscard}
+        onClose={() => setAskDiscard(false)}
+        onConfirm={() => {
+          setAskDiscard(false);
+          discardDraft();
+        }}
+        title="Discard this draft?"
+        description="Everything typed and uploaded for this new piece is cleared. This cannot be undone."
+        confirmLabel="Discard draft"
+        cancelLabel="Keep editing"
+      />
     </div>
   );
 }

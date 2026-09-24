@@ -1,11 +1,17 @@
 /* Admin Dashboard Page: Mega-menu - MegaMenuColumn */
+import { useState } from "react";
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 
+import ConfirmDialog from "../../../../components/ui/ConfirmDialog";
 import IconAction from "../../../components/IconAction";
 import MegaMenuLinkRow from "./MegaMenuLinkRow";
 
 /** One column of the dropdown: a heading and its links. */
 export default function MegaMenuColumn({ root, section, index, total, editor, lookups, onPick }) {
+  const [asking, setAsking] = useState(false);
+  // An empty column goes at once; one holding links asks first.
+  const removeColumn = () => (section.items.length ? setAsking(true) : editor.removeSection(section.id));
+
   return (
     <section className="border border-umber-50 bg-white">
       <div className="flex items-center gap-1 border-b border-umber-50 px-3 py-2">
@@ -18,7 +24,7 @@ export default function MegaMenuColumn({ root, section, index, total, editor, lo
         />
         <IconAction label={`Move ${section.title} earlier`} icon={ChevronUp} disabled={index === 0} onClick={() => editor.moveSection(index, -1)} />
         <IconAction label={`Move ${section.title} later`} icon={ChevronDown} disabled={index === total - 1} onClick={() => editor.moveSection(index, 1)} />
-        <IconAction label={`Remove column ${section.title}`} icon={Trash2} destructive onClick={() => editor.removeSection(section.id)} />
+        <IconAction label={`Remove column ${section.title}`} icon={Trash2} destructive onClick={removeColumn} />
       </div>
 
       {section.items.length > 0 ? (
@@ -51,6 +57,17 @@ export default function MegaMenuColumn({ root, section, index, total, editor, lo
           Add link
         </button>
       </div>
+      <ConfirmDialog
+        open={asking}
+        onClose={() => setAsking(false)}
+        onConfirm={() => {
+          setAsking(false);
+          editor.removeSection(section.id);
+        }}
+        title={`Remove ${section.title || "this column"}?`}
+        description={`The column and its ${section.items.length} ${section.items.length === 1 ? "link" : "links"} leave the menu when you save. Nothing changes on the site until then.`}
+        confirmLabel="Remove column"
+      />
     </section>
   );
 }

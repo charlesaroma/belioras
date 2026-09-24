@@ -16,6 +16,7 @@ import { buildOrderColumns } from "./sections/ordersTable/ordersTableColumns";
 import OrderDetailModal from "./sections/ordersTable/OrdersDetailModal";
 import OrdersToolbar from "./sections/ordersTable/OrdersTableToolbar";
 import OrdersRestockDialog from "./sections/ordersTable/OrdersRestockDialog";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
 import OrdersShipDialog from "./sections/ordersTable/OrdersShipDialog";
 
 const TABS = [["all", "All"], ["to-pay", "To pay"], ["to-ship", "To ship"], ["shipped", "Shipped"]];
@@ -85,9 +86,12 @@ export default function DashOrders() {
   const [restockAsk, setRestockAsk] = useState(null);
   // Marking an order shipped: a chance to record its tracking number and carrier.
   const [shipAsk, setShipAsk] = useState(null);
+  // Cancelling or refunding an order nothing shipped for: confirm before it happens.
+  const [endAsk, setEndAsk] = useState(null);
   const advance = (order, status) => {
     const units = returnableUnits(order);
     if ((status === "cancelled" || status === "refunded") && units > 0) setRestockAsk({ order, status, units });
+    else if (status === "cancelled" || status === "refunded") setEndAsk({ order, status });
     else if (status === "shipped") setShipAsk({ order });
     else move(order, status);
   };
@@ -148,6 +152,24 @@ export default function DashOrders() {
           move(restockAsk.order, restockAsk.status, { restock });
           setRestockAsk(null);
         }}
+      />
+
+      <ConfirmDialog
+        open={Boolean(endAsk)}
+        onClose={() => setEndAsk(null)}
+        onConfirm={() => {
+          move(endAsk.order, endAsk.status);
+          setEndAsk(null);
+        }}
+        title={endAsk?.status === "refunded" ? "Refund this order?" : "Cancel this order?"}
+        description={
+          endAsk?.status === "refunded"
+            ? "The order is marked refunded. The payment itself is refunded in Transactions."
+            : "The order is marked cancelled and any stock it was holding is released. This cannot be undone."
+        }
+        summary={endAsk && `${endAsk.order.id} · ${endAsk.order.name ?? endAsk.order.email ?? "Guest"}`}
+        confirmLabel={endAsk?.status === "refunded" ? "Refund order" : "Cancel order"}
+        cancelLabel="Keep order"
       />
 
       <OrdersShipDialog
