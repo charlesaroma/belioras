@@ -681,8 +681,10 @@
  * legal entity — is a document that has to be generated on the server.
  */
 @media print {
-  header,
-  footer,
+  /* Site chrome only: a document that prints its own header and footer (the
+     invoice) marks them data-print so they stay. */
+  header:not([data-print]),
+  footer:not([data-print]),
   nav,
   aside,
   [role="dialog"],

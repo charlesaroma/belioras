@@ -47,6 +47,8 @@ export default function InvoicePage() {
 
   return (
     <div className="min-h-dvh bg-ivory-500 px-4 py-8 print:bg-white print:p-0">
+      {/* A4, and no margin for the browser to print its date, title and address into. */}
+      <style>{"@media print { @page { size: A4; margin: 0; } }"}</style>
       <div className="mx-auto mb-4 flex max-w-[210mm] items-center justify-between print:hidden">
         <Link to={back} className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-espresso-soft hover:text-espresso">
           <ArrowLeft className="size-3.5" aria-hidden="true" /> Back to the order
@@ -56,8 +58,8 @@ export default function InvoicePage() {
         </button>
       </div>
 
-      <article className="mx-auto max-w-[210mm] bg-white p-8 text-[13px] text-espresso shadow-medium sm:p-12 print:max-w-none print:p-0 print:shadow-none">
-        <header className="flex flex-wrap items-start justify-between gap-6 border-b border-umber-100 pb-8">
+      <article className="mx-auto max-w-[210mm] bg-white p-8 text-[13px] text-espresso shadow-medium sm:p-12 print:max-w-none print:p-[16mm] print:shadow-none">
+        <header data-print className="flex flex-wrap items-start justify-between gap-6 border-b border-umber-100 pb-8">
           <div>
             <BrandMark label="Belioras" />
             <p className="mt-4 max-w-[16rem] text-[12px] leading-relaxed text-espresso-soft">
@@ -130,7 +132,7 @@ export default function InvoicePage() {
           <div className="flex justify-between border-t border-umber-100 pt-2 text-[15px] font-semibold"><dt>Total paid</dt><dd className="tabular-nums">{eur.format(totals.gross)}</dd></div>
         </dl>
 
-        <footer className="mt-12 space-y-2 border-t border-umber-100 pt-6 text-[11px] leading-relaxed text-espresso-soft">
+        <footer data-print className="mt-12 space-y-2 border-t border-umber-100 pt-6 text-[11px] leading-relaxed text-espresso-soft">
           {seller.note && <p>{seller.note}</p>}
           <p>
             {seller.vatId ? `VAT ID ${seller.vatId}` : "VAT ID: not yet set in Settings"}
